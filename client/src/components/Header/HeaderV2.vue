@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ 'header-sticky': isHeaderFixed }">
     <div class="py-3">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between">
@@ -93,14 +93,14 @@
                 <li>
                   <button
                     @click="onChangeSearchEl"
-                    class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:z-[-1] after:rounded-full after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
+                    class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
                     :class="isShowSearchEl ? 'after:opacity-100 after:scale-[1.2]' : 'after:opacity-0 after:scale-[0.8]'"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="none"
-                      class="w-5 h-5 transition-all duration-[400ms] group-hover:text-primaryColor"
+                      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-5 h-5 transition-all duration-[400ms] group-hover:text-primaryColor"
                       :class="isShowSearchEl ? 'text-primaryColor' : 'text-headingColor'"
                       v-if="isShowSearchEl"
                     >
@@ -119,7 +119,7 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="none"
-                      class="w-5 h-5 transition-all duration-[400ms] text-headingColor group-hover:text-primaryColor"
+                      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-5 h-5 transition-all duration-[400ms] group-hover:text-primaryColor"
                       v-if="!isShowSearchEl"
                     >
                       <path
@@ -398,16 +398,33 @@ export default defineComponent({
     const homeStore = useHomeStore()
 
     const isShowSearchEl = ref(false)
+    const isHeaderFixed = ref(false)
 
     const onChangeSearchEl = () => {
       isShowSearchEl.value = !isShowSearchEl.value
     }
 
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        isHeaderFixed.value = true
+      } else {
+        isHeaderFixed.value = false
+      }
+    }
+
     return {
       homeStore,
       isShowSearchEl,
-      onChangeSearchEl
+      isHeaderFixed,
+      onChangeSearchEl,
+      handleScroll
     }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleScroll)
   }
 })
 </script>
@@ -416,6 +433,17 @@ export default defineComponent({
 header {
   position: relative;
   box-shadow: 0 20px 34px rgba(0, 0, 0, 0.05);
+  @apply bg-whiteColor;
+}
+
+header.header-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9002;
+  box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
+  animation: stickySlideDown 0.65s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .has-child-menu {
@@ -534,6 +562,7 @@ header {
   width: 100%;
   background-color: white;
   border-top: 1px solid rgba(225, 224, 231, 0.3);
+  box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
   clip: rect(0, 200vw, 0, 0);
   opacity: 0;
   transform: translateZ(0);
@@ -553,5 +582,14 @@ header {
   visibility: visible;
   opacity: 1;
   clip: rect(0, 100vw, 200vh, -30px);
+}
+
+@keyframes stickySlideDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 </style>

@@ -28,6 +28,7 @@ export default {
         coralOpacityColor: '#E9967A21',
         violetOpacityColor: '#80008021',
         blackOpacityColor: 'rgba(0, 0, 0, 0.04)',
+        whiteOpacityColor: '#FFFFFF21',
         pinkOpacityColor: '#DB709321',
         dangerOpacityColor: '#FF000310',
         warningOpacityColor: '#FF8F3C10',
@@ -44,13 +45,17 @@ export default {
       backgroundImage: {
         gradient01: 'linear-gradient(90deg,#8da9fc,#b48dd5)',
         gradient02: 'linear-gradient(270deg,#9e77ff,#4460ff)',
-        gradient03: 'linear-gradient(to right,#2F57EF,#B966E7,#B966E7,#2F57EF)'
+        gradient03: 'linear-gradient(to right,#2F57EF,#B966E7,#B966E7,#2F57EF)',
+        gradient04: 'linear-gradient(90deg,#2F57EF,#B966E7)'
       },
       backgroundColor: {
         overlayColor: 'rgba(0, 0, 0, .8)'
       },
       borderColor: {
         borderColor: '#e6e3f1'
+      },
+      content: {
+        'custom-content': 'attr(data-text)'
       }
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="fixed top-0 left-0 right-0 bottom-0 bg-overlayColor backdrop-blur z-[9000] cursor-pointer transition-all duration-[350ms]"
+      class="fixed top-0 left-0 right-0 bottom-0 bg-overlayColor backdrop-blur z-[9999] cursor-pointer transition-all duration-[350ms]"
       :class="homeStore.isShowCartSideMenu ? 'opacity-100 visible' : 'opacity-0 invisible'"
       @click="handleClick"
     ></div>
@@ -40,7 +40,7 @@ export default defineComponent({
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 9001;
+  z-index: 10000;
   transform: translateX(100%);
   overflow: hidden;
   overscroll-behavior: contain;
