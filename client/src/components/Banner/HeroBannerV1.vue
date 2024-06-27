@@ -1,5 +1,5 @@
 <template>
-  <Swiper :modules="modules" :navigation="true" :loop="true" class="h-[700px] hero-banner">
+  <Swiper :modules="modules" :slides-per-view="1" :navigation="true" :loop="true" class="h-[640px] hero-banner">
     <SwiperSlide
       :style="{ backgroundImage: 'url(/src/assets/images/bg-image-01.jpg)' }"
       class="relative w-full h-full bg-no-repeat bg-cover bg-center after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient04 after:opacity-50"
@@ -7,19 +7,19 @@
       <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
         <div class="container mx-auto px-4">
           <div class="px-10">
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center section-title">
               <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                 >BASED ON THE BEST HISTUDY</span
               >
             </div>
-            <h1 class="text-center text-6xl font-black text-whiteColor">
+            <h1 class="text-center text-6xl font-black text-whiteColor title">
               Histudy Starter is a community <br />
               <strong>for creative people.</strong>
             </h1>
-            <div class="mt-10 flex items-center justify-center">
+            <div class="mt-10 flex items-center justify-center button-group">
               <GradientButtonV3 :content="'More About Course'" :link="'home'" />
             </div>
-            <div class="mt-10 flex flex-col items-center justify-center">
+            <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
               <SocialListV1 />
               <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
             </div>
@@ -34,19 +34,19 @@
       <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
         <div class="container mx-auto px-4">
           <div class="px-10">
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center section-title">
               <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                 >BASED ON THE BEST HISTUDY</span
               >
             </div>
-            <h1 class="text-center text-6xl font-black text-whiteColor">
+            <h1 class="text-center text-6xl font-black text-whiteColor title">
               Histudy Starter is a community <br />
               <strong>for creative people.</strong>
             </h1>
-            <div class="mt-10 flex items-center justify-center">
+            <div class="mt-10 flex items-center justify-center button-group">
               <GradientButtonV3 :content="'More About Course'" :link="'home'" />
             </div>
-            <div class="mt-10 flex flex-col items-center justify-center">
+            <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
               <SocialListV1 />
               <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
             </div>
@@ -61,19 +61,19 @@
       <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
         <div class="container mx-auto px-4">
           <div class="px-10">
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center section-title">
               <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                 >BASED ON THE BEST HISTUDY</span
               >
             </div>
-            <h1 class="text-center text-6xl font-black text-whiteColor">
+            <h1 class="text-center text-6xl font-black text-whiteColor title">
               Histudy Starter is a community <br />
               <strong>for creative people.</strong>
             </h1>
-            <div class="mt-10 flex items-center justify-center">
+            <div class="mt-10 flex items-center justify-center button-group">
               <GradientButtonV3 :content="'More About Course'" :link="'home'" />
             </div>
-            <div class="mt-10 flex flex-col items-center justify-center">
+            <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
               <SocialListV1 />
               <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
             </div>
@@ -161,5 +161,68 @@ export default defineComponent({
 
 .hero-banner .swiper-button-next:after {
   background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%236B7385" width="800px" height="800px" viewBox="0 0 24 24"%3E%3Cpath d="M14.707,20.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L13.293,4.707a1,1,0,0,1,1.414-1.414l8,8a1,1,0,0,1,.216.325.986.986,0,0,1,0,.764,1,1,0,0,1-.216.325Z"/%3E%3C/svg%3E');
+}
+
+.section-title {
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-delay: 0.5s;
+}
+
+.title {
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-delay: 1s;
+}
+
+.button-group {
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+}
+
+.social-share-wrapper {
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-delay: 1.5s;
+}
+
+.swiper-slide-active .section-title,
+.swiper-slide-active .title,
+.swiper-slide-active .button-group,
+.swiper-slide-active .social-share-wrapper {
+  animation-name: fadeInUp;
+}
+
+.swiper-slide-prev .section-title,
+.swiper-slide-prev .title,
+.swiper-slide-prev .button-group,
+.swiper-slide-prev .social-share-wrapper,
+.swiper-slide-next .section-title,
+.swiper-slide-next .title,
+.swiper-slide-next .button-group,
+.swiper-slide-next .social-share-wrapper {
+  animation-name: fadeOutUp;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
 }
 </style>

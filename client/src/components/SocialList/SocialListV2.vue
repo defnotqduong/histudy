@@ -60,7 +60,7 @@ export default defineComponent({})
 .social-list {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 10px;
 }
 

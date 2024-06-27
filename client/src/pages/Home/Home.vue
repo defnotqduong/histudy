@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[10000px] relative">
+  <div class="relative">
     <TopBannerV2 />
     <HeaderV2 />
     <HeroBannerV1 />
@@ -14,7 +14,7 @@ import TopBannerV1 from '@/components/TopBanner/TopBannerV1.vue'
 import TopBannerV2 from '@/components/TopBanner/TopBannerV2.vue'
 import HeaderV1 from '@/components/Header/HeaderV1.vue'
 import HeaderV2 from '@/components/Header/HeaderV2.vue'
-import HeroBannerV1 from '../../components/Banner/HeroBannerV1.vue'
+import HeroBannerV1 from '@/components/Banner/HeroBannerV1.vue'
 import Footer from '@/components/Footer/Footer.vue'
 import CartSideMenu from '@/components/Cart/CartSideMenu.vue'
 import { useHomeStore } from '@/stores'

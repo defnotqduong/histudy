@@ -78,7 +78,7 @@
                 />
                 <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
               </svg>
-              <span>example@gmail.com</span></a
+              <span>quangduongsayhi@gmail.com</span></a
             >
           </li>
           <li>
