@@ -14,7 +14,7 @@ export default defineComponent({
 
 <style scoped>
 .button {
-  height: 48px;
+  height: 50px;
   padding: 0 28px;
   font-size: 16px;
   font-weight: 600;

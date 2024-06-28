@@ -1,16 +1,16 @@
 <template>
-  <a href="">
+  <router-link :to="{ name: toppic.link }">
     <div class="toppic">
       <div class="mb-5 flex items-center justify-center">
-        <img :src="url" class="w-20 h-20 object-cover object-center" alt="Toppic icon" />
+        <img :src="toppic.url" class="w-20 h-20 object-cover object-center" alt="Toppic icon" />
       </div>
       <div class="flex flex-col items-center justify-center">
-        <h5 class="mb-2 text-xl text-headingColor font-extrabold break-words text-center">{{ title }}</h5>
+        <h5 class="mb-2 text-xl text-headingColor font-extrabold break-words text-center">{{ toppic.title }}</h5>
         <button>
           <router-link
-            :to="{ name: link }"
+            :to="{ name: toppic.link }"
             class="flex items-center justify-center gap-1 font-bold cursor-pointer relative text-headingColor text-sm transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bg-primaryColor after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[2px] after:rounded hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-300"
-            >{{ content }} {{ content === 1 ? 'Course' : 'Courses' }}
+            >{{ toppic.content }} {{ toppic.content === 1 ? 'Course' : 'Courses' }}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
               <path
                 fill-rule="evenodd"
@@ -22,17 +22,14 @@
         </button>
       </div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
-    url: String,
-    title: String,
-    link: String,
-    content: Number
+    toppic: Object
   }
 })
 </script>

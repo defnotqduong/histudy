@@ -55,6 +55,9 @@ export default {
       borderColor: {
         borderColor: '#e6e3f1'
       },
+      boxShadow: {
+        shadow01: '0px 6px 34px rgba(215, 216, 222, 0.4)'
+      },
       content: {
         'custom-content': 'attr(data-text)'
       }

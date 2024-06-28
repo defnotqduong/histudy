@@ -1,5 +1,5 @@
 <template>
-  <div
+  <section
     class="py-3 bg-no-repeat bg-cover bg-center relative"
     :style="{
       backgroundImage: `url('../../src/assets/images/top-banner.jpg')`
@@ -41,7 +41,7 @@
     <div class="absolute top-1/2 right-8 -translate-y-1/2 flex items-center justify-center">
       <CloseButton :func="closeTopBanner" :color="'whiteOffColor'" />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

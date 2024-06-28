@@ -1,0 +1,134 @@
+<template>
+  <div class="course-card">
+    <div class="pb-7">
+      <router-link :to="{ name: 'home' }"
+        ><img src="../../assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
+      /></router-link>
+    </div>
+    <div>
+      <div class="mb-2 flex items-center justify-between">
+        <div class="flex items-center gap-[1px]">
+          <span v-for="i in 5" :key="i"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              fill="#FFC52F"
+              viewBox="0 0 37.286 37.287"
+              class="w-[14px] h-[14px]"
+            >
+              <g>
+                <path
+                  d="M36.683,16.339l-7.567,7.377l1.786,10.417c0.128,0.75-0.182,1.509-0.797,1.957c-0.348,0.253-0.762,0.382-1.176,0.382   c-0.318,0-0.638-0.076-0.931-0.23l-9.355-4.918l-9.355,4.918c-0.674,0.355-1.49,0.295-2.107-0.15   c-0.615-0.448-0.924-1.206-0.795-1.957l1.787-10.417L0.604,16.34c-0.547-0.531-0.741-1.326-0.508-2.05   c0.236-0.724,0.861-1.251,1.615-1.361l10.459-1.521l4.68-9.478c0.335-0.684,1.031-1.116,1.792-1.116   c0.763,0,1.456,0.432,1.793,1.115l4.68,9.478l10.461,1.521c0.752,0.109,1.379,0.637,1.611,1.361   C37.425,15.013,37.226,15.808,36.683,16.339z"
+                />
+              </g></svg
+          ></span>
+          <span class="text-sm text-bodyColor font-semibold ml-1">(15 Reviews)</span>
+        </div>
+        <button
+          class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:opacity-0 after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 64 64"
+            fill="none"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-[18px] h-[18px] text-headingColor transition-all duration-[400ms] group-hover:text-primaryColor"
+          >
+            <path
+              d="M30.051 45.6071L17.851 54.7401C17.2728 55.1729 16.5856 55.4363 15.8662 55.5008C15.1468 55.5652 14.4237 55.4282 13.7778 55.1049C13.1319 54.7817 12.5887 54.2851 12.209 53.6707C11.8293 53.0563 11.6281 52.3483 11.628 51.626V15.306C11.628 13.2423 12.4477 11.2631 13.9069 9.8037C15.3661 8.34432 17.3452 7.52431 19.409 7.52405H45.35C47.4137 7.52431 49.3929 8.34432 50.8521 9.8037C52.3112 11.2631 53.131 13.2423 53.131 15.306V51.625C53.1309 52.3473 52.9297 53.0553 52.55 53.6697C52.1703 54.2841 51.6271 54.7807 50.9812 55.1039C50.3353 55.4272 49.6122 55.5642 48.8928 55.4998C48.1734 55.4353 47.4862 55.1719 46.908 54.739L34.715 45.6071C34.0419 45.1031 33.2238 44.8308 32.383 44.8308C31.5422 44.8308 30.724 45.1031 30.051 45.6071V45.6071Z"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <h4 class="mb-2 text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
+        <router-link :to="{ name: 'home' }"> The Complete Histudy 2024: From Zero to Expert!</router-link>
+      </h4>
+      <ul class="mb-3 flex items-center justify-start gap-3">
+        <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
+              fill="currentColor"
+            /></svg
+          ><span>12 Lessons</span>
+        </li>
+        <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+            <path
+              d="M19 15C21.2091 15 23 16.7909 23 19V21H21M16 10.874C17.7252 10.4299 19 8.86383 19 6.99999C19 5.13615 17.7252 3.57005 16 3.12601M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7ZM5 15H13C15.2091 15 17 16.7909 17 19V21H1V19C1 16.7909 2.79086 15 5 15Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+          ><span>50 Students</span>
+        </li>
+      </ul>
+      <p class="mb-5 text-lg text-bodyColor font-medium line-clamp-4">
+        Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games and apps!
+      </p>
+      <div class="mb-4 flex items-center justify-start">
+        <div class="w-10 h-10 p-[2px] border-2 border-primaryOpacityColor rounded-full mr-2">
+          <img src="../../assets/images/avatar.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
+        </div>
+        <div class="text-sm font-medium">
+          By
+          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Claudia Arm</router-link>
+          In
+          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Designing</router-link>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <span class="text-xl text-bodyColor font-extrabold">$15</span>
+          <span class="ml-[6px] text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
+        </div>
+        <button>
+          <router-link
+            :to="{ name: 'home' }"
+            class="flex items-center justify-center gap-1 font-bold cursor-pointer relative text-headingColor text-sm transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bg-primaryColor after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[2px] after:rounded hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-300"
+            >Learn More
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z"
+                fill="currentColor"
+              /></svg
+          ></router-link>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { defineComponent } from 'vue'
+export default defineComponent({
+  props: {
+    course: Object
+  }
+})
+</script>
+
+<style scoped>
+.course-card {
+  width: 100%;
+  height: 100%;
+  padding: 30px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
+  transition: all 0.3s;
+  @apply bg-whiteColor;
+}
+
+.course-card:hover {
+  /* transform: scale(1.02); */
+  transform: translateY(-6px);
+}
+</style>

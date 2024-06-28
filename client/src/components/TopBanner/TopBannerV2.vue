@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 border-b-[1px] border-borderColor bg-whiteColor">
+  <section class="py-3 border-b-[1px] border-borderColor bg-whiteColor">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between">
         <ul class="flex items-center justify-start gap-3">
@@ -109,7 +109,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

@@ -23,29 +23,29 @@ export default defineComponent({
 <style scoped>
 .button {
   height: 50px;
-  padding: 0 28px;
+  padding: 0 20px;
   font-size: 16px;
   font-weight: 700;
   background-size: 300% 100%;
-  border-radius: 9999px;
+  border-radius: 6px;
   overflow: hidden;
   transition: all 0.4s ease-in-out;
-  @apply text-white bg-gradient03;
+  @apply text-primaryColor bg-primaryOpacityColor;
 }
 
 .button:hover {
   transform: translate3d(0, -1px, 0);
   box-shadow: 0px 15px 30px -2px rgba(0, 0, 0, 0.1);
-  background-position: 102% 0;
+  @apply bg-primaryColor;
+}
+
+.button span {
+  transition: transform 0.85s;
+  transition-timing-function: cubic-bezier(0.15, 0.85, 0.31, 1);
 }
 
 .button:hover span {
-  animation: btnTxtMarqueeX 2s linear infinite;
-}
-
-@keyframes btnTxtMarqueeX {
-  100% {
-    transform: translateX(-200%);
-  }
+  transform: translateX(-200%);
+  @apply text-whiteColor;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-24">
+  <section class="py-24">
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center justify-center">
         <span class="inline-block px-5 py-2 mb-4 text-sm text-primaryColor font-bold uppercase bg-primaryOpacityColor rounded-full">Categories</span>
@@ -10,11 +10,11 @@
       </div>
       <div class="grid grid-cols-12 mt-14 gap-7">
         <div class="col-span-3" v-for="toppic in toppics" :key="toppic.id">
-          <ToppicCard :url="toppic.url" :title="toppic.title" :link="toppic.link" :content="toppic.content" />
+          <ToppicCard :toppic="toppic" />
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
