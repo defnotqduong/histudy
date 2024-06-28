@@ -110,6 +110,6 @@ export default defineComponent({})
 
 .social-list li a:hover::after {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.1);
 }
 </style>

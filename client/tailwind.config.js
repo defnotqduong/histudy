@@ -23,6 +23,7 @@ export default {
         grayColor: '#A1A9AC',
         grayLightColor: '#F6F6F6',
         grayLighterColor: '#EBEBEB',
+        extraColor: '#f9f9ff',
         primaryOpacityColor: '#2F57EF21',
         secondaryOpacityColor: '#B966E721',
         coralOpacityColor: '#E9967A21',
