@@ -1,9 +1,27 @@
 <template>
   <div class="course-card">
-    <div class="pb-7">
+    <div class="pb-7 relative">
       <router-link :to="{ name: 'home' }"
         ><img src="../../assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
+      <div class="absolute w-14 h-14 bottom-10 right-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
+          <path
+            d="M157.027 24.5874C173.769 -7.90872 220.231 -7.90872 236.973 24.5874V24.5874C247.033 44.1139 269.728 53.5145 290.649 46.8207V46.8207C325.466 35.6809 358.319 68.5345 347.179 103.351V103.351C340.485 124.272 349.886 146.967 369.413 157.027V157.027C401.909 173.769 401.909 220.231 369.413 236.973V236.973C349.886 247.033 340.485 269.728 347.179 290.649V290.649C358.319 325.466 325.466 358.319 290.649 347.179V347.179C269.728 340.485 247.033 349.886 236.973 369.413V369.413C220.231 401.909 173.769 401.909 157.027 369.413V369.413C146.967 349.886 124.272 340.485 103.351 347.179V347.179C68.5345 358.319 35.6809 325.466 46.8207 290.649V290.649C53.5145 269.728 44.1139 247.033 24.5874 236.973V236.973C-7.90872 220.231 -7.90872 173.769 24.5874 157.027V157.027C44.1139 146.967 53.5145 124.272 46.8207 103.351V103.351C35.6809 68.5345 68.5345 35.6809 103.351 46.8207V46.8207C124.272 53.5145 146.967 44.1139 157.027 24.5874V24.5874Z"
+            fill="url(#paint0_linear_1_4)"
+          />
+          <defs>
+            <linearGradient id="paint0_linear_1_4" x1="55" y1="59" x2="336" y2="343" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#2F57EF" />
+              <stop offset="1" stop-color="#B966E7" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="absolute w-full h-full top-0 left-0 flex flex-col items-center justify-center text-whiteColor text-xs font-bold">
+          <span>-20%</span>
+          <span>Off</span>
+        </div>
+      </div>
     </div>
     <div>
       <div class="mb-2 flex items-center justify-between">
@@ -88,20 +106,7 @@
           <span class="text-xl text-bodyColor font-extrabold">$15</span>
           <span class="ml-[6px] text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
         </div>
-        <button>
-          <router-link
-            :to="{ name: 'home' }"
-            class="flex items-center justify-center gap-1 font-bold cursor-pointer relative text-headingColor text-sm transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bg-primaryColor after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[2px] after:rounded hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-300"
-            >Learn More
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z"
-                fill="currentColor"
-              /></svg
-          ></router-link>
-        </button>
+        <ButtonV1 :content="'Learn More'" :link="'home'" />
       </div>
     </div>
   </div>
@@ -109,10 +114,12 @@
 
 <script>
 import { defineComponent } from 'vue'
+import ButtonV1 from '@/components/Button/ButtonV1.vue'
 export default defineComponent({
   props: {
     course: Object
-  }
+  },
+  components: { ButtonV1 }
 })
 </script>
 

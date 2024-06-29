@@ -47,7 +47,11 @@ export default {
         gradient01: 'linear-gradient(90deg,#8da9fc,#b48dd5)',
         gradient02: 'linear-gradient(270deg,#9e77ff,#4460ff)',
         gradient03: 'linear-gradient(to right,#2F57EF,#B966E7,#B966E7,#2F57EF)',
-        gradient04: 'linear-gradient(90deg,#2F57EF,#B966E7)'
+        gradient04: 'linear-gradient(90deg,#2F57EF,#B966E7)',
+        gradient05: 'radial-gradient(ellipse at center, #2F57EF 0, hsla(0, 0%, 100%, 0) 70%)',
+        gradient06: 'linear-gradient(#2F57EF, hsla(0, 0%, 100%, 0))',
+        gradient07: 'linear-gradient(90deg, #cfa2e8, #637fea)',
+        gradient08: 'linear-gradient(218.15deg,#B966E7 0%,#2F57EF 100%)'
       },
       backgroundColor: {
         overlayColor: 'rgba(0, 0, 0, .8)'
@@ -56,7 +60,9 @@ export default {
         borderColor: '#e6e3f1'
       },
       boxShadow: {
-        shadow01: '0px 6px 34px rgba(215, 216, 222, 0.4)'
+        shadow01: '0px 6px 34px rgba(215, 216, 222, 0.4)',
+        shadow02: '0 14px 14px 0 rgba(129,104,145,0.05)',
+        shadow03: '0 14px 48px 0 rgba(215,216,222,0.44)'
       },
       content: {
         'custom-content': 'attr(data-text)'

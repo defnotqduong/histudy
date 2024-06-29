@@ -1,16 +1,16 @@
 <template>
-  <section class="py-24">
+  <section class="py-24 bg-whiteColor">
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center justify-center">
-        <span class="inline-block px-5 py-2 mb-4 text-sm text-primaryColor font-bold uppercase bg-primaryOpacityColor rounded-full">Categories</span>
+        <span class="inline-block px-5 py-2 mb-5 text-sm text-primaryColor font-bold uppercase bg-primaryOpacityColor rounded-full">Categories</span>
         <h2 class="text-center text-[40px] font-black text-headingColor leading-tight">
           Explore Top Courses Caterories <br />
           That Change Yourself
         </h2>
       </div>
       <div class="grid grid-cols-12 mt-14 gap-7">
-        <div class="col-span-3" v-for="toppic in toppics" :key="toppic.id">
-          <ToppicCard :toppic="toppic" />
+        <div class="col-span-3" v-for="topic in topics" :key="topic.id">
+          <TopicCard :topic="topic" />
         </div>
       </div>
     </div>
@@ -19,11 +19,11 @@
 
 <script>
 import { defineComponent } from 'vue'
-import ToppicCard from '@/components/Toppic/ToppicCard.vue'
+import TopicCard from '@/components/Topic/TopicCard.vue'
 export default defineComponent({
-  components: { ToppicCard },
+  components: { TopicCard },
   setup() {
-    const toppics = [
+    const topics = [
       {
         id: 1,
         url: '/src/assets/images/web-design.jpg',
@@ -82,7 +82,7 @@ export default defineComponent({
       }
     ]
 
-    return { toppics }
+    return { topics }
   }
 })
 </script>
