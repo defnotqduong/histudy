@@ -6,9 +6,12 @@
     <Topic />
     <PopularCourse />
     <ChooseUs />
+    <AboutUsV2 />
     <Feedback />
     <PopularPost />
+    <EduInfoHubV1 />
     <CartSideMenu />
+    <BackToTopButton />
     <Footer />
   </div>
 </template>
@@ -26,7 +29,11 @@ import PopularCourse from '@/components/PopularCourse/PopularCourse.vue'
 import ChooseUs from '@/components/ChooseUs/ChooseUs.vue'
 import Feedback from '@/components/Feedback/Feedback.vue'
 import PopularPost from '@/components/Blog/PopularPost.vue'
+import AboutUsV1 from '@/components/About/AboutUsV1.vue'
+import AboutUsV2 from '@/components/About/AboutUsV2.vue'
+import EduInfoHubV1 from '@/components/EduInfoHub/EduInfoHubV1.vue'
 import CartSideMenu from '@/components/Cart/CartSideMenu.vue'
+import BackToTopButton from '@/components/Button/BackToTopButton.vue'
 import Footer from '@/components/Footer/Footer.vue'
 export default defineComponent({
   components: {
@@ -39,7 +46,11 @@ export default defineComponent({
     ChooseUs,
     Feedback,
     PopularPost,
+    AboutUsV1,
+    AboutUsV2,
+    EduInfoHubV1,
     CartSideMenu,
+    BackToTopButton,
     Footer
   },
   setup() {

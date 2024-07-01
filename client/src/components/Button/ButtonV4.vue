@@ -2,7 +2,7 @@
   <button class="button">
     <router-link :to="{ name: link }" class="w-full h-full flex items-center justify-center">
       <span>{{ content }}</span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="icon">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -26,11 +26,47 @@ export default defineComponent({
 
 <style scoped>
 .button {
+  position: relative;
   height: 50px;
   padding: 0 20px;
   font-size: 16px;
   font-weight: 700;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.2s ease;
   @apply text-headingColor;
+}
+
+.button:hover {
+  @apply text-whiteColor;
+}
+
+.button::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  z-index: -1;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  @apply bg-primaryColor;
+}
+
+.button:hover::after {
+  opacity: 1;
+  width: 100%;
+}
+
+.button .icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+
+.button:hover .icon {
+  transform: translateX(0);
 }
 </style>

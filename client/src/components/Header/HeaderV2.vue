@@ -95,6 +95,7 @@
                     @click="onChangeSearchEl"
                     class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
                     :class="isShowSearchEl ? 'after:opacity-100 after:scale-[1.2]' : 'after:opacity-0 after:scale-[0.8]'"
+                    title="Search"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

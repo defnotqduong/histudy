@@ -51,7 +51,9 @@ export default {
         gradient05: 'radial-gradient(ellipse at center, #2F57EF 0, hsla(0, 0%, 100%, 0) 70%)',
         gradient06: 'linear-gradient(#2F57EF, hsla(0, 0%, 100%, 0))',
         gradient07: 'linear-gradient(90deg, #cfa2e8, #637fea)',
-        gradient08: 'linear-gradient(218.15deg,#B966E7 0%,#2F57EF 100%)'
+        gradient08: 'linear-gradient(218.15deg,#B966E7 0%,#2F57EF 100%)',
+        gradient09: 'linear-gradient(#fff,#eff1ff)',
+        gradient10: 'linear-gradient(90deg,hsla(0,0%,100%,.15),rgba(251,199,226,.15),rgba(220,217,254,.15))'
       },
       backgroundColor: {
         overlayColor: 'rgba(0, 0, 0, .8)'
@@ -61,7 +63,7 @@ export default {
       },
       boxShadow: {
         shadow01: '0px 6px 34px rgba(215, 216, 222, 0.4)',
-        shadow02: '0 14px 14px 0 rgba(129,104,145,0.05)',
+        shadow02: '0 16px 16px 0 rgba(129,104,145,0.06)',
         shadow03: '0 14px 48px 0 rgba(215,216,222,0.44)'
       },
       content: {

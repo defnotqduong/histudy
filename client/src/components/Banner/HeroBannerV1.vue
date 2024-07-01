@@ -1,6 +1,14 @@
 <template>
   <section>
-    <Swiper :modules="modules" :slides-per-view="1" :navigation="true" :loop="true" class="h-[640px] hero-banner">
+    <Swiper
+      :modules="modules"
+      :slides-per-view="1"
+      :navigation="true"
+      :autoplay="{ delay: 10000, disableOnInteraction: false }"
+      :speed="800"
+      :loop="true"
+      class="h-[640px] hero-banner"
+    >
       <SwiperSlide
         :style="{ backgroundImage: 'url(/src/assets/images/bg-image-01.jpg)' }"
         class="relative w-full h-full bg-no-repeat bg-cover bg-center after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient04 after:opacity-50"
@@ -89,7 +97,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation } from 'swiper/modules'
+import { Navigation, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
@@ -105,7 +113,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      modules: [Navigation]
+      modules: [Navigation, Autoplay]
     }
   }
 })

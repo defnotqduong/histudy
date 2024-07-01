@@ -2,7 +2,7 @@
   <section class="py-24">
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center justify-center">
-        <span class="inline-block px-5 py-2 mb-5 text-sm text-primaryColor font-bold uppercase bg-primaryOpacityColor rounded-full">Why choose us</span>
+        <span class="inline-block px-5 py-2 mb-5 text-sm text-violetColor font-bold uppercase bg-violetOpacityColor rounded-full">Why choose us</span>
         <h2 class="text-center text-[40px] font-black text-headingColor leading-tight">
           Creating A Community Of <br />
           Life Long Learners.

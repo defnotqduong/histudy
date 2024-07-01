@@ -1,11 +1,10 @@
 <template>
-  <section class="py-24">
+  <section class="py-24 bg-gradient09">
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center justify-center">
         <span class="inline-block px-5 py-2 mb-5 text-sm text-coralColor font-bold uppercase bg-coralOpacityColor rounded-full">Education for everyone</span>
         <h2 class="text-center text-[40px] font-black text-headingColor leading-tight">
-          People like histudy education. <br />
-          No joking - here’s the proof!
+          People like histudy education. <br />Here's the evidence to back it up!
         </h2>
       </div>
       <div class="mt-16 overflow-hidden relative">
