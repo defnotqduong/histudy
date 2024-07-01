@@ -19,11 +19,34 @@ const routes = [
   },
   {
     path: '/',
-    name: 'home',
-    component: () => import('@/pages/Home/Home.vue'),
-    meta: {
-      title: 'Home - Online Courses & Education'
-    }
+    name: 'global-layout',
+    component: () => import('@/layouts/GlobalLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import('@/pages/Home/Home.vue'),
+        meta: {
+          title: 'Home - Online Courses & Education'
+        }
+      },
+      {
+        path: 'courses',
+        name: 'courses',
+        component: () => import('@/pages/Course/Course.vue'),
+        meta: {
+          title: 'Course - Online Courses & Education'
+        }
+      },
+      {
+        path: 'course-details/:slug',
+        name: 'course-details',
+        component: () => import('@/pages/Course/CourseDetail.vue'),
+        meta: {
+          title: 'Course Details - Online Courses & Education'
+        }
+      }
+    ]
   },
   {
     path: '/:catchAll(.*)',

@@ -1,13 +1,15 @@
 <template>
   <div class="course-card">
     <div>
-      <a href="">
+      <router-link :to="{ name: 'course-details', params: { slug: 1 } }">
         <img src="../../assets/images/course-01.jpg" class="w-full h-auto object-cover object-center rounded-md" alt="Course Thumbnail" />
-      </a>
+      </router-link>
     </div>
     <div class="pt-4 px-1 pb-2">
       <h5 class="mb-2 text-headingColor text-base font-extrabold leading-5 line-clamp-3">
-        <a href="" class="hover:text-primaryColor transition-all duration-300">The Complete Histudy 2024: From Zero to Expert!</a>
+        <router-link :to="{ name: 'course-details', params: { slug: 1 } }" class="hover:text-primaryColor transition-all duration-300"
+          >The Complete Histudy 2024: From Zero to Expert!</router-link
+        >
       </h5>
       <div class="mb-2 flex items-center">
         <div class="flex items-center gap-[1px]">

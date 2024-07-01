@@ -7,12 +7,12 @@
           <h2 class="text-center text-[40px] font-black text-headingColor leading-tight">Most Popular <span class="text-primaryColor">Course</span></h2>
         </div>
         <div class="col-span-6 flex items-end justify-end">
-          <ButtonV3 :content="'View All Course'" :link="'home'" />
+          <ButtonV3 :content="'View All Course'" :link="'courses'" />
         </div>
       </div>
       <div class="grid grid-cols-12 mt-14 gap-7">
         <div class="col-span-4" v-for="i in 6" :key="i">
-          <CourseCardV2 />
+          <CourseCardV3 />
         </div>
       </div>
     </div>
@@ -23,8 +23,9 @@
 import { defineComponent } from 'vue'
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
 import CourseCardV2 from '@/components/CourseCard/CourseCardV2.vue'
+import CourseCardV3 from '@/components/CourseCard/CourseCardV3.vue'
 export default defineComponent({
-  components: { ButtonV3, CourseCardV2 },
+  components: { ButtonV3, CourseCardV2, CourseCardV3 },
   setup() {}
 })
 </script>

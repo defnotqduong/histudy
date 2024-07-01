@@ -15,7 +15,7 @@
       <div class="pt-7 pb-14">
         <h5 class="text-xs font-bold text-headingColor uppercase opacity-50 tracking-wide">OUR TOP COURSE</h5>
         <div class="grid grid-cols-4 gap-4 mt-4">
-          <div class="col-span-1" v-for="i in 4" :key="i">
+          <div class="col-span-1" v-for="i in 4" :key="i" @click="onChangeSearchEl">
             <CourseCardV1 />
           </div>
         </div>
@@ -30,6 +30,9 @@ import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
 import CourseCardV1 from '../CourseCard/CourseCardV1.vue'
 
 export default defineComponent({
+  props: {
+    onChangeSearchEl: Function
+  },
   components: { GradientButtonV2, CourseCardV1 },
   setup() {
     const search = () => {

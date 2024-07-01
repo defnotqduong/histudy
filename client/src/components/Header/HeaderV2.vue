@@ -13,9 +13,9 @@
           <nav>
             <ul class="flex items-center justify-center gap-7">
               <li class="has-child-menu">
-                <a class="flex items-center justify-center gap-1">
+                <router-link :to="{ name: 'home' }" class="flex items-center justify-center gap-1">
                   <span>Home</span>
-                </a>
+                </router-link>
               </li>
               <li class="has-child-menu">
                 <a class="flex items-center justify-center gap-1">
@@ -384,7 +384,7 @@
       </div>
     </div>
     <div class="search-container" :class="isShowSearchEl && 'active'">
-      <SearchEl />
+      <SearchEl :onChangeSearchEl="onChangeSearchEl" />
     </div>
   </header>
 </template>

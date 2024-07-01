@@ -1,7 +1,7 @@
 <template>
-  <div class="checkbox-wrapper-19">
-    <input id="cbtest-19" type="checkbox" />
-    <label class="check-box" for="cbtest-19"> </label>
+  <div class="checkbox-wrapper">
+    <input id="cbtest" type="checkbox" />
+    <label class="check-box" for="cbtest"> </label>
   </div>
 </template>
 
@@ -11,13 +11,13 @@ export default defineComponent({})
 </script>
 
 <style scoped>
-.checkbox-wrapper-19 {
+.checkbox-wrapper {
   box-sizing: border-box;
   --background-color: #fff;
   --checkbox-height: 16px;
 }
 
-@-moz-keyframes dothabottomcheck-19 {
+@-moz-keyframes dothabottomcheck {
   0% {
     height: 0;
   }
@@ -27,7 +27,7 @@ export default defineComponent({})
   }
 }
 
-@-webkit-keyframes dothabottomcheck-19 {
+@-webkit-keyframes dothabottomcheck {
   0% {
     height: 0;
   }
@@ -37,7 +37,7 @@ export default defineComponent({})
   }
 }
 
-@keyframes dothabottomcheck-19 {
+@keyframes dothabottomcheck {
   0% {
     height: 0;
   }
@@ -47,7 +47,7 @@ export default defineComponent({})
   }
 }
 
-@keyframes dothatopcheck-19 {
+@keyframes dothatopcheck {
   0% {
     height: 0;
   }
@@ -61,7 +61,7 @@ export default defineComponent({})
   }
 }
 
-@-webkit-keyframes dothatopcheck-19 {
+@-webkit-keyframes dothatopcheck {
   0% {
     height: 0;
   }
@@ -75,7 +75,7 @@ export default defineComponent({})
   }
 }
 
-@-moz-keyframes dothatopcheck-19 {
+@-moz-keyframes dothatopcheck {
   0% {
     height: 0;
   }
@@ -89,11 +89,11 @@ export default defineComponent({})
   }
 }
 
-.checkbox-wrapper-19 input[type='checkbox'] {
+.checkbox-wrapper input[type='checkbox'] {
   display: none;
 }
 
-.checkbox-wrapper-19 .check-box {
+.checkbox-wrapper .check-box {
   height: var(--checkbox-height);
   width: var(--checkbox-height);
   background-color: transparent;
@@ -113,8 +113,8 @@ export default defineComponent({})
   @apply border-headingOpacityColor;
 }
 
-.checkbox-wrapper-19 .check-box::before,
-.checkbox-wrapper-19 .check-box::after {
+.checkbox-wrapper .check-box::before,
+.checkbox-wrapper .check-box::after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -136,7 +136,7 @@ export default defineComponent({})
   @apply bg-primaryColor;
 }
 
-.checkbox-wrapper-19 .check-box::before {
+.checkbox-wrapper .check-box::before {
   top: calc(var(--checkbox-height) * 0.72);
   left: calc(var(--checkbox-height) * 0.41);
   box-shadow: 0 0 0 calc(var(--checkbox-height) * 0.05) var(--background-color);
@@ -147,7 +147,7 @@ export default defineComponent({})
   transform: rotate(-135deg);
 }
 
-.checkbox-wrapper-19 .check-box::after {
+.checkbox-wrapper .check-box::after {
   top: calc(var(--checkbox-height) * 0.37);
   left: calc(var(--checkbox-height) * 0.05);
   -moz-transform: rotate(-45deg);
@@ -157,26 +157,26 @@ export default defineComponent({})
   transform: rotate(-45deg);
 }
 
-.checkbox-wrapper-19 input[type='checkbox']:checked + .check-box,
-.checkbox-wrapper-19 .check-box.checked {
+.checkbox-wrapper input[type='checkbox']:checked + .check-box,
+.checkbox-wrapper .check-box.checked {
   @apply border-primaryColor;
 }
 
-.checkbox-wrapper-19 input[type='checkbox']:checked + .check-box::after,
-.checkbox-wrapper-19 .check-box.checked::after {
+.checkbox-wrapper input[type='checkbox']:checked + .check-box::after,
+.checkbox-wrapper .check-box.checked::after {
   height: calc(var(--checkbox-height) / 2);
-  -moz-animation: dothabottomcheck-19 0.2s ease 0s forwards;
-  -o-animation: dothabottomcheck-19 0.2s ease 0s forwards;
-  -webkit-animation: dothabottomcheck-19 0.2s ease 0s forwards;
-  animation: dothabottomcheck-19 0.2s ease 0s forwards;
+  -moz-animation: dothabottomcheck 0.2s ease 0s forwards;
+  -o-animation: dothabottomcheck 0.2s ease 0s forwards;
+  -webkit-animation: dothabottomcheck 0.2s ease 0s forwards;
+  animation: dothabottomcheck 0.2s ease 0s forwards;
 }
 
-.checkbox-wrapper-19 input[type='checkbox']:checked + .check-box::before,
-.checkbox-wrapper-19 .check-box.checked::before {
+.checkbox-wrapper input[type='checkbox']:checked + .check-box::before,
+.checkbox-wrapper .check-box.checked::before {
   height: calc(var(--checkbox-height) * 1.2);
-  -moz-animation: dothatopcheck-19 0.4s ease 0s forwards;
-  -o-animation: dothatopcheck-19 0.4s ease 0s forwards;
-  -webkit-animation: dothatopcheck-19 0.4s ease 0s forwards;
-  animation: dothatopcheck-19 0.4s ease 0s forwards;
+  -moz-animation: dothatopcheck 0.4s ease 0s forwards;
+  -o-animation: dothatopcheck 0.4s ease 0s forwards;
+  -webkit-animation: dothatopcheck 0.4s ease 0s forwards;
+  animation: dothatopcheck 0.4s ease 0s forwards;
 }
 </style>

@@ -88,20 +88,6 @@
           ><span>50 Students</span>
         </li>
       </ul>
-      <p class="mb-5 text-lg text-bodyColor font-medium line-clamp-4">
-        Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games and apps!
-      </p>
-      <div class="mb-4 flex items-center justify-start">
-        <div class="w-10 h-10 p-[2px] border-2 border-primaryOpacityColor rounded-full mr-2">
-          <img src="../../assets/images/avatar.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
-        </div>
-        <div class="text-sm font-medium">
-          By
-          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Claudia Arm</router-link>
-          In
-          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Designing</router-link>
-        </div>
-      </div>
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <span class="text-xl text-bodyColor font-extrabold">$15</span>

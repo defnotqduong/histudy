@@ -44,6 +44,7 @@ export default {
         infoColor: '#1BA2DB'
       },
       backgroundImage: {
+        overlay01: 'linear-gradient(#fff, hsla(0, 0%, 100%, .15))',
         gradient01: 'linear-gradient(90deg,#8da9fc,#b48dd5)',
         gradient02: 'linear-gradient(270deg,#9e77ff,#4460ff)',
         gradient03: 'linear-gradient(to right,#2F57EF,#B966E7,#B966E7,#2F57EF)',
@@ -53,23 +54,31 @@ export default {
         gradient07: 'linear-gradient(90deg, #cfa2e8, #637fea)',
         gradient08: 'linear-gradient(218.15deg,#B966E7 0%,#2F57EF 100%)',
         gradient09: 'linear-gradient(#fff,#eff1ff)',
-        gradient10: 'linear-gradient(90deg,hsla(0,0%,100%,.15),rgba(251,199,226,.15),rgba(220,217,254,.15))'
+        gradient10: 'linear-gradient(90deg,hsla(0,0%,100%,.15),rgba(251,199,226,.15),rgba(220,217,254,.15))',
+        gradient11: 'linear-gradient(270deg,#B966E7 0,#2F57EF 100%)'
       },
       backgroundColor: {
-        overlayColor: 'rgba(0, 0, 0, .8)'
+        overlayColor: 'rgba(0, 0, 0, .8)',
+        badgeColor: 'rgba(226, 213, 252, .8)'
       },
       borderColor: {
-        borderColor: '#e6e3f1'
+        borderColor: '#e6e3f1',
+        border02Color: '#e6e3f14f'
       },
       boxShadow: {
         shadow01: '0px 6px 34px rgba(215, 216, 222, 0.4)',
         shadow02: '0 16px 16px 0 rgba(129,104,145,0.06)',
-        shadow03: '0 14px 48px 0 rgba(215,216,222,0.44)'
+        shadow03: '0 14px 48px 0 rgba(215,216,222,0.44)',
+        shadow04: '0 12px 22px 0 rgba(214, 191, 242, 0.28)',
+        shadow05: '0px 15px 30px -2px rgba(0,0,0,0.1)'
       },
       content: {
         'custom-content': 'attr(data-text)'
       }
     }
   },
-  plugins: []
+  daisyui: {
+    themes: []
+  },
+  plugins: [require('daisyui')]
 }
