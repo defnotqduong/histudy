@@ -27,7 +27,7 @@
 <script>
 import { defineComponent } from 'vue'
 import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
-import CourseCardV1 from '../CourseCard/CourseCardV1.vue'
+import CourseCardV1 from '@/components/Course/CourseCard/CourseCardV1.vue'
 
 export default defineComponent({
   props: {

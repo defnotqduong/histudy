@@ -1,5 +1,5 @@
 <template>
-  <div class="relative pt-[60px] pb-[200px]">
+  <div class="relative pt-[60px] pb-[240px]">
     <div
       class="absolute top-0 left-0 z-[-2] w-full h-full bg-gradient11 after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:z-[-1] after:bg-overlay01"
     ></div>
@@ -10,7 +10,7 @@
           <li class="opacity-60">All Courses</li>
         </ul>
       </div>
-      <div class="my-5 flex items-center justify-start">
+      <div class="my-6 flex items-center justify-start">
         <h1 class="text-5xl text-headingColor font-black">All Courses</h1>
         <div
           class="ml-5 px-5 flex items-center justify-center h-12 text-sm text-headingColor font-bold bg-badgeColor shadow-shadow04 rounded-full border-[1px] border-whiteColor"
@@ -64,8 +64,8 @@
           </div>
         </div>
       </div>
-      <div class="mt-7 border-t-[1px] border-border02Color" v-if="isShowFilter">
-        <div class="pt-8 pb-12 flex flex-wrap items-end justify-start">
+      <div class="mt-7 border-t-[1px] border-border02Color" v-show="isShowFilter">
+        <div class="pt-8 flex flex-wrap items-end justify-start">
           <div class="p-2 flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by</span>
             <select class="select w-full">

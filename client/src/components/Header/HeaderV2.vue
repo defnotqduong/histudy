@@ -103,7 +103,7 @@
                       fill="none"
                       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-5 h-5 transition-all duration-[400ms] group-hover:text-primaryColor"
                       :class="isShowSearchEl ? 'text-primaryColor' : 'text-headingColor'"
-                      v-if="isShowSearchEl"
+                      v-show="isShowSearchEl"
                     >
                       <g>
                         <path
@@ -121,7 +121,7 @@
                       viewBox="0 0 24 24"
                       fill="none"
                       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-5 h-5 transition-all duration-[400ms] group-hover:text-primaryColor"
-                      v-if="!isShowSearchEl"
+                      v-show="!isShowSearchEl"
                     >
                       <path
                         d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
@@ -182,7 +182,7 @@
                     <div class="p-4">
                       <div class="pb-5 flex items-center justify-start">
                         <div class="w-14 h-14 p-[2px] border-2 border-primaryOpacityColor rounded-full mr-2">
-                          <img src="../../assets/images/avatar.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
+                          <img src="@/assets/images/avatar.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
                         </div>
                         <div class="flex-1">
                           <h5 class="text-base text-heading font-bold line-clamp-1">Quang Dương dzaj siêu cấp vjppro</h5>

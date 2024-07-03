@@ -46,7 +46,7 @@ export default defineComponent({
       window.scrollTo({ top: 0 })
     }
   },
-  mounted() {
+  created() {
     this.scrollToTop()
   }
 })

@@ -2,7 +2,7 @@
   <div class="course-card">
     <div class="pb-7 relative">
       <router-link :to="{ name: 'course-details', params: { slug: 1 } }"
-        ><img src="../../assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
+        ><img src="@/assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
       <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">

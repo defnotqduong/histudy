@@ -16,8 +16,8 @@
 
 <script>
 import { defineComponent } from 'vue'
-import CourseFinder from '@/components/CourseFinder/CourseFinder.vue'
-import CourseCardV2 from '@/components/CourseCard/CourseCardV2.vue'
+import CourseFinder from '@/components/Course/CourseFinder/CourseFinder.vue'
+import CourseCardV2 from '@/components/Course/CourseCard/CourseCardV2.vue'
 import Pagination from '@/components/Pagination/Pagination.vue'
 export default defineComponent({
   components: { CourseFinder, CourseCardV2, Pagination },
@@ -26,7 +26,7 @@ export default defineComponent({
       window.scrollTo({ top: 0 })
     }
   },
-  mounted() {
+  created() {
     this.scrollToTop()
   }
 })

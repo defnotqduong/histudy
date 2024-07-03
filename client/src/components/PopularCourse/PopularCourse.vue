@@ -22,8 +22,8 @@
 <script>
 import { defineComponent } from 'vue'
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
-import CourseCardV2 from '@/components/CourseCard/CourseCardV2.vue'
-import CourseCardV3 from '@/components/CourseCard/CourseCardV3.vue'
+import CourseCardV2 from '@/components/Course/CourseCard/CourseCardV2.vue'
+import CourseCardV3 from '@/components/Course/CourseCard/CourseCardV3.vue'
 export default defineComponent({
   components: { ButtonV3, CourseCardV2, CourseCardV3 },
   setup() {}

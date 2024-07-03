@@ -45,6 +45,7 @@ export default {
       },
       backgroundImage: {
         overlay01: 'linear-gradient(#fff, hsla(0, 0%, 100%, .15))',
+        overlay02: 'linear-gradient(hsla(0, 0%, 100%, 0), #fff)',
         gradient01: 'linear-gradient(90deg,#8da9fc,#b48dd5)',
         gradient02: 'linear-gradient(270deg,#9e77ff,#4460ff)',
         gradient03: 'linear-gradient(to right,#2F57EF,#B966E7,#B966E7,#2F57EF)',
@@ -74,6 +75,9 @@ export default {
       },
       content: {
         'custom-content': 'attr(data-text)'
+      },
+      maxHeight: {
+        inherit: 'inherit'
       }
     }
   },
