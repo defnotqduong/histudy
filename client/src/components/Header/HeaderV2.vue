@@ -52,11 +52,11 @@
                 </ul>
               </li>
               <li class="has-child-menu">
-                <a class="flex items-center justify-center gap-1">
+                <router-link :to="{ name: 'home' }" class="flex items-center justify-center gap-1">
                   <span>Dashboard</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
-                ></a>
+                ></router-link>
                 <ul class="sub-menu">
                   <li>
                     <a>Web Design</a>
@@ -106,14 +106,7 @@
                       v-show="isShowSearchEl"
                     >
                       <g>
-                        <path
-                          id="Vector"
-                          d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
+                        <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                       </g>
                     </svg>
                     <svg
@@ -144,11 +137,7 @@
                       <circle cx="8" cy="20" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                       <circle cx="17" cy="20" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                     </svg>
-                    <div
-                      class="absolute -top-3 -right-5 w-5 h-5 rounded-full bg-primaryColor text-sm text-whiteColor font-semibold flex items-center justify-center"
-                    >
-                      0
-                    </div>
+                    <div class="absolute -top-3 -right-5 w-5 h-5 rounded-full bg-primaryColor text-sm text-whiteColor font-semibold flex items-center justify-center">0</div>
                   </button>
                 </li>
               </ul>
@@ -157,9 +146,7 @@
             <div class="px-[10px]">
               <ul>
                 <li class="user-menu">
-                  <a
-                    class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor"
-                  >
+                  <a class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-5 h-5">
                       <path
                         d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
@@ -198,7 +185,7 @@
                       </div>
                       <ul>
                         <li>
-                          <router-link :to="{ name: 'home' }">
+                          <router-link :to="{ name: 'dashboard' }">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_15_3)">
                                 <rect width="24" height="24" fill="white" />
@@ -234,13 +221,7 @@
                         </li>
                         <li>
                           <a href="">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              xmlns:xlink="http://www.w3.org/1999/xlink"
-                              fill="currentColor"
-                              viewBox="0 0 512 512"
-                              enable-background="new 0 0 512 512"
-                            >
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
                               <g>
                                 <g>
                                   <path
@@ -479,7 +460,7 @@ header.header-sticky {
   top: 100%;
   left: 0;
   right: auto;
-  z-index: 10;
+  z-index: 2000;
   visibility: hidden;
   min-width: 320px;
   padding: 12px 0;
@@ -538,7 +519,7 @@ header.header-sticky {
   top: 100%;
   right: 0;
   left: auto;
-  z-index: 10;
+  z-index: 2000;
   visibility: hidden;
   background: white;
   min-width: 260px;

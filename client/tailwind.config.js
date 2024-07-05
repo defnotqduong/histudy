@@ -41,7 +41,8 @@ export default {
         successColor: '#3EB75E',
         dangerColor: '#FF0003',
         warningColor: '#FF8F3C',
-        infoColor: '#1BA2DB'
+        infoColor: '#1BA2DB',
+        progressColor: '#eee'
       },
       backgroundImage: {
         overlay01: 'linear-gradient(#fff, hsla(0, 0%, 100%, .15))',
@@ -56,7 +57,8 @@ export default {
         gradient08: 'linear-gradient(218.15deg,#B966E7 0%,#2F57EF 100%)',
         gradient09: 'linear-gradient(#fff,#eff1ff)',
         gradient10: 'linear-gradient(90deg,hsla(0,0%,100%,.15),rgba(251,199,226,.15),rgba(220,217,254,.15))',
-        gradient11: 'linear-gradient(270deg,#B966E7 0,#2F57EF 100%)'
+        gradient11: 'linear-gradient(270deg,#B966E7 0,#2F57EF 100%)',
+        gradient12: 'linear-gradient(-145deg, #cfa2e8, #637fea)'
       },
       backgroundColor: {
         overlayColor: 'rgba(0, 0, 0, .8)',

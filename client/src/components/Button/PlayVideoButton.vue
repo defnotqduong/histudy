@@ -27,8 +27,8 @@ export default defineComponent({})
 }
 
 .button svg {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   @apply text-primaryColor;
 }
 

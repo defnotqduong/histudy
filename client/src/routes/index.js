@@ -45,6 +45,14 @@ const routes = [
         meta: {
           title: 'Course Details - Online Courses & Education'
         }
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('@/pages/Dashboard/Dashboard.vue'),
+        meta: {
+          title: 'Instructor Dashboard - Online Courses & Education'
+        }
       }
     ]
   },
