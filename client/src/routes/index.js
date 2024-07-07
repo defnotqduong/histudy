@@ -48,11 +48,26 @@ const routes = [
       },
       {
         path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('@/pages/Dashboard/Dashboard.vue'),
-        meta: {
-          title: 'Instructor Dashboard - Online Courses & Education'
-        }
+        name: 'dashboard-layout',
+        component: () => import('@/layouts/Dashboard.vue'),
+        children: [
+          {
+            path: '',
+            name: 'dashboard',
+            component: () => import('@/pages/Dashboard/Dashboard.vue'),
+            meta: {
+              title: 'Dashboard - Online Courses & Education'
+            }
+          },
+          {
+            path: 'settings',
+            name: 'settings',
+            component: () => import('@/pages/Dashboard/Settings.vue'),
+            meta: {
+              title: 'Settings - Online Courses & Education'
+            }
+          }
+        ]
       }
     ]
   },

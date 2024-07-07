@@ -424,7 +424,6 @@ header.header-sticky {
   left: 0;
   right: 0;
   z-index: 9002;
-  box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
   animation: stickySlideDown 0.65s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 

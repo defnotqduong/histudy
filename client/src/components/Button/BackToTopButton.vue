@@ -1,12 +1,7 @@
 <template>
-  <div class="fixed bottom-7 right-7 z-[8000] btt-wrapper" :class="{ active: isScroll }">
+  <div class="fixed bottom-7 right-7 z-[9000] btt-wrapper" :class="{ active: isScroll }">
     <button class="button" @click="scrollToTop" role="button" title="Scroll To Top">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        class="w-4 h-4 text-primaryColor absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4 text-primaryColor absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
