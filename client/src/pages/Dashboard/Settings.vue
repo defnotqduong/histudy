@@ -16,8 +16,8 @@
         </li>
       </ul>
     </div>
-    <div>
-      <div class="relative">
+    <div v-show="nav[0].isActive">
+      <div class="relative mb-7">
         <div class="h-[260px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden" :style="{ backgroundImage: 'url(/src/assets/images/bg-image-23.jpg)' }"></div>
         <div class="absolute bottom-8 w-full px-12">
           <div class="flex items-end justify-between">
@@ -60,6 +60,62 @@
           </div>
         </div>
       </div>
+      <form>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-6">
+            <label for="name" class="block mb-3 text-sm text-headingColor font-bold">Name</label>
+            <input id="name" type="text" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+          <div class="col-span-6">
+            <label for="username" class="block mb-3 text-sm text-headingColor font-bold">User Name</label>
+            <input id="username" type="text" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+        </div>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-6">
+            <label for="phone_number" class="block mb-3 text-sm text-headingColor font-bold">Phone Number</label>
+            <input id="phone_number" type="text" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+          <div class="col-span-6">
+            <label for="email" class="block mb-3 text-sm text-headingColor font-bold">Email</label>
+            <input id="email" type="email" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+        </div>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-12">
+            <label for="bio" class="block mb-3 text-sm text-headingColor font-bold">Bio</label>
+            <textarea id="bio" rows="5" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+        </div>
+        <div class="mt-2"><GradientButtonV2 :func="updateInfo" :content="'Update Info'" /></div>
+      </form>
+    </div>
+    <div v-show="nav[1].isActive">
+      <form>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-12">
+            <label for="password" class="block mb-3 text-sm text-headingColor font-bold">Password</label>
+            <input id="password" type="text" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+        </div>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-12">
+            <label for="new_password" class="block mb-3 text-sm text-headingColor font-bold">New Password</label>
+            <input id="new_password" type="text" class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor" />
+          </div>
+        </div>
+        <div class="grid grid-cols-12 gap-7">
+          <div class="col-span-12">
+            <label for="password_confirmation" class="block mb-3 text-sm text-headingColor font-bold">Re-Type New Password</label>
+            <input
+              id="password_confirmation"
+              type="text"
+              class="w-full px-5 py-[10px] mb-4 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            />
+          </div>
+        </div>
+        <div class="mt-2"><GradientButtonV2 :func="updateInfo" :content="'Update Password'" /></div>
+      </form>
     </div>
   </div>
 </template>
@@ -67,9 +123,10 @@
 <script>
 import { defineComponent, reactive } from 'vue'
 import CourseCardV4 from '@/components/Course/CourseCard/CourseCardV4.vue'
+import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
 
 export default defineComponent({
-  components: { CourseCardV4 },
+  components: { CourseCardV4, GradientButtonV2 },
   setup() {
     const nav = reactive([
       {
@@ -99,7 +156,11 @@ export default defineComponent({
 
     const handleFilePhotoUpload = e => {}
 
-    return { nav, setActive, handleFileAvatarUpload, handleFilePhotoUpload }
+    const updateInfo = () => {
+      alert('update info')
+    }
+
+    return { nav, setActive, handleFileAvatarUpload, handleFilePhotoUpload, updateInfo }
   },
   methods: {
     scrollToTop() {
