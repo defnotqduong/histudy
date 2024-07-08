@@ -5,7 +5,7 @@
     </div>
     <div class="container mx-auto px-4 relative mt-[-175px]">
       <ProfileOverview class="mb-8" />
-      <div class="grid grid-cols-12">
+      <div class="grid grid-cols-12 gap-8">
         <SideBar class="col-span-3" />
         <div class="col-span-9">
           <router-view></router-view>

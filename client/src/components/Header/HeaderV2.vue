@@ -186,21 +186,10 @@
                       <ul>
                         <li>
                           <router-link :to="{ name: 'dashboard' }">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                              <g clip-path="url(#clip0_15_3)">
-                                <rect width="24" height="24" fill="white" />
-                                <path
-                                  d="M9 21H4C3.44772 21 3 20.5523 3 20V12.4142C3 12.149 3.10536 11.8946 3.29289 11.7071L11.2929 3.70711C11.6834 3.31658 12.3166 3.31658 12.7071 3.70711L20.7071 11.7071C20.8946 11.8946 21 12.149 21 12.4142V20C21 20.5523 20.5523 21 20 21H15M9 21H15M9 21V15C9 14.4477 9.44772 14 10 14H14C14.5523 14 15 14.4477 15 15V21"
-                                  stroke="currentColor"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                />
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_15_3">
-                                  <rect width="24" height="24" fill="white" />
-                                </clipPath>
-                              </defs>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                              <path
+                                d="M12.56,2.171a1,1,0,0,0-1.12,0l-8,5.4A1,1,0,0,0,3,8.4V21a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V8.4a1,1,0,0,0-.44-.829ZM14,20H10V14h4Zm5,0H16V13a1,1,0,0,0-1-1H9a1,1,0,0,0-1,1v7H5V8.932l7-4.725,7,4.725Z"
+                              />
                             </svg>
                             <span>Dashboard</span>
                           </router-link>
@@ -221,14 +210,10 @@
                         </li>
                         <li>
                           <a href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
-                              <g>
-                                <g>
-                                  <path
-                                    d="m475.5,475.9l-29.5-329.4c-0.9-10.5-9.8-18.6-20.5-18.6h-77.5c-18.1-59.3-49.1-116.9-92-116.9-43,0-73.9,57.6-92.2,116.9h-77.5c-10.6,0-19.5,8.1-20.5,18.6l-29.6,332.3c-1.1,14.8 9.2,22.2 20.5,22.2h398.7c0.1,0 0.1,0 0.2,0 13,0 21.5-11.2 19.9-25.1zm-219.5-424.1c14.3-1.42109e-14 33.8,34 48.7,76.1h-97.4c14.8-42.1 34.4-76.1 48.7-76.1zm-177,408.4l26.1-291.4h48.1c-5.8,26.9-8.7,51.2-8.7,67.2 0,11.3 9.2,20.4 20.5,20.4s20.5-9.1 20.5-20.4c0-19.8 3.7-43.5 9.5-67.2h121.9c5.8,23.7 9.5,47.4 9.5,67.2 0,11.3 9.2,20.4 20.5,20.4 11.3,0 20.5-9.1 20.5-20.4 0-16-2.9-40.3-8.7-67.2h48.1l26.1,291.4h-353.9z"
-                                  />
-                                </g>
-                              </g>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                              <line x1="3" y1="6" x2="21" y2="6" />
+                              <path d="M16 10a4 4 0 01-8 0" />
                             </svg>
                             <span> Enrolled Courses </span>
                           </a>

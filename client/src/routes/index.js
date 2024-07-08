@@ -31,7 +31,7 @@ const routes = [
         }
       },
       {
-        path: 'courses',
+        path: '/courses',
         name: 'courses',
         component: () => import('@/pages/Course/Course.vue'),
         meta: {
@@ -39,7 +39,7 @@ const routes = [
         }
       },
       {
-        path: 'course-details/:slug',
+        path: '/course-details/:slug',
         name: 'course-details',
         component: () => import('@/pages/Course/CourseDetail.vue'),
         meta: {
@@ -47,7 +47,7 @@ const routes = [
         }
       },
       {
-        path: 'dashboard',
+        path: '/dashboard',
         name: 'dashboard-layout',
         component: () => import('@/layouts/Dashboard.vue'),
         children: [
@@ -60,7 +60,31 @@ const routes = [
             }
           },
           {
-            path: 'settings',
+            path: '/profile',
+            name: 'profile',
+            component: () => import('@/pages/Dashboard/Profile.vue'),
+            meta: {
+              title: 'Profile - Online Courses & Education'
+            }
+          },
+          {
+            path: '/enrolled-course',
+            name: 'enrolled-course',
+            component: () => import('@/pages/Dashboard/EnrolledCourse.vue'),
+            meta: {
+              title: 'Enrolled Course - Online Courses & Education'
+            }
+          },
+          {
+            path: '/wishlist',
+            name: 'wishlist',
+            component: () => import('@/pages/Dashboard/Wishlist.vue'),
+            meta: {
+              title: 'Wishlist - Online Courses & Education'
+            }
+          },
+          {
+            path: '/settings',
             name: 'settings',
             component: () => import('@/pages/Dashboard/Settings.vue'),
             meta: {
