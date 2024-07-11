@@ -1,12 +1,12 @@
 <template>
-  <div class="relative">
+  <main class="relative">
     <TopBannerV2 />
     <HeaderV2 />
     <router-view></router-view>
     <CartSideMenu />
     <BackToTopButton />
     <Footer />
-  </div>
+  </main>
 </template>
 
 <script>

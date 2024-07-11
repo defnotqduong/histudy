@@ -1,6 +1,6 @@
 <template>
   <div
-    class="side-bar relative z-10 p-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
+    class="side-bar sticky top-24 z-10 p-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
   >
     <div class="mb-5">
       <h6 class="text-xs text-headingColor font-extrabold opacity-50 uppercase">WELCOME, JONE DUE</h6>

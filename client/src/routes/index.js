@@ -49,7 +49,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'dashboard-layout',
-        component: () => import('@/layouts/Dashboard.vue'),
+        component: () => import('@/layouts/DashboardLayout.vue'),
         children: [
           {
             path: '',
@@ -96,6 +96,21 @@ const routes = [
     ]
   },
   {
+    path: '/lesson',
+    name: 'lesson-layout',
+    component: () => import('@/layouts/LessonLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'lesson',
+        component: () => import('@/pages/Lesson/Lesson.vue'),
+        meta: {
+          title: 'Lesson - Online Courses & Education'
+        }
+      }
+    ]
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'error',
     component: () => import('@/pages/Error/Error.vue')
@@ -108,7 +123,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'LMS'
+  document.title = to.meta.title || 'Online Courses & Education'
   next()
 })
 
