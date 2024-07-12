@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <div class="min-h-[300px] relative">
       <div class="absolute top-0 left-0 z-[-2] w-full h-full bg-gradient11 after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:z-[-1] after:bg-overlay01"></div>
     </div>
