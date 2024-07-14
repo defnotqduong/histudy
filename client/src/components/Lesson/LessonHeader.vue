@@ -1,5 +1,5 @@
 <template>
-  <div class="h-14 px-4 text-whiteColor bg-primaryColor">
+  <div class="h-12 px-4 text-whiteColor bg-primaryColor">
     <div class="w-full h-full flex items-center justify-between">
       <div>
         <h3 class="text-lg font-bold">The Complete Histudy 2023: From Zero to Expert!</h3>

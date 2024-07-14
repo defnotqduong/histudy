@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-[360px] border-l-[1px] border-borderColor overflow-auto custom-scrollbar">
+  <div class="h-full w-[360px] border-r-[1px] border-borderColor overflow-auto custom-scrollbar">
     <div class="p-4 border-b-[1px] border-borderColor">
       <div class="h-full text-xl text-headingColor font-extrabold flex items-center justify-start gap-3">Course Content</div>
     </div>
@@ -8,7 +8,7 @@
         <div class="collapse collapse-arrow">
           <input type="checkbox" class="peer" />
           <div class="collapse-title text-base font-bold text-headingColor bg-whiteColor transition-all duration-150 ease-in-out peer-checked:text-primaryColor">
-            Course Fundamentals <span class="ml-2 py-[2px] px-3 text-sm rounded-md bg-grayLightColor">1/2</span>
+            Course Fundamentals {{ i }} <span class="ml-2 py-[2px] px-3 text-sm rounded-md bg-grayLightColor">1/2</span>
           </div>
           <div class="collapse-content peer-checked:bg-whiteColor">
             <ul>
