@@ -20,6 +20,5 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/profile', [AuthController::class, 'profile']);
-    Route::get('/checkTokenExpiration', [AuthController::class, 'checkTokenExpiration']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

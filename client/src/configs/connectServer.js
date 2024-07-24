@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { TIMEOUT, KEY_USER_STORAGE } from '@/configs/constantTypes'
+import { TIMEOUT, KEY_USER_STORAGE, KEY_RF_USER_STORAGE } from '@/configs/constantTypes'
+import { refreshToken } from '@/webServices/authorizationService'
 
 const connectServer = config => {
     let headersDefault = {
@@ -16,30 +17,28 @@ const connectServer = config => {
         headers: headers
     })
 
-    //   api.interceptors.response.use(
-    //     response => {
-    //       return response
-    //     },
-    //     async error => {
-    //       const originalRequest = error.config
-    //       if (error.response?.status === 401 && !originalRequest._retry) {
-    //         originalRequest._retry = true
+    api.interceptors.response.use(
+        response => {
+            return response
+        },
+        async error => {
+            const originalRequest = error.config
+            if (error.response?.status === 401 && !originalRequest._retry) {
+                originalRequest._retry = true
 
-    //         const access_token = await refTokenUserStore()
+                const { access_token, refresh_token } = await refTokenUserStore()
 
-    //         if (!access_token) {
-    //           const userStore = useUserStore()
-    //           userStore.logout()
-    //           window.location.href = '/auth/login'
-    //         } else {
-    //           originalRequest.headers.Authorization = `Bearer ${access_token}`
-    //           return api(originalRequest)
-    //         }
-    //       } else {
-    //         return Promise.reject(error)
-    //       }
-    //     }
-    //   )
+                if (!access_token) {
+                    window.location.href = '/auth/login'
+                } else {
+                    originalRequest.headers.Authorization = `Bearer ${access_token}`
+                    return api(originalRequest)
+                }
+            } else {
+                return Promise.reject(error)
+            }
+        }
+    )
 
     return api
 }
@@ -93,28 +92,49 @@ export const deleted = async (path, data = {}, config = {}) => {
     }
 }
 
-// export const refTokenUserStore = async () => {
-//   try {
-//     const refToken = localDeRefreshUserStore()
-//     const res = await refreshToken({
-//       refresh_token: refToken
-//     })
-//     const { access_token, refresh_token } = res.data
+export const refTokenUserStore = async () => {
+    try {
+        const refToken = localDeRefreshUserStore()
+        const res = await refreshToken({
+            refresh_token: refToken
+        })
+        const { access_token, refresh_token } = res.data
 
-//     return access_token
-//   } catch (error) {
-//     console.log('Error refreshing access token:', error)
-//     return null
-//   }
-// }
+        return { access_token, refresh_token }
+    } catch (error) {
+        console.log('Error refreshing access token:', error)
+        return null
+    }
+}
 
 export const localEnUserStore = str => {
     if (!str) return
     localStorage.setItem(KEY_USER_STORAGE, JSON.stringify(str))
 }
 
-export const removeUserStore = str => {
+export const localEnRefreshUserStore = str => {
+    if (!str) return
+    localStorage.setItem(KEY_RF_USER_STORAGE, JSON.stringify(str))
+}
+
+export const removeUserStore = () => {
     localStorage.removeItem(KEY_USER_STORAGE)
+}
+
+export const removeRefreshUserStore = () => {
+    localStorage.removeItem(KEY_RF_USER_STORAGE)
+}
+
+export const localDeRefreshUserStore = str => {
+    if (!str) {
+        str = localStorage.getItem(KEY_RF_USER_STORAGE)
+    }
+    if (!str) return null
+    try {
+        return JSON.parse(str)
+    } catch (error) {
+        return null
+    }
 }
 
 export const localDeUserStore = str => {

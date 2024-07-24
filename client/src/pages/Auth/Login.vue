@@ -48,14 +48,17 @@
                 </div>
                 <form class="form">
                     <div class="input-group">
-                        <input type="text" name="email" id="email" placeholder="Email" />
+                        <input type="text" name="email" id="email" v-model="email" placeholder="Email" />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
                             <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="#19233550" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             <rect x="3" y="5" width="18" height="14" rx="2" stroke="#19233550" stroke-width="1.5" stroke-linecap="round" />
                         </svg>
                     </div>
+                    <div v-if="errors?.email && errors?.email.length > 0">
+                        <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+                    </div>
                     <div class="input-group">
-                        <input :type="isShowPassword ? 'text' : 'password'" name="password" id="password" placeholder="Password" />
+                        <input :type="isShowPassword ? 'text' : 'password'" name="password" id="password" v-model="password" placeholder="Password" />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
                             <path
                                 d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
@@ -78,6 +81,9 @@
                             </svg>
                         </button>
                     </div>
+                    <div v-if="errors?.password && errors?.password.length > 0">
+                        <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+                    </div>
                     <div class="flex items-center justify-between mt-4 mb-6">
                         <div class="remember"><Checkbox />Remember me</div>
                         <div class="forgot">
@@ -85,7 +91,7 @@
                         </div>
                     </div>
                     <div class="sign">
-                        <GradientButtonV2 :content="'Log in'" :func="login" />
+                        <GradientButtonV2 :content="'Log in'" :func="login" :loading="loading" />
                     </div>
                 </form>
                 <p class="link">
@@ -99,19 +105,50 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { loginUser } from '@/webServices/authorizationService'
+
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
 import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
+
 export default defineComponent({
     components: { Checkbox, GradientButtonV1, GradientButtonV2 },
     setup() {
+        const router = useRouter()
+
+        const email = ref('')
+        const password = ref('')
+
+        const errors = ref(null)
+        const loading = ref(false)
+
         const isShowPassword = ref(false)
 
         const login = async () => {
-            alert('Login')
+            loading.value = true
+            errors.value = null
+
+            const res = await loginUser({
+                email: email.value,
+                password: password.value
+            })
+
+            if (!res.success) {
+                errors.value = res.data.error
+                loading.value = false
+                return
+            }
+
+            if (res.success) {
+                userStore.login(res.data.access_token, res.data.refresh_token, res.data.user)
+                router.push('/')
+            }
         }
 
         return {
+            email,
+            password,
             isShowPassword,
             login
         }

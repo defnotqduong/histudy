@@ -1,2 +1,3 @@
 import { useHomeStore } from './modules/homeStore'
-export { useHomeStore }
+import { useUserStore } from './modules/userStore'
+export { useHomeStore, useUserStore }
