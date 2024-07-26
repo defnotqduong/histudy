@@ -1,9 +1,17 @@
 <template>
-    <button class="button" @click.prevent="func" :disabled="loading">{{ content }}</button>
+    <button class="button" @click.prevent="func">
+        <template v-if="loading">
+            <LoadingV1 />
+        </template>
+        <template v-else>
+            {{ content }}
+        </template>
+    </button>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 export default defineComponent({
     props: {
         content: String,
@@ -12,12 +20,16 @@ export default defineComponent({
             type: Boolean,
             default: false
         }
-    }
+    },
+    components: { LoadingV1 }
 })
 </script>
 
 <style scoped>
 .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 50px;
     padding: 0 28px;
     font-size: 16px;

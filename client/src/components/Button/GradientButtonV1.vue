@@ -15,6 +15,7 @@ export default defineComponent({
 <style scoped>
 .button {
   width: 100%;
+  min-width: 120px;
   margin: auto;
   padding: 0.7rem;
   align-items: center;
