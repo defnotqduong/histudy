@@ -556,14 +556,14 @@ header.header-sticky {
   top: 100%;
   visibility: visible;
   opacity: 1;
-  clip: rect(0, 100vw, 200vh, -30px);
+  clip: rect(0, 100vw, 200vh, -20px);
 }
 
 .search-container.active {
   top: 100%;
   visibility: visible;
   opacity: 1;
-  clip: rect(0, 100vw, 200vh, -30px);
+  clip: rect(0, 100vw, 200vh, -20px);
 }
 
 @keyframes stickySlideDown {

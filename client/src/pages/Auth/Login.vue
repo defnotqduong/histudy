@@ -113,10 +113,10 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
-import { loginUser } from '@/webServices/authorizationService'
+import { loginUser, getUserProfile } from '@/webServices/authorizationService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -128,30 +128,31 @@ export default defineComponent({
     const router = useRouter()
     const userStore = useUserStore()
 
-    const email = ref('')
-    const password = ref('')
+    const user = reactive({
+      email: '',
+      password: ''
+    })
 
     const errors = ref({})
     const loading = ref(false)
-
     const isShowPassword = ref(false)
 
     const login = async () => {
       loading.value = true
       errors.value = {}
 
-      if (!email.value) {
+      if (!user.email) {
         errors.value.email = errors.value.email || []
         errors.value.email.push('Email is required')
-      } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+      } else if (!/\S+@\S+\.\S+/.test(user.email)) {
         errors.value.email = errors.value.email || []
         errors.value.email.push('Email format is invalid')
       }
 
-      if (!password.value) {
+      if (!user.password) {
         errors.value.password = errors.value.password || []
         errors.value.password.push('Password is required')
-      } else if (password.value.length < 5) {
+      } else if (user.password.length < 5) {
         errors.value.password = errors.value.password || []
         errors.value.password.push('Password must be at least 5 characters')
       }
@@ -162,8 +163,8 @@ export default defineComponent({
       }
 
       const res = await loginUser({
-        email: email.value,
-        password: password.value
+        email: user.email,
+        password: user.password
       })
 
       if (!res.success) {
@@ -173,14 +174,15 @@ export default defineComponent({
       }
 
       if (res.success) {
-        userStore.login(res.data.access_token, res.data.refresh_token, res.data.user)
+        userStore.login(res.data.access_token, res.data.refresh_token)
+        const userData = await getUserProfile()
+        userStore.getUser(userData.user)
         router.push({ name: 'home' })
       }
     }
 
     return {
-      email,
-      password,
+      ...toRefs(user),
       isShowPassword,
       errors,
       loading,
@@ -236,7 +238,7 @@ export default defineComponent({
 .input-group input {
   width: 100%;
   border-radius: 0.375rem;
-  border: 1px solid;
+  border: 1.5px solid;
   @apply border-borderColor;
   outline: 0;
   padding: 0.5rem 1rem 0.5rem 2rem;

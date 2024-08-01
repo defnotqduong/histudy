@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { TIMEOUT } from '@/configs/constantTypes'
 import { refTokenUserStore, gtka } from '@/helpers/localStorageHelper'
+import { useUserStore } from '@/stores'
 
 const connectServer = config => {
+  const userStore = useUserStore()
+
   let headersDefault = {
     'Content-Type': 'application/json; charset=utf-8'
   }
@@ -29,6 +32,7 @@ const connectServer = config => {
         const { access_token, refresh_token } = await refTokenUserStore()
 
         if (!access_token) {
+          userStore.logout()
           window.location.href = '/auth/login'
         } else {
           originalRequest.headers.Authorization = `Bearer ${access_token}`

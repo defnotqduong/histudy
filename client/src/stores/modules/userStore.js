@@ -1,20 +1,17 @@
 import { defineStore } from 'pinia'
 import { USER_STORE } from '@/configs/storeTypes'
-import {
-  removeUserStore,
-  removeRefreshUserStore,
-  localEnUserStore,
-  localEnRefreshUserStore
-} from '@/helpers/localStorageHelper'
+import { removeUserStore, removeRefreshUserStore, localEnUserStore, localEnRefreshUserStore } from '@/helpers/localStorageHelper'
 
 export const useUserStore = defineStore(USER_STORE, {
   state: () => ({
     user: null
   }),
   actions: {
-    login(accToken, refToken, user) {
+    login(accToken, refToken) {
       localEnUserStore(accToken)
       localEnRefreshUserStore(refToken)
+    },
+    getUser(user) {
       this.user = user
     },
     logout() {
@@ -22,6 +19,5 @@ export const useUserStore = defineStore(USER_STORE, {
       removeRefreshUserStore()
       this.user = null
     }
-  },
-  persist: true
+  }
 })

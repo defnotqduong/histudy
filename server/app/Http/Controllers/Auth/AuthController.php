@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login']]);
+        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh']]);
     }
 
 
@@ -89,7 +89,7 @@ class AuthController extends Controller
     public function profile()
     {
         try {
-            return response()->json(Auth::user());
+            return response()->json(['success' => true, 'user' => Auth::user()], 200);
         } catch (JWTException $e) {
             return response()->json(['success' => false, 'error' => 'Unauthorized'], 401);
         }
