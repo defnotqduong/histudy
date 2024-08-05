@@ -80,8 +80,15 @@ export default {
       },
       maxHeight: {
         inherit: 'inherit'
-      }
+      },
+      stroke: theme => ({
+        primary: theme('colors.primaryColor'),
+        secondary: theme('colors.secondaryColor')
+      })
     }
+  },
+  variants: {
+    stroke: ['responsive', 'hover', 'focus']
   },
   daisyui: {
     themes: []

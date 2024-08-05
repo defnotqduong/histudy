@@ -1,11 +1,7 @@
 <template>
   <button class="button" @click.prevent="handleClick">
-    <template v-if="loading">
-      <LoadingV1 />
-    </template>
-    <template v-else>
-      {{ content }}
-    </template>
+    <LoadingV1 v-if="loading" />
+    <span v-else>{{ content }}</span>
   </button>
 </template>
 

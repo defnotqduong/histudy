@@ -11,6 +11,8 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useHomeStore } from '@/stores'
+
 import TopBannerV2 from '@/components/TopBanner/TopBannerV2.vue'
 import HeaderV1 from '@/components/Header/HeaderV1.vue'
 import HeaderV2 from '@/components/Header/HeaderV2.vue'
@@ -25,6 +27,11 @@ export default defineComponent({
     CartSideMenu,
     BackToTopButton,
     Footer
+  },
+  setup() {
+    const homeStore = useHomeStore()
+
+    return { homeStore }
   }
 })
 </script>

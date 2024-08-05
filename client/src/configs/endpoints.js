@@ -1,5 +1,5 @@
 export default {
-  //user
+  // User
   REGISTER_USER_API: {
     method: 'post',
     url: '/auth/register'
@@ -19,5 +19,11 @@ export default {
   LOGOUT_USER_API: {
     method: 'post',
     url: '/auth/logout'
+  },
+
+  // Course
+  CREATE_COURSE_API: {
+    method: 'post',
+    url: '/course'
   }
 }

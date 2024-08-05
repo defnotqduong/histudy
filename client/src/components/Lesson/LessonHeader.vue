@@ -16,7 +16,14 @@
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-5 h-5 text-whiteColor transition-all duration-[400ms] group-hover:text-primaryColor"
           >
             <g>
-              <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                id="Vector"
+                d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </g>
           </svg>
         </button>
@@ -27,15 +34,22 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {},
-  setup() {},
-  methods: {
-    goBack() {
-      this.$router.go(-1)
+  setup() {
+    const router = useRouter()
+
+    const goBack = () => {
+      router.back()
     }
-  }
+
+    return {
+      goBack
+    }
+  },
+  methods: {}
 })
 </script>
 

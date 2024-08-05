@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { TIMEOUT } from '@/configs/constantTypes'
-import { refTokenUserStore, gtka } from '@/helpers/localStorageHelper'
+import { refTokenUserStore, localEnUserStore, localEnRefreshUserStore, gtka } from '@/helpers/localStorageHelper'
 import { useUserStore } from '@/stores'
 
 const connectServer = config => {
@@ -35,6 +35,8 @@ const connectServer = config => {
           userStore.logout()
           window.location.href = '/auth/login'
         } else {
+          localEnUserStore(access_token)
+          localEnRefreshUserStore(refresh_token)
           originalRequest.headers.Authorization = `Bearer ${access_token}`
           return api(originalRequest)
         }

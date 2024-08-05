@@ -23,17 +23,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $messages = [
-            'name.required' => 'Name is required',
-            'name.string' => 'Name must be a string',
-            'email.required' => 'Email is required',
-            'email.email' => 'Email format is invalid',
-            'email.max' => 'Email may not be greater than 100 characters',
-            'email.unique' => 'This email is already registered',
-            'password.required' => 'Password is required',
-            'password.string' => 'Password must be a string',
-            'password.confirmed' => 'Password confirmation does not match',
-            'password.min' => 'Password must be at least 5 characters',
-            'password.max' => 'Password may not be greater than 100 characters',
+            'name.required' => 'Name is required.',
+            'name.string' => 'Name must be a string.',
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email format is invalid.',
+            'email.max' => 'Email may not be greater than 100 characters.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'Password is required.',
+            'password.string' => 'Password must be a string.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least 5 characters.',
+            'password.max' => 'Password may not be greater than 100 characters.',
         ];
 
         $validator = Validator::make($request->all(), [
@@ -61,12 +61,12 @@ class AuthController extends Controller
     {
 
         $messages = [
-            'email.required' => 'Email is required',
-            'email.email' => 'Email format is invalid',
-            'password.required' => 'Password is required',
-            'password.string' => 'Password must be a string',
-            'password.min' => 'Password must be at least 5 characters',
-            'password.max' => 'Password may not be greater than 100 characters',
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email format is invalid.',
+            'password.required' => 'Password is required.',
+            'password.string' => 'Password must be a string.',
+            'password.min' => 'Password must be at least 5 characters.',
+            'password.max' => 'Password may not be greater than 100 characters.',
         ];
 
         $validator = Validator::make($request->all(), [

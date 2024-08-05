@@ -96,6 +96,27 @@ const routes = [
             }
           }
         ]
+      },
+      {
+        path: '/create-course',
+        name: 'create-course-layout',
+        component: () => import('@/layouts/CreateCourseLayout.vue'),
+        meta: {
+          isAuthenticated: true,
+          title: 'Create Course - Online Courses & Education'
+        },
+        children: [
+          {
+            path: '',
+            name: 'create-course-overview',
+            component: () => import('@/pages/Course/CreateCourseOverview.vue')
+          },
+          {
+            path: ':slug',
+            name: 'create-course-details',
+            component: () => import('@/pages/Course/CreateCourseDetails.vue')
+          }
+        ]
       }
     ]
   },
