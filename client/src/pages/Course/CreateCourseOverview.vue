@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-[75vh] py-20">
+  <div class="py-20">
     <div class="container mx-auto px-4">
-      <div class="w-[60%] mx-auto">
+      <div class="min-h-[50vh] w-[60%] mx-auto">
         <h2 class="text-2xl font-extrabold text-headingColor">Name your course</h2>
         <p>What would you like to name your course? Don't worrry, you can change this later.</p>
         <form class="form">
@@ -89,7 +89,7 @@ export default defineComponent({
           return
         }
         loading.value = false
-        onChangeToast({ show: true, message: 'Course created Successfully !' })
+        onChangeToast({ show: true, type: 'success', message: 'Course created Successfully !' })
         setTimeout(() => {
           router.push({ name: 'create-course-details', params: { slug: res.data.slug } })
         }, 800)

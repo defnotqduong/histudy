@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('title');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->longText('thumb_url')->nullable();
             $table->float('price')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index('category_id');
+            $table->index(['user_id', 'slug', 'category_id']);
         });
     }
 

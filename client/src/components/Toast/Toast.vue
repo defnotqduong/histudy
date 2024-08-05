@@ -1,7 +1,14 @@
 <template>
   <div class="toast toast-top toast-center z-[20000]">
-    <div class="alert py-2 px-4 flex items-center justify-center gap-2 rounded-2xl bg-successColor text-whiteColor">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <div
+      class="alert py-2 px-4 flex items-center justify-center gap-2 rounded-2xl text-whiteColor"
+      :class="{
+        'bg-successColor': type === 'success',
+        'bg-warningColor': type === 'warning',
+        'bg-dangerColor': type === 'error'
+      }"
+    >
+      <svg v-if="type === 'success'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -18,8 +25,14 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
-    message: String,
-    default: ''
+    type: {
+      type: String,
+      default: 'success'
+    },
+    message: {
+      type: String,
+      default: ''
+    }
   },
   setup() {}
 })

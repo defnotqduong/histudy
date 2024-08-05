@@ -29,4 +29,9 @@ class Course extends Model
 
         return self::create($data);
     }
+
+    public static function findBySlug($slug)
+    {
+        return self::where('slug', $slug)->first();
+    }
 }

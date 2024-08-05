@@ -25,5 +25,9 @@ export default {
   CREATE_COURSE_API: {
     method: 'post',
     url: '/course'
+  },
+  GET_COURSE_API: {
+    method: 'get',
+    url: '/course'
   }
 }

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Models\Course;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,5 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
 
 Route::group(['prefix' => 'course', 'middleware' => 'api'], function () {
     Route::post('/', [CourseController::class, 'createCourse']);
+    Route::get('/{slug}', [CourseController::class, 'getCourse']);
 });
