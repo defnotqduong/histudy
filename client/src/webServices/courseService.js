@@ -8,3 +8,7 @@ export const createCourse = dataPost => {
 export const getCourse = (slug, dataPost) => {
   return connectServer[api.GET_COURSE_API.method](api.GET_COURSE_API.url + '/' + slug, dataPost)
 }
+
+export const updateCourse = (slug, dataPost) => {
+  return connectServer[api.UPDATE_COURSE_API.method](api.UPDATE_COURSE_API.url + '/' + slug, dataPost)
+}

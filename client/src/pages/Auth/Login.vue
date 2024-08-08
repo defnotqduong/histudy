@@ -138,6 +138,8 @@ export default defineComponent({
     const isShowPassword = ref(false)
 
     const login = async () => {
+      if (loading.value) return
+
       loading.value = true
       errors.value = {}
 
@@ -167,8 +169,10 @@ export default defineComponent({
         password: user.password
       })
 
+      console.log(res)
+
       if (!res.success) {
-        errors.value = res.data.error
+        errors.value = res.data.errors
         loading.value = false
         return
       }

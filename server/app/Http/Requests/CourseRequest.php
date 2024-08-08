@@ -22,7 +22,7 @@ class CourseRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'thumb_url' => 'nullable|string',
@@ -30,6 +30,12 @@ class CourseRequest extends FormRequest
             'is_published' => 'nullable|boolean',
             'category_id' => 'nullable|exists:categories,id',
         ];
+
+        if ($this->isMethod('patch')) {
+            $rules['title'] = 'sometimes|required|string|max:255';
+        }
+
+        return $rules;
     }
 
     /**

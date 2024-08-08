@@ -29,5 +29,9 @@ export default {
   GET_COURSE_API: {
     method: 'get',
     url: '/course'
+  },
+  UPDATE_COURSE_API: {
+    method: 'patch',
+    url: '/course'
   }
 }

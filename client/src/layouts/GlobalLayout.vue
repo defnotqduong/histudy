@@ -5,6 +5,7 @@
     <router-view></router-view>
     <CartSideMenu />
     <BackToTopButton />
+    <Toast v-if="homeStore.toast.isShow" :type="homeStore.toast.type" :message="homeStore.toast.message" />
     <Footer />
   </main>
 </template>
@@ -18,6 +19,7 @@ import HeaderV1 from '@/components/Header/HeaderV1.vue'
 import HeaderV2 from '@/components/Header/HeaderV2.vue'
 import CartSideMenu from '@/components/Cart/CartSideMenu.vue'
 import BackToTopButton from '@/components/Button/BackToTopButton.vue'
+import Toast from '@/components/Toast/Toast.vue'
 import Footer from '@/components/Footer/Footer.vue'
 export default defineComponent({
   components: {
@@ -26,6 +28,7 @@ export default defineComponent({
     HeaderV2,
     CartSideMenu,
     BackToTopButton,
+    Toast,
     Footer
   },
   setup() {

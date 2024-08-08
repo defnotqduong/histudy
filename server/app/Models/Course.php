@@ -22,6 +22,16 @@ class Course extends Model
         'category_id',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function createCourse($data)
     {
         $data['user_id'] = Auth::id();
@@ -33,5 +43,13 @@ class Course extends Model
     public static function findBySlug($slug)
     {
         return self::where('slug', $slug)->first();
+    }
+
+    public function updateCourse(array $data): bool
+    {
+        if (isset($data['title'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+        return $this->update($data);
     }
 }

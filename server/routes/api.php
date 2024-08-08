@@ -33,4 +33,5 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
 Route::group(['prefix' => 'course', 'middleware' => 'api'], function () {
     Route::post('/', [CourseController::class, 'createCourse']);
     Route::get('/{slug}', [CourseController::class, 'getCourse']);
+    Route::patch('/{slug}', [CourseController::class, 'updateCourse']);
 });

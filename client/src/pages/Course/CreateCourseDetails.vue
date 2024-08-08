@@ -8,7 +8,7 @@
       <div v-else>
         <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
         <p>Complete all fields ({{ completedFields }}/{{ totalFields }})</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
           <div>
             <div class="flex items-center justify-start">
               <div class="p-2 text-primaryColor bg-primaryOpacityColor rounded-full mr-2">
@@ -31,7 +31,8 @@
               </div>
               <h3 class="text-xl font-bold text-headingColor">Customize your course</h3>
             </div>
-            <TitleForm :course="course" />
+            <TitleForm :course="course" :slug="slug" />
+            <DescriptionForm :course="course" :slug="slug" :fetchData="fetchData" />
           </div>
         </div>
       </div>
@@ -40,17 +41,21 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, onMounted, computed } from 'vue'
+import { defineComponent, ref, reactive, watch, onMounted, computed, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useHomeStore } from '@/stores'
 import { getCourse } from '@/webServices/courseService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import TitleForm from '@/components/Course/CreateCourse/TitleForm.vue'
+import DescriptionForm from '@/components/Course/CreateCourse/DescriptionForm.vue'
 export default defineComponent({
-  components: { LoadingV1, TitleForm },
+  components: { LoadingV1, TitleForm, DescriptionForm },
   setup() {
+    const homeStore = useHomeStore()
     const route = useRoute()
     const router = useRouter()
+
     const slug = ref(route.params.slug)
     const course = ref(null)
     const loading = ref(false)
@@ -64,7 +69,7 @@ export default defineComponent({
         return
       }
 
-      course.value = res.data
+      course.value = res.course
       loading.value = false
     }
 

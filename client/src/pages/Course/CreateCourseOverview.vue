@@ -31,7 +31,6 @@
         </form>
       </div>
     </div>
-    <Toast v-show="show" :message="message" />
   </div>
 </template>
 
@@ -42,33 +41,26 @@ import { useHomeStore } from '@/stores'
 import { createCourse } from '@/webServices/courseService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
-import Toast from '@/components/Toast/Toast.vue'
 export default defineComponent({
-  components: { LoadingV1, Toast },
+  components: { LoadingV1 },
   setup() {
     const homeStore = useHomeStore()
     const router = useRouter()
 
     const loading = ref(false)
     const errors = ref({})
-    const toast = reactive({
-      show: false,
-      message: ''
-    })
+
     const course = reactive({
       title: ''
     })
-
-    const onChangeToast = ({ show = flase, message = '' }) => {
-      toast.show = show
-      toast.message = message
-    }
 
     const cancel = () => {
       router.back()
     }
 
     const create = async () => {
+      if (loading.value) return
+
       loading.value = true
       errors.value = {}
 
@@ -84,15 +76,14 @@ export default defineComponent({
         console.log(res)
 
         if (!res.success) {
-          errors.value = res.data.error
+          errors.value = res.data.errors
           loading.value = false
           return
         }
+
         loading.value = false
-        onChangeToast({ show: true, type: 'success', message: 'Course created Successfully !' })
-        setTimeout(() => {
-          router.push({ name: 'create-course-details', params: { slug: res.data.slug } })
-        }, 800)
+        homeStore.onChangeToast({ show: true, type: 'success', message: 'Course created Successfully !' })
+        router.push({ name: 'create-course-details', params: { slug: res.course.slug } })
       }
     }
 
@@ -101,7 +92,6 @@ export default defineComponent({
       loading,
       errors,
       ...toRefs(course),
-      ...toRefs(toast),
       cancel,
       create
     }

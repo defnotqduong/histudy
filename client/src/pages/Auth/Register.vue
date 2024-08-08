@@ -191,6 +191,8 @@ export default defineComponent({
     const isShowPassword = ref(false)
 
     const register = async () => {
+      if (loading.value) return
+
       loading.value = true
       errors.value = {}
 
@@ -235,7 +237,7 @@ export default defineComponent({
       })
 
       if (!res.success) {
-        errors.value = res.data.error
+        errors.value = res.data.errors
         loading.value = false
         return
       }

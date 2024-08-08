@@ -87,6 +87,17 @@ export const put = async (path, data = {}, config = {}) => {
   }
 }
 
+export const patch = async (path, data = {}, config = {}) => {
+  try {
+    path = endpointAccess(path)
+    const res = await connectServer(config).patch(path, data)
+    return res.data
+  } catch (err) {
+    console.log('catch api PATCH: ', err)
+    return err.response
+  }
+}
+
 export const deleted = async (path, data = {}, config = {}) => {
   try {
     path = endpointAccess(path)
@@ -98,4 +109,4 @@ export const deleted = async (path, data = {}, config = {}) => {
   }
 }
 
-export default { get, post, put, deleted, endpointAccess }
+export default { get, post, put, patch, deleted, endpointAccess }

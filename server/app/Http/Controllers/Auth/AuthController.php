@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CourseResource;
+use App\Http\Resources\UserResource;
+use App\Models\Course;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -43,7 +46,7 @@ class AuthController extends Controller
         ], $messages);
 
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()], 422);
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
         $user = User::create(array_merge(
             $validator->validated(),
@@ -75,10 +78,10 @@ class AuthController extends Controller
         ], $messages);
 
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()], 422);
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
         if (!$token = Auth::attempt($validator->validated())) {
-            return response()->json(['success' => false, 'error' => ['email' => ['Wrong account or password'], 'password' => ['Wrong account or password']]], 422);
+            return response()->json(['success' => false, 'errors' => ['email' => ['Wrong account or password'], 'password' => ['Wrong account or password']]], 422);
         }
 
         $refreshToken = $this->createRefreshToken();
@@ -89,7 +92,16 @@ class AuthController extends Controller
     public function profile()
     {
         try {
-            return response()->json(['success' => true, 'user' => Auth::user()], 200);
+            $user = Auth::user();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'user' => new UserResource($user),
+                    'courses' => CourseResource::collection($user->courses)
+                ],
+                200
+            );
         } catch (JWTException $e) {
             return response()->json(['success' => false, 'error' => 'Unauthorized'], 401);
         }

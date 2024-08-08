@@ -33,6 +33,8 @@ export default defineComponent({
 
       const [userData] = await Promise.all([userPromise()])
 
+      console.log(userData)
+
       if (userData?.success) this.userStore.getUser(userData.user)
 
       this.loading = false
