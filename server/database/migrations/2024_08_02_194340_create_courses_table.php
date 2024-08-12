@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->longText('thumb_url')->nullable();
+            $table->string('thumb_public_id')->nullable();
             $table->float('price')->nullable();
             $table->boolean('is_published')->default(false);
 

@@ -17,6 +17,7 @@ class Course extends Model
         'slug',
         'description',
         'thumb_url',
+        'thumb_public_id',
         'price',
         'is_published',
         'category_id',

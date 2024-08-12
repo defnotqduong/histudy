@@ -33,6 +33,7 @@
             </div>
             <TitleForm :course="course" :slug="slug" />
             <DescriptionForm :course="course" :slug="slug" :fetchData="fetchData" />
+            <FileUpload :course="course" :slug="slug" :fetchData="fetchData" />
           </div>
         </div>
       </div>
@@ -49,8 +50,9 @@ import { getCourse } from '@/webServices/courseService'
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import TitleForm from '@/components/Course/CreateCourse/TitleForm.vue'
 import DescriptionForm from '@/components/Course/CreateCourse/DescriptionForm.vue'
+import FileUpload from '@/components/Course/CreateCourse/FileUpload.vue'
 export default defineComponent({
-  components: { LoadingV1, TitleForm, DescriptionForm },
+  components: { LoadingV1, TitleForm, DescriptionForm, FileUpload },
   setup() {
     const homeStore = useHomeStore()
     const route = useRoute()
@@ -104,6 +106,14 @@ export default defineComponent({
       totalFields,
       completedFields
     }
+  },
+  methods: {
+    scrollToTop() {
+      window.scrollTo({ top: 0 })
+    }
+  },
+  created() {
+    this.scrollToTop()
   }
 })
 </script>

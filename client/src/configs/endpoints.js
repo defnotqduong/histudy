@@ -33,5 +33,9 @@ export default {
   UPDATE_COURSE_API: {
     method: 'patch',
     url: '/course'
+  },
+  UPDATE_THUMB_COURSE_API: {
+    method: 'post',
+    url: '/course/update-thumbnail'
   }
 }
