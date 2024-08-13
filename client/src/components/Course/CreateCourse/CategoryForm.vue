@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6 py-4 px-6 bg-lighterColor rounded-md">
+  <div class="mt-4 py-4 px-6 bg-lighterColor rounded-md">
     <div class="font-bold text-headingColor flex items-start justify-between">
       Course category
       <button @click.prevent="toggleEdit" class="flex items-center gap-2">
