@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Models\Course;
 
@@ -35,4 +36,11 @@ Route::group(['prefix' => 'course', 'middleware' => 'api'], function () {
     Route::get('/{slug}', [CourseController::class, 'getCourse']);
     Route::patch('/{slug}', [CourseController::class, 'updateCourse']);
     Route::post('/{slug}/update-thumbnail', [CourseController::class, 'updateCourseThumbnail']);
+});
+
+
+// Category
+
+Route::group(['prefix' => 'category', 'middleware' => 'api'], function () {
+    Route::get('/', [CategoryController::class, 'getAllCategory']);
 });

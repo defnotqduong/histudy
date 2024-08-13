@@ -16,15 +16,20 @@
       </button>
     </div>
 
-    <p v-if="!isEditting" class="mt-2 text-bodyColor italic">{{ description || 'No description' }}</p>
-    <form v-if="isEditting" @submit.prevent="onSubmit" class="space-y-4 mt-4 w-full">
+    <div v-if="!isEditting" class="mt-2 text-headingColor">
+      <span v-if="!description" class="italic text-bodyColor">No description</span>
+      <span v-else>{{ description }}</span>
+    </div>
+    <form v-else @submit.prevent="onSubmit" class="space-y-4 mt-4 w-full">
       <div class="input-group">
         <textarea class="textarea" v-model="description"></textarea>
         <div v-if="errors?.description && errors?.description.length > 0">
           <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-red-500">{{ err }}</p>
         </div>
         <div class="mt-4 flex items-center gap-x-2">
-          <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md">Save</button>
+          <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md" :class="isSubmitting && 'opacity-70'">
+            Save
+          </button>
         </div>
       </div>
     </form>
@@ -73,9 +78,9 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      toggleEdit()
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
       props.fetchData(res.course.slug)
+      toggleEdit()
     }
 
     return { description, isEditting, isSubmitting, errors, toggleEdit, onSubmit }
@@ -92,7 +97,7 @@ export default defineComponent({
   font-size: 16px;
   outline: 0;
   padding: 0.5rem 1rem;
-  @apply bg-whiteColor border-borderColor;
+  @apply text-headingColor bg-whiteColor border-borderColor;
 }
 
 .input-group input:focus,

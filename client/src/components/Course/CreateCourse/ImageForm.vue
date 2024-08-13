@@ -153,9 +153,9 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      toggleEdit()
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
       props.fetchData(res.course.slug)
+      toggleEdit()
     }
 
     return {

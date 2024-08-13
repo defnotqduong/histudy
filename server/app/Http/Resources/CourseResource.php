@@ -24,6 +24,7 @@ class CourseResource extends JsonResource
             'price' => $this->price,
             'is_published' => $this->is_published,
             'category_id' => $this->category_id,
+            'category' => $this->category ? new CategoryResource($this->category) : null,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

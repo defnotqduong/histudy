@@ -157,11 +157,12 @@ export default defineComponent({
 
 .select {
   font-size: 16px;
+  border: 1px solid rgba(204, 204, 204, 1);
   @apply text-bodyColor bg-whiteColor;
 }
 
 .select:focus {
-  @apply outline-none;
+  @apply border-primaryColor outline-none;
 }
 
 .button {

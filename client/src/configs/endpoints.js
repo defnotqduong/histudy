@@ -37,5 +37,11 @@ export default {
   UPDATE_THUMB_COURSE_API: {
     method: 'post',
     url: '/course/update-thumbnail'
+  },
+
+  // Category
+  GET_ALL_CATEGORY_API: {
+    method: 'get',
+    url: '/category'
   }
 }
