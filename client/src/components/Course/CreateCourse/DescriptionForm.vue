@@ -24,7 +24,7 @@
       <div class="input-group">
         <textarea class="textarea" v-model="description"></textarea>
         <div v-if="errors?.description && errors?.description.length > 0">
-          <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+          <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
         </div>
         <div class="mt-4 flex items-center gap-x-2">
           <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md" :class="isSubmitting && 'opacity-70'">
@@ -60,6 +60,7 @@ export default defineComponent({
     const errors = ref({})
 
     const toggleEdit = () => {
+      errors.value = {}
       description.value = originalDescription.value
       isEditting.value = !isEditting.value
     }
@@ -70,7 +71,6 @@ export default defineComponent({
 
       const res = await updateCourse(props.slug, { description: description.value })
 
-      console.log(res)
       if (!res.success) {
         errors.value = res.data.errors
         isSubmitting.value = false
@@ -79,7 +79,7 @@ export default defineComponent({
 
       isSubmitting.value = false
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
-      props.fetchData(res.course.slug)
+      props.fetchData(props.slug)
       toggleEdit()
     }
 
@@ -93,7 +93,7 @@ export default defineComponent({
 .input-group .textarea {
   width: 100%;
   border-radius: 0.375rem;
-  border: 1px solid;
+  border: 1.5px solid;
   font-size: 16px;
   outline: 0;
   padding: 0.5rem 1rem;

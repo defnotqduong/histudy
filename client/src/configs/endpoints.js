@@ -36,7 +36,23 @@ export default {
   },
   UPDATE_THUMB_COURSE_API: {
     method: 'post',
-    url: '/course/update-thumbnail'
+    url: '/course/thumbnail'
+  },
+
+  // Attachment
+  CREATE_ATTACHMENT_COURSE_API: {
+    method: 'post',
+    url: '/course/attachment'
+  },
+  DELETE_ATTACHMENT_COURSE_API: {
+    method: 'deleted',
+    url: '/course/attachment'
+  },
+
+  // Chapter
+  CREATE_CHAPTER_COURSE_API: {
+    method: 'post',
+    url: '/course/chapter'
   },
 
   // Category

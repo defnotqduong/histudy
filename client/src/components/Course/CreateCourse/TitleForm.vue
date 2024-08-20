@@ -21,7 +21,7 @@
       <div class="input-group">
         <input type="text" v-model="title" placeholder="" />
         <div v-if="errors?.title && errors?.title.length > 0">
-          <p v-for="(err, index) in errors?.title" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+          <p v-for="(err, index) in errors?.title" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
         </div>
         <div class="mt-4 flex items-center gap-x-2">
           <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md" :class="isSubmitting && 'opacity-70'">
@@ -56,6 +56,7 @@ export default defineComponent({
     const errors = ref({})
 
     const toggleEdit = () => {
+      errors.value = {}
       title.value = originalTitle.value
       isEditting.value = !isEditting.value
     }
@@ -72,7 +73,6 @@ export default defineComponent({
 
       const res = await updateCourse(props.slug, { title: title.value })
 
-      console.log(res)
       if (!res.success) {
         errors.value = res.data.errors
         isSubmitting.value = false
@@ -94,7 +94,7 @@ export default defineComponent({
 .input-group input {
   width: 100%;
   border-radius: 0.375rem;
-  border: 1px solid;
+  border: 1.5px solid;
   outline: 0;
   padding: 0.5rem 1rem;
   @apply text-headingColor bg-whiteColor border-borderColor;

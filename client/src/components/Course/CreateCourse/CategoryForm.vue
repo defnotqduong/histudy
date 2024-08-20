@@ -28,7 +28,7 @@
         </option>
       </select>
       <div v-if="errors?.description && errors?.description.length > 0">
-        <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+        <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
       </div>
 
       <div class="mt-4 flex items-center gap-x-2">
@@ -65,6 +65,7 @@ export default defineComponent({
     const categories = ref([])
 
     const toggleEdit = () => {
+      errors.value = {}
       isEditting.value = !isEditting.value
     }
 
@@ -78,7 +79,6 @@ export default defineComponent({
 
       const res = await updateCourse(props.slug, { category_id: selectedCategoryId.value })
 
-      console.log(res)
       if (!res.success) {
         errors.value = res.data.errors
         isSubmitting.value = false
@@ -87,7 +87,7 @@ export default defineComponent({
 
       isSubmitting.value = false
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
-      props.fetchData(res.course.slug)
+      props.fetchData(props.slug)
       toggleEdit()
     }
 
@@ -114,7 +114,7 @@ export default defineComponent({
 <style scoped>
 .select {
   font-size: 16px;
-  border: 1px solid rgb(184, 182, 182);
+  border: 1.5px solid rgb(184, 182, 182);
   @apply text-bodyColor bg-whiteColor;
 }
 

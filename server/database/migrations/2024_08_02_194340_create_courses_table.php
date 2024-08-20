@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->longText('thumb_url')->nullable();
-            $table->string('thumb_public_id')->nullable();
+            $table->longText('thumb_public_id')->nullable();
             $table->float('price')->nullable();
             $table->boolean('is_published')->default(false);
 

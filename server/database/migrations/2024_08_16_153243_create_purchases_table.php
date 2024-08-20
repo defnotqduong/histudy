@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attachments', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('url');
-            $table->longText('attachment_public_id')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses');
 
             $table->timestamps();
 
-            $table->index('course_id');
+            $table->index(['user_id', 'course_id']);
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attachments');
+        Schema::dropIfExists('purchases');
     }
 };

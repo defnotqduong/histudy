@@ -65,7 +65,7 @@
               </div>
               <h3 class="text-xl font-bold text-headingColor">Course chapters</h3>
             </div>
-            <div>TODO: Chapters</div>
+            <ChapterForm :course="course" :slug="slug" :chapters="chapters" :fetchData="fetchData" />
             <div class="mt-8 flex items-center justify-start">
               <div class="p-2 text-primaryColor bg-primaryOpacityColor rounded-full mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -97,6 +97,7 @@
               </div>
               <h3 class="text-xl font-bold text-headingColor">Resources & Attachments</h3>
             </div>
+            <AttachmentForm :course="course" :slug="slug" :attachments="attachments" :fetchData="fetchData" />
           </div>
         </div>
       </div>
@@ -116,10 +117,12 @@ import TitleForm from '@/components/Course/CreateCourse/TitleForm.vue'
 import DescriptionForm from '@/components/Course/CreateCourse/DescriptionForm.vue'
 import ImageForm from '@/components/Course/CreateCourse/ImageForm.vue'
 import CategoryForm from '@/components/Course/CreateCourse/CategoryForm.vue'
+import ChapterForm from '@/components/Course/CreateCourse/ChapterForm.vue'
 import PriceForm from '@/components/Course/CreateCourse/PriceForm.vue'
+import AttachmentForm from '@/components/Course/CreateCourse/AttachmentForm.vue'
 
 export default defineComponent({
-  components: { LoadingV1, TitleForm, DescriptionForm, ImageForm, CategoryForm, PriceForm },
+  components: { LoadingV1, TitleForm, DescriptionForm, ImageForm, CategoryForm, ChapterForm, PriceForm, AttachmentForm },
   setup() {
     const homeStore = useHomeStore()
     const route = useRoute()
@@ -128,6 +131,8 @@ export default defineComponent({
     const slug = ref(route.params.slug)
     const course = ref(null)
     const categories = ref([])
+    const attachments = ref([])
+    const chapters = ref([])
     const loading = ref(false)
 
     const fetchData = async slug => {
@@ -140,12 +145,13 @@ export default defineComponent({
       }
 
       course.value = res.course
+      attachments.value = res.course.attachments
+      chapters.value = res.course.chapters
       loading.value = false
     }
 
     const getCategories = async () => {
       const res = await getAllCategory()
-      console.log(res)
       if (res.success) categories.value = [...res.categories]
     }
 
@@ -166,7 +172,8 @@ export default defineComponent({
       course.value?.description,
       course.value?.thumb_url,
       course.value?.price,
-      course.value?.category_id
+      course.value?.category_id,
+      course.value?.chapters.some(chapter => chapter?.isPublished)
     ])
     const totalFields = computed(() => requiredFields.value.length)
     const completedFields = computed(() => requiredFields.value.filter(Boolean).length)
@@ -175,6 +182,8 @@ export default defineComponent({
       slug,
       course,
       categories,
+      attachments,
+      chapters,
       loading,
       fetchData,
       requiredFields,

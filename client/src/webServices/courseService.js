@@ -14,12 +14,31 @@ export const updateCourse = (slug, dataPost) => {
 }
 
 export const updateCourseThumbnail = (slug, dataPost) => {
-  const url = `/course/${slug}/update-thumbnail`
+  const url = `/course/${slug}/thumbnail`
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   }
-
   return connectServer[api.UPDATE_THUMB_COURSE_API.method](url, dataPost, config)
+}
+
+export const createCourseChapter = (slug, dataPost) => {
+  const url = `/course/${slug}/chapter`
+  return connectServer[api.CREATE_CHAPTER_COURSE_API.method](url, dataPost)
+}
+
+export const createCourseAttachment = (slug, dataPost) => {
+  const url = `/course/${slug}/attachment`
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  return connectServer[api.CREATE_ATTACHMENT_COURSE_API.method](url, dataPost, config)
+}
+
+export const deleteCourseAttachment = (slug, id, dataPost) => {
+  const url = `/course/${slug}/attachment/${id}`
+  return connectServer[api.DELETE_ATTACHMENT_COURSE_API.method](url, dataPost)
 }

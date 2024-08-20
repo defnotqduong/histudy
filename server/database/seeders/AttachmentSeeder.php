@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
+use App\Models\Attachment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CourseSeeder extends Seeder
+class AttachmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attachments', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('url');
-            $table->longText('attachment_public_id')->nullable();
+            $table->string('title');
+            $table->longText('description')->nullable();
+            $table->longText('video_url')->nullable();
+            $table->integer('position');
+            $table->boolean('is_published')->default(false);
+            $table->boolean('is_free')->default(false);
 
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-
             $table->timestamps();
 
             $table->index('course_id');
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attachments');
+        Schema::dropIfExists('chapters');
     }
 };

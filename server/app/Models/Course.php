@@ -23,15 +23,27 @@ class Course extends Model
         'category_id',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function user()
+    public function chapters()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Chapter::class)->orderBy('position', 'asc');
     }
+
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class)->orderBy('created_at', 'desc');
+    }
+
 
     public static function createCourse($data)
     {
