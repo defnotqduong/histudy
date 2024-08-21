@@ -42,7 +42,7 @@ const routes = [
       {
         path: '/course-details/:slug',
         name: 'course-details',
-        component: () => import('@/pages/Course/CourseDetail.vue'),
+        component: () => import('@/pages/Course/CourseDetails.vue'),
         meta: {
           title: 'Course Details - Online Courses & Education'
         }
@@ -98,8 +98,8 @@ const routes = [
         ]
       },
       {
-        path: '/create-course',
-        name: 'create-course-layout',
+        path: '/teacher',
+        name: 'create-course',
         component: () => import('@/layouts/CreateCourseLayout.vue'),
         meta: {
           isAuthenticated: true,
@@ -107,14 +107,19 @@ const routes = [
         },
         children: [
           {
-            path: '',
+            path: 'create-course',
             name: 'create-course-overview',
-            component: () => import('@/pages/Course/CreateCourseOverview.vue')
+            component: () => import('@/pages/Course/CreateCourse.vue')
           },
           {
-            path: ':slug',
+            path: 'course/:slug',
             name: 'create-course-details',
             component: () => import('@/pages/Course/CreateCourseDetails.vue')
+          },
+          {
+            path: 'course/:slug/chapter/:id',
+            name: 'course-chapter',
+            component: () => import('@/pages/Course/Chapter.vue')
           }
         ]
       }

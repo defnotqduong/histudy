@@ -54,6 +54,14 @@ export default {
     method: 'post',
     url: '/course/chapter'
   },
+  GET_CHAPTER_COURSE_API: {
+    method: 'get',
+    url: '/course/chapter'
+  },
+  REORDER_CHAPTER_COURSE_API: {
+    method: 'put',
+    url: '/course/chapter'
+  },
 
   // Category
   GET_ALL_CATEGORY_API: {

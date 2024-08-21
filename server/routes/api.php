@@ -43,6 +43,8 @@ Route::group(['prefix' => 'course', 'middleware' => 'api'], function () {
 
     // Chapter
     Route::post('/{slug}/chapter', [ChapterController::class, 'createCourseChapter']);
+    Route::get('/{slug}/chapter/{id}', [ChapterController::class, 'getCourseChapter']);
+    Route::put('/{slug}/chapter/reorder', [ChapterController::class, 'reorderCourseChapter']);
 
     // Attachment
     Route::post('/{slug}/attachment', [AttachmentController::class, 'createCourseAttachment']);

@@ -46,4 +46,57 @@ class ChapterController extends Controller
             'chapter' => new ChapterResource($chapter)
         ], 200);
     }
+
+    public function getCourseChapter(Request $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::findById($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Chapter found',
+            'chapter' => new ChapterResource($chapter)
+        ], 200);
+    }
+
+    public function reorderCourseChapter(Request $request, $slug)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $items = $request->items;
+
+        foreach ($items as $item) {
+            $chapter = Chapter::where('id', $item['id'])
+                ->where('course_id', $course->id)
+                ->first();
+
+            $chapter->update($item);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Chapter reorder Successfully'
+        ], 200);
+    }
 }

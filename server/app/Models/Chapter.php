@@ -31,4 +31,14 @@ class Chapter extends Model
     {
         return self::create($data);
     }
+
+    public static function findById($id)
+    {
+        return self::find($id);
+    }
+
+    public function updateChapter($data)
+    {
+        return $this->update($data);
+    }
 }

@@ -21,7 +21,7 @@
           <div class="flex items-center gap-x-2">
             <div v-if="chapter.is_free" class="px-2 rounded-full bg-primaryColor text-whiteColor text-xs">Free</div>
             <div class="px-2 rounded-full bg-slate-500 text-whiteColor text-xs">{{ chapter.is_published ? 'Published' : 'Draft' }}</div>
-            <button @click.prevent="onEdit(chapter.id)" class="ml-1 hover:opacity-75">
+            <button @click.prevent="onEdit(chapter.id)" class="px-2 py-1 hover:opacity-75">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 24 24">
                 <path
                   d="M17.764,2A4.2,4.2,0,0,0,14.77,3.241L3.155,14.855a1,1,0,0,0-.28.55l-.863,5.438a1,1,0,0,0,1.145,1.145L8.6,21.125a1,1,0,0,0,.55-.28L20.759,9.23a4.236,4.236,0,0,0-3-7.23ZM7.96,19.2,4.2,19.8l.6-3.757,8.39-8.391,3.162,3.162ZM19.345,7.816,17.765,9.4,14.6,6.235l1.581-1.58a2.289,2.289,0,0,1,3.161,0,2.234,2.234,0,0,1,0,3.161Z"
@@ -49,10 +49,18 @@ export default defineComponent({
   setup(props) {
     const chapters = ref(props.chapters)
     const bulkUpdateData = ref([])
+    const isMounted = ref(false)
 
     const onChange = event => {
       if (event.moved) {
         const { newIndex, oldIndex } = event.moved
+
+        if (newIndex === oldIndex) {
+          isMounted.value = false
+          return
+        }
+
+        isMounted.value = true
 
         const startIndex = Math.min(oldIndex, newIndex)
         const endIndex = Math.max(oldIndex, newIndex)
@@ -67,7 +75,10 @@ export default defineComponent({
     }
 
     const onDragEnd = () => {
+      if (!isMounted.value || bulkUpdateData.value.length === 0) return
+
       props.onReorder(bulkUpdateData.value)
+      isMounted.value = false
     }
 
     return {

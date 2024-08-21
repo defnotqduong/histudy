@@ -5,7 +5,7 @@
         <LoadingV1 />
       </div>
 
-      <div v-else>
+      <div v-if="!loading">
         <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
         <p>Complete all fields ({{ completedFields }}/{{ totalFields }})</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">

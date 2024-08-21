@@ -51,7 +51,7 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { createCourseChapter } from '@/webServices/courseService'
+import { createCourseChapter, reorderCourseChapter } from '@/webServices/courseService'
 
 import ChapterList from '@/components/Course/CreateCourse/ChapterList.vue'
 
@@ -108,11 +108,18 @@ export default defineComponent({
     }
 
     const onEdit = async id => {
-      alert(id)
+      router.push({ name: 'course-chapter', params: { slug: props.slug, id: id } })
     }
 
     const onReorder = async bulkUpdateData => {
-      console.log('update', bulkUpdateData)
+      const res = await reorderCourseChapter(props.slug, { items: bulkUpdateData })
+
+      if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Wrong something !' })
+        return
+      }
+
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter reorder Successfully !' })
     }
 
     return { chapters, title, isEditting, isSubmitting, errors, toggleEdit, onSubmit, onEdit, onReorder }
