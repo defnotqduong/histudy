@@ -63,6 +63,11 @@ export default {
     url: '/course/chapter'
   },
 
+  UPDATE_CHAPTER_COURSE_API: {
+    method: 'patch',
+    url: '/course/chapter'
+  },
+
   // Category
   GET_ALL_CATEGORY_API: {
     method: 'get',

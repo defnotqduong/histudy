@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/pm": "^2.6.5",
+    "@tiptap/starter-kit": "^2.6.5",
+    "@tiptap/vue-3": "^2.6.5",
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",

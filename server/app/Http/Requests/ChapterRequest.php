@@ -22,7 +22,7 @@ class ChapterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'video_url' => 'nullable|url',
@@ -30,6 +30,12 @@ class ChapterRequest extends FormRequest
             'isPublished' => 'boolean',
             'isFree' => 'boolean',
         ];
+
+        if ($this->isMethod('patch')) {
+            $rules['title'] = 'sometimes|required|string|max:255';
+        }
+
+        return $rules;
     }
 
     /**
@@ -40,11 +46,9 @@ class ChapterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'The title is required.',
-            'title.string' => 'The title must be a string.',
-            'title.max' => 'The title must not exceed 255 characters.',
-            'position.required' => 'The position is required.',
-            'position.integer' => 'The position must be an integer.',
+            'title.required' => 'The chapter title is required.',
+            'title.string' => 'The chapter title must be a string.',
+            'title.max' => 'The chapter title must not exceed 255 characters.',
         ];
     }
 }

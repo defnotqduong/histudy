@@ -1,13 +1,15 @@
 <template>
   <div class="py-10">
     <div class="container mx-auto px-4">
-      <div v-if="loading" class="min-h-[50vh] flex items-center justify-center text-primaryColor">
+      <div v-if="loading" class="min-h-[60vh] flex items-center justify-center text-primaryColor">
         <LoadingV1 />
       </div>
 
       <div v-if="!loading">
-        <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
-        <p>Complete all fields ({{ completedFields }}/{{ totalFields }})</p>
+        <div class="flex flex-col gap-y-1">
+          <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
+          <span>Complete all fields ({{ completedFields }}/{{ totalFields }})</span>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
           <div>
             <div class="flex items-center justify-start">

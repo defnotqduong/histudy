@@ -72,6 +72,29 @@ class ChapterController extends Controller
         ], 200);
     }
 
+    public function updateCourseChapter(ChapterRequest $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::findById($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        $chapter->update($request->all());
+
+        return response()->json(['success' => true, 'message' => 'Chapter updated successfully', 'chapter' => new ChapterResource($chapter)], 200);
+    }
+
     public function reorderCourseChapter(Request $request, $slug)
     {
         $userId = Auth::id();

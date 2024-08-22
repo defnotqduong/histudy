@@ -23,21 +23,6 @@ export const updateCourseThumbnail = (slug, dataPost) => {
   return connectServer[api.UPDATE_THUMB_COURSE_API.method](url, dataPost, config)
 }
 
-export const createCourseChapter = (slug, dataPost) => {
-  const url = `/course/${slug}/chapter`
-  return connectServer[api.CREATE_CHAPTER_COURSE_API.method](url, dataPost)
-}
-
-export const getCourseChapter = (slug, id, dataPost) => {
-  const url = `/course/${slug}/chapter/${id}`
-  return connectServer[api.GET_CHAPTER_COURSE_API.method](url, dataPost)
-}
-
-export const reorderCourseChapter = (slug, dataPost) => {
-  const url = `/course/${slug}/chapter/reorder`
-  return connectServer[api.REORDER_CHAPTER_COURSE_API.method](url, dataPost)
-}
-
 export const createCourseAttachment = (slug, dataPost) => {
   const url = `/course/${slug}/attachment`
   const config = {

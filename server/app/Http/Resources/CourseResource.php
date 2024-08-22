@@ -25,7 +25,7 @@ class CourseResource extends JsonResource
             'is_published' => $this->is_published,
             'category_id' => $this->category_id,
             'category' => $this->category ? new CategoryResource($this->category) : null,
-            'chapters' => ChapterResource::collection($this->chapters),
+            'chapters' => $this->chapters->map->only(['id', 'title', 'is_published', 'is_free', 'course_id']),
             'attachments' => AttachmentResource::collection($this->attachments),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChapterResource extends JsonResource
+class MuxDataResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,14 +16,9 @@ class ChapterResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'video_url' => $this->video_url,
-            'position' => $this->position,
-            'is_published' => $this->is_published,
-            'is_free' => $this->is_free,
-            'course_id' => $this->course_id,
-            'mux_data' => new MuxDataResource($this->muxData),
+            'asset_id' => $this->asset_id,
+            'playback_id' => $this->playback_id,
+            'chapter_id' => $this->chapter_id,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

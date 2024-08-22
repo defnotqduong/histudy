@@ -51,7 +51,7 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { createCourseChapter, reorderCourseChapter } from '@/webServices/courseService'
+import { createCourseChapter, reorderCourseChapter } from '@/webServices/chapterService'
 
 import ChapterList from '@/components/Course/CreateCourse/ChapterList.vue'
 
