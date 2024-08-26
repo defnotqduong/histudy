@@ -18,11 +18,11 @@
 
     <div v-if="!isEditting" class="mt-2 text-headingColor">
       <span v-if="!description" class="italic text-bodyColor">No description</span>
-      <span v-else>{{ description }}</span>
+      <div v-else v-html="description" class="prose max-h-[12rem] overflow-y-auto"></div>
     </div>
     <form v-else @submit.prevent="onSubmit" class="space-y-4 mt-4 w-full">
       <div class="input-group">
-        <textarea class="textarea" v-model="description"></textarea>
+        <Editor v-model="description" />
         <div v-if="errors?.description && errors?.description.length > 0">
           <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
         </div>
@@ -42,7 +42,10 @@ import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
 import { updateCourse } from '@/webServices/courseService'
 
+import Editor from '@/components/Editor/Editor.vue'
+
 export default defineComponent({
+  components: { Editor },
   props: {
     course: Object,
     slug: String,

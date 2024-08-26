@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChapterRequest;
+use App\Http\Requests\VideoRequest;
 use App\Http\Resources\ChapterResource;
 use App\Models\Chapter;
 use App\Models\Course;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -121,5 +123,47 @@ class ChapterController extends Controller
             'success' => true,
             'message' => 'Chapter reorder Successfully'
         ], 200);
+    }
+
+    public function uploadChapterVideo(VideoRequest $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::find($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        if ($request->hasFile('video')) {
+
+            $cloudinaryVideo = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
+                'folder' => 'videos'
+            ]);
+
+            $url = $cloudinaryVideo->getSecurePath();
+            $publicId = $cloudinaryVideo->getPublicId();
+
+            if ($chapter->video_public_id) {
+                Cloudinary::destroy($chapter->video_public_id, [
+                    'resource_type' => 'video'
+                ]);
+            }
+
+            $chapter->updateChapter([
+                'video_url' => $url,
+                'video_public_id' => $publicId
+            ]);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Video updated successfully', 'chapter' => $chapter], 200);
     }
 }

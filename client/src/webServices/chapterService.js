@@ -20,3 +20,17 @@ export const updateCourseChapter = (slug, id, dataPost) => {
   const url = `/course/${slug}/chapter/${id}`
   return connectServer[api.UPDATE_CHAPTER_COURSE_API.method](url, dataPost)
 }
+
+export const uploadChapterVideo = (slug, id, dataPost, uploadProgress) => {
+  const url = `/course/${slug}/chapter/${id}/video`
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    onUploadProgress: progressEvent => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      uploadProgress(progress)
+    }
+  }
+  return connectServer[api.UPLOAD_CHAPTER_VIDEO_API.method](url, dataPost, config)
+}

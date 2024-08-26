@@ -13,6 +13,7 @@ class Chapter extends Model
         'title',
         'description',
         'video_url',
+        'video_public_id',
         'position',
         'is_published',
         'is_free',
@@ -27,10 +28,6 @@ class Chapter extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function muxData()
-    {
-        return $this->hasOne(MuxData::class);
-    }
 
     public static function createChapter($data)
     {

@@ -86,6 +86,26 @@ export default {
       stroke: theme => ({
         primary: theme('colors.primaryColor'),
         secondary: theme('colors.secondaryColor')
+      }),
+      typography: theme => ({
+        DEFAULT: {
+          css: {
+            '--tw-prose-bullets': theme('colors.headingColor'),
+            p: {
+              lineHeight: '1.5',
+              margin: '0px',
+              paddingBottom: '8px'
+            },
+            h1: {
+              marginTop: '0px',
+              marginBottom: '16px'
+            },
+            h2: {
+              marginTop: '0px',
+              marginBottom: '16px'
+            }
+          }
+        }
       })
     }
   },
@@ -95,5 +115,5 @@ export default {
   daisyui: {
     themes: []
   },
-  plugins: [require('daisyui')]
+  plugins: [require('daisyui'), require('@tailwindcss/typography')]
 }

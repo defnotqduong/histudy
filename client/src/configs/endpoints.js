@@ -68,6 +68,11 @@ export default {
     url: '/course/chapter'
   },
 
+  UPLOAD_CHAPTER_VIDEO_API: {
+    method: 'post',
+    url: '/course/chapter'
+  },
+
   // Category
   GET_ALL_CATEGORY_API: {
     method: 'get',

@@ -1,17 +1,37 @@
 <template>
   <div class="checkbox-wrapper">
-    <input id="cbtest" type="checkbox" />
+    <input id="cbtest" type="checkbox" :checked="modelValue" @change="updateValue($event.target.checked)" />
     <label class="check-box" for="cbtest"> </label>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-export default defineComponent({})
+
+export default defineComponent({
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props, { emit }) {
+    const updateValue = value => {
+      emit('update:modelValue', value)
+    }
+
+    return {
+      updateValue
+    }
+  }
+})
 </script>
 
 <style scoped>
 .checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   --background-color: #fff;
   --checkbox-height: 16px;

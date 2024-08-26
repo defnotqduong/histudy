@@ -1,9 +1,18 @@
 <template>
   <div class="mt-4 py-4 px-6 bg-lighterColor rounded-md">
     <div class="font-bold text-headingColor flex items-start justify-between">
-      Course attachments
+      Chapter video
       <button @click.prevent="toggleEdit" class="flex items-center gap-2">
         <template v-if="isEditting"> Cancel </template>
+
+        <template v-else-if="!isEditting && chapter?.video_url">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24">
+            <path
+              d="M17.764,2A4.2,4.2,0,0,0,14.77,3.241L3.155,14.855a1,1,0,0,0-.28.55l-.863,5.438a1,1,0,0,0,1.145,1.145L8.6,21.125a1,1,0,0,0,.55-.28L20.759,9.23a4.236,4.236,0,0,0-3-7.23ZM7.96,19.2,4.2,19.8l.6-3.757,8.39-8.391,3.162,3.162ZM19.345,7.816,17.765,9.4,14.6,6.235l1.581-1.58a2.289,2.289,0,0,1,3.161,0,2.234,2.234,0,0,1,0,3.161Z"
+            />
+          </svg>
+          Edit video
+        </template>
 
         <template v-else
           ><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -18,44 +27,36 @@
               fill="currentColor"
             />
           </svg>
-          Add a file
+          Add video
         </template>
       </button>
     </div>
 
     <template v-if="!isEditting">
-      <p v-if="attachments.length === 0" class="mt-2 italic text-bodyColor">No attachments yet</p>
-      <div v-else class="mt-6">
-        <div v-for="attachment in attachments" :key="attachment.id" class="mb-2 px-4 py-3 bg-primaryOpacityColor rounded-md">
-          <div class="flex items-center justify-start gap-2 text-primaryColor">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M19 9V17.8C19 18.9201 19 19.4802 18.782 19.908C18.5903 20.2843 18.2843 20.5903 17.908 20.782C17.4802 21 16.9201 21 15.8 21H8.2C7.07989 21 6.51984 21 6.09202 20.782C5.71569 20.5903 5.40973 20.2843 5.21799 19.908C5 19.4802 5 18.9201 5 17.8V6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.0799 3 8.2 3H13M19 9L13 3M19 9H14C13.4477 9 13 8.55228 13 8V3"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <p class="text-sm line-clamp-1">
-              {{ attachment.name }}
-            </p>
-            <button class="ml-auto px-2 flex items-center justify-center" @click.prevent="onDelete(attachment.id)">
-              <span v-if="isSubmitting && deletingId === attachment.id" class="loading loading-spinner loading-sm"></span>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <g>
-                  <path
-                    d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </g>
-              </svg>
-            </button>
-          </div>
+      <div v-if="!chapter?.video_url" class="mt-6 flex items-center justify-center h-72 bg-slate-200 rounded-md border-2 border-dashed border-[#575767]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" fill="none" />
+          <path
+            d="M5 18H15C16.1046 18 17 17.1046 17 16V8.57143V8C17 6.89543 16.1046 6 15 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="6.5" cy="9.5" r="0.5" stroke="currentColor" stroke-linejoin="round" />
+          <path d="M17 10L21 7V17L17 14" stroke="currentColor" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div v-else class="relative mt-6">
+        <div class="h-80">
+          <iframe
+            :src="chapter.video_url"
+            frameborder="0"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            class="w-full h-full rounded-md"
+          ></iframe>
         </div>
+        <div class="text-sm mt-3">Videos can take a few minutes to process. Refresh the page if video does not appear.</div>
       </div>
     </template>
 
@@ -72,7 +73,7 @@
             />
           </svg>
           <div class="mt-2 font-bold text-primaryColor">Choose files or drag and drop</div>
-          <span class="text-sm">Only PDF files are allowed</span>
+          <span class="text-sm">Video (512GB)</span>
 
           <button
             v-if="file"
@@ -87,43 +88,43 @@
           </button>
         </label>
       </form>
-      <div v-if="errors?.attachment && errors?.attachment.length > 0">
-        <p v-for="(err, index) in errors?.attachment" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+      <div v-if="errors?.thumbnail && errors?.thumbnail.length > 0">
+        <p v-for="(err, index) in errors?.thumbnail" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
       </div>
-      <div v-else class="text-sm text-muted-foreground mt-4">Add anything your students might need to complete the course.</div>
+      <div v-else class="text-sm mt-4">Upload this chapter's video</div>
     </template>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { createCourseAttachment, deleteCourseAttachment } from '@/webServices/courseService'
+import { uploadChapterVideo } from '@/webServices/chapterService'
 
 export default defineComponent({
   props: {
-    course: Object,
+    chapter: Object,
+    muxData: {
+      type: [Object, null]
+    },
     slug: String,
-    attachments: Array,
+    id: String,
     fetchData: Function
   },
-
   setup(props) {
+    const router = useRouter()
     const homeStore = useHomeStore()
 
-    const attachments = ref(props.attachments)
-    const deletingId = ref(null)
-
-    const uploadProgress = ref(0)
+    const file = ref(null)
     const isEditting = ref(false)
     const isSubmitting = ref(false)
+    const uploadProgress = ref(0)
     const errors = ref({})
 
-    const file = ref(null)
-
     const toggleEdit = () => {
-      file.value = null
       errors.value = {}
+      file.value = null
       uploadProgress.value = 0
       isEditting.value = !isEditting.value
     }
@@ -131,28 +132,32 @@ export default defineComponent({
     const handleDrop = e => {
       if (e.dataTransfer.files.length > 0) {
         file.value = e.dataTransfer.files[0]
+        console.log(file.value)
       }
     }
 
     const handleFileChange = e => {
       if (e.target.files.length > 0) {
         file.value = e.target.files[0]
+        console.log(file.value)
       }
     }
 
     const onSubmit = async () => {
       errors.value = {}
+      uploadProgress.value = 0
       isSubmitting.value = true
 
       const formData = new FormData()
       if (file.value) {
-        formData.append('attachment', file.value)
+        formData.append('video', file.value)
       }
 
-      const res = await createCourseAttachment(props.slug, formData, progress => {
+      const res = await uploadChapterVideo(props.slug, props.id, formData, progress => {
         uploadProgress.value = progress
       })
 
+      console.log(res)
       if (!res.success) {
         errors.value = res.data.errors
         isSubmitting.value = false
@@ -160,43 +165,27 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
-      props.fetchData(props.slug)
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Video uploaded Successfully !' })
+      props.fetchData(props.slug, props.id)
       toggleEdit()
     }
 
-    const onDelete = async id => {
-      isSubmitting.value = true
-      deletingId.value = id
-
-      const res = await deleteCourseAttachment(props.slug, id)
-
-      if (!res.success) {
-        isSubmitting.value = false
-        return
-      }
-
-      isSubmitting.value = false
-      homeStore.onChangeToast({ show: true, type: 'success', message: 'Attachment deleted Successfully !' })
-      props.fetchData(props.slug)
-    }
-
-    return {
-      isEditting,
-      isSubmitting,
-      errors,
-      uploadProgress,
-      attachments,
-      deletingId,
-      file,
-      toggleEdit,
-      handleDrop,
-      handleFileChange,
-      onSubmit,
-      onDelete
-    }
+    return { file, isEditting, isSubmitting, errors, uploadProgress, toggleEdit, handleDrop, handleFileChange, onSubmit }
   }
 })
 </script>
 
-<style></style>
+<style scoped>
+.input-group input {
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1.5px solid;
+  outline: 0;
+  padding: 0.5rem 1rem;
+  @apply text-headingColor bg-whiteColor border-borderColor;
+}
+
+.input-group input:focus {
+  @apply border-primaryColor;
+}
+</style>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80db813cf054e14de3301eb11f69aae8",
+    "content-hash": "d3eed93c141a6fea7b19cdb403f6aa98",
     "packages": [
         {
             "name": "brick/math",
@@ -2321,6 +2321,64 @@
                 }
             ],
             "time": "2024-04-12T21:02:21+00:00"
+        },
+        {
+            "name": "muxinc/mux-php",
+            "version": "3.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/muxinc/mux-php.git",
+                "reference": "331d1c5608b93a80f6aac1aa72cd620c4115f58d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/muxinc/mux-php/zipball/331d1c5608b93a80f6aac1aa72cd620c4115f58d",
+                "reference": "331d1c5608b93a80f6aac1aa72cd620c4115f58d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.4.5",
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MuxPhp\\": "MuxPhp/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mux SDK Team",
+                    "email": "sdks@mux.com",
+                    "homepage": "https://mux.com"
+                }
+            ],
+            "description": "Mux is how developers build online video. This API encompasses both Mux Video and Mux Data functionality to help you build your video-related projects better and faster than ever before.",
+            "homepage": "https://mux.com",
+            "keywords": [
+                "api",
+                "php",
+                "rest",
+                "sdk",
+                "streaming",
+                "video"
+            ],
+            "support": {
+                "issues": "https://github.com/muxinc/mux-php/issues",
+                "source": "https://github.com/muxinc/mux-php/tree/3.18.0"
+            },
+            "time": "2024-07-01T22:00:51+00:00"
         },
         {
             "name": "nesbot/carbon",

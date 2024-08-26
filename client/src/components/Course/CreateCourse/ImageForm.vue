@@ -48,7 +48,7 @@
           <path d="M18 8C18 9.10457 17.1046 10 16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8Z" fill="currentColor" />
         </svg>
       </div>
-      <div v-else class="relative aspect-audio mt-6 h-72">
+      <div v-else class="relative mt-6 h-72">
         <img :src="thumbUrl" class="w-full h-full object-cover object-center rounded-md" alt="Course thumbnail" />
       </div>
     </template>
@@ -73,9 +73,10 @@
             v-if="file"
             type="submit"
             :disabled="isSubmitting"
-            class="mt-4 px-6 py-[10px] min-w-20 flex items-center justify-center bg-primaryColor rounded-md text-whiteColor"
-            :class="isSubmitting && 'opacity-70'"
+            class="relative mt-4 px-6 py-[10px] min-w-20 flex items-center justify-center bg-primaryColor rounded-md text-whiteColor overflow-hidden"
+            :class="isSubmitting && 'opacity-75'"
           >
+            <div class="absolute top-0 left-0 h-full bg-[#0000004d]" :style="{ width: `${uploadProgress}%` }"></div>
             <template v-if="isSubmitting"><span class="loading loading-spinner loading-sm"></span></template>
             <template v-else>Upload file</template>
           </button>
@@ -107,7 +108,7 @@ export default defineComponent({
     const thumbUrl = ref(props.course?.thumb_url)
     const file = ref(null)
     const imageUrl = ref(null)
-
+    const uploadProgress = ref(0)
     const isEditting = ref(false)
     const isSubmitting = ref(false)
     const errors = ref({})
@@ -116,6 +117,7 @@ export default defineComponent({
       errors.value = {}
       file.value = null
       imageUrl.value = null
+      uploadProgress.value = 0
       isEditting.value = !isEditting.value
     }
 
@@ -142,7 +144,9 @@ export default defineComponent({
         formData.append('thumbnail', file.value)
       }
 
-      const res = await updateCourseThumbnail(props.slug, formData)
+      const res = await updateCourseThumbnail(props.slug, formData, progress => {
+        uploadProgress.value = progress
+      })
 
       if (!res.success) {
         errors.value = res.data.errors
@@ -163,6 +167,7 @@ export default defineComponent({
       thumbUrl,
       file,
       imageUrl,
+      uploadProgress,
       toggleEdit,
       handleDrop,
       handleFileChange,

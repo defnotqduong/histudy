@@ -3,7 +3,7 @@ import { TIMEOUT } from '@/configs/constantTypes'
 import { refTokenUserStore, localEnUserStore, localEnRefreshUserStore, gtka } from '@/helpers/localStorageHelper'
 import { useUserStore } from '@/stores'
 
-const connectServer = config => {
+const connectServer = (config = {}) => {
   const userStore = useUserStore()
 
   let headersDefault = {
@@ -17,6 +17,7 @@ const connectServer = config => {
   }
 
   const api = axios.create({
+    ...config,
     headers: headers
   })
 

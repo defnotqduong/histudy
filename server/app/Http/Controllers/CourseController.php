@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseRequest;
-use App\Http\Requests\ThumbnailRequest;
+use App\Http\Requests\ImageRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Attachment;
 use App\Models\Course;
@@ -55,7 +55,7 @@ class CourseController extends Controller
         return response()->json(['success' => true, 'message' => 'Course updated successfully', 'course' => new CourseResource($course)], 200);
     }
 
-    public function updateCourseThumbnail(ThumbnailRequest $request, $slug)
+    public function updateCourseThumbnail(ImageRequest $request, $slug)
     {
 
         $userId = Auth::id();
@@ -73,6 +73,7 @@ class CourseController extends Controller
             $cloudinaryImage = Cloudinary::upload($request->file('thumbnail')->getRealPath(), [
                 'folder' => 'images'
             ]);
+
             $url = $cloudinaryImage->getSecurePath();
             $publicId  = $cloudinaryImage->getPublicId();
 

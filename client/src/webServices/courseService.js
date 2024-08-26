@@ -13,21 +13,29 @@ export const updateCourse = (slug, dataPost) => {
   return connectServer[api.UPDATE_COURSE_API.method](api.UPDATE_COURSE_API.url + '/' + slug, dataPost)
 }
 
-export const updateCourseThumbnail = (slug, dataPost) => {
+export const updateCourseThumbnail = (slug, dataPost, uploadProgress) => {
   const url = `/course/${slug}/thumbnail`
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
+    },
+    onUploadProgress: progressEvent => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      uploadProgress(progress)
     }
   }
   return connectServer[api.UPDATE_THUMB_COURSE_API.method](url, dataPost, config)
 }
 
-export const createCourseAttachment = (slug, dataPost) => {
+export const createCourseAttachment = (slug, dataPost, uploadProgress) => {
   const url = `/course/${slug}/attachment`
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
+    },
+    onUploadProgress: progressEvent => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      uploadProgress(progress)
     }
   }
   return connectServer[api.CREATE_ATTACHMENT_COURSE_API.method](url, dataPost, config)
