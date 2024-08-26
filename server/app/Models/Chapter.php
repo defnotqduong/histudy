@@ -43,4 +43,9 @@ class Chapter extends Model
     {
         return $this->update($data);
     }
+
+    public function deleteChapter()
+    {
+        return $this->delete();
+    }
 }

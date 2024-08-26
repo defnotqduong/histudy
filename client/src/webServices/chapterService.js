@@ -34,3 +34,8 @@ export const uploadChapterVideo = (slug, id, dataPost, uploadProgress) => {
   }
   return connectServer[api.UPLOAD_CHAPTER_VIDEO_API.method](url, dataPost, config)
 }
+
+export const deleteCourseChapter = (slug, id, dataPost) => {
+  const url = `/course/${slug}/chapter/${id}`
+  return connectServer[api.DELETE_CHAPTER_COURSE_API.method](url, dataPost)
+}

@@ -164,6 +164,35 @@ class ChapterController extends Controller
             ]);
         }
 
-        return response()->json(['success' => true, 'message' => 'Video updated successfully', 'chapter' => $chapter], 200);
+        return response()->json(['success' => true, 'message' => 'Video updated successfully', 'chapter' => new ChapterResource($chapter)], 200);
+    }
+
+    public function deleteCourseChapter(Request $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::find($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        if ($chapter->video_public_id) {
+            Cloudinary::destroy($chapter->video_public_id, [
+                'resource_type' => 'video'
+            ]);
+        }
+
+        $chapter->deleteChapter();
+
+        return response()->json(['success' => true, 'message' => 'Chapter deleted successfully'], 200);
     }
 }

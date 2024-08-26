@@ -1,9 +1,9 @@
 <template>
   <div class="toast toast-top toast-center z-[20000]">
     <div
-      class="alert py-2 px-6 flex items-center justify-center gap-2 rounded-xl text-whiteColor"
+      class="alert py-2 px-6 flex items-center justify-center gap-2 rounded-xl text-whiteColor border-none"
       :class="{
-        'bg-successColor': type === 'success',
+        'bg-successColor ': type === 'success',
         'bg-warningColor': type === 'warning',
         'bg-dangerColor': type === 'error'
       }"

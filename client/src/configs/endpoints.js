@@ -62,17 +62,18 @@ export default {
     method: 'put',
     url: '/course/chapter'
   },
-
   UPDATE_CHAPTER_COURSE_API: {
     method: 'patch',
     url: '/course/chapter'
   },
-
   UPLOAD_CHAPTER_VIDEO_API: {
     method: 'post',
     url: '/course/chapter'
   },
-
+  DELETE_CHAPTER_COURSE_API: {
+    method: 'deleted',
+    url: '/course/chapter'
+  },
   // Category
   GET_ALL_CATEGORY_API: {
     method: 'get',
