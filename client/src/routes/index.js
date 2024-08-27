@@ -98,7 +98,7 @@ const routes = [
         ]
       },
       {
-        path: '/teacher',
+        path: '/instructor',
         name: 'create-course',
         component: () => import('@/layouts/CreateCourseLayout.vue'),
         meta: {

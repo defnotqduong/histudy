@@ -98,7 +98,8 @@ class AuthController extends Controller
                 [
                     'success' => true,
                     'user' => new UserResource($user),
-                    'courses' => CourseResource::collection($user->courses)
+                    'courses' => CourseResource::collection($user->courses),
+                    'purchased_courses' => CourseResource::collection($user->purchasedCourses)
                 ],
                 200
             );

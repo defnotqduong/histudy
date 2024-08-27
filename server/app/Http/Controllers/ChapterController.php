@@ -37,7 +37,8 @@ class ChapterController extends Controller
         $data = [
             'title' => $title,
             'course_id' => $course->id,
-            'position' => $newPosition
+            'position' => $newPosition,
+            'is_free' => $course->price == 0
         ];
 
         $chapter = Chapter::createChapter($data);
@@ -194,5 +195,59 @@ class ChapterController extends Controller
         $chapter->deleteChapter();
 
         return response()->json(['success' => true, 'message' => 'Chapter deleted successfully'], 200);
+    }
+
+    public function publishCourseChapter(Request $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::find($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        if (!$chapter->title || !$chapter->description || !$chapter->video_url) {
+            return response()->json(['success' => false, 'message' => 'Missing required fields'], 400);
+        }
+
+        $chapter->updateChapter([
+            'is_published' => true
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Chapter published successfully'], 200);
+    }
+
+    public function unpublishCourseChapter(Request $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::find($id);
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        $chapter->updateChapter([
+            'is_published' => false
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Chapter unpublished successfully'], 200);
     }
 }

@@ -11,7 +11,7 @@ export const useUserStore = defineStore(USER_STORE, {
       localEnUserStore(accToken)
       localEnRefreshUserStore(refToken)
     },
-    getUser(user) {
+    setUser(user) {
       this.user = user
     },
     logout() {

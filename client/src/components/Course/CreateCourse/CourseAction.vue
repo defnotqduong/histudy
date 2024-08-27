@@ -2,13 +2,13 @@
   <div class="flex items-center gap-3">
     <button
       :disabled="!isComplete || isSubmitting"
-      @click.prevent="onChangeChapter()"
+      @click.prevent="onChangeCourse()"
       class="px-4 h-10 min-h-10 text-sm text-whiteColor bg-blackColor rounded-md"
       :class="{ 'opacity-75': isSubmitting || !isComplete }"
     >
-      {{ chapter?.is_published ? 'Unpublish' : 'Publish' }}
+      {{ course?.is_published ? 'Unpublish' : 'Publish' }}
     </button>
-    <label :for="'my_modal_' + chapter?.id" class="px-3 h-10 min-h-10 flex items-center justify-center text-whiteColor bg-blackColor rounded-md cursor-pointer">
+    <label :for="'my_modal_' + course?.id" class="px-3 h-10 min-h-10 flex items-center justify-center text-whiteColor bg-blackColor rounded-md cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path
           d="M8 1.5V2.5H3C2.44772 2.5 2 2.94772 2 3.5V4.5C2 5.05228 2.44772 5.5 3 5.5H21C21.5523 5.5 22 5.05228 22 4.5V3.5C22 2.94772 21.5523 2.5 21 2.5H16V1.5C16 0.947715 15.5523 0.5 15 0.5H9C8.44772 0.5 8 0.947715 8 1.5Z"
@@ -19,7 +19,7 @@
           fill="currentColor"
         /></svg
     ></label>
-    <input type="checkbox" :id="'my_modal_' + chapter?.id" class="modal-toggle" />
+    <input type="checkbox" :id="'my_modal_' + course?.id" class="modal-toggle" />
     <div class="modal" role="dialog">
       <div class="modal-box bg-white p-8 flex flex-col gap-8">
         <div class="flex flex-col items-start justify-start">
@@ -29,14 +29,14 @@
         <div class="flex items-center justify-end gap-3">
           <div class="modal-action">
             <label
-              :for="'my_modal_' + chapter?.id"
+              :for="'my_modal_' + course?.id"
               class="btn px-3 h-10 min-h-10 bg-whiteColor text-headingColor border border-borderColor hover:bg-whiteColor hover:border-borderColor"
               >Cancel</label
             >
           </div>
           <div class="modal-action">
             <button
-              @click="onDeleteChapter()"
+              @click="onDeleteCourse()"
               :disabled="isSubmitting"
               :class="isSubmitting && 'opacity-75'"
               class="px-3 h-10 min-h-10 text-whiteColor bg-blackColor rounded-md"
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <label class="modal-backdrop" :for="'my_modal_' + chapter?.id">Close</label>
+      <label class="modal-backdrop" :for="'my_modal_' + course?.id">Close</label>
     </div>
   </div>
 </template>
@@ -55,14 +55,13 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { publishCourseChapter, unpublishCourseChapter, deleteCourseChapter } from '@/webServices/chapterService'
+import { publishCourse, unpublishCourse, deleteCourse } from '@/webServices/courseService'
 
 export default defineComponent({
   props: {
-    chapter: Object,
+    course: Object,
     isComplete: Boolean,
     slug: String,
-    id: String,
     fetchData: Function
   },
   setup(props) {
@@ -70,11 +69,12 @@ export default defineComponent({
     const homeStore = useHomeStore()
     const isSubmitting = ref(false)
 
-    const onChangeChapter = async () => {
+    const onChangeCourse = async () => {
       isSubmitting.value = true
 
-      if (!props.chapter?.is_published) {
-        const res = await publishCourseChapter(props.slug, props.id)
+      if (!props.course?.is_published) {
+        const res = await publishCourse(props.slug)
+
         if (!res.success) {
           homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
           isSubmitting.value = false
@@ -82,10 +82,10 @@ export default defineComponent({
         }
 
         if (res.success) {
-          homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter published Successfully !' })
+          homeStore.onChangeToast({ show: true, type: 'success', message: 'Course published Successfully !' })
         }
       } else {
-        const res = await unpublishCourseChapter(props.slug, props.id)
+        const res = await unpublishCourse(props.slug)
 
         if (!res.success) {
           homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
@@ -94,17 +94,17 @@ export default defineComponent({
         }
 
         if (res.success) {
-          homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter unpublished Successfully !' })
+          homeStore.onChangeToast({ show: true, type: 'success', message: 'Course unpublished Successfully !' })
         }
       }
 
-      props.fetchData(props.slug, props.id)
+      props.fetchData(props.slug)
     }
 
-    const onDeleteChapter = async () => {
+    const onDeleteCourse = async () => {
       isSubmitting.value = true
 
-      const res = await deleteCourseChapter(props.slug, props.id)
+      const res = await deleteCourse(props.slug)
 
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
@@ -113,11 +113,11 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter deleted Successfully !' })
-      router.push({ name: 'create-course-details', params: { slug: props.slug } })
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Course deleted Successfully !' })
+      router.back()
     }
 
-    return { isSubmitting, onChangeChapter, onDeleteChapter }
+    return { isSubmitting, onChangeCourse, onDeleteCourse }
   }
 })
 </script>

@@ -32,7 +32,9 @@
       </div>
 
       <div class="mt-4 flex items-center gap-x-2">
-        <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md">Save</button>
+        <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md" :class="isSubmitting && 'opacity-75'">
+          Save
+        </button>
       </div>
     </form>
   </div>

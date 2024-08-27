@@ -91,18 +91,34 @@ export default {
         DEFAULT: {
           css: {
             '--tw-prose-bullets': theme('colors.headingColor'),
+            ul: {
+              li: {
+                margin: '0px'
+              }
+            },
+            li: {
+              p: {
+                margin: '0px'
+              }
+            },
             p: {
               lineHeight: '1.5',
               margin: '0px',
               paddingBottom: '8px'
             },
             h1: {
+              color: theme('colors.headingColor'),
               marginTop: '0px',
               marginBottom: '16px'
             },
             h2: {
+              color: theme('colors.headingColor'),
               marginTop: '0px',
               marginBottom: '16px'
+            },
+            strong: {
+              fontWeight: '800',
+              color: theme('colors.headingColor')
             }
           }
         }

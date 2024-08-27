@@ -19,8 +19,10 @@
             <span class="line-clamp-1">{{ chapter.title }}</span>
           </div>
           <div class="flex items-center gap-x-2">
-            <div v-if="chapter.is_free" class="px-2 rounded-full bg-primaryColor text-whiteColor text-xs">Free</div>
-            <div class="px-2 rounded-full bg-slate-500 text-whiteColor text-xs">{{ chapter.is_published ? 'Published' : 'Draft' }}</div>
+            <div v-if="chapter.is_free" class="px-3 py-1 rounded-full bg-primaryColor text-whiteColor text-xs leading-none">Free</div>
+            <div class="px-3 py-1 rounded-full text-whiteColor text-xs leading-none" :class="chapter.is_published ? 'bg-primaryColor' : 'bg-slate-500'">
+              {{ chapter.is_published ? 'Published' : 'Draft' }}
+            </div>
             <button @click.prevent="onEdit(chapter.id)" class="px-2 py-1 hover:opacity-75">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24">
                 <path

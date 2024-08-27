@@ -8,7 +8,8 @@ export const useHomeStore = defineStore(HOME_STORE, {
       isShow: false,
       type: '',
       message: ''
-    }
+    },
+    popularCourses: []
   }),
   actions: {
     onChangeShowCartSideMenu() {
@@ -26,6 +27,9 @@ export const useHomeStore = defineStore(HOME_STORE, {
           this.toast.message = ''
         }, timeout)
       }
+    },
+    setPopularCourses(courses) {
+      this.popularCourses = [...courses]
     }
   }
 })

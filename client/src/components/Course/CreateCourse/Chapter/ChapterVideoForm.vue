@@ -80,7 +80,7 @@
             type="submit"
             :disabled="isSubmitting"
             class="relative mt-4 px-6 py-[10px] min-w-20 flex items-center justify-center bg-primaryColor rounded-md text-whiteColor overflow-hidden"
-            :class="isSubmitting && 'opacity-70'"
+            :class="isSubmitting && 'opacity-75'"
           >
             <div class="absolute top-0 left-0 h-full bg-[#0000004d]" :style="{ width: `${uploadProgress}%` }"></div>
             <template v-if="isSubmitting"><span class="loading loading-spinner loading-sm"></span></template>

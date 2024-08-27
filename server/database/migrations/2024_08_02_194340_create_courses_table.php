@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->text('title');
             $table->string('slug')->unique();
+            $table->longText('summary')->nullable();
             $table->longText('description')->nullable();
             $table->longText('thumb_url')->nullable();
             $table->longText('thumb_public_id')->nullable();

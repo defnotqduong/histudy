@@ -9,12 +9,20 @@ export const getCourse = (slug, dataPost) => {
   return connectServer[api.GET_COURSE_API.method](api.GET_COURSE_API.url + '/' + slug, dataPost)
 }
 
+export const getCourseForGuest = (slug, dataPost) => {
+  return connectServer[api.GET_COURSE_FOR_GUEST_API.method](api.GET_COURSE_FOR_GUEST_API.url + '/' + slug, dataPost)
+}
+
+export const getPopularCourses = dataPost => {
+  return connectServer[api.GET_POPULAR_COURSES_API.method](api.GET_POPULAR_COURSES_API.url, dataPost)
+}
+
 export const updateCourse = (slug, dataPost) => {
   return connectServer[api.UPDATE_COURSE_API.method](api.UPDATE_COURSE_API.url + '/' + slug, dataPost)
 }
 
 export const updateCourseThumbnail = (slug, dataPost, uploadProgress) => {
-  const url = `/course/${slug}/thumbnail`
+  const url = `/instructor/course/${slug}/thumbnail`
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -28,7 +36,7 @@ export const updateCourseThumbnail = (slug, dataPost, uploadProgress) => {
 }
 
 export const createCourseAttachment = (slug, dataPost, uploadProgress) => {
-  const url = `/course/${slug}/attachment`
+  const url = `/instructor/course/${slug}/attachment`
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -42,6 +50,21 @@ export const createCourseAttachment = (slug, dataPost, uploadProgress) => {
 }
 
 export const deleteCourseAttachment = (slug, id, dataPost) => {
-  const url = `/course/${slug}/attachment/${id}`
+  const url = `/instructor/course/${slug}/attachment/${id}`
   return connectServer[api.DELETE_ATTACHMENT_COURSE_API.method](url, dataPost)
+}
+
+export const publishCourse = (slug, id, dataPost) => {
+  const url = `/instructor/course/${slug}/publish`
+  return connectServer[api.PUBLISH_CHAPTER_COURSE_API.method](url, dataPost)
+}
+
+export const unpublishCourse = (slug, id, dataPost) => {
+  const url = `/instructor/course/${slug}/unpublish`
+  return connectServer[api.UNPUBLISH_CHAPTER_COURSE_API.method](url, dataPost)
+}
+
+export const deleteCourse = (slug, id, dataPost) => {
+  const url = `/instructor/course/${slug}`
+  return connectServer[api.DELETE_CHAPTER_COURSE_API.method](url, dataPost)
 }

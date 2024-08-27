@@ -32,7 +32,7 @@
             type="submit"
             @click.prevent="onSubmit"
             class="px-4 py-2 text-whiteColor bg-blackColor rounded-md"
-            :class="isSubmitting && 'opacity-70'"
+            :class="isSubmitting && 'opacity-75'"
           >
             Save
           </button>

@@ -1,8 +1,8 @@
 <template>
   <div class="course-card">
     <div class="pb-7 relative">
-      <router-link :to="{ name: 'course-details', params: { slug: 1 } }"
-        ><img src="@/assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
+      <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"
+        ><img :src="course?.thumb_url" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
       <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
@@ -55,7 +55,7 @@
         </button>
       </div>
       <h4 class="mb-2 text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
-        <router-link :to="{ name: 'course-details', params: { slug: 1 } }"> The Complete Histudy 2024: From Zero to Expert!</router-link>
+        <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"> {{ course?.title }}</router-link>
       </h4>
       <ul class="mb-3 flex items-center justify-start gap-3">
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
@@ -66,7 +66,7 @@
               d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
               fill="currentColor"
             /></svg
-          ><span>12 Lessons</span>
+          ><span>{{ course?.chapter_count }} Lessons</span>
         </li>
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -77,17 +77,17 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span>50 Students</span>
+          ><span>{{ course?.customer_count }} Students</span>
         </li>
       </ul>
       <div class="flex items-center justify-between">
         <div class="flex items-center">
-          <span class="text-xl text-bodyColor font-extrabold">$15</span>
-          <span class="ml-[6px] text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
+          <span class="text-xl text-bodyColor font-extrabold">{{ formattedPrice }}</span>
+          <span class="ml-2 text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
         </div>
         <button>
           <router-link
-            :to="{ name: 'course-details', params: { slug: 1 } }"
+            :to="{ name: 'course-details', params: { slug: course.slug } }"
             class="flex items-center justify-center gap-1 font-bold text-headingColor cursor-pointer relative transition-all duration-[400ms] after:absolute after:content after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[2px] after:rounded after:bg-primaryColor hover:text-primaryColor hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-[400ms]"
             >Learn More
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -105,13 +105,24 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { formatPrice } from '@/utils'
+
 import ButtonV1 from '@/components/Button/ButtonV1.vue'
 export default defineComponent({
+  components: { ButtonV1 },
   props: {
     course: Object
   },
-  components: { ButtonV1 }
+  setup(props) {
+    const formattedPrice = computed(() => {
+      return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
+    })
+
+    return {
+      formattedPrice
+    }
+  }
 })
 </script>
 

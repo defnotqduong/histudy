@@ -11,8 +11,8 @@
         </div>
       </div>
       <div class="grid grid-cols-12 mt-14 gap-7">
-        <div class="col-span-4" v-for="i in 6" :key="i">
-          <CourseCardV3 />
+        <div class="col-span-4" v-for="course in homeStore.popularCourses" :key="course.id">
+          <CourseCardV3 :course="course" />
         </div>
       </div>
     </div>
@@ -21,12 +21,18 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useHomeStore } from '@/stores'
+
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
 import CourseCardV2 from '@/components/Course/CourseCard/CourseCardV2.vue'
 import CourseCardV3 from '@/components/Course/CourseCard/CourseCardV3.vue'
 export default defineComponent({
   components: { ButtonV3, CourseCardV2, CourseCardV3 },
-  setup() {}
+  setup() {
+    const homeStore = useHomeStore()
+
+    return { homeStore }
+  }
 })
 </script>
 

@@ -18,6 +18,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'avatar',
+        'profession',
         'password',
     ];
 
@@ -45,5 +46,10 @@ class User extends Authenticatable implements JWTSubject
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function purchasedCourses()
+    {
+        return $this->belongsToMany(Course::class, 'purchases');
     }
 }

@@ -6,7 +6,7 @@
       </div>
 
       <div v-if="!loading">
-        <NotificationBanner v-if="!chapter?.is_published" :type="'warning'" :message="'This chapter is unpublished. It will not be visible in the course'" />
+        <NotificationBanner v-if="!chapter?.is_published" :type="'warning'" :message="'This chapter is unpublished. It will not be visible in the course.'" />
 
         <router-link :to="{ name: 'create-course-details', params: { slug: slug } }"
           ><div

@@ -7,18 +7,21 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { useUserStore } from '@/stores'
+import { useUserStore, useHomeStore } from '@/stores'
 import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
-import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
+import { getPopularCourses } from '@/webServices/courseService'
 
+import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 export default defineComponent({
   components: { GlobalLoadingV1 },
   setup() {
     const userStore = useUserStore()
+    const homeStore = useHomeStore()
     const loading = ref(false)
 
     return {
+      homeStore,
       userStore,
       loading
     }
@@ -31,11 +34,14 @@ export default defineComponent({
 
       const userPromise = () => (accToken ? getUserProfile() : Promise.resolve(null))
 
-      const [userData] = await Promise.all([userPromise()])
+      const [userData, coursesData] = await Promise.all([userPromise(), getPopularCourses()])
 
-      console.log(userData)
+      console.log('user', userData)
 
-      if (userData?.success) this.userStore.getUser(userData.user)
+      console.log('popular courses', coursesData)
+
+      if (userData?.success) this.userStore.setUser(userData.user)
+      if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses)
 
       this.loading = false
     }

@@ -6,9 +6,14 @@
       </div>
 
       <div v-if="!loading">
-        <div class="flex flex-col gap-y-1">
-          <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
-          <span>Complete all fields ({{ completedFields }}/{{ totalFields }})</span>
+        <NotificationBanner v-if="!course?.is_published" :type="'warning'" :message="'This course is unpublished. It will not be visible in the students.'" />
+
+        <div class="flex items-center justify-between w-full">
+          <div class="flex flex-col gap-y-1">
+            <h2 class="text-2xl font-extrabold text-headingColor">Course Setup</h2>
+            <span>Complete all fields ({{ completedFields }}/{{ totalFields }})</span>
+          </div>
+          <CourseAction :course="course" :slug="slug" :isComplete="isComplete" :fetchData="fetchData" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
           <div>
@@ -34,6 +39,7 @@
               <h3 class="text-xl font-bold text-headingColor">Customize your course</h3>
             </div>
             <TitleForm :course="course" :slug="slug" />
+            <SummaryForm :course="course" :slug="slug" :fetchData="fetchData" />
             <DescriptionForm :course="course" :slug="slug" :fetchData="fetchData" />
             <ImageForm :course="course" :slug="slug" :fetchData="fetchData" />
             <CategoryForm :course="course" :slug="slug" :categories="categories" :fetchData="fetchData" />
@@ -116,15 +122,30 @@ import { getAllCategory } from '@/webServices/categoryService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import TitleForm from '@/components/Course/CreateCourse/TitleForm.vue'
+import SummaryForm from '@/components/Course/CreateCourse/SummaryForm.vue'
 import DescriptionForm from '@/components/Course/CreateCourse/DescriptionForm.vue'
 import ImageForm from '@/components/Course/CreateCourse/ImageForm.vue'
 import CategoryForm from '@/components/Course/CreateCourse/CategoryForm.vue'
 import ChapterForm from '@/components/Course/CreateCourse/ChapterForm.vue'
 import PriceForm from '@/components/Course/CreateCourse/PriceForm.vue'
 import AttachmentForm from '@/components/Course/CreateCourse/AttachmentForm.vue'
+import NotificationBanner from '@/components/Toast/NotificationBanner.vue'
+import CourseAction from '@/components/Course/CreateCourse/CourseAction.vue'
 
 export default defineComponent({
-  components: { LoadingV1, TitleForm, DescriptionForm, ImageForm, CategoryForm, ChapterForm, PriceForm, AttachmentForm },
+  components: {
+    CourseAction,
+    LoadingV1,
+    TitleForm,
+    SummaryForm,
+    DescriptionForm,
+    ImageForm,
+    CategoryForm,
+    ChapterForm,
+    PriceForm,
+    AttachmentForm,
+    NotificationBanner
+  },
   setup() {
     const homeStore = useHomeStore()
     const route = useRoute()
@@ -171,14 +192,16 @@ export default defineComponent({
 
     const requiredFields = computed(() => [
       course.value?.title,
+      course.value?.summary,
       course.value?.description,
       course.value?.thumb_url,
       course.value?.price,
       course.value?.category_id,
-      course.value?.chapters.some(chapter => chapter?.isPublished)
+      course.value?.chapters.some(chapter => chapter?.is_published)
     ])
     const totalFields = computed(() => requiredFields.value.length)
     const completedFields = computed(() => requiredFields.value.filter(Boolean).length)
+    const isComplete = computed(() => requiredFields.value.every(Boolean))
 
     return {
       slug,
@@ -190,7 +213,8 @@ export default defineComponent({
       fetchData,
       requiredFields,
       totalFields,
-      completedFields
+      completedFields,
+      isComplete
     }
   },
   methods: {

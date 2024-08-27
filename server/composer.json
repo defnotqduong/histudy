@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "muxinc/mux-php": "^3.18",
+        "spatie/laravel-sluggable": "^3.6",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
