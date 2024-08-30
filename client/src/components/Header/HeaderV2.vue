@@ -23,67 +23,37 @@
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
                 ></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a>Web Design</a>
+                <ul class="sub-menu grid grid-cols-2">
+                  <li v-for="category in homeStore.categories" :key="category.id" class="col-span-1">
+                    <router-link :to="{ name: 'courses', query: { category_id: category.id } }" class="line-clamp-1">
+                      {{ category.name }}
+                    </router-link>
                   </li>
-                  <li>
-                    <a>Backend</a>
-                  </li>
-                  <li><a>Full Stack</a></li>
-                  <li><a>Mobile Application</a></li>
                 </ul>
               </li>
               <li class="has-child-menu">
                 <a class="flex items-center justify-center gap-1">
-                  <span>Pages</span>
+                  <span>Category</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
                 ></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a>Web Design</a>
+                <ul class="sub-menu grid grid-cols-2">
+                  <li v-for="category in homeStore.categories" :key="category.id" class="col-span-1">
+                    <router-link :to="{ name: 'courses', query: { category_id: category.id } }" class="line-clamp-1">
+                      {{ category.name }}
+                    </router-link>
                   </li>
-                  <li>
-                    <a>Backend</a>
-                  </li>
-                  <li><a>Full Stack</a></li>
-                  <li><a>Mobile Application</a></li>
                 </ul>
               </li>
               <li class="has-child-menu">
                 <router-link :to="{ name: 'home' }" class="flex items-center justify-center gap-1">
-                  <span>Dashboard</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
-                ></router-link>
-                <ul class="sub-menu">
-                  <li>
-                    <a>Web Design</a>
-                  </li>
-                  <li>
-                    <a>Backend</a>
-                  </li>
-                  <li><a>Full Stack</a></li>
-                  <li><a>Mobile Application</a></li>
-                </ul>
+                  <span>News</span>
+                </router-link>
               </li>
               <li class="has-child-menu">
-                <a class="flex items-center justify-center gap-1">
+                <router-link :to="{ name: 'home' }" class="flex items-center justify-center gap-1">
                   <span>Blog</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
-                ></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a>Web Design</a>
-                  </li>
-                  <li>
-                    <a>Backend</a>
-                  </li>
-                  <li><a>Full Stack</a></li>
-                  <li><a>Mobile Application</a></li>
-                </ul>
+                </router-link>
               </li>
             </ul>
           </nav>
@@ -450,13 +420,14 @@ header.header-sticky {
   right: auto;
   z-index: 2000;
   visibility: hidden;
-  min-width: 320px;
+  min-width: 560px;
   padding: 12px 0;
   border-radius: 6px;
   background: white;
   background-color: white;
   box-shadow: 0px 6px 30px rgba(207, 208, 210, 0.4);
   border-top: 1px solid rgba(225, 224, 231, 0.3);
+  overflow-y: auto;
   clip: rect(0, 200vw, 0, 0);
   opacity: 0;
   transform: translateZ(0);

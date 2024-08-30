@@ -46,9 +46,63 @@ class CourseController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Get popular Courses successfully',
-            'courses' => CourseResource::collection($courses)
+            'courses' => new CourseResourceCollection($courses, false)
         ], 200);
     }
+
+    public function getAllCourses(Request $request)
+    {
+        $courses = Course::where('is_published', true)
+            ->when(!empty($request['category_id']), function ($query) use ($request) {
+                $query->where('category_id', $request['category_id']);
+            })
+            ->when(!empty($request['price']), function ($query) use ($request) {
+                if ($request['price'] === 'free') {
+                    $query->where('price', 0);
+                } else if ($request['price'] === 'paid') {
+                    $query->where('price', '>', 0);
+                }
+            })
+            ->when(!empty($request['search']), function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('title', 'like', '%' . $request['search'] . '%')
+                        ->orWhere('summary', 'like', '%' . $request['search'] . '%')
+                        ->orWhere('description', 'like', '%' . $request['search'] . '%')
+                        ->orWhereHas('instructor', function ($q) use ($request) {
+                            $q->where('name', 'like', '%' . $request['search'] . '%');
+                        });
+                });
+            })
+            ->when(!empty($request['sort']), function ($query) use ($request) {
+                switch ($request['sort']) {
+                    case 'latest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'price_asc':
+                        $query->orderBy('price', 'asc');
+                        break;
+                    case 'price_desc':
+                        $query->orderBy('price', 'desc');
+                        break;
+                    case 'popular':
+                        $query->leftJoin('purchases', 'courses.id', '=', 'purchases.course_id')
+                            ->groupBy('courses.id')
+                            ->orderByRaw('COUNT(purchases.id) DESC');
+                        break;
+                    default:
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                }
+            })
+            ->paginate($request->input('limit', 9));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get courses successfully',
+            'courses' => new CourseResourceCollection($courses, false)
+        ], 200);
+    }
+
 
     public function getCourse(Request $request, $slug)
     {
@@ -145,10 +199,15 @@ class CourseController extends Controller
             return response()->json(['success' => false, 'error' => 'Keyword is required'], 400);
         }
 
-        $courses = Course::where('title', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('summary', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('description', 'LIKE', '%' . $keyword . '%')
-            ->where('is_published', true)
+        $courses = Course::where('is_published', true)
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('summary', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('description', 'LIKE', '%' . $keyword . '%')
+                    ->orWhereHas('instructor', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
+            })
             ->get();
 
         return response()->json([

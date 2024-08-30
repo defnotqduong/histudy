@@ -38,6 +38,7 @@ Route::group(['prefix' => 'category'], function () {
 
 // Public Course Routes
 Route::group(['prefix' => 'course'], function () {
+    Route::get('/', [CourseController::class, 'getAllCourses']);
     Route::get('/search', [CourseController::class, 'searchCourses']);
     Route::get('/popular', [CourseController::class, 'getPopularCourses']);
     Route::get('/{slug}', [CourseController::class, 'getCourseForGuest']);

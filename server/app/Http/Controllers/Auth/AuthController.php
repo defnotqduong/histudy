@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\CourseResourceCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Course;
 use App\Models\User;
@@ -102,8 +103,8 @@ class AuthController extends Controller
                 [
                     'success' => true,
                     'user' => new UserResource($user),
-                    'courses' => CourseResource::collection($user->courses),
-                    'purchased_courses' => CourseResource::collection($user->purchasedCourses)
+                    'courses' => new CourseResourceCollection($user->courses),
+                    'purchased_courses' => new CourseResourceCollection($user->purchasedCourses)
                 ],
                 200
             );

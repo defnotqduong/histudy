@@ -29,6 +29,11 @@ export default {
   },
 
   // Course
+  GET_ALL_COURSES_API: {
+    method: 'get',
+    url: '/course'
+  },
+
   GET_POPULAR_COURSES_API: {
     method: 'get',
     url: '/course/popular'

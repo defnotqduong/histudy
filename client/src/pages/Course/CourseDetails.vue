@@ -104,8 +104,8 @@ export default defineComponent({
       course.value = res.course
       chapters.value = res.chapters
       reviews.value = res.reviews
-      instructorCourses.value = res.instructorCourses
-      relatedCourses.value = res.relatedCourses
+      instructorCourses.value = res.instructorCourses.courses
+      relatedCourses.value = res.relatedCourses.courses
       instructor.value = res.instructor
       category.value = res.course.category
       loading.value = false

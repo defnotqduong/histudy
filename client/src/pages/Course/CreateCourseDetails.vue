@@ -103,7 +103,7 @@ import { defineComponent, ref, reactive, watch, onMounted, computed, toRefs } fr
 import { useRoute, useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
 import { getCourse } from '@/webServices/courseService'
-import { getAllCategory } from '@/webServices/categoryService'
+import { getAllCategories } from '@/webServices/categoryService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import TitleForm from '@/components/Course/CreateCourse/TitleForm.vue'
@@ -155,7 +155,7 @@ export default defineComponent({
     }
 
     const getCategories = async () => {
-      const res = await getAllCategory()
+      const res = await getAllCategories()
       if (res.success) categories.value = [...res.categories]
     }
 

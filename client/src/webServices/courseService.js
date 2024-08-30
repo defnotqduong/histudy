@@ -9,6 +9,17 @@ export const getCourse = (slug, dataPost) => {
   return connectServer[api.GET_COURSE_API.method](api.GET_COURSE_API.url + '/' + slug, dataPost)
 }
 
+export const getAllCourses = (filters = {}) => {
+  const queryParams = Object.entries(filters)
+    .filter(([key, value]) => value !== null)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&')
+
+  const url = `${api.GET_ALL_COURSES_API.url}?${queryParams}`
+
+  return connectServer[api.GET_ALL_COURSES_API.method](url)
+}
+
 export const getCourseForGuest = (slug, dataPost) => {
   return connectServer[api.GET_COURSE_FOR_GUEST_API.method](api.GET_COURSE_FOR_GUEST_API.url + '/' + slug, dataPost)
 }

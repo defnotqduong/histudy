@@ -16,21 +16,25 @@
           class="ml-5 px-5 flex items-center justify-center h-12 text-sm text-headingColor font-bold bg-badgeColor shadow-shadow04 rounded-full border-[1px] border-whiteColor"
         >
           <span class="mr-2">🎉</span>
-          12 Courses
+          {{ meta?.total }} Courses
         </div>
       </div>
       <p class="text-lg text-headingColor">Courses that help beginner designers become true unicorns.</p>
       <div class="mt-10">
         <div class="grid grid-cols-12">
-          <div class="col-span-5"><span class="text-base text-headingColor"> Showing 1-6 of 12 results</span></div>
+          <div class="col-span-5">
+            <span class="text-base text-headingColor"> Showing {{ meta?.from }}-{{ meta?.to }} of {{ meta?.total }} results</span>
+          </div>
           <div class="col-span-7 flex items-center justify-end gap-4">
             <form class="relative">
               <input
                 type="text"
-                placeholder="Search Your Course.."
-                class="min-w-[300px] h-12 pl-5 pr-12 text-whiteColor font-semibold bg-transparent border-2 border-whiteColor outline-none rounded-full shadow-shadow02 placeholder:text-whiteColor"
+                v-model="filters.search"
+                placeholder="Search for courses or instructors..."
+                class="min-w-[360px] h-12 pl-5 pr-10 text-whiteColor font-semibold line-clamp-1 bg-transparent border-2 border-whiteColor outline-none rounded-full shadow-shadow02 placeholder:text-whiteColor"
               />
               <button
+                @click.prevent="onFilter"
                 class="absolute top-1/2 -translate-y-1/2 right-2 w-8 h-8 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:opacity-0 after:rounded-full after:scale-[0.8] after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
                 title="Search"
               >
@@ -68,43 +72,31 @@
         <div class="pt-8 flex flex-wrap items-end justify-start">
           <div class="p-2 flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by</span>
-            <select class="select w-full">
-              <option selected>Default</option>
-              <option>Latest</option>
-              <option>Popularity</option>
-              <option>Price: low to high</option>
-              <option>Price: high to low</option>
+            <select v-model="filters.sort" class="select w-full">
+              <option value="">Default</option>
+              <option value="latest">Latest</option>
+              <option value="popularity">Popularity</option>
+              <option value="price_asc">Price: low to high</option>
+              <option value="price_desc">Price: high to low</option>
             </select>
           </div>
           <div class="p-2 flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by offer</span>
-            <select class="select w-full">
-              <option selected>All</option>
-              <option>Free</option>
-              <option>Paid</option>
+            <select v-model="filters.price" class="select w-full">
+              <option value="all">All</option>
+              <option value="free">Free</option>
+              <option value="paid">Paid</option>
             </select>
           </div>
           <div class="p-2 flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by category</span>
-            <select class="select w-full">
-              <option selected>Web Design</option>
-              <option>Front-end</option>
-              <option>Backend</option>
-              <option>Full Stack</option>
-              <option>Mobile Application</option>
-            </select>
-          </div>
-          <div class="p-2 flex-1">
-            <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by level</span>
-            <select class="select w-full">
-              <option selected>All levels</option>
-              <option>Beginner</option>
-              <option>Intermediate</option>
-              <option>Expert</option>
+            <select class="select w-full" v-model="filters.category_id" @change="updateCategoryId">
+              <option selected disabled>Select a category</option>
+              <option v-for="category in homeStore.categories" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
           </div>
           <div class="p-2">
-            <button class="button" @click="filter">Filter</button>
+            <button class="button" @click.prevent="onFilter">Filter</button>
           </div>
         </div>
       </div>
@@ -114,23 +106,42 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useHomeStore } from '@/stores'
+
 export default defineComponent({
   components: {},
-  setup() {
-    const isShowFilter = ref(false)
+  props: {
+    meta: Object,
+    filters: Object,
+    isShowFilter: Boolean,
+    toggleFilter: Function,
+    fetchData: Function
+  },
+  emits: ['filters-changed'],
+  setup(props, { emit }) {
+    const homeStore = useHomeStore()
 
-    const toggleFilter = () => {
-      isShowFilter.value = !isShowFilter.value
+    const filters = ref(props.filters)
+
+    const updateCategoryId = e => {
+      filters.value.category_id = e.target.value
     }
 
-    const filter = async () => {
-      alert('Filter')
+    const emitFiltersChanged = () => {
+      emit('filters-changed', filters.value)
+    }
+
+    const onFilter = () => {
+      emitFiltersChanged()
+      props.fetchData()
     }
 
     return {
-      isShowFilter,
-      toggleFilter,
-      filter
+      filters,
+      homeStore,
+      updateCategoryId,
+      emitFiltersChanged,
+      onFilter
     }
   }
 })
