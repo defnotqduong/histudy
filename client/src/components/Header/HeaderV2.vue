@@ -177,7 +177,7 @@
                           stroke-linejoin="round"
                         />
                       </svg>
-                      <span class="mt-1 line-clamp-1">{{ userStore.user.name }}</span>
+                      <span class="mt-1 line-clamp-1">{{ userStore.user.username }}</span>
                     </a>
                     <div class="user-menu-list-wrapper">
                       <div class="p-4">
@@ -186,7 +186,7 @@
                             <img :src="userStore.user.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
                           </div>
                           <div class="flex-1">
-                            <h5 class="text-base text-heading font-bold line-clamp-1">{{ userStore.user.name }}</h5>
+                            <h5 class="text-base text-heading font-bold line-clamp-1">{{ userStore.user.username }}</h5>
                             <button>
                               <router-link
                                 :to="{ name: 'profile' }"

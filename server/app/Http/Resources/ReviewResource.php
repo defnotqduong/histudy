@@ -16,12 +16,12 @@ class ReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'review' => $this->review,
-            'star' => $this->star,
+            'comment' => $this->comment,
+            'rating' => $this->rating,
             'course_id' => $this->course_id,
             'user' => $this->user->only(['name', 'avatar']),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

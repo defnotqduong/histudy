@@ -11,14 +11,14 @@ class Attachment extends Model
 
     protected $fillable = [
         'name',
-        'url',
+        'attachment_url',
         'attachment_public_id',
-        'course_id',
+        'lesson_id',
     ];
 
-    public function course()
+    public function lesson()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Lesson::class);
     }
 
     public static function createAttachment($data)

@@ -17,15 +17,15 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unsignedBigInteger('chapter_id');
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+            $table->unsignedBigInteger('lesson_id');
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
 
             $table->boolean('is_completed')->default(false);
 
             $table->timestamps();
 
-            $table->index(['user_id', 'chapter_id']);
-            $table->unique(['user_id', 'chapter_id']);
+            $table->index(['user_id', 'lesson_id']);
+            $table->unique(['user_id', 'lesson_id']);
         });
     }
 

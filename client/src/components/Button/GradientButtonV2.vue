@@ -1,13 +1,11 @@
 <template>
-  <button class="button" @click.prevent="handleClick">
-    <LoadingV1 v-if="loading" />
-    <span v-else>{{ content }}</span>
+  <button class="button" @click.prevent="handleClick" :disabled="loading" :class="{ 'opacity-70': loading }">
+    {{ content }}
   </button>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 
 export default defineComponent({
   props: {
@@ -18,7 +16,7 @@ export default defineComponent({
       default: false
     }
   },
-  components: { LoadingV1 },
+  components: {},
   methods: {
     handleClick() {
       if (!this.loading) {

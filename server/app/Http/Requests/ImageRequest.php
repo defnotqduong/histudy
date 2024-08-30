@@ -23,7 +23,7 @@ class ImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'thumbnail' => 'required|image|max:4096',
+            'image' => 'required|image|max:4096',
         ];
     }
 
@@ -35,9 +35,9 @@ class ImageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'thumbnail.required' => 'The image is required.',
-            'thumbnail.image' => 'The file must be an image (JPG, PNG, etc.).',
-            'thumbnail.max' => 'The image size must not exceed 4MB.',
+            'image.required' => 'The image is required.',
+            'image.image' => 'The file must be an image (JPG, PNG, etc.).',
+            'image.max' => 'The image size must not exceed 4MB.',
         ];
     }
 }

@@ -23,7 +23,7 @@ class VideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'video' => 'required|file|mimes:mp4|max:512000000',
+            'video' => 'required|file|mimes:mp4|max:1024000',
         ];
     }
 
@@ -38,7 +38,7 @@ class VideoRequest extends FormRequest
             'video.required' => 'Video file is required.',
             'video.file' => 'The file must be a valid video file.',
             'video.mimes' => 'The video must be in one of the following formats mp4.',
-            'video.max' => 'The video file may not be greater than 512 GB.',
+            'video.max' => 'The video file may not be greater than 1 GB.',
         ];
     }
 }

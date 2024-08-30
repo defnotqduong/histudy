@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 py-4 px-6 bg-lighterColor rounded-md">
     <div class="font-bold text-headingColor flex items-start justify-between">
-      Course chapters
+      Chapters
       <button @click.prevent="toggleEdit" class="flex items-center gap-2">
         <template v-if="isEditting"> Cancel </template>
 
@@ -25,7 +25,14 @@
 
     <template v-if="!isEditting">
       <p v-if="chapters.length === 0" class="mt-2 italic text-bodyColor">No chapters</p>
-      <ChapterList v-else :chapters="chapters" :onEdit="onEdit" :onReorder="onReorder" />
+      <ChapterList
+        v-else
+        :chapters="chapters"
+        :onEditChapter="onEditChapter"
+        :onReorderChapter="onReorderChapter"
+        :onEditLesson="onEditLesson"
+        :onReorderLesson="onReorderLesson"
+      />
       <div class="text-sm text-muted-foreground mt-4">Drag and drop to render the chapters</div>
     </template>
 
@@ -51,7 +58,8 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { createCourseChapter, reorderCourseChapter } from '@/webServices/chapterService'
+import { createChapter, reorderChapter } from '@/webServices/chapterService'
+import { reorderLesson } from '@/webServices/lessonService'
 
 import ChapterList from '@/components/Course/CreateCourse/ChapterList.vue'
 
@@ -91,11 +99,12 @@ export default defineComponent({
         return
       }
 
-      const res = await createCourseChapter(props.slug, { title: title.value })
+      const res = await createChapter(props.slug, { title: title.value })
 
       console.log(res)
 
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return
@@ -107,12 +116,12 @@ export default defineComponent({
       toggleEdit()
     }
 
-    const onEdit = async id => {
-      router.push({ name: 'course-chapter', params: { slug: props.slug, id: id } })
+    const onEditChapter = async id => {
+      router.push({ name: 'create-course-chapter', params: { slug: props.slug, chapterId: id } })
     }
 
-    const onReorder = async bulkUpdateData => {
-      const res = await reorderCourseChapter(props.slug, { items: bulkUpdateData })
+    const onReorderChapter = async bulkUpdateData => {
+      const res = await reorderChapter(props.slug, { items: bulkUpdateData })
 
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Wrong something !' })
@@ -122,7 +131,22 @@ export default defineComponent({
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter reorder Successfully !' })
     }
 
-    return { chapters, title, isEditting, isSubmitting, errors, toggleEdit, onSubmit, onEdit, onReorder }
+    const onEditLesson = (chapterId, lessonId) => {
+      router.push({ name: 'create-course-lesson', params: { slug: props.slug, chapterId: chapterId, lessonId: lessonId } })
+    }
+
+    const onReorderLesson = async (chapterId, bulkUpdateData) => {
+      const res = await reorderLesson(props.slug, chapterId, { items: bulkUpdateData })
+
+      if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Wrong something !' })
+        return
+      }
+
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Lesson reorder Successfully !' })
+    }
+
+    return { chapters, title, isEditting, isSubmitting, errors, toggleEdit, onSubmit, onEditChapter, onReorderChapter, onEditLesson, onReorderLesson }
   }
 })
 </script>

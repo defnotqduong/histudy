@@ -37,13 +37,13 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { updateCourseChapter } from '@/webServices/chapterService'
+import { updateChapter } from '@/webServices/chapterService'
 
 export default defineComponent({
   props: {
     chapter: Object,
     slug: String,
-    id: String,
+    id: Number,
     fetchData: Function
   },
   setup(props) {
@@ -73,10 +73,11 @@ export default defineComponent({
         return
       }
 
-      const res = await updateCourseChapter(props.slug, props.id, { title: title.value })
+      const res = await updateChapter(props.slug, props.id, { title: title.value })
 
       console.log(res)
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return

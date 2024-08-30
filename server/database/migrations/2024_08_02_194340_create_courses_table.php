@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('instructor_id');
+            $table->foreign('instructor_id')->references('id')->on('users');
 
             $table->text('title');
             $table->string('slug')->unique();
             $table->longText('summary')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('thumb_url')->nullable();
-            $table->longText('thumb_public_id')->nullable();
+            $table->longText('thumbnail_url')->nullable();
+            $table->longText('thumbnail_public_id')->nullable();
             $table->float('price')->nullable();
             $table->boolean('is_published')->default(false);
 
@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['user_id', 'slug', 'category_id']);
+            $table->index(['instructor_id', 'slug', 'category_id']);
         });
     }
 

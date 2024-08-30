@@ -55,14 +55,14 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { publishCourseChapter, unpublishCourseChapter, deleteCourseChapter } from '@/webServices/chapterService'
+import { publishChapter, unpublishChapter, deleteChapter } from '@/webServices/chapterService'
 
 export default defineComponent({
   props: {
     chapter: Object,
     isComplete: Boolean,
     slug: String,
-    id: String,
+    id: Number,
     fetchData: Function
   },
   setup(props) {
@@ -74,7 +74,8 @@ export default defineComponent({
       isSubmitting.value = true
 
       if (!props.chapter?.is_published) {
-        const res = await publishCourseChapter(props.slug, props.id)
+        const res = await publishChapter(props.slug, props.id)
+
         if (!res.success) {
           homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
           isSubmitting.value = false
@@ -85,7 +86,7 @@ export default defineComponent({
           homeStore.onChangeToast({ show: true, type: 'success', message: 'Chapter published Successfully !' })
         }
       } else {
-        const res = await unpublishCourseChapter(props.slug, props.id)
+        const res = await unpublishChapter(props.slug, props.id)
 
         if (!res.success) {
           homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
@@ -104,7 +105,7 @@ export default defineComponent({
     const onDeleteChapter = async () => {
       isSubmitting.value = true
 
-      const res = await deleteCourseChapter(props.slug, props.id)
+      const res = await deleteChapter(props.slug, props.id)
 
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })

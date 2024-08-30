@@ -1,8 +1,8 @@
 <template>
   <div class="course-card">
     <div class="pb-7 relative">
-      <router-link :to="{ name: 'course-details', params: { slug: 1 } }"
-        ><img src="@/assets/images/course-online-01.jpg" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
+      <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"
+        ><img :src="course?.thumbnail_url" class="w-full h-64 object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
       <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
@@ -26,13 +26,8 @@
     <div>
       <div class="mb-2 flex items-center justify-between">
         <div class="flex items-center gap-[1px]">
-          <span v-for="i in 5" :key="i"
-            ><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="text-warningColor">
-              <path
-                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-              ></path></svg
-          ></span>
-          <span class="text-sm text-bodyColor font-semibold ml-1">(15 Reviews)</span>
+          <StarRating :averageStar="averageStar" :size="14" />
+          <span class="text-sm text-bodyColor font-semibold ml-1 mt-[2px]">({{ reviewCount }} Reviews)</span>
         </div>
         <button
           class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:opacity-0 after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
@@ -55,7 +50,7 @@
         </button>
       </div>
       <h4 class="mb-2 text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
-        <router-link :to="{ name: 'course-details', params: { slug: 1 } }"> The Complete Histudy 2024: From Zero to Expert!</router-link>
+        <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"> {{ course?.title }}</router-link>
       </h4>
       <ul class="mb-3 flex items-center justify-start gap-3">
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
@@ -66,7 +61,7 @@
               d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
               fill="currentColor"
             /></svg
-          ><span>12 Lessons</span>
+          ><span>{{ course?.lesson_count }} Lessons</span>
         </li>
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -77,25 +72,29 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span>50 Students</span>
+          ><span>{{ course?.customer_count }} Students</span>
         </li>
       </ul>
-      <p class="mb-5 text-lg text-bodyColor font-medium line-clamp-4">Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games and apps!</p>
+      <p class="mb-5 text-lg text-bodyColor font-medium line-clamp-4">
+        {{ course?.summary }}
+      </p>
       <div class="mb-4 flex items-center justify-start">
         <div class="w-10 h-10 p-[2px] border-2 border-primaryOpacityColor rounded-full mr-2">
-          <img src="@/assets/images/user-01.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
+          <img :src="course?.instructor?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
         </div>
         <div class="text-sm font-medium">
           By
-          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Claudia Arm</router-link>
-          In
-          <router-link :to="{ name: 'home' }" class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">Designing</router-link>
+          <span class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">{{ course?.instructor?.name }}</span>
+          <template v-if="course?.instructor?.profession">
+            In
+            <span class="text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">{{ course?.instructor?.profession }}</span>
+          </template>
         </div>
       </div>
       <div class="flex items-center justify-between">
         <div class="flex items-center">
-          <span class="text-xl text-bodyColor font-extrabold">$15</span>
-          <span class="ml-[6px] text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
+          <span class="text-xl text-bodyColor font-extrabold">{{ formattedPrice }}</span>
+          <!-- <span class="ml-[6px] text-xl text-bodyColor font-bold opacity-40 line-through">$25</span> -->
         </div>
         <button>
           <router-link
@@ -117,13 +116,27 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
+import { formatPrice } from '@/utils'
+
 import ButtonV1 from '@/components/Button/ButtonV1.vue'
+import StarRating from '@/components/StarRating/StarRating.vue'
+
 export default defineComponent({
+  components: { ButtonV1, StarRating },
   props: {
     course: Object
   },
-  components: { ButtonV1 }
+  setup(props) {
+    const averageStar = ref(props.course?.average_star || 5)
+    const reviewCount = ref(props.course?.review_count || 0)
+
+    const formattedPrice = computed(() => {
+      return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
+    })
+
+    return { averageStar, reviewCount, formattedPrice }
+  }
 })
 </script>
 

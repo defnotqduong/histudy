@@ -22,6 +22,12 @@ export default {
   },
 
   // Guest Routes
+  // Category
+  GET_ALL_CATEGORY_API: {
+    method: 'get',
+    url: '/category'
+  },
+
   // Course
   GET_POPULAR_COURSES_API: {
     method: 'get',
@@ -31,6 +37,11 @@ export default {
   GET_COURSE_FOR_GUEST_API: {
     method: 'get',
     url: '/course'
+  },
+
+  SEARCH_COURSES_API: {
+    method: 'get',
+    url: '/course/search'
   },
 
   // Instructor Routes
@@ -64,30 +75,20 @@ export default {
     url: '/instructor/course'
   },
 
-  // Attachment
-  CREATE_ATTACHMENT_COURSE_API: {
-    method: 'post',
-    url: '/instructor/course/attachment'
-  },
-  DELETE_ATTACHMENT_COURSE_API: {
-    method: 'deleted',
-    url: '/instructor/course/attachment'
-  },
-
   // Chapter
-  CREATE_CHAPTER_COURSE_API: {
+  CREATE_CHAPTER_API: {
     method: 'post',
     url: '/instructor/course/chapter'
   },
-  GET_CHAPTER_COURSE_API: {
+  GET_CHAPTER_API: {
     method: 'get',
     url: '/instructor/course/chapter'
   },
-  REORDER_CHAPTER_COURSE_API: {
+  REORDER_CHAPTER_API: {
     method: 'put',
     url: '/instructor/course/chapter'
   },
-  UPDATE_CHAPTER_COURSE_API: {
+  UPDATE_CHAPTER_API: {
     method: 'patch',
     url: '/instructor/course/chapter'
   },
@@ -95,21 +96,59 @@ export default {
     method: 'post',
     url: '/instructor/course/chapter'
   },
-  PUBLISH_CHAPTER_COURSE_API: {
+  PUBLISH_CHAPTER_API: {
     method: 'patch',
     url: '/instructor/course/chapter'
   },
-  UNPUBLISH_CHAPTER_COURSE_API: {
+  UNPUBLISH_CHAPTER_API: {
     method: 'patch',
     url: '/instructor/course/chapter'
   },
-  DELETE_CHAPTER_COURSE_API: {
+  DELETE_CHAPTER_API: {
     method: 'deleted',
     url: '/instructor/course/chapter'
   },
-  // Category
-  GET_ALL_CATEGORY_API: {
+  // Lesson
+  CREATE_LESSON_API: {
+    method: 'post',
+    url: '/instructor/course/chapter/lesson'
+  },
+  GET_LESSON_API: {
     method: 'get',
-    url: '/category'
+    url: '/instructor/course/chapter/lesson'
+  },
+  REORDER_LESSON_API: {
+    method: 'put',
+    url: '/instructor/course/chapter/lesson'
+  },
+  UPDATE_LESSON_API: {
+    method: 'patch',
+    url: '/instructor/course/chapter/lesson'
+  },
+  UPLOAD_LESSON_VIDEO_API: {
+    method: 'post',
+    url: '/instructor/course/chapter/lesson'
+  },
+  PUBLISH_LESSON_API: {
+    method: 'patch',
+    url: '/instructor/course/chapter/lesson'
+  },
+  UNPUBLISH_LESSON_API: {
+    method: 'patch',
+    url: '/instructor/course/chapter/lesson'
+  },
+  DELETE_LESSON_API: {
+    method: 'deleted',
+    url: '/instructor/course/chapter/lesson'
+  },
+
+  // Attachment
+  CREATE_ATTACHMENT_API: {
+    method: 'post',
+    url: '/instructor/course/chapter/lesson/attachment'
+  },
+  DELETE_ATTACHMENT_API: {
+    method: 'deleted',
+    url: '/instructor/course/chapter/lesson/attachment'
   }
 }

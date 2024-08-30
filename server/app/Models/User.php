@@ -16,12 +16,19 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'background_image',
         'avatar',
+        'profession',
+        'bio',
+        'facebook',
+        'instagram',
+        'twitter',
+        'linkedin',
         'profession',
         'password',
     ];
-
 
     protected $hidden = [
         'password',
@@ -45,7 +52,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Course::class, 'instructor_id');
     }
 
     public function purchasedCourses()

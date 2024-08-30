@@ -18,13 +18,14 @@ class ChapterController extends Controller
         $this->middleware('auth:api', ['except' => ['']]);
     }
 
-    public function createCourseChapter(ChapterRequest $request, $slug)
+    public function createChapter(ChapterRequest $request, $slug)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
@@ -50,19 +51,22 @@ class ChapterController extends Controller
         ], 200);
     }
 
-    public function getCourseChapter(Request $request, $slug, $id)
+    public function getChapter(Request $request, $slug, $id)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $chapter = Chapter::findById($id);
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
+            ->first();
 
         if (!$chapter) {
             return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
@@ -75,36 +79,40 @@ class ChapterController extends Controller
         ], 200);
     }
 
-    public function updateCourseChapter(ChapterRequest $request, $slug, $id)
+    public function updateChapter(ChapterRequest $request, $slug, $id)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $chapter = Chapter::findById($id);
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
+            ->first();
 
         if (!$chapter) {
             return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
         }
 
-        $chapter->update($request->all());
+        $chapter->updateChapter($request->all());
 
         return response()->json(['success' => true, 'message' => 'Chapter updated successfully', 'chapter' => new ChapterResource($chapter)], 200);
     }
 
-    public function reorderCourseChapter(Request $request, $slug)
+    public function reorderChapter(Request $request, $slug)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
@@ -117,7 +125,7 @@ class ChapterController extends Controller
                 ->where('course_id', $course->id)
                 ->first();
 
-            $chapter->update($item);
+            $chapter->updateChapter($item);
         }
 
         return response()->json([
@@ -131,14 +139,16 @@ class ChapterController extends Controller
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $chapter = Chapter::find($id);
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
+            ->first();
 
         if (!$chapter) {
             return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
@@ -152,6 +162,7 @@ class ChapterController extends Controller
 
             $url = $cloudinaryVideo->getSecurePath();
             $publicId = $cloudinaryVideo->getPublicId();
+            $duration = $request->duration;
 
             if ($chapter->video_public_id) {
                 Cloudinary::destroy($chapter->video_public_id, [
@@ -161,61 +172,46 @@ class ChapterController extends Controller
 
             $chapter->updateChapter([
                 'video_url' => $url,
-                'video_public_id' => $publicId
+                'video_public_id' => $publicId,
+                'video_duration' => $duration
             ]);
         }
 
-        return response()->json(['success' => true, 'message' => 'Video updated successfully', 'chapter' => new ChapterResource($chapter)], 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Video updated successfully',
+                'chapter' => new ChapterResource($chapter),
+            ],
+            200
+        );
     }
 
-    public function deleteCourseChapter(Request $request, $slug, $id)
+
+    public function publishChapter(Request $request, $slug, $id)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $chapter = Chapter::find($id);
-
-        if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
-        }
-
-        if ($chapter->video_public_id) {
-            Cloudinary::destroy($chapter->video_public_id, [
-                'resource_type' => 'video'
-            ]);
-        }
-
-        $chapter->deleteChapter();
-
-        return response()->json(['success' => true, 'message' => 'Chapter deleted successfully'], 200);
-    }
-
-    public function publishCourseChapter(Request $request, $slug, $id)
-    {
-        $userId = Auth::id();
-
-        $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
             ->first();
 
-        if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
-        }
-
-        $chapter = Chapter::find($id);
-
         if (!$chapter) {
             return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
         }
 
-        if (!$chapter->title || !$chapter->description || !$chapter->video_url) {
+        $hasPublishedLesson = $chapter->lessons->contains('is_published', true);
+
+        if (!$chapter->title || !$hasPublishedLesson) {
             return response()->json(['success' => false, 'message' => 'Missing required fields'], 400);
         }
 
@@ -226,19 +222,22 @@ class ChapterController extends Controller
         return response()->json(['success' => true, 'message' => 'Chapter published successfully'], 200);
     }
 
-    public function unpublishCourseChapter(Request $request, $slug, $id)
+    public function unpublishChapter(Request $request, $slug, $id)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $chapter = Chapter::find($id);
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
+            ->first();
 
         if (!$chapter) {
             return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
@@ -249,5 +248,50 @@ class ChapterController extends Controller
         ]);
 
         return response()->json(['success' => true, 'message' => 'Chapter unpublished successfully'], 200);
+    }
+
+    public function deleteChapter(Request $request, $slug, $id)
+    {
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $userId)
+            ->first();
+
+
+        if (!$course) {
+            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+        }
+
+        $chapter = Chapter::where('id', $id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        foreach ($chapter->lessons as $lesson) {
+
+            if ($lesson->video_public_id) {
+                Cloudinary::destroy($lesson->video_public_id, [
+                    'resource_type' => 'video'
+                ]);
+            }
+            foreach ($lesson->attachments as $attachment) {
+                if ($attachment->attachment_public_id) {
+                    Cloudinary::destroy($attachment->attachment_public_id, [
+                        'resource_type' => 'raw'
+                    ]);
+                }
+
+                $attachment->deleteAttachment();
+            }
+            $lesson->deleteLesson();
+        }
+
+        $chapter->deleteChapter();
+
+        return response()->json(['success' => true, 'message' => 'Chapter deleted successfully'], 200);
     }
 }

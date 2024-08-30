@@ -34,7 +34,7 @@ const routes = [
       {
         path: '/courses',
         name: 'courses',
-        component: () => import('@/pages/Course/Course.vue'),
+        component: () => import('@/pages/Course/Courses.vue'),
         meta: {
           title: 'Course - Online Courses & Education'
         }
@@ -117,9 +117,14 @@ const routes = [
             component: () => import('@/pages/Course/CreateCourseDetails.vue')
           },
           {
-            path: 'course/:slug/chapter/:id',
-            name: 'course-chapter',
-            component: () => import('@/pages/Course/Chapter.vue')
+            path: 'course/:slug/chapter/:chapterId',
+            name: 'create-course-chapter',
+            component: () => import('@/pages/Course/CreateChapter.vue')
+          },
+          {
+            path: 'course/:slug/chapter/:chapterId/lesson/:lessonId',
+            name: 'create-course-lesson',
+            component: () => import('@/pages/Course/CreateLesson.vue')
           }
         ]
       }

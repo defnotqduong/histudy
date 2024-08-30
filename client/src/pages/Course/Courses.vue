@@ -5,7 +5,8 @@
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-12 gap-7">
           <div class="col-span-4" v-for="i in 9" :key="i">
-            <CourseCardV2 />
+            <!-- <CourseCardV2 /> -->
+            Course
           </div>
         </div>
         <Pagination />

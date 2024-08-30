@@ -1,10 +1,10 @@
 <template>
   <div class="course-card">
     <div class="pb-7 relative">
-      <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"
-        ><img :src="course?.thumb_url" class="w-full object-cover object-center rounded-md" alt="Course Thumbnail"
+      <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }">
+        <img :src="course?.thumbnail_url" class="w-full h-64 object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
-      <div class="absolute w-14 h-14 bottom-10 right-4">
+      <!-- <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
           <path
             d="M157.027 24.5874C173.769 -7.90872 220.231 -7.90872 236.973 24.5874V24.5874C247.033 44.1139 269.728 53.5145 290.649 46.8207V46.8207C325.466 35.6809 358.319 68.5345 347.179 103.351V103.351C340.485 124.272 349.886 146.967 369.413 157.027V157.027C401.909 173.769 401.909 220.231 369.413 236.973V236.973C349.886 247.033 340.485 269.728 347.179 290.649V290.649C358.319 325.466 325.466 358.319 290.649 347.179V347.179C269.728 340.485 247.033 349.886 236.973 369.413V369.413C220.231 401.909 173.769 401.909 157.027 369.413V369.413C146.967 349.886 124.272 340.485 103.351 347.179V347.179C68.5345 358.319 35.6809 325.466 46.8207 290.649V290.649C53.5145 269.728 44.1139 247.033 24.5874 236.973V236.973C-7.90872 220.231 -7.90872 173.769 24.5874 157.027V157.027C44.1139 146.967 53.5145 124.272 46.8207 103.351V103.351C35.6809 68.5345 68.5345 35.6809 103.351 46.8207V46.8207C124.272 53.5145 146.967 44.1139 157.027 24.5874V24.5874Z"
@@ -21,18 +21,13 @@
           <span>-20%</span>
           <span>Off</span>
         </div>
-      </div>
+      </div> -->
     </div>
     <div>
       <div class="mb-2 flex items-center justify-between">
         <div class="flex items-center gap-[1px]">
-          <span v-for="i in 5" :key="i"
-            ><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="text-warningColor">
-              <path
-                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-              ></path></svg
-          ></span>
-          <span class="text-sm text-bodyColor font-semibold ml-1">(15 Reviews)</span>
+          <StarRating :averageStar="averageStar" :size="14" />
+          <span class="text-sm text-bodyColor font-semibold ml-1 mt-[2px]">({{ reviewCount }} Reviews)</span>
         </div>
         <button
           class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:opacity-0 after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
@@ -66,7 +61,7 @@
               d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
               fill="currentColor"
             /></svg
-          ><span>{{ course?.chapter_count }} Lessons</span>
+          ><span>{{ course?.lesson_count }} Lessons</span>
         </li>
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -83,7 +78,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <span class="text-xl text-bodyColor font-extrabold">{{ formattedPrice }}</span>
-          <span class="ml-2 text-xl text-bodyColor font-bold opacity-40 line-through">$25</span>
+          <!-- <span class="ml-2 text-xl text-bodyColor font-bold opacity-40 line-through">$25</span> -->
         </div>
         <button>
           <router-link
@@ -105,23 +100,25 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { formatPrice } from '@/utils'
 
 import ButtonV1 from '@/components/Button/ButtonV1.vue'
+import StarRating from '@/components/StarRating/StarRating.vue'
 export default defineComponent({
-  components: { ButtonV1 },
+  components: { ButtonV1, StarRating },
   props: {
     course: Object
   },
   setup(props) {
+    const averageStar = ref(props.course?.average_star || 5)
+    const reviewCount = ref(props.course?.review_count || 0)
+
     const formattedPrice = computed(() => {
       return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
     })
 
-    return {
-      formattedPrice
-    }
+    return { averageStar, reviewCount, formattedPrice }
   }
 })
 </script>

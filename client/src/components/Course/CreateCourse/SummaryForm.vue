@@ -16,7 +16,7 @@
       </button>
     </div>
 
-    <div v-if="!isEditting" class="mt-2 text-headingColor">
+    <div v-if="!isEditting" class="mt-4 text-headingColor">
       <span v-if="!summary" class="italic text-bodyColor">No summary</span>
       <div v-else class="prose max-h-[12rem] overflow-y-auto">{{ summary }}</div>
     </div>
@@ -72,6 +72,7 @@ export default defineComponent({
       const res = await updateCourse(props.slug, { summary: summary.value })
 
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return
@@ -96,7 +97,11 @@ export default defineComponent({
   border: 1.5px solid;
   outline: 0;
   padding: 0.5rem 1rem;
-  @apply text-headingColor bg-whiteColor border-borderColor;
+  @apply text-base text-headingColor bg-whiteColor border-borderColor;
+}
+
+.input-group .textarea {
+  min-height: 120px;
 }
 
 .input-group input:focus {

@@ -74,6 +74,7 @@ export default defineComponent({
       const res = await updateCourse(props.slug, { title: title.value })
 
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return

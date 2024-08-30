@@ -14,13 +14,13 @@ class Course extends Model
     use HasFactory, HasSlug;
 
     protected $fillable = [
-        'user_id',
+        'instructor_id',
         'title',
         'slug',
         'summary',
         'description',
-        'thumb_url',
-        'thumb_public_id',
+        'thumbnail_url',
+        'thumbnail_public_id',
         'price',
         'is_published',
         'category_id',
@@ -33,7 +33,7 @@ class Course extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function user()
+    public function instructor()
     {
         return $this->belongsTo(User::class);
     }
@@ -48,11 +48,11 @@ class Course extends Model
         return $this->hasMany(Chapter::class)->orderBy('position', 'asc');
     }
 
-
-    public function attachments()
+    public function publishedChapters()
     {
-        return $this->hasMany(Attachment::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Chapter::class)->where('is_published', true)->orderBy('position', 'asc');
     }
+
 
     public function customers()
     {
@@ -66,12 +66,13 @@ class Course extends Model
 
     public function averageStar()
     {
-        return (float) $this->reviews()->avg('star') ?? 5.0;
+        $average = $this->reviews()->avg('rating');
+        return $average !== null ? (float) $average : 5.0;
     }
 
     public static function createCourse($data)
     {
-        $data['user_id'] = Auth::id();
+        $data['instructor_id'] = Auth::id();
         return self::create($data);
     }
 
@@ -82,11 +83,8 @@ class Course extends Model
             ->first();
     }
 
-    public function updateCourse(array $data): bool
+    public function updateCourse(array $data)
     {
-        if (isset($data['title'])) {
-            $data['slug'] = Str::slug($data['title']);
-        }
         return $this->update($data);
     }
 
@@ -103,7 +101,7 @@ class Course extends Model
             ->groupBy('courses.id')
             ->orderByRaw('COUNT(purchases.id) DESC')
             ->orderBy('courses.created_at', 'DESC')
-            ->limit(10)
+            ->limit(9)
             ->get();
     }
 }

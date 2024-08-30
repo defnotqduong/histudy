@@ -33,14 +33,14 @@
           </div>
           <div class="mb-4 flex items-center justify-start">
             <div class="w-10 h-10 p-[2px] border-2 border-primaryOpacityColor rounded-full mr-2">
-              <img :src="instructor?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
+              <img :src="instructor?.info?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
             </div>
             <div class="text-sm font-medium">
               By
-              <span class="text-headingColor font-bold">{{ instructor?.name }}</span>
-              <template v-if="instructor?.profession">
+              <span class="text-headingColor font-bold">{{ instructor?.info?.name }}</span>
+              <template v-if="instructor?.info?.profession">
                 In
-                <span class="text-headingColor font-bold">{{ instructor?.profession }}</span>
+                <span class="text-headingColor font-bold">{{ instructor?.info?.profession }}</span>
               </template>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default defineComponent({
     instructor: Object
   },
   setup(props) {
-    const avgStar = ref(props.course?.average_star || 1)
+    const avgStar = ref(props.course?.average_star || 5)
 
     const fmAvgStar = computed(() => formatNumber(avgStar.value, 1))
 

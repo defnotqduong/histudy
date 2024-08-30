@@ -24,8 +24,9 @@ class CourseRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|string|max:255',
+            'summary' => 'nullable|string',
             'description' => 'nullable|string',
-            'thumb_url' => 'nullable|string',
+            'thumbnail_url' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
             'is_published' => 'nullable|boolean',
             'category_id' => 'nullable|exists:categories,id',
@@ -50,6 +51,8 @@ class CourseRequest extends FormRequest
             'title.string' => 'The course title must be a string.',
             'title.max' => 'The course title may not be greater than 255 characters.',
             'thumb_url.string' => 'The thumbnail URL must be a string.',
+            'price.numeric' => 'The price must be a numeric value.',
+            'price.min' => 'The price must be at least 0.',
             'category_id.exists' => 'The selected category does not exist.',
         ];
     }

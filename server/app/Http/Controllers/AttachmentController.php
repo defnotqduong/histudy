@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AttachmentRequest;
 use App\Models\Attachment;
+use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Lesson;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,17 +18,37 @@ class AttachmentController extends Controller
         $this->middleware('auth:api', ['except' => ['']]);
     }
 
-    public function createCourseAttachment(AttachmentRequest $request, $slug)
+    public function createLessonAttachment(AttachmentRequest $request, $slug, $chapterId, $lessonId)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
+
+        $chapter = Chapter::where('id', $chapterId)
+            ->where('course_id', $course->id)
+            ->first();
+
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('chapter_id', $chapter->id)
+            ->first();
+
+
+        if (!$lesson) {
+            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+        }
+
 
         if ($request->hasFile('attachment')) {
             $cloudinaryFile = Cloudinary::uploadFile($request->file('attachment')->getRealPath(), [
@@ -39,9 +61,9 @@ class AttachmentController extends Controller
 
             $data = [
                 'name' => $name,
-                'url' => $url,
+                'attachment_url' => $url,
                 'attachment_public_id' => $publicId,
-                'course_id' => $course->id,
+                'lesson_id' => $lesson->id,
             ];
 
             Attachment::createAttachment($data);
@@ -50,20 +72,39 @@ class AttachmentController extends Controller
         return response()->json(['success' => true, 'message' => 'Attachment added successfully'], 200);
     }
 
-    public function deleteCourseAttachment(Request $request, $slug, $id)
+    public function deleteLessonAttachment(Request $request, $slug, $chapterId, $lessonId, $id)
     {
         $userId = Auth::id();
 
         $course = Course::where('slug', $slug)
-            ->where('user_id', $userId)
+            ->where('instructor_id', $userId)
             ->first();
+
 
         if (!$course) {
             return response()->json(['success' => false, 'error' => 'Course not found'], 404);
         }
 
-        $attachment = Attachment::where('id', $id)
+        $chapter = Chapter::where('id', $chapterId)
             ->where('course_id', $course->id)
+            ->first();
+
+
+        if (!$chapter) {
+            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+        }
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('chapter_id', $chapter->id)
+            ->first();
+
+
+        if (!$lesson) {
+            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+        }
+
+        $attachment = Attachment::where('id', $id)
+            ->where('lesson_id', $lesson->id)
             ->first();
 
         if (!$attachment) {

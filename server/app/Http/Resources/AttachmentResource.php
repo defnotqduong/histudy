@@ -17,7 +17,7 @@ class AttachmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'url' => $this->url,
+            'attachment_url' => $this->attachment_url,
             'attachment_public_id' => $this->attachment_public_id,
             'course_id' => $this->course_id,
             'created_at' => $this->created_at->toDateTimeString(),

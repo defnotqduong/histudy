@@ -16,7 +16,7 @@
       </button>
     </div>
 
-    <div v-if="!isEditting" class="mt-2 text-headingColor">
+    <div v-if="!isEditting" class="mt-4 text-headingColor">
       <span v-if="!description" class="italic text-bodyColor">No description</span>
       <div v-else v-html="description" class="prose max-h-[12rem] overflow-y-auto"></div>
     </div>
@@ -75,6 +75,7 @@ export default defineComponent({
       const res = await updateCourse(props.slug, { description: description.value })
 
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return

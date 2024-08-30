@@ -25,10 +25,8 @@ class ChapterRequest extends FormRequest
         $rules = [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'video_url' => 'nullable|url',
             'position' => 'nullable|integer',
-            'isPublished' => 'boolean',
-            'isFree' => 'boolean',
+            'is_published' => 'nullable|boolean',
         ];
 
         if ($this->isMethod('patch')) {
@@ -49,6 +47,7 @@ class ChapterRequest extends FormRequest
             'title.required' => 'The chapter title is required.',
             'title.string' => 'The chapter title must be a string.',
             'title.max' => 'The chapter title must not exceed 255 characters.',
+            'position.integer' => 'The position must be an integer.',
         ];
     }
 }

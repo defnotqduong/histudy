@@ -16,7 +16,7 @@
       </button>
     </div>
 
-    <div v-if="!isEditting" class="mt-2 text-headingColor">
+    <div v-if="!isEditting" class="mt-4 text-headingColor">
       <span v-if="!description" class="italic text-bodyColor">No description</span>
       <div v-else v-html="description" class="prose max-h-[12rem] overflow-y-auto"></div>
     </div>
@@ -46,7 +46,7 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { updateCourseChapter } from '@/webServices/chapterService'
+import { updateChapter } from '@/webServices/chapterService'
 
 import Editor from '@/components/Editor/Editor.vue'
 
@@ -55,7 +55,7 @@ export default defineComponent({
   props: {
     chapter: Object,
     slug: String,
-    id: String,
+    id: Number,
     fetchData: Function
   },
   setup(props) {
@@ -79,9 +79,10 @@ export default defineComponent({
       errors.value = {}
       isSubmitting.value = true
 
-      const res = await updateCourseChapter(props.slug, props.id, { description: description.value })
+      const res = await updateChapter(props.slug, props.id, { description: description.value })
 
       if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
         isSubmitting.value = false
         return

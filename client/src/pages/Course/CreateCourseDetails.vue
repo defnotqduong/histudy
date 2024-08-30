@@ -71,7 +71,7 @@
                   />
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-headingColor">Course chapters</h3>
+              <h3 class="text-xl font-bold text-headingColor">Chapters</h3>
             </div>
             <ChapterForm :course="course" :slug="slug" :chapters="chapters" :fetchData="fetchData" />
             <div class="mt-8 flex items-center justify-start">
@@ -91,21 +91,6 @@
               <h3 class="text-xl font-bold text-headingColor">Sell your course</h3>
             </div>
             <PriceForm :course="course" :slug="slug" :fetchData="fetchData" />
-            <div class="mt-8 flex items-center justify-start">
-              <div class="p-2 text-primaryColor bg-primaryOpacityColor rounded-full mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M19 9V17.8C19 18.9201 19 19.4802 18.782 19.908C18.5903 20.2843 18.2843 20.5903 17.908 20.782C17.4802 21 16.9201 21 15.8 21H8.2C7.07989 21 6.51984 21 6.09202 20.782C5.71569 20.5903 5.40973 20.2843 5.21799 19.908C5 19.4802 5 18.9201 5 17.8V6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.0799 3 8.2 3H13M19 9L13 3M19 9H14C13.4477 9 13 8.55228 13 8V3"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <h3 class="text-xl font-bold text-headingColor">Resources & Attachments</h3>
-            </div>
-            <AttachmentForm :course="course" :slug="slug" :attachments="attachments" :fetchData="fetchData" />
           </div>
         </div>
       </div>
@@ -128,7 +113,6 @@ import ImageForm from '@/components/Course/CreateCourse/ImageForm.vue'
 import CategoryForm from '@/components/Course/CreateCourse/CategoryForm.vue'
 import ChapterForm from '@/components/Course/CreateCourse/ChapterForm.vue'
 import PriceForm from '@/components/Course/CreateCourse/PriceForm.vue'
-import AttachmentForm from '@/components/Course/CreateCourse/AttachmentForm.vue'
 import NotificationBanner from '@/components/Toast/NotificationBanner.vue'
 import CourseAction from '@/components/Course/CreateCourse/CourseAction.vue'
 
@@ -143,7 +127,6 @@ export default defineComponent({
     CategoryForm,
     ChapterForm,
     PriceForm,
-    AttachmentForm,
     NotificationBanner
   },
   setup() {
@@ -154,7 +137,6 @@ export default defineComponent({
     const slug = ref(route.params.slug)
     const course = ref(null)
     const categories = ref([])
-    const attachments = ref([])
     const chapters = ref([])
     const loading = ref(false)
 
@@ -168,8 +150,7 @@ export default defineComponent({
       }
 
       course.value = res.course
-      attachments.value = res.course.attachments
-      chapters.value = res.course.chapters
+      chapters.value = res.chapters
       loading.value = false
     }
 
@@ -194,11 +175,12 @@ export default defineComponent({
       course.value?.title,
       course.value?.summary,
       course.value?.description,
-      course.value?.thumb_url,
-      course.value?.price,
+      course.value?.thumbnail_url,
+      course.value?.price || course.value?.price === 0,
       course.value?.category_id,
-      course.value?.chapters.some(chapter => chapter?.is_published)
+      chapters.value.some(chapter => chapter?.is_published)
     ])
+
     const totalFields = computed(() => requiredFields.value.length)
     const completedFields = computed(() => requiredFields.value.filter(Boolean).length)
     const isComplete = computed(() => requiredFields.value.every(Boolean))
@@ -207,7 +189,6 @@ export default defineComponent({
       slug,
       course,
       categories,
-      attachments,
       chapters,
       loading,
       fetchData,

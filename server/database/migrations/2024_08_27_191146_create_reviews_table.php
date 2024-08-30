@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->longText('review');
-            $table->unsignedTinyInteger('star');
+            $table->longText('comment');
+            $table->unsignedTinyInteger('rating');
 
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');

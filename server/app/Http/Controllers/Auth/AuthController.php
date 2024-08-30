@@ -28,6 +28,9 @@ class AuthController extends Controller
         $messages = [
             'name.required' => 'Name is required.',
             'name.string' => 'Name must be a string.',
+            'username.required' => 'Name is required.',
+            'username.string' => 'Name must be a string.',
+            'username.unique' => 'This username already exists.',
             'email.required' => 'Email is required.',
             'email.email' => 'Email format is invalid.',
             'email.max' => 'Email may not be greater than 100 characters.',
@@ -41,6 +44,7 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
+            'username' => 'required|string',
             'email' => 'required|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:5|max:100',
         ], $messages);

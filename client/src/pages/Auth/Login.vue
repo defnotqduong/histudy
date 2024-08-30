@@ -180,7 +180,7 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
         const userData = await getUserProfile()
-        userStore.getUser(userData.user)
+        userStore.setUser(userData.user)
         router.push({ name: 'home' })
       }
     }

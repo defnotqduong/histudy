@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use App\Models\Chapter;
 use App\Models\Course;
 
@@ -21,9 +22,8 @@ use App\Models\Course;
 |
 */
 
-// Auth
-
-Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
+// Auth Routes
+Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
@@ -31,26 +31,23 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-// Category
-Route::group(['prefix' => 'category', 'middleware' => 'api'], function () {
+// Category Routes
+Route::group(['prefix' => 'category'], function () {
     Route::get('/', [CategoryController::class, 'getAllCategory']);
 });
 
-// Course 
-// Guest Routes
-
+// Public Course Routes
 Route::group(['prefix' => 'course'], function () {
+    Route::get('/search', [CourseController::class, 'searchCourses']);
     Route::get('/popular', [CourseController::class, 'getPopularCourses']);
     Route::get('/{slug}', [CourseController::class, 'getCourseForGuest']);
 });
 
-// Protected Routes
 
-Route::group(['prefix' => 'instructor', 'middleware' => 'api'], function () {
-
+// Instructor Routes
+Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
+    // Course Routes
     Route::group(['prefix' => 'course'], function () {
-
-        // Course
         Route::post('/', [CourseController::class, 'createCourse']);
         Route::get('/{slug}', [CourseController::class, 'getCourse']);
         Route::patch('/{slug}', [CourseController::class, 'updateCourse']);
@@ -60,19 +57,34 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'api'], function () {
 
         // Thumbnail
         Route::post('/{slug}/thumbnail', [CourseController::class, 'updateCourseThumbnail']);
+    });
 
-        // Chapter
-        Route::post('/{slug}/chapter', [ChapterController::class, 'createCourseChapter']);
-        Route::get('/{slug}/chapter/{id}', [ChapterController::class, 'getCourseChapter']);
-        Route::patch('/{slug}/chapter/{id}', [ChapterController::class, 'updateCourseChapter']);
-        Route::post('/{slug}/chapter/{id}/video', [ChapterController::class, 'uploadChapterVideo']);
-        Route::patch('/{slug}/chapter/{id}/publish', [ChapterController::class, 'publishCourseChapter']);
-        Route::patch('/{slug}/chapter/{id}/unpublish', [ChapterController::class, 'unpublishCourseChapter']);
-        Route::put('/{slug}/chapter/reorder', [ChapterController::class, 'reorderCourseChapter']);
-        Route::delete('/{slug}/chapter/{id}', [ChapterController::class, 'deleteCourseChapter']);
+    // Chapter Routes
+    Route::group(['prefix' => 'course/{slug}/chapter'], function () {
+        Route::post('/', [ChapterController::class, 'createChapter']);
+        Route::get('/{id}', [ChapterController::class, 'getChapter']);
+        Route::patch('/{id}', [ChapterController::class, 'updateChapter']);
+        Route::patch('/{id}/publish', [ChapterController::class, 'publishChapter']);
+        Route::patch('/{id}/unpublish', [ChapterController::class, 'unpublishChapter']);
+        Route::put('/reorder', [ChapterController::class, 'reorderChapter']);
+        Route::delete('/{id}', [ChapterController::class, 'deleteChapter']);
 
-        // Attachment
-        Route::post('/{slug}/attachment', [AttachmentController::class, 'createCourseAttachment']);
-        Route::delete('/{slug}/attachment/{id}', [AttachmentController::class, 'deleteCourseAttachment']);
+        // Lesson Routes
+        Route::group(['prefix' => '{chapterId}/lesson'], function () {
+            Route::post('/', [LessonController::class, 'createLesson']);
+            Route::get('/{id}', [LessonController::class, 'getLesson']);
+            Route::patch('/{id}', [LessonController::class, 'updateLesson']);
+            Route::post('/{id}/video', [LessonController::class, 'uploadLessonVideo']);
+            Route::patch('/{id}/publish', [LessonController::class, 'publishLesson']);
+            Route::patch('/{id}/unpublish', [LessonController::class, 'unpublishLesson']);
+            Route::put('/reorder', [LessonController::class, 'reorderLesson']);
+            Route::delete('/{id}', [LessonController::class, 'deleteLesson']);
+
+            // Attachment Routes
+            Route::group(['prefix' => '{lessonId}/attachment'], function () {
+                Route::post('/', [AttachmentController::class, 'createLessonAttachment']);
+                Route::delete('/{id}', [AttachmentController::class, 'deleteLessonAttachment']);
+            });
+        });
     });
 });

@@ -12,13 +12,11 @@ class Chapter extends Model
     protected $fillable = [
         'title',
         'description',
-        'video_url',
-        'video_public_id',
         'position',
         'is_published',
-        'is_free',
         'course_id',
     ];
+
 
     /**
      * Define the relationship with the Course model.
@@ -28,6 +26,15 @@ class Chapter extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class)->orderBy('position', 'asc');
+    }
+
+    public function publishedLessons()
+    {
+        return $this->hasMany(Lesson::class)->where('is_published', true)->orderBy('position', 'asc');
+    }
 
     public static function createChapter($data)
     {
