@@ -11,8 +11,8 @@ export const getCourse = (slug, dataPost) => {
 
 export const getAllCourses = (filters = {}) => {
   const queryParams = Object.entries(filters)
-    .filter(([key, value]) => value !== null)
-    .map(([key, value]) => `${key}=${value}`)
+    .filter(([key, value]) => value !== null && value !== undefined && value !== '')
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&')
 
   const url = `${api.GET_ALL_COURSES_API.url}?${queryParams}`

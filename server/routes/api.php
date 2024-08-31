@@ -4,10 +4,12 @@ use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\WishlistController;
 use App\Models\Chapter;
 use App\Models\Course;
 
@@ -42,6 +44,18 @@ Route::group(['prefix' => 'course'], function () {
     Route::get('/search', [CourseController::class, 'searchCourses']);
     Route::get('/popular', [CourseController::class, 'getPopularCourses']);
     Route::get('/{slug}', [CourseController::class, 'getCourseForGuest']);
+});
+
+// Cart Routes
+Route::group(['prefix' => 'cart', 'middleware' => 'auth:api'], function () {
+    Route::post('/', [CartController::class, 'addCourseToCart']);
+    Route::delete('/{courseId}', [CartController::class, 'removeCourseFromCart']);
+});
+
+// Wishlist Routes
+Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api'], function () {
+    Route::post('/', [WishlistController::class, 'addCourseToWishlist']);
+    Route::delete('/{courseId}', [WishlistController::class, 'removeCourseFromWishlist']);
 });
 
 

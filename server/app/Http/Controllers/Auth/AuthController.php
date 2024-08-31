@@ -104,7 +104,10 @@ class AuthController extends Controller
                     'success' => true,
                     'user' => new UserResource($user),
                     'courses' => new CourseResourceCollection($user->courses),
-                    'purchased_courses' => new CourseResourceCollection($user->purchasedCourses)
+                    'purchased_courses' => new CourseResourceCollection($user->purchasedCourses, false),
+                    'cart' => new CourseResourceCollection($user->cart, false),
+                    'wishlist' => new CourseResourceCollection($user->wishlist, false)
+
                 ],
                 200
             );

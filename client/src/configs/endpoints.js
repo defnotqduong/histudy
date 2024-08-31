@@ -1,3 +1,5 @@
+import { method } from 'lodash'
+
 export default {
   // User
   REGISTER_USER_API: {
@@ -26,6 +28,28 @@ export default {
   GET_ALL_CATEGORY_API: {
     method: 'get',
     url: '/category'
+  },
+
+  // Cart
+  ADD_COURSE_TO_CART_API: {
+    method: 'post',
+    url: '/cart'
+  },
+
+  REMOVE_COURSE_FROM_CART_API: {
+    method: 'deleted',
+    url: '/cart'
+  },
+
+  // Wishlist
+  ADD_COURSE_TO_WISHLIST_API: {
+    method: 'post',
+    url: '/wishlist'
+  },
+
+  REMOVE_COURSE_FROM_WISHLIST_API: {
+    method: 'deleted',
+    url: '/wishlist'
   },
 
   // Course

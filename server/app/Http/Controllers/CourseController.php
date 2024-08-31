@@ -212,7 +212,7 @@ class CourseController extends Controller
 
         return response()->json([
             'success' => true,
-            'courses' => new CourseResourceCollection($courses),
+            'courses' => new CourseResourceCollection($courses, false),
         ], 200);
     }
 

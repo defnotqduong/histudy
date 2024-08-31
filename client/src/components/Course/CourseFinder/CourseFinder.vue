@@ -34,7 +34,7 @@
                 class="min-w-[360px] h-12 pl-5 pr-10 text-whiteColor font-semibold line-clamp-1 bg-transparent border-2 border-whiteColor outline-none rounded-full shadow-shadow02 placeholder:text-whiteColor"
               />
               <button
-                @click.prevent="onFilter"
+                @click.prevent=""
                 class="absolute top-1/2 -translate-y-1/2 right-2 w-8 h-8 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:opacity-0 after:rounded-full after:scale-[0.8] after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
                 title="Search"
               >
@@ -54,7 +54,7 @@
                 </svg>
               </button>
             </form>
-            <button class="btn-filter" @click="toggleFilter">
+            <button class="btn-filter" :class="{ active: isShowFilter }" @click="toggleFilter">
               Filter
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
                 <path
@@ -91,7 +91,7 @@
           <div class="p-2 flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by category</span>
             <select class="select w-full" v-model="filters.category_id" @change="updateCategoryId">
-              <option selected disabled>Select a category</option>
+              <option disabled :value="null">Select a category</option>
               <option v-for="category in homeStore.categories" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
           </div>
@@ -105,7 +105,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import _ from 'lodash'
 import { useHomeStore } from '@/stores'
 
 export default defineComponent({
@@ -136,6 +137,17 @@ export default defineComponent({
       props.fetchData()
     }
 
+    const debouncedFetchData = _.debounce(() => {
+      onFilter()
+    }, 1500)
+
+    watch(
+      () => filters.value.search,
+      () => {
+        debouncedFetchData()
+      }
+    )
+
     return {
       filters,
       homeStore,
@@ -162,6 +174,11 @@ export default defineComponent({
 }
 
 .btn-filter:hover {
+  transform: translate3d(0, -2px, 0);
+  @apply bg-primaryColor text-whiteColor;
+}
+
+.btn-filter.active {
   transform: translate3d(0, -2px, 0);
   @apply bg-primaryColor text-whiteColor;
 }

@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['chapter_id']);
+            $table->index('chapter_id');
         });
     }
 

@@ -31,7 +31,9 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['instructor_id', 'slug', 'category_id']);
+            $table->index('instructor_id');
+            $table->index('slug');
+            $table->index('category_id');
         });
     }
 

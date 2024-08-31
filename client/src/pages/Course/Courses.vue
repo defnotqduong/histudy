@@ -1,19 +1,15 @@
 <template>
   <div class="pb-[120px] border-b-[1px] border-borderColor">
-    <template v-if="loading">
-      <div class="h-[60vh] text-primaryColor flex items-center justify-center">
-        <span class="loading loading-spinner"></span>
-      </div>
-    </template>
-    <template v-else>
-      <CourseFinder
-        :meta="meta"
-        :filters="filters"
-        :isShowFilter="isShowFilter"
-        @filters-changed="handleFiltersChanged"
-        :toggleFilter="toggleFilter"
-        :fetchData="fetchData"
-      />
+    <CourseFinder
+      :meta="meta"
+      :filters="filters"
+      :isShowFilter="isShowFilter"
+      @filters-changed="handleFiltersChanged"
+      :toggleFilter="toggleFilter"
+      :fetchData="fetchData"
+    />
+
+    <template v-if="!loading">
       <div v-if="courses.length === 0">No courses yet</div>
       <div v-else class="relative mt-[-160px]">
         <div class="container mx-auto px-4">
@@ -47,10 +43,9 @@ export default defineComponent({
 
     const filters = ref({
       category_id: null,
-      price: '',
+      price: 'all',
       search: '',
-      sort: '',
-      limit: 9
+      sort: ''
     })
 
     const meta = ref({
@@ -94,6 +89,7 @@ export default defineComponent({
     }
 
     const fetchData = async page => {
+      scrollToTop()
       loading.value = true
       filters.value.page = page || 1
 
@@ -120,7 +116,6 @@ export default defineComponent({
     watch(
       () => route.query,
       () => {
-        scrollToTop()
         updateFiltersFromQuery()
         fetchData()
       }
@@ -131,16 +126,9 @@ export default defineComponent({
       fetchData()
     })
 
-    return { isShowFilter, filters, meta, links, courses, loading, updateFiltersFromQuery, toggleFilter, handleFiltersChanged, fetchData }
+    return { isShowFilter, filters, meta, links, courses, loading, scrollToTop, updateFiltersFromQuery, toggleFilter, handleFiltersChanged, fetchData }
   },
-  methods: {
-    scrollToTop() {
-      window.scrollTo({ top: 0 })
-    }
-  },
-  created() {
-    this.scrollToTop()
-  }
+  methods: {}
 })
 </script>
 

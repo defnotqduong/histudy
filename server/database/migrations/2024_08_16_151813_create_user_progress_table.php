@@ -24,8 +24,9 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['user_id', 'lesson_id']);
             $table->unique(['user_id', 'lesson_id']);
+            $table->index('user_id');
+            $table->index('lesson_id');
         });
     }
 

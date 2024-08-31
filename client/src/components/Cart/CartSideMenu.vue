@@ -6,10 +6,16 @@
       @click="handleClick"
     ></div>
     <div class="cart-side-menu w-[40%]" :class="{ 'side-menu-active': homeStore.isShowCartSideMenu }">
-      <div class="py-16 px-12">
+      <div class="h-full py-16 px-10">
         <div class="flex items-center justify-between">
           <h4 class="text-3xl text-headingColor font-extrabold">Your shopping cart</h4>
           <CloseButton :color="'blackColor'" :func="handleClick" />
+        </div>
+        <div class="h-full flex items-center justify-center" v-if="userStore.cart.length === 0">
+          <img src="@/assets/icons/cart-empty.svg" alt="Cart empty" />
+        </div>
+        <div v-else class="py-6">
+          <CourseCardV5 v-for="course in userStore.cart" :key="course.id" :course="course" class="mb-5" />
         </div>
       </div>
     </div>
@@ -18,18 +24,21 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
+
 import CloseButton from '@/components/Button/CloseButton.vue'
+import CourseCardV5 from '@/components/Course/CourseCard/CourseCardV5.vue'
 export default defineComponent({
-  components: { CloseButton },
+  components: { CloseButton, CourseCardV5 },
   setup() {
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const handleClick = () => {
       homeStore.onChangeShowCartSideMenu()
     }
 
-    return { homeStore, handleClick }
+    return { homeStore, userStore, handleClick }
   }
 })
 </script>
@@ -42,7 +51,7 @@ export default defineComponent({
   bottom: 0;
   z-index: 10000;
   transform: translateX(100%);
-  overflow: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
   transition: transform 0.85s cubic-bezier(0.23, 1, 0.32, 1);
   @apply bg-whiteColor;
