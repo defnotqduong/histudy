@@ -2,16 +2,20 @@
   <section class="py-24 bg-extraColor">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-12">
-        <div class="col-span-6 flex flex-col items-start">
-          <span class="inline-block px-5 py-2 mb-5 text-sm text-pinkColor font-bold uppercase bg-pinkOpacityColor rounded-full">Top Popular Course</span>
-          <h2 class="text-center text-[40px] font-black text-headingColor leading-tight">Most Popular <span class="text-primaryColor">Course</span></h2>
+        <div class="col-span-8 flex flex-col items-start">
+          <span class="inline-block px-5 py-2 mb-5 text-xs md:text-sm text-pinkColor font-bold uppercase bg-pinkOpacityColor rounded-full"
+            >Top Popular Course</span
+          >
+          <h2 class="text-2xl md:text-3xl lg:text-[40px] lg:leading-tight font-black text-headingColor">
+            Most Popular <span class="text-primaryColor">Course</span>
+          </h2>
         </div>
-        <div class="col-span-6 flex items-end justify-end">
-          <ButtonV3 :content="'View All Course'" :link="'courses'" />
+        <div class="col-span-4 flex items-end justify-end">
+          <ButtonV3 :content="'View Courses'" :link="'courses'" />
         </div>
       </div>
-      <div class="grid grid-cols-12 mt-14 gap-7">
-        <div class="col-span-4" v-for="course in homeStore.popularCourses" :key="course.id">
+      <div class="grid grid-cols-12 mt-14 gap-4 md:gap-6">
+        <div class="col-span-12 sm:col-span-6 lg:col-span-4" v-for="course in homeStore.popularCourses" :key="course.id">
           <CourseCardV3 :course="course" />
         </div>
       </div>

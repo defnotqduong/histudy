@@ -4,23 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Wishlist extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'course_id'
+        'user_id'
     ];
 
-    public function user()
+    public function courses()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasManyThrough(Course::class, WishlistItem::class, 'wishlist_id', 'id', 'id', 'course_id');
     }
 
-    public function course()
+    public static function createWishlist()
     {
-        return $this->belongsTo(Course::class);
+        $userId = Auth::id();
+
+        return self::create([
+            'user_id' => $userId
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sticky top-24 z-10 mt-[-460px] py-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
+    class="relative lg:sticky top-24 z-10 mt-0 lg:mt-[-460px] py-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
   >
     <div class="mb-7 px-7">
       <a href="">

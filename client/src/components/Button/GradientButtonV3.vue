@@ -1,5 +1,5 @@
 <template>
-  <button class="button">
+  <button class="button text-sm md:text-base">
     <router-link :to="{ name: link }" class="w-full h-full flex items-center justify-center">
       <span
         class="relative after:absolute after:content-[attr(data-text)] after:top-1/2 after:left-full after:transform after:translate-x-full after:-translate-y-1/2 after:whitespace-nowrap"
@@ -24,7 +24,6 @@ export default defineComponent({
 .button {
   height: 50px;
   padding: 0 28px;
-  font-size: 16px;
   font-weight: 700;
   background-size: 300% 100%;
   border-radius: 9999px;

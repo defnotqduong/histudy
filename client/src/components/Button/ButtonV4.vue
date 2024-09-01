@@ -1,7 +1,7 @@
 <template>
   <button class="button">
     <router-link :to="{ name: link }" class="w-full h-full flex items-center justify-center">
-      <span>{{ content }}</span>
+      <span class="text-sm md:text-base">{{ content }}</span>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="icon">
         <path
           fill-rule="evenodd"

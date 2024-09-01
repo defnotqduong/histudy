@@ -1,6 +1,6 @@
 <template>
   <button class="button" @click.prevent="func">
-    <span class="btn-icon">
+    <span class="btn-icon text-sm md:text-base">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path
           fill-rule="evenodd"
@@ -32,7 +32,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  font-size: 16px;
   font-weight: 700;
   border-radius: 6px;
   transition: all 0.3s ease-in-out;

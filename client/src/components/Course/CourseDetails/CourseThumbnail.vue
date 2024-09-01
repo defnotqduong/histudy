@@ -1,6 +1,6 @@
 <template>
-  <div class="p-7 bg-whiteColor rounded-md overflow-hidden shadow-shadow01">
-    <img :src="thumbnail_url" alt="Course Thumbnail" class="w-full h-[460px] object-cover object-center" />
+  <div class="p-4 md:p-6 bg-whiteColor rounded-md overflow-hidden shadow-shadow01">
+    <img :src="thumbnail_url" alt="Course Thumbnail" class="w-full h-60 sm:h-80 md:h-[460px] object-cover object-center" />
   </div>
 </template>
 

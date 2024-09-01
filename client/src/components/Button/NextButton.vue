@@ -1,6 +1,6 @@
 <template>
   <button class="button" @click.prevent="func">
-    <span class="btn-text">
+    <span class="btn-text text-sm md:text-base">
       {{ content }}
     </span>
     <span class="btn-icon">
@@ -32,7 +32,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  font-size: 16px;
   font-weight: 700;
   border-radius: 6px;
   transition: all 0.3s ease-in-out;

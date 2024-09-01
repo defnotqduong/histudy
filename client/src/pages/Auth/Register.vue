@@ -246,6 +246,10 @@ export default defineComponent({
         userStore.login(res.data.access_token, res.data.refresh_token)
         const userData = await getUserProfile()
         userStore.getUser(userData.user)
+        userStore.setInstructorCourses(userData.courses.courses)
+        userStore.setEnrolledCourses(userData.purchased_courses.courses)
+        userStore.setCart(userData.cart.courses)
+        userStore.setWishlist(userData.wishlist.courses)
         router.push({ name: 'home' })
       }
     }

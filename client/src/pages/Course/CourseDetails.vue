@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-[120px] border-b-[1px] border-borderColor">
+  <div class="pb-20 md:pb-28 border-b-[1px] border-borderColor">
     <div v-if="loading" class="min-h-[60vh] flex items-center justify-center text-primaryColor">
       <LoadingV1 />
     </div>
@@ -7,8 +7,8 @@
       <CourseOverview :course="course" :instructor="instructor" :category="category" />
       <div class="pt-16 pb-16">
         <div class="container mx-auto px-4">
-          <div class="grid grid-cols-12 gap-7">
-            <div class="col-span-8">
+          <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 lg:col-span-8">
               <CourseThumbnail :thumbnail_url="course?.thumbnail_url" />
               <CourseChapters :chapters="chapters" />
               <CourseDescription :description="course?.description" />
@@ -16,7 +16,7 @@
               <CourseReviews :average_star="course?.average_star" :review_count="course?.review_count" :reviews="reviews" />
               <InstructorRecommendedCourses :instructor="course?.instructor" :instructorCourses="instructorCourses" />
             </div>
-            <div class="col-span-4">
+            <div class="col-span-12 lg:col-span-4">
               <CourseEnrollment :course="course" />
             </div>
           </div>

@@ -1,8 +1,8 @@
 <template>
-  <div class="mt-8 p-7 bg-whiteColor shadow-shadow01 rounded-md overflow-hidden">
+  <div class="mt-4 md:mt-8 p-4 md:p-6 bg-whiteColor shadow-shadow01 rounded-md overflow-hidden">
     <h4 class="text-xl text-headingColor font-extrabold pb-4 mb-5 border-b-[1px] border-borderColor">Instructor</h4>
-    <div class="flex items-start justify-start">
-      <div class="mr-8">
+    <div class="flex flex-col items-center justify-center gap-y-6 md:flex-row md:items-start md:justify-start">
+      <div class="mr-0 md:mr-8">
         <div>
           <img :src="instructor?.info?.avatar" class="max-w-[250px] max-h-[250px] object-cover object-center rounded-full" alt="Instructor" />
         </div>

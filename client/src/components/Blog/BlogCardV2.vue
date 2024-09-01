@@ -1,13 +1,13 @@
 <template>
   <div class="card">
     <div class="flex items-center">
-      <div>
+      <div class="h-full">
         <router-link :to="{ name: 'home' }">
-          <img src="../../assets/images/blog-card-02.jpg" class="h-full max-w-[260px] max-h-[290px] object-cover object-center" alt="Blog thumb" />
+          <img src="@/assets/images/blog-card-02.jpg" class="h-full max-w-40 md:max-w-64 max-h-72 object-cover object-center" alt="Blog thumb" />
         </router-link>
       </div>
-      <div class="p-7">
-        <h3 class="mb-2 text-2xl font-black text-headingColor leading-tight line-clamp-2 transition-all duration-300 hover:text-primaryColor">
+      <div class="p-6">
+        <h3 class="mb-2 text-xl lg:text-2xl font-black text-headingColor leading-tight line-clamp-2 transition-all duration-300 hover:text-primaryColor">
           <router-link :to="{ name: 'home' }">Why Is Education So Famous?</router-link>
         </h3>
         <ButtonV1 :content="'Read Article'" :link="'home'" />

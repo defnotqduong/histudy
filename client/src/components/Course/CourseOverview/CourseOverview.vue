@@ -2,7 +2,7 @@
   <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: 'url(/src/assets/images/bg-image-10.jpg)' }">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-12">
-        <div class="col-span-8 pr-[16%]">
+        <div class="col-span-12 lg:col-span-8 lg:pr-[16%]">
           <div class="breadcrumbs text-sm text-headingColor">
             <ul>
               <li class="hover:text-primaryColor transition-all duration-300"><router-link :to="{ name: 'home' }">Home</router-link></li>
@@ -10,10 +10,10 @@
             </ul>
           </div>
           <div class="my-6 flex items-center justify-start">
-            <h1 class="text-5xl text-headingColor font-black">{{ course?.title }}</h1>
+            <h1 class="text-3xl sm:text-4xl xl:text-5xl text-headingColor font-black">{{ course?.title }}</h1>
           </div>
-          <p class="mb-5 text-lg text-headingColor" v-html="course?.summary"></p>
-          <div class="mb-5 flex items-center justify-start gap-4">
+          <p class="mb-5 text-base lg:text-lg text-headingColor" v-html="course?.summary"></p>
+          <div class="mb-5 flex flex-wrap items-center justify-start gap-4">
             <div
               class="px-5 h-12 flex items-center justify-center gap-2 text-sm text-headingColor font-bold bg-badgeColor shadow-shadow04 rounded-full border-[1px] border-whiteColor"
             >
@@ -44,7 +44,7 @@
               </template>
             </div>
           </div>
-          <ul class="text-sm text-headingColor font-medium flex items-center justify-start gap-4">
+          <ul class="text-sm text-headingColor font-medium flex flex-wrap items-center justify-start gap-4">
             <li class="flex items-center justify-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path

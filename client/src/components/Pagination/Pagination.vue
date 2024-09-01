@@ -74,12 +74,12 @@ export default defineComponent({
 }
 
 .pagination li {
-  @apply m-2;
+  @apply m-1 sm:m-2;
 }
 
 .pagination li button {
   transition: all 0.4s;
-  @apply w-12 h-12 font-semibold bg-whiteColor rounded-md flex items-center justify-center shadow-shadow01;
+  @apply w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 font-semibold bg-whiteColor rounded-md flex items-center justify-center shadow-shadow01;
 }
 
 .pagination .disabled {

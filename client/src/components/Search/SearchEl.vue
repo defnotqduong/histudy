@@ -23,8 +23,8 @@
           </template>
           <template v-else>
             <div v-if="courses.length === 0" class="mt-4 ml-6 italic">No courses yet</div>
-            <div v-else class="grid grid-cols-4 gap-4 mt-4">
-              <div class="col-span-1" v-for="course in courses" :key="course.id" @click="onChangeSearchEl">
+            <div v-else class="mx-6 sm:mx-0 grid grid-cols-12 gap-4 mt-4">
+              <div class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3" v-for="course in courses" :key="course.id" @click="onChangeSearchEl">
                 <CourseCardV1 :course="course" />
               </div>
             </div>

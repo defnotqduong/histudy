@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click.prevent="func">{{ content }}</button>
+  <button class="button text-sm md:text-base" @click.prevent="func">{{ content }}</button>
 </template>
 
 <script>
@@ -24,7 +24,6 @@ export default defineComponent({
   text-align: center;
   color: transparent;
   text-shadow: 0 0 0 rgb(255, 255, 255);
-  font-size: 16px;
   font-weight: 500;
   text-decoration: none;
   box-sizing: border-box;

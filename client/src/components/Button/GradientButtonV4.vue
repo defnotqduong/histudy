@@ -1,10 +1,10 @@
 <template>
-  <button class="button" @click.prevent="func">
+  <button class="button px-2 sm:px-4 md:px-6 text-sm md:text-base" @click.prevent="func">
     <span class="btn-text">
       {{ content }}
     </span>
     <span class="btn-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-3 h-3 md:w-4 md:h-4">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -14,7 +14,7 @@
       </svg>
     </span>
     <span class="btn-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-3 h-3 md:w-4 md:h-4">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -42,8 +42,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   height: 50px;
-  padding: 0 24px;
-  font-size: 16px;
   font-weight: 600;
   background-size: 300% 100%;
   border-radius: 6px;

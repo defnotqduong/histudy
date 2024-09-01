@@ -1,5 +1,5 @@
 <template>
-  <section class="hidden md:block py-3 border-b-[1px] border-borderColor bg-whiteColor">
+  <section class="hidden lg:block py-3 border-b-[1px] border-borderColor bg-whiteColor">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between">
         <ul class="flex items-center justify-start gap-3">
@@ -67,7 +67,10 @@
         </ul>
         <ul class="flex items-center justify-end gap-4">
           <li>
-            <a href="" class="text-bodyColor text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300">
+            <a
+              href=""
+              class="text-bodyColor text-xs lg:text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]">
                 <path
                   d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"
@@ -82,7 +85,10 @@
             >
           </li>
           <li>
-            <a href="" class="text-bodyColor text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300">
+            <a
+              href=""
+              class="text-bodyColor text-xs lg:text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]">
                 <path
                   d="M14.3308 15.9402L15.6608 14.6101C15.8655 14.403 16.1092 14.2384 16.3778 14.1262C16.6465 14.014 16.9347 13.9563 17.2258 13.9563C17.517 13.9563 17.8052 14.014 18.0739 14.1262C18.3425 14.2384 18.5862 14.403 18.7908 14.6101L20.3508 16.1702C20.5579 16.3748 20.7224 16.6183 20.8346 16.887C20.9468 17.1556 21.0046 17.444 21.0046 17.7351C21.0046 18.0263 20.9468 18.3146 20.8346 18.5833C20.7224 18.8519 20.5579 19.0954 20.3508 19.3L19.6408 20.02C19.1516 20.514 18.5189 20.841 17.8329 20.9541C17.1469 21.0672 16.4427 20.9609 15.8208 20.6501C10.4691 17.8952 6.11008 13.5396 3.35083 8.19019C3.03976 7.56761 2.93414 6.86242 3.04914 6.17603C3.16414 5.48963 3.49384 4.85731 3.99085 4.37012L4.70081 3.65015C5.11674 3.23673 5.67937 3.00464 6.26581 3.00464C6.85225 3.00464 7.41488 3.23673 7.83081 3.65015L9.40082 5.22021C9.81424 5.63615 10.0463 6.19871 10.0463 6.78516C10.0463 7.3716 9.81424 7.93416 9.40082 8.3501L8.0708 9.68018C8.95021 10.8697 9.91617 11.9926 10.9608 13.04C11.9994 14.0804 13.116 15.04 14.3008 15.9102L14.3308 15.9402Z"
@@ -96,7 +102,10 @@
             >
           </li>
           <li>
-            <a href="" class="text-bodyColor text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300">
+            <a
+              href=""
+              class="text-bodyColor text-xs lg:text-sm font-medium flex items-center justify-center gap-2 hover:text-primaryColor transition-all duration-300"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]">
                 <path
                   d="M12 3C7.04 3 3 7.04 3 12C3 16.96 7.04 21 12 21C16.96 21 21 16.96 21 12C21 7.04 16.96 3 12 3ZM12 19.5C7.86 19.5 4.5 16.14 4.5 12C4.5 7.86 7.86 4.5 12 4.5C16.14 4.5 19.5 7.86 19.5 12C19.5 16.14 16.14 19.5 12 19.5ZM14.3 7.7C14.91 8.31 15.25 9.13 15.25 10C15.25 10.87 14.91 11.68 14.3 12.3C13.87 12.73 13.33 13.03 12.75 13.16V13.5C12.75 13.91 12.41 14.25 12 14.25C11.59 14.25 11.25 13.91 11.25 13.5V12.5C11.25 12.09 11.59 11.75 12 11.75C12.47 11.75 12.91 11.57 13.24 11.24C13.57 10.91 13.75 10.47 13.75 10C13.75 9.53 13.57 9.09 13.24 8.76C12.58 8.1 11.43 8.1 10.77 8.76C10.44 9.09 10.26 9.53 10.26 10C10.26 10.41 9.92 10.75 9.51 10.75C9.1 10.75 8.76 10.41 8.76 10C8.76 9.13 9.1 8.32 9.71 7.7C10.94 6.47 13.08 6.47 14.31 7.7H14.3ZM13 16.25C13 16.8 12.55 17.25 12 17.25C11.45 17.25 11 16.8 11 16.25C11 15.7 11.45 15.25 12 15.25C12.55 15.25 13 15.7 13 16.25Z"

@@ -1,6 +1,6 @@
 <template>
   <button class="button" @click.prevent="func">
-    <span class="btn-text">
+    <span class="btn-text text-sm md:text-base">
       {{ content }}
     </span>
     <span class="btn-icon">

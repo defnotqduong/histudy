@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="mt-8 p-7 bg-whiteColor shadow-shadow01 rounded-md overflow-hidden">
+    <div class="mt-4 md:mt-8 p-4 md:p-6 bg-whiteColor shadow-shadow01 rounded-md overflow-hidden">
       <h4 class="text-xl text-headingColor font-extrabold pb-4 mb-5 border-b-[1px] border-borderColor">Review</h4>
-      <div class="grid grid-cols-12 gap-8">
-        <div class="col-span-3 mt-8">
+      <div class="grid grid-cols-12 gap-x-8">
+        <div class="col-span-12 md:col-span-3 mt-8">
           <div class="p-4 pb-6 flex flex-col items-center justify-center bg-warningOpacityColor">
             <div class="text-center text-6xl font-black text-headingColor">{{ formatAvgStar }}</div>
             <div class="mt-2 mb-1 flex items-center justify-center gap-1">
@@ -12,39 +12,39 @@
             <span class="text-warningColor text-base font-bold">Course Rating</span>
           </div>
         </div>
-        <div class="col-span-9 mt-8">
+        <div class="col-span-12 md:col-span-9 mt-8">
           <div class="flex flex-col gap-2">
-            <div class="flex items-center justify-between">
-              <StarRating :averageStar="5" :size="16" />
-              <div class="ml-8 mr-3 flex-1 bg-progressColor h-[6px]">
+            <div class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="5" :size="16" class="w-full sm:w-auto" />
+              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
                 <div class="w-[60%] h-full bg-warningColor"></div>
               </div>
               <span class="font-semibold">60%</span>
             </div>
-            <div class="flex items-center justify-between">
-              <StarRating :averageStar="4" :size="16" />
-              <div class="ml-8 mr-3 flex-1 bg-progressColor h-[6px]">
+            <div class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="4" :size="16" class="w-full sm:w-auto" />
+              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
                 <div class="w-[60%] h-full bg-warningColor"></div>
               </div>
               <span class="font-semibold">60%</span>
             </div>
-            <div class="flex items-center justify-between">
-              <StarRating :averageStar="3" :size="16" />
-              <div class="ml-8 mr-3 flex-1 bg-progressColor h-[6px]">
+            <div class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="3" :size="16" class="w-full sm:w-auto" />
+              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
                 <div class="w-[60%] h-full bg-warningColor"></div>
               </div>
               <span class="font-semibold">60%</span>
             </div>
-            <div class="flex items-center justify-between">
-              <StarRating :averageStar="2" :size="16" />
-              <div class="ml-8 mr-3 flex-1 bg-progressColor h-[6px]">
+            <div class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="2" :size="16" class="w-full sm:w-auto" />
+              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
                 <div class="w-[60%] h-full bg-warningColor"></div>
               </div>
               <span class="font-semibold">60%</span>
             </div>
-            <div class="flex items-center justify-between">
-              <StarRating :averageStar="1" :size="16" />
-              <div class="ml-8 mr-3 flex-1 bg-progressColor h-[6px]">
+            <div class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="1" :size="16" class="w-full sm:w-auto" />
+              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
                 <div class="w-[60%] h-full bg-warningColor"></div>
               </div>
               <span class="font-semibold">60%</span>
@@ -63,7 +63,7 @@
         >
           <ReviewCard :review="review" />
         </div>
-        <Pagination />
+        <!-- <Pagination /> -->
       </div>
       <div v-else class="italic">No reviews yet</div>
     </div>

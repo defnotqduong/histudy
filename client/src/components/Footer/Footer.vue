@@ -1,22 +1,21 @@
 <template>
   <footer class="bg-whiteColor text-base text-bodyColor font-medium">
     <div class="container mx-auto px-4">
-      <div class="py-20">
-        <div class="grid grid-cols-12">
-          <div class="col-span-4">
+      <div class="py-10 md:py-20">
+        <div class="grid grid-cols-12 gap-4">
+          <div class="col-span-12 sm:col-span-8 lg:col-span-5">
             <div>
               <router-link :to="{ name: 'home' }">
                 <img src="../../assets/images/logo.jpg" class="max-h-[50px] object-cover object-center" alt="Logo" />
               </router-link>
             </div>
-            <p class="mt-6 mb-8">We’re always in search for talented and motivated people.Don’t be shy introduce yourself!</p>
+            <p class="mt-3 mb-4 md:mt-6 md:mb-8">We’re always in search for talented and motivated people.Don’t be shy introduce yourself!</p>
             <div>
               <GradientButtonV3 :content="'Contact With Us'" :link="'home'" />
             </div>
           </div>
-          <div class="col-span-1"></div>
-          <div class="col-span-2">
-            <h5 class="mb-4 text-lg text-headingColor font-extrabold">Useful Links</h5>
+          <div class="col-span-12 sm:col-span-4 lg:col-span-2">
+            <h5 class="mb-2 md:mb-4 text-lg text-headingColor font-extrabold">Useful Links</h5>
             <ul>
               <li class="mb-2">
                 <a
@@ -55,8 +54,8 @@
               </li>
             </ul>
           </div>
-          <div class="col-span-2">
-            <h5 class="mb-4 text-lg text-headingColor font-extrabold">Our Company</h5>
+          <div class="col-span-12 sm:col-span-6 lg:col-span-2">
+            <h5 class="mb-2 md:mb-4 text-lg text-headingColor font-extrabold">Our Company</h5>
             <ul>
               <li class="mb-2">
                 <a
@@ -95,8 +94,8 @@
               </li>
             </ul>
           </div>
-          <div class="col-span-3">
-            <h5 class="mb-4 text-lg text-headingColor font-extrabold">Get Contact</h5>
+          <div class="col-span-12 sm:col-span-6 lg:col-span-3">
+            <h5 class="mb-2 md:mb-4 text-lg text-headingColor font-extrabold">Get Contact</h5>
             <ul class="mb-8">
               <li class="mb-2">
                 <strong>Phone:</strong>
@@ -126,9 +125,9 @@
       </div>
       <div class="h-[1px] bg-borderColor"></div>
       <div class="py-5">
-        <div class="grid grid-cols-12">
-          <div class="col-span-6">
-            <p>
+        <div class="grid grid-cols-12 gap-y-2">
+          <div class="col-span-12 lg:col-span-6">
+            <p class="text-center lg:text-start">
               Copyright © 2024
               <a
                 href=""
@@ -137,8 +136,8 @@
               >. All Rights Reserved
             </p>
           </div>
-          <div class="col-span-6">
-            <ul class="flex items-center justify-end">
+          <div class="col-span-12 lg:col-span-6">
+            <ul class="flex items-center justify-center lg:justify-end">
               <li class="mt-1 px-2">
                 <a
                   href=""

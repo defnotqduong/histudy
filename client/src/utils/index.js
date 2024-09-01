@@ -9,10 +9,15 @@ export const formatPrice = price => {
 
 export const formatDuration = seconds => {
   const hrs = Math.floor(seconds / 3600)
-  const mins = Math.floor((seconds % 3600) / 60)
-  const secs = seconds % 60
+  let mins
 
-  return `${hrs > 0 ? `${hrs}hr ` : ''}${mins}min ${secs}sec`
+  if (hrs > 0) {
+    mins = Math.round((seconds % 3600) / 60)
+    return `${hrs}hr ${mins}min`
+  } else {
+    mins = (seconds / 60).toFixed(1)
+    return `${mins}min`
+  }
 }
 
 export const formatDateLong = date => {

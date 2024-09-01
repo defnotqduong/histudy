@@ -1,8 +1,8 @@
 <template>
-  <div class="course-card grid grid-cols-5 gap-6">
-    <div class="relative col-span-2">
+  <div class="course-card grid grid-cols-12 gap-6">
+    <div class="relative col-span-12 sm:col-span-5">
       <router-link @click="handleClick" :to="{ name: 'course-details', params: { slug: course?.slug } }"
-        ><img :src="course?.thumbnail_url" class="w-full h-full object-cover object-center rounded-md" alt="Course Thumbnail"
+        ><img :src="course?.thumbnail_url" class="w-full h-48 sm:h-full object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
       <!-- <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
@@ -23,7 +23,7 @@
         </div>
       </div> -->
     </div>
-    <div class="col-span-3">
+    <div class="col-span-12 sm:col-span-7">
       <div class="mb-2 flex items-center justify-between">
         <div class="flex items-center gap-[1px]">
           <StarRating :averageStar="averageStar" :size="14" />

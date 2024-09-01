@@ -5,7 +5,8 @@
     </div>
     <div class="grid grid-cols-12 gap-5">
       <div v-for="i in 6" :key="i" class="col-span-4">
-        <CourseCardV5 />
+        <!-- <CourseCardV5 /> -->
+        Card
       </div>
     </div>
   </div>

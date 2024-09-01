@@ -7,7 +7,7 @@
       :autoplay="{ delay: 10000, disableOnInteraction: false }"
       :speed="800"
       :loop="true"
-      class="h-[640px] hero-banner"
+      class="h-[460px] md:h-[640px] hero-banner"
     >
       <SwiperSlide
         :style="{ backgroundImage: 'url(/src/assets/images/bg-image-01.jpg)' }"
@@ -17,20 +17,21 @@
           <div class="container mx-auto px-4">
             <div class="px-10">
               <div class="flex items-center justify-center section-title">
-                <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
+                <span
+                  class="mb-4 md:mb-8 py-2 px-5 text-center text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                   >BASED ON THE BEST HISTUDY</span
                 >
               </div>
-              <h1 class="text-center text-6xl font-black text-whiteColor title">
+              <h1 class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-whiteColor title">
                 Histudy Starter is a community <br />
                 <strong>for creative people.</strong>
               </h1>
-              <div class="mt-10 flex items-center justify-center button-group">
+              <div class="mt-4 md:mt-10 flex items-center justify-center button-group">
                 <GradientButtonV3 :content="'More About Course'" :link="'home'" />
               </div>
-              <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
+              <div class="mt-4 md:mt-10 flex flex-col items-center justify-center social-share-wrapper">
                 <SocialListV1 />
-                <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
+                <span class="mt-2 text-sm text-whiteColor text-center opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
               </div>
             </div>
           </div>
@@ -44,20 +45,21 @@
           <div class="container mx-auto px-4">
             <div class="px-10">
               <div class="flex items-center justify-center section-title">
-                <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
+                <span
+                  class="mb-4 md:mb-8 py-2 px-5 text-center text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                   >BASED ON THE BEST HISTUDY</span
                 >
               </div>
-              <h1 class="text-center text-6xl font-black text-whiteColor title">
+              <h1 class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-whiteColor title">
                 Histudy Starter is a community <br />
                 <strong>for creative people.</strong>
               </h1>
-              <div class="mt-10 flex items-center justify-center button-group">
+              <div class="mt-4 md:mt-10 flex items-center justify-center button-group">
                 <GradientButtonV3 :content="'More About Course'" :link="'home'" />
               </div>
-              <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
+              <div class="mt-4 md:mt-10 flex flex-col items-center justify-center social-share-wrapper">
                 <SocialListV1 />
-                <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
+                <span class="mt-2 text-sm text-whiteColor text-center opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
               </div>
             </div>
           </div>
@@ -71,20 +73,21 @@
           <div class="container mx-auto px-4">
             <div class="px-10">
               <div class="flex items-center justify-center section-title">
-                <span class="mb-8 py-2 px-5 text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
+                <span
+                  class="mb-4 md:mb-8 py-2 px-5 text-center text-sm font-extrabold text-whiteColor tracking-wider leading-4 bg-whiteOpacityColor rounded-full"
                   >BASED ON THE BEST HISTUDY</span
                 >
               </div>
-              <h1 class="text-center text-6xl font-black text-whiteColor title">
+              <h1 class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-whiteColor title">
                 Histudy Starter is a community <br />
                 <strong>for creative people.</strong>
               </h1>
-              <div class="mt-10 flex items-center justify-center button-group">
+              <div class="mt-4 md:mt-10 flex items-center justify-center button-group">
                 <GradientButtonV3 :content="'More About Course'" :link="'home'" />
               </div>
-              <div class="mt-10 flex flex-col items-center justify-center social-share-wrapper">
+              <div class="mt-4 md:mt-10 flex flex-col items-center justify-center social-share-wrapper">
                 <SocialListV1 />
-                <span class="mt-2 text-sm text-whiteColor opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
+                <span class="mt-2 text-sm text-whiteColor text-center opacity-70">Follow By Facebook, Twitter, Instagram, and Linkedin</span>
               </div>
             </div>
           </div>

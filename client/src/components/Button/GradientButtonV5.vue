@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click.prevent="func">
+  <button class="button text-sm md:text-base" @click.prevent="func">
     <span class="btn-text">
       {{ content }}
     </span>
@@ -32,7 +32,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  font-size: 16px;
   font-weight: 700;
   background-size: 300% 100%;
   border-radius: 6px;

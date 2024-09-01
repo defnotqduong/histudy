@@ -2,7 +2,7 @@
   <div class="course-card">
     <div class="pb-7 relative">
       <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }">
-        <img :src="course?.thumbnail_url" class="w-full h-64 object-cover object-center rounded-md" alt="Course Thumbnail"
+        <img :src="course?.thumbnail_url" class="w-full h-60 sm:h-44 xl:h-60 object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
       <!-- <div class="absolute w-14 h-14 bottom-10 right-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 394" fill="none" class="w-full h-full">
@@ -49,7 +49,7 @@
           </svg>
         </button>
       </div>
-      <h4 class="mb-2 text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
+      <h4 class="mb-2 text-xl md:text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
         <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"> {{ course?.title }}</router-link>
       </h4>
       <ul class="mb-3 flex items-center justify-start gap-3">

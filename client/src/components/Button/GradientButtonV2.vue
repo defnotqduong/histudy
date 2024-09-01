@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click.prevent="handleClick" :disabled="loading" :class="{ 'opacity-70': loading }">
+  <button class="button text-sm md:text-base" @click.prevent="handleClick" :disabled="loading" :class="{ 'opacity-70': loading }">
     {{ content }}
   </button>
 </template>
@@ -34,7 +34,6 @@ export default defineComponent({
   justify-content: center;
   height: 50px;
   padding: 0 28px;
-  font-size: 16px;
   font-weight: 600;
   background-size: 300% 100%;
   border-radius: 6px;

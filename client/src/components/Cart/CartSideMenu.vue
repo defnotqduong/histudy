@@ -5,7 +5,7 @@
       :class="homeStore.isShowCartSideMenu ? 'opacity-100 visible' : 'opacity-0 invisible'"
       @click="handleClick"
     ></div>
-    <div class="cart-side-menu w-[40%]" :class="{ 'side-menu-active': homeStore.isShowCartSideMenu }">
+    <div class="cart-side-menu w-full sm:w-[80%] lg:w-[60%] xl:w-[40%]" :class="{ 'side-menu-active': homeStore.isShowCartSideMenu }">
       <div class="h-full py-16 px-10">
         <div class="flex items-center justify-between">
           <h4 class="text-3xl text-headingColor font-extrabold">Your shopping cart</h4>
