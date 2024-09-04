@@ -33,7 +33,7 @@
         </div>
       </div>
       <div v-if="!isInCart" class="mt-5">
-        <GradientButtonV5 class="w-full h-[60px]" :content="'Add to Cart'" :func="addToCart" />
+        <GradientButtonV5 class="w-full h-[60px]" :content="'Add to Cart'" :func="addToCart" :loading="loading" />
       </div>
       <div v-else class="mt-5">
         <GradientButtonV5 class="w-full h-[60px]" :content="'View Cart'" :func="redirect" />
@@ -46,22 +46,27 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '@/utils'
 import { useUserStore } from '@/stores'
+import { addCourseToCart, getCart } from '@/webServices/cartService'
 
 import GradientButtonV5 from '@/components/Button/GradientButtonV5.vue'
 import ButtonV5 from '@/components/Button/ButtonV5.vue'
 import PlayVideoButton from '@/components/Button/PlayVideoButton.vue'
+import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 export default defineComponent({
-  components: { GradientButtonV5, ButtonV5, PlayVideoButton },
+  components: { GradientButtonV5, ButtonV5, PlayVideoButton, LoadingV1 },
   props: {
     course: Object
   },
   setup(props) {
     const userStore = useUserStore()
     const router = useRouter()
+
+    const loading = ref(false)
+    const id = ref(props.course?.id)
 
     const formattedPrice = computed(() => {
       return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
@@ -74,8 +79,17 @@ export default defineComponent({
     const redirect = () => {
       router.push({ name: 'cart' })
     }
-    const addToCart = () => {
-      alert('Add to cart')
+    const addToCart = async () => {
+      loading.value = true
+
+      const res = await addCourseToCart({ courseId: id.value })
+
+      if (res.success) {
+        const cartData = await getCart()
+        userStore.setCart(cartData.cart.courses)
+      }
+
+      loading.value = false
     }
 
     const buyNow = () => {
@@ -83,6 +97,8 @@ export default defineComponent({
     }
 
     return {
+      loading,
+      id,
       formattedPrice,
       isInCart,
       redirect,

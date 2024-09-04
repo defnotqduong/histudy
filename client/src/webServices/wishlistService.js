@@ -10,5 +10,5 @@ export const addCourseToWishlist = dataPost => {
 }
 
 export const removeCourseFromWishlist = id => {
-  return connectServer[api.REMOVE_COURSE_FROM_WISHLIST_API.method](api.REMOVE_COURSE_FROM_WISHLIST_API.url)
+  return connectServer[api.REMOVE_COURSE_FROM_WISHLIST_API.method](api.REMOVE_COURSE_FROM_WISHLIST_API.url + '/' + id)
 }

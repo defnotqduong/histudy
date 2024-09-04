@@ -94,7 +94,7 @@ export default defineComponent({
       filters.value.page = page || 1
 
       const res = await getAllCourses(filters.value)
-      console.log(res)
+
       if (res.success) {
         courses.value = res.courses.courses
 

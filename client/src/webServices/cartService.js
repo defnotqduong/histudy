@@ -10,5 +10,5 @@ export const addCourseToCart = dataPost => {
 }
 
 export const removeCourseFromCart = id => {
-  return connectServer[api.REMOVE_COURSE_FROM_CART_API.method](api.REMOVE_COURSE_FROM_CART_API.url)
+  return connectServer[api.REMOVE_COURSE_FROM_CART_API.method](api.REMOVE_COURSE_FROM_CART_API.url + '/' + id)
 }

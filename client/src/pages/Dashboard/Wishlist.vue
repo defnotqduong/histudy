@@ -5,7 +5,7 @@
     </div>
     <div class="grid grid-cols-12 gap-5">
       <div v-for="course in userStore.wishlist" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
-        <CourseCardV1 :course="course" />
+        <CourseCardV6 :course="course" />
       </div>
     </div>
   </div>
@@ -15,10 +15,10 @@
 import { defineComponent } from 'vue'
 import { useUserStore } from '@/stores'
 
-import CourseCardV1 from '@/components/Course/CourseCard/CourseCardV1.vue'
+import CourseCardV6 from '@/components/Course/CourseCard/CourseCardV6.vue'
 
 export default defineComponent({
-  components: { CourseCardV1 },
+  components: { CourseCardV6 },
   setup() {
     const userStore = useUserStore()
 

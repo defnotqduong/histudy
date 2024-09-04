@@ -1,5 +1,5 @@
 <template>
-  <button class="button text-sm md:text-base" @click.prevent="func">
+  <button class="button text-sm md:text-base" @click.prevent="func" :disabled="loading" :class="{ 'opacity-70': loading }">
     <span class="btn-text">
       {{ content }}
     </span>
@@ -21,7 +21,11 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
     content: String,
-    func: Function
+    func: Function,
+    loading: {
+      type: Boolean,
+      default: false
+    }
   }
 })
 </script>
