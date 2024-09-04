@@ -1,11 +1,11 @@
 <template>
   <div
-    class="relative lg:sticky top-24 z-10 mt-0 lg:mt-[-460px] py-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
+    class="relative lg:sticky top-0 lg:top-24 z-10 mt-0 lg:mt-[-460px] py-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
   >
     <div class="mb-7 px-7">
       <a href="">
         <div class="relative">
-          <img :src="course?.thumbnail_url" class="w-full h-64 object-cover object-center rounded-md" alt="Video" />
+          <img :src="course?.thumbnail_url" class="w-full h-60 object-cover object-center rounded-md" alt="Video" />
           <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <PlayVideoButton />
           </div>
@@ -32,8 +32,11 @@
           >
         </div>
       </div>
-      <div class="mt-5">
+      <div v-if="!isInCart" class="mt-5">
         <GradientButtonV5 class="w-full h-[60px]" :content="'Add to Cart'" :func="addToCart" />
+      </div>
+      <div v-else class="mt-5">
+        <GradientButtonV5 class="w-full h-[60px]" :content="'View Cart'" :func="redirect" />
       </div>
       <div class="mt-5">
         <ButtonV5 class="w-full h-[60px]" :content="'Buy Now'" :func="buyNow" />
@@ -44,7 +47,9 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { formatPrice } from '@/utils'
+import { useUserStore } from '@/stores'
 
 import GradientButtonV5 from '@/components/Button/GradientButtonV5.vue'
 import ButtonV5 from '@/components/Button/ButtonV5.vue'
@@ -55,10 +60,20 @@ export default defineComponent({
     course: Object
   },
   setup(props) {
+    const userStore = useUserStore()
+    const router = useRouter()
+
     const formattedPrice = computed(() => {
       return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
     })
 
+    const isInCart = computed(() => {
+      return userStore.cart.some(course => course?.id === props.course?.id)
+    })
+
+    const redirect = () => {
+      router.push({ name: 'cart' })
+    }
     const addToCart = () => {
       alert('Add to cart')
     }
@@ -69,6 +84,8 @@ export default defineComponent({
 
     return {
       formattedPrice,
+      isInCart,
+      redirect,
       addToCart,
       buyNow
     }

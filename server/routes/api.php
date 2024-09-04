@@ -43,17 +43,21 @@ Route::group(['prefix' => 'course'], function () {
     Route::get('/', [CourseController::class, 'getAllCourses']);
     Route::get('/search', [CourseController::class, 'searchCourses']);
     Route::get('/popular', [CourseController::class, 'getPopularCourses']);
+    Route::get('/authored', [CourseController::class, 'getAuthoredCourses']);
+    Route::get('/purchased', [CourseController::class, 'getPurchasedCourses']);
     Route::get('/{slug}', [CourseController::class, 'getCourseForGuest']);
 });
 
 // Cart Routes
 Route::group(['prefix' => 'cart', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [CartController::class, 'getCart']);
     Route::post('/', [CartController::class, 'addCourseToCart']);
     Route::delete('/{courseId}', [CartController::class, 'removeCourseFromCart']);
 });
 
 // Wishlist Routes
 Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [WishlistController::class, 'getWishlist']);
     Route::post('/', [WishlistController::class, 'addCourseToWishlist']);
     Route::delete('/{courseId}', [WishlistController::class, 'removeCourseFromWishlist']);
 });

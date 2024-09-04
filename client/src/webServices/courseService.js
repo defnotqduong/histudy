@@ -28,6 +28,14 @@ export const getPopularCourses = dataPost => {
   return connectServer[api.GET_POPULAR_COURSES_API.method](api.GET_POPULAR_COURSES_API.url, dataPost)
 }
 
+export const getAuthoredCourses = dataPost => {
+  return connectServer[api.GET_AUTHORED_COURSES_API.method](api.GET_AUTHORED_COURSES_API.url, dataPost)
+}
+
+export const getPurchasedCourses = dataPost => {
+  return connectServer[api.GET_PURCHASED_COURSES_API.method](api.GET_PURCHASED_COURSES_API.url, dataPost)
+}
+
 export const searchCourses = keyword => {
   const url = `${api.SEARCH_COURSES_API.url}?keyword=${encodeURIComponent(keyword)}`
   return connectServer[api.SEARCH_COURSES_API.method](url)

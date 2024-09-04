@@ -23,6 +23,7 @@ class CourseController extends Controller
         $this->middleware(
             'auth:api',
             ['except' => [
+                'getAllCourses',
                 'getPopularCourses',
                 'getCourseForGuest',
                 'searchCourses'
@@ -48,6 +49,32 @@ class CourseController extends Controller
             'message' => 'Get popular Courses successfully',
             'courses' => new CourseResourceCollection($courses, false)
         ], 200);
+    }
+
+    public function getAuthoredCourses()
+    {
+        $user = Auth::user();
+
+        return response()->json(
+            [
+                'success' => true,
+                'courses' => new CourseResourceCollection($user->courses),
+            ],
+            200
+        );
+    }
+
+    public function getPurchasedCourses()
+    {
+        $user = Auth::user();
+
+        return response()->json(
+            [
+                'success' => true,
+                'courses' =>  new CourseResourceCollection($user->purchasedCourses, false),
+            ],
+            200
+        );
     }
 
     public function getAllCourses(Request $request)
@@ -164,7 +191,7 @@ class CourseController extends Controller
         $instructorCourses = Course::where('instructor_id', $instructor->id)
             ->where('is_published', true)
             ->where('id', '!=', $course->id)
-            ->limit(3)
+            ->limit(2)
             ->get();
 
         $relatedCourses = Course::where('category_id', $course->category_id)

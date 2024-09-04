@@ -129,13 +129,23 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
+import { logoutUser } from '@/webServices/authorizationService.js'
 export default defineComponent({
   setup() {
     const userStore = useUserStore()
+    const router = useRouter()
+
+    const logout = async () => {
+      const res = await logoutUser()
+      userStore.logout()
+      router.push({ name: 'auth-login' })
+    }
 
     return {
-      userStore
+      userStore,
+      logout
     }
   }
 })

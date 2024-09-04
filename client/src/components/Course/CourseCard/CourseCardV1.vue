@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <div class="pt-4 px-1 pb-2">
-      <h5 class="mb-2 text-headingColor text-base font-extrabold leading-5 line-clamp-3">
+      <h5 class="mb-2 text-headingColor text-lg font-extrabold leading-5 line-clamp-2">
         <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }" class="hover:text-primaryColor transition-all duration-300">{{
           course?.title
         }}</router-link>

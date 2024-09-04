@@ -1,18 +1,20 @@
 <template>
   <div class="relative">
     <div
-      class="h-[350px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden"
-      :style="{ backgroundImage: 'url(/src/assets/images/bg-image-23.jpg)' }"
+      class="h-60 sm:h-[350px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden"
+      :style="{ backgroundImage: userStore.user.background_image ? `url(${userStore.user.background_image})` : 'url(/src/assets/images/bg-image-23.jpg)' }"
     ></div>
-    <div class="absolute bottom-8 w-full px-12">
-      <div class="flex items-end justify-start">
+    <div class="absolute bottom-8 w-full px-4 sm:px-8 md:px-12">
+      <div class="flex flex-col gap-y-4 items-start md:flex-row md:items-end justify-start">
         <div class="flex-1 flex items-center justify-start">
-          <div class="w-[120px] h-[120px] p-1 mr-5 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden">
-            <img src="@/assets/images/avatar-02.jpg" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
+          <div
+            class="w-14 h-14 md:w-20 md:h-20 lg:w-[120px] lg:h-[120px] p-[2px] ms:p-1 mr-2 sm:mr-4 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden"
+          >
+            <img :src="userStore.user?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
           </div>
           <div>
-            <h5 class="mb-2 text-xl text-whiteColor font-extrabold">Emily Hannah</h5>
-            <ul class="flex items-center justify-start gap-4">
+            <h5 class="mb-1 sm:mb-2 text-xl text-whiteColor font-extrabold">{{ userStore.user?.name }}</h5>
+            <ul class="text-xs sm:text-base flex items-center justify-start gap-1 sm:gap-2">
               <li class="flex items-center justify-center gap-1 text-whiteColor">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path
@@ -22,7 +24,7 @@
                     fill="currentColor"
                   />
                 </svg>
-                5 Courses Enroled
+                {{ userStore.enrolledCourses.length }} Courses Enroled
               </li>
               <li class="flex items-center justify-center gap-1 text-whiteColor">
                 <svg

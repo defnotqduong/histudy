@@ -16,38 +16,48 @@
           <div class="flex flex-col gap-2">
             <div class="flex flex-wrap items-center justify-start">
               <StarRating :averageStar="5" :size="16" class="w-full sm:w-auto" />
-              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
-                <div class="w-[60%] h-full bg-warningColor"></div>
+              <div class="flex-1 flex items-center">
+                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
+                  <div class="w-[60%] h-full bg-warningColor"></div>
+                </div>
+                <span class="font-semibold">60%</span>
               </div>
-              <span class="font-semibold">60%</span>
             </div>
             <div class="flex flex-wrap items-center justify-start">
               <StarRating :averageStar="4" :size="16" class="w-full sm:w-auto" />
-              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
-                <div class="w-[60%] h-full bg-warningColor"></div>
+              <div class="flex-1 flex items-center">
+                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
+                  <div class="w-[60%] h-full bg-warningColor"></div>
+                </div>
+                <span class="font-semibold">60%</span>
               </div>
-              <span class="font-semibold">60%</span>
             </div>
             <div class="flex flex-wrap items-center justify-start">
               <StarRating :averageStar="3" :size="16" class="w-full sm:w-auto" />
-              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
-                <div class="w-[60%] h-full bg-warningColor"></div>
+              <div class="flex-1 flex items-center">
+                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
+                  <div class="w-[60%] h-full bg-warningColor"></div>
+                </div>
+                <span class="font-semibold">60%</span>
               </div>
-              <span class="font-semibold">60%</span>
             </div>
             <div class="flex flex-wrap items-center justify-start">
               <StarRating :averageStar="2" :size="16" class="w-full sm:w-auto" />
-              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
-                <div class="w-[60%] h-full bg-warningColor"></div>
+              <div class="flex-1 flex items-center">
+                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
+                  <div class="w-[60%] h-full bg-warningColor"></div>
+                </div>
+                <span class="font-semibold">60%</span>
               </div>
-              <span class="font-semibold">60%</span>
             </div>
             <div class="flex flex-wrap items-center justify-start">
               <StarRating :averageStar="1" :size="16" class="w-full sm:w-auto" />
-              <div class="ml-0 sm:ml-4 lg:ml-8 mr-2 flex-1 bg-progressColor h-[6px]">
-                <div class="w-[60%] h-full bg-warningColor"></div>
+              <div class="flex-1 flex items-center">
+                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
+                  <div class="w-[60%] h-full bg-warningColor"></div>
+                </div>
+                <span class="font-semibold">60%</span>
               </div>
-              <span class="font-semibold">60%</span>
             </div>
           </div>
         </div>

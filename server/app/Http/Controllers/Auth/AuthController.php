@@ -98,17 +98,11 @@ class AuthController extends Controller
     {
         try {
             $user = Auth::user();
-            $cart = $user->cart;
-            $wishlist = $user->wishlist;
 
             return response()->json(
                 [
                     'success' => true,
                     'user' => new UserResource($user),
-                    'courses' => new CourseResourceCollection($user->courses),
-                    'purchased_courses' => new CourseResourceCollection($user->purchasedCourses, false),
-                    'cart' => new CourseResourceCollection($cart->courses, false),
-                    'wishlist' => new CourseResourceCollection($wishlist->courses, false)
                 ],
                 200
             );

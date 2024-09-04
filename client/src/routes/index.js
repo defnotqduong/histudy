@@ -32,11 +32,20 @@ const routes = [
         }
       },
       {
+        path: '/cart',
+        name: 'cart',
+        component: () => import('@/pages/Cart/Cart.vue'),
+        meta: {
+          title: 'Cart - Online Courses & Education'
+        }
+      },
+      {
         path: '/courses',
         name: 'courses',
         component: () => import('@/pages/Course/Courses.vue'),
         meta: {
-          title: 'Course - Online Courses & Education'
+          title: 'Course - Online Courses & Education',
+          isAuthenticated: true
         }
       },
       {

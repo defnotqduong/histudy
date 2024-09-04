@@ -1,12 +1,12 @@
 <template>
-  <footer class="bg-whiteColor text-base text-bodyColor font-medium">
+  <footer class="bg-whiteColor text-sm sm:text-base text-bodyColor font-medium">
     <div class="container mx-auto px-4">
       <div class="py-10 md:py-20">
         <div class="grid grid-cols-12 gap-4">
           <div class="col-span-12 sm:col-span-8 lg:col-span-5">
             <div>
               <router-link :to="{ name: 'home' }">
-                <img src="../../assets/images/logo.jpg" class="max-h-[50px] object-cover object-center" alt="Logo" />
+                <img src="@/assets/images/logo.jpg" class="max-h-[50px] object-cover object-center" alt="Logo" />
               </router-link>
             </div>
             <p class="mt-3 mb-4 md:mt-6 md:mb-8">We’re always in search for talented and motivated people.Don’t be shy introduce yourself!</p>

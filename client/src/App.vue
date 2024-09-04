@@ -10,8 +10,10 @@ import { defineComponent, ref } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
 import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
-import { getPopularCourses } from '@/webServices/courseService'
+import { getPopularCourses, getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
 import { getAllCategories } from '@/webServices/categoryService'
+import { getCart } from '@/webServices/cartService'
+import { getWishlist } from '@/webServices/wishlistService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 export default defineComponent({
@@ -33,9 +35,20 @@ export default defineComponent({
 
       const accToken = gtka()
 
-      const userPromise = () => (accToken ? getUserProfile() : Promise.resolve(null))
+      const userPromise = accToken
+        ? Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
+            ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
+              success: true,
+              user: profile.user,
+              courses: authoredCourses.courses,
+              purchased_courses: purchasedCourses.courses,
+              cart: cart.cart,
+              wishlist: wishlist.wishlist
+            })
+          )
+        : Promise.resolve(null)
 
-      const [userData, coursesData, categoriesData] = await Promise.all([userPromise(), getPopularCourses(), getAllCategories()])
+      const [userData, coursesData, categoriesData] = await Promise.all([userPromise, getPopularCourses(), getAllCategories()])
 
       console.log('user', userData)
 
@@ -50,6 +63,7 @@ export default defineComponent({
         this.userStore.setCart(userData.cart.courses)
         this.userStore.setWishlist(userData.wishlist.courses)
       }
+
       if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses.courses)
       if (categoriesData.success) this.homeStore.setCategories(categoriesData.categories)
       this.loading = false

@@ -5,7 +5,7 @@
     </div>
     <template v-if="!loading">
       <CourseOverview :course="course" :instructor="instructor" :category="category" />
-      <div class="pt-16 pb-16">
+      <div class="pt-16 pb-8 lg:pb-16">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-12 lg:col-span-8">
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="pt-14">
+      <div class="pt-7 lg:pt-14">
         <RelatedCourses :relatedCourses="relatedCourses" />
       </div>
     </template>

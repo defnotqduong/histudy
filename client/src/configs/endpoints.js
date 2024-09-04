@@ -31,6 +31,12 @@ export default {
   },
 
   // Cart
+
+  GET_CART_API: {
+    method: 'get',
+    url: '/cart'
+  },
+
   ADD_COURSE_TO_CART_API: {
     method: 'post',
     url: '/cart'
@@ -42,6 +48,11 @@ export default {
   },
 
   // Wishlist
+  GET_WISHLIST_API: {
+    method: 'get',
+    url: '/wishlist'
+  },
+
   ADD_COURSE_TO_WISHLIST_API: {
     method: 'post',
     url: '/wishlist'
@@ -66,6 +77,16 @@ export default {
   GET_COURSE_FOR_GUEST_API: {
     method: 'get',
     url: '/course'
+  },
+
+  GET_AUTHORED_COURSES_API: {
+    method: 'get',
+    url: '/course/authored'
+  },
+
+  GET_PURCHASED_COURSES_API: {
+    method: 'get',
+    url: '/course/purchased'
   },
 
   SEARCH_COURSES_API: {

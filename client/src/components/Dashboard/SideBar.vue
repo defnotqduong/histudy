@@ -3,7 +3,7 @@
     class="side-bar sticky top-24 z-10 p-7 bg-gradient12 shadow-shadow01 rounded-md overflow-hidden after:absolute after:content after:top-[3px] after:left-[3px] after:right-[3px] after:bottom-[3px] after:bg-whiteColor after:z-[-1] after:rounded-md"
   >
     <div class="mb-5">
-      <h6 class="text-xs text-headingColor font-extrabold opacity-50 uppercase">WELCOME, JONE DUE</h6>
+      <h6 class="text-xs text-headingColor font-extrabold opacity-50 uppercase">WELCOME, {{ userStore.user?.name }}</h6>
     </div>
     <nav>
       <ul class="mb-5">
@@ -77,7 +77,17 @@
         </li>
         <li>
           <router-link :to="{ name: 'dashboard' }">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
@@ -115,14 +125,14 @@
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'auth-login' }">
+            <button @click.prevent="logout">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="20" height="20">
                 <path d="M23.9917 6L6 6L6 42H24" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M33 33L42 24L33 15" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M16 23.9917H42" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               <span>Logout</span>
-            </router-link>
+            </button>
           </li>
         </ul>
       </nav>
@@ -133,8 +143,12 @@
 <script>
 import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores'
+import { logoutUser } from '@/webServices/authorizationService.js'
+
 export default defineComponent({
   setup() {
+    const userStore = useUserStore()
     const route = useRoute()
     const router = useRouter()
 
@@ -142,11 +156,13 @@ export default defineComponent({
       return route.name === name
     }
 
-    return {
-      route,
-      router,
-      isActive
+    const logout = async () => {
+      const res = await logoutUser()
+      userStore.logout()
+      router.push({ name: 'auth-login' })
     }
+
+    return { userStore, route, router, isActive, logout }
   }
 })
 </script>
@@ -160,7 +176,8 @@ export default defineComponent({
   @apply border-borderColor;
 }
 
-.side-bar nav li a {
+.side-bar nav li a,
+.side-bar nav li button {
   display: flex;
   align-items: center;
   justify-content: start;
@@ -174,6 +191,11 @@ export default defineComponent({
 }
 
 .side-bar nav li:not(.active):hover a {
+  transform: translateX(4px);
+  @apply text-primaryColor;
+}
+
+.side-bar nav li:hover button {
   transform: translateX(4px);
   @apply text-primaryColor;
 }

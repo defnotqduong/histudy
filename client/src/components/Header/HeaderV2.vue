@@ -179,7 +179,6 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore, useUserStore } from '@/stores'
-import { logoutUser } from '@/webServices/authorizationService.js'
 
 import SearchEl from '@/components/Search/SearchEl.vue'
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
@@ -213,12 +212,6 @@ export default defineComponent({
       router.push({ name: 'auth-login' })
     }
 
-    const logout = async () => {
-      const res = await logoutUser()
-      userStore.logout()
-      router.push({ name: 'auth-login' })
-    }
-
     return {
       homeStore,
       userStore,
@@ -227,8 +220,7 @@ export default defineComponent({
       isHeaderFixed,
       onChangeSearchEl,
       handleScroll,
-      login,
-      logout
+      login
     }
   },
   mounted() {
