@@ -4,6 +4,9 @@ use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
@@ -29,12 +32,12 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/profile', [AuthController::class, 'profile']);
-    Route::patch('/profile-update', [AuthController::class, 'updateProfile']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::get('/profile', [ProfileController::class, 'profile']);
+    Route::patch('/profile-update', [ProfileController::class, 'updateProfile']);
+    Route::post('/change-password', [PasswordController::class, 'changePassword']);
+    Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
+    Route::post('/send-verify-mail/{email}', [VerificationController::class, 'sendVerifyMail']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/send-verify-mail/{email}', [AuthController::class, 'sendVerifyMail']);
-    Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
 });
 
 // Category Routes

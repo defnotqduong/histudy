@@ -8,10 +8,10 @@
             id="password"
             type="text"
             v-model="password"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.password && errors?.password.length > 0">
-            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -22,10 +22,10 @@
             id="new_password"
             type="text"
             v-model="newPassword"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.new_password && errors?.new_password.length > 0">
-            <p v-for="(err, index) in errors?.new_password" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.new_password" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -36,10 +36,10 @@
             id="new_password_confirmation"
             type="text"
             v-model="newPasswordConfirmation"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.new_password_confirmation && errors?.new_password_confirmation.length > 0">
-            <p v-for="(err, index) in errors?.new_password_confirmation" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.new_password_confirmation" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>

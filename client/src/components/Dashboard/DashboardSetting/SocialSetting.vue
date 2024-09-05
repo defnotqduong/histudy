@@ -9,10 +9,10 @@
             type="text"
             v-model="user.facebook"
             placeholder="https://facebook.com/"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.facebook && errors?.facebook.length > 0">
-            <p v-for="(err, index) in errors?.facebook" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.facebook" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -24,10 +24,10 @@
             type="text"
             v-model="user.instagram"
             placeholder="https://instagram.com/"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.instagram && errors?.instagram.length > 0">
-            <p v-for="(err, index) in errors?.instagram" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.instagram" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -39,10 +39,10 @@
             type="text"
             v-model="user.twitter"
             placeholder="https://twitter.com/"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.twitter && errors?.twitter.length > 0">
-            <p v-for="(err, index) in errors?.twitter" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.twitter" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -54,10 +54,10 @@
             type="text"
             v-model="user.linkedin"
             placeholder="https://linkedin.com/"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.linkedin && errors?.linkedin.length > 0">
-            <p v-for="(err, index) in errors?.linkedin" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.linkedin" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>

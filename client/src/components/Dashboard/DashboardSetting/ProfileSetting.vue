@@ -70,10 +70,10 @@
             id="name"
             type="text"
             v-model="user.name"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.name && errors?.name.length > 0">
-            <p v-for="(err, index) in errors?.name" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.name" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
         <div class="col-span-12 sm:col-span-6">
@@ -82,10 +82,10 @@
             id="username"
             type="text"
             v-model="user.username"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.username && errors?.username.length > 0">
-            <p v-for="(err, index) in errors?.username" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.username" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -96,10 +96,10 @@
             id="email"
             type="email"
             v-model="user.email"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.email && errors?.email.length > 0">
-            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
         <div class="col-span-12 sm:col-span-6">
@@ -108,10 +108,10 @@
             id="profession"
             type="profession"
             v-model="user.profession"
-            class="w-full px-5 py-[10px] border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div class="mt-2" v-if="errors?.profession && errors?.profession.length > 0">
-            <p v-for="(err, index) in errors?.profession" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.profession" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
@@ -122,10 +122,10 @@
             id="bio"
             v-model="user.bio"
             rows="5"
-            class="w-full px-5 py-[10px] mb-4 border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
+            class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
           <div v-if="errors?.bio && errors?.bio.length > 0">
-            <p v-for="(err, index) in errors?.bio" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+            <p v-for="(err, index) in errors?.bio" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>
         </div>
       </div>
