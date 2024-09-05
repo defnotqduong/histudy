@@ -1,13 +1,6 @@
 <template>
   <div class="pb-20 md:pb-28 border-b-[1px] border-borderColor">
-    <CourseFinder
-      :meta="meta"
-      :filters="filters"
-      :isShowFilter="isShowFilter"
-      @filters-changed="handleFiltersChanged"
-      :toggleFilter="toggleFilter"
-      :fetchData="fetchData"
-    />
+    <CourseFinder :meta="meta" :filters="filters" :isShowFilter="isShowFilter" @filters-changed="updateQueryFromFilters" :toggleFilter="toggleFilter" />
 
     <template v-if="!loading">
       <div v-if="courses.length === 0">No courses yet</div>
@@ -18,7 +11,7 @@
               <CourseCardV2 :course="course" />
             </div>
           </div>
-          <Pagination :meta="meta" :links="links" @changePage="fetchData" />
+          <Pagination :meta="meta" :links="links" :filters="filters" @filters-changed="updateQueryFromFilters" />
         </div>
       </div>
     </template>
@@ -43,9 +36,10 @@ export default defineComponent({
 
     const filters = ref({
       category_id: null,
-      price: 'all',
+      price: null,
       search: '',
-      sort: ''
+      sort: '',
+      page: 1
     })
 
     const meta = ref({
@@ -66,13 +60,26 @@ export default defineComponent({
     const courses = ref([])
     const loading = ref(false)
 
+    const updateQueryFromFilters = newFilters => {
+      const query = {}
+
+      if (newFilters.category_id) query.category_id = newFilters.category_id
+      if (newFilters.price) query.price = newFilters.price
+      if (newFilters.search) query.search = newFilters.search
+      if (newFilters.sort) query.sort = newFilters.sort
+      if (newFilters.page) query.page = newFilters.page
+
+      router.replace({ query })
+    }
+
     const updateFiltersFromQuery = () => {
       const query = route.query
       filters.value = {
         category_id: query?.category_id || null,
-        price: query?.price || 'all',
+        price: query?.price || null,
         search: query?.search || '',
-        sort: query?.sort || ''
+        sort: query?.sort || '',
+        page: query?.page || 1
       }
     }
 
@@ -80,18 +87,13 @@ export default defineComponent({
       isShowFilter.value = !isShowFilter.value
     }
 
-    const handleFiltersChanged = newFilters => {
-      filters.value = newFilters
-    }
-
     const scrollToTop = () => {
       window.scrollTo({ top: 0 })
     }
 
-    const fetchData = async page => {
+    const fetchData = async () => {
       scrollToTop()
       loading.value = true
-      filters.value.page = page || 1
 
       const res = await getAllCourses(filters.value)
 
@@ -126,7 +128,7 @@ export default defineComponent({
       fetchData()
     })
 
-    return { isShowFilter, filters, meta, links, courses, loading, scrollToTop, updateFiltersFromQuery, toggleFilter, handleFiltersChanged, fetchData }
+    return { isShowFilter, filters, meta, links, courses, loading, scrollToTop, updateFiltersFromQuery, toggleFilter, updateQueryFromFilters, fetchData }
   },
   methods: {}
 })

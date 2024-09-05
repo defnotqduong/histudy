@@ -11,7 +11,7 @@
           </h2>
         </div>
         <div class="col-span-4 flex items-end justify-end">
-          <ButtonV3 :content="'View Courses'" :link="'courses'" />
+          <ButtonV3 :content="'View Courses'" :func="redirect" />
         </div>
       </div>
       <div class="grid grid-cols-12 mt-14 gap-4 md:gap-6">
@@ -25,6 +25,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
 
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
@@ -33,9 +34,14 @@ import CourseCardV3 from '@/components/Course/CourseCard/CourseCardV3.vue'
 export default defineComponent({
   components: { ButtonV3, CourseCardV2, CourseCardV3 },
   setup() {
+    const router = useRouter()
     const homeStore = useHomeStore()
 
-    return { homeStore }
+    const redirect = () => {
+      router.push({ name: 'courses' })
+    }
+
+    return { homeStore, redirect }
   }
 })
 </script>

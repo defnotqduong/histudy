@@ -85,7 +85,7 @@
           <div class="p-2 w-[50%] md:flex-1">
             <span class="inline-block mb-2 text-sm text-headingColor font-bold opacity-80 uppercase">Short by offer</span>
             <select v-model="filters.price" class="select w-full">
-              <option value="all">All</option>
+              <option :value="null">All</option>
               <option value="free">Free</option>
               <option value="paid">Paid</option>
             </select>
@@ -136,7 +136,7 @@ export default defineComponent({
 
     const onFilter = () => {
       emitFiltersChanged()
-      props.fetchData()
+      // props.fetchData()
     }
 
     const debouncedFetchData = _.debounce(() => {

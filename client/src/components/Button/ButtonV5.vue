@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click.prevent="func">
+  <button class="button px-2 md:px-6" @click.prevent="func">
     <span class="btn-text">
       {{ content }}
     </span>
@@ -31,7 +31,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 24px;
   font-size: 16px;
   font-weight: 700;
   border: 2px solid;

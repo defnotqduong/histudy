@@ -29,8 +29,12 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/profile', [AuthController::class, 'profile']);
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::patch('/profile-update', [AuthController::class, 'updateProfile']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/send-verify-mail/{email}', [AuthController::class, 'sendVerifyMail']);
+    Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
 });
 
 // Category Routes

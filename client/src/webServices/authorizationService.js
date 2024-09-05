@@ -17,6 +17,14 @@ export const getUserProfile = dataPost => {
   return connectServer[api.GET_USER_PROFILE_API.method](api.GET_USER_PROFILE_API.url, dataPost)
 }
 
+export const updateProfile = dataPost => {
+  return connectServer[api.UPDATE_PROFILE_API.method](api.UPDATE_PROFILE_API.url, dataPost)
+}
+
+export const changePassword = dataPost => {
+  return connectServer[api.CHANGE_PASSWORD_API.method](api.CHANGE_PASSWORD_API.url, dataPost)
+}
+
 export const logoutUser = dataPost => {
   return connectServer[api.LOGOUT_USER_API.method](api.LOGOUT_USER_API.url, dataPost)
 }

@@ -15,8 +15,16 @@ export default {
     url: '/auth/refresh'
   },
   GET_USER_PROFILE_API: {
-    method: 'post',
+    method: 'get',
     url: '/auth/profile'
+  },
+  UPDATE_PROFILE_API: {
+    method: 'patch',
+    url: '/auth/profile-update'
+  },
+  CHANGE_PASSWORD_API: {
+    method: 'post',
+    url: '/auth/change-password'
   },
   LOGOUT_USER_API: {
     method: 'post',

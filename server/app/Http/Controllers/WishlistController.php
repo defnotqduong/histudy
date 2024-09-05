@@ -65,6 +65,7 @@ class WishlistController extends Controller
             [
                 'success' => true,
                 'message' => 'Course added to Wishlist successfully',
+                'wishlist' => new CourseResourceCollection($wishlist->courses, false),
             ],
             200
         );
@@ -95,6 +96,7 @@ class WishlistController extends Controller
             [
                 'success' => true,
                 'message' => 'Course removed from Wishlist successfully',
+                'wishlist' => new CourseResourceCollection($wishlist->courses, false),
             ],
             200
         );

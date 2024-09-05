@@ -29,25 +29,7 @@
           <StarRating :averageStar="averageStar" :size="14" />
           <span class="text-sm text-bodyColor font-semibold ml-1 mt-[2px]">({{ reviewCount }} Reviews)</span>
         </div>
-        <button
-          class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:rounded-full after:bg-grayLightColor after:opacity-0 after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
-          title="Bookmark"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 64 64"
-            fill="none"
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] w-[18px] h-[18px] text-headingColor transition-all duration-[400ms] group-hover:text-primaryColor"
-          >
-            <path
-              d="M30.051 45.6071L17.851 54.7401C17.2728 55.1729 16.5856 55.4363 15.8662 55.5008C15.1468 55.5652 14.4237 55.4282 13.7778 55.1049C13.1319 54.7817 12.5887 54.2851 12.209 53.6707C11.8293 53.0563 11.6281 52.3483 11.628 51.626V15.306C11.628 13.2423 12.4477 11.2631 13.9069 9.8037C15.3661 8.34432 17.3452 7.52431 19.409 7.52405H45.35C47.4137 7.52431 49.3929 8.34432 50.8521 9.8037C52.3112 11.2631 53.131 13.2423 53.131 15.306V51.625C53.1309 52.3473 52.9297 53.0553 52.55 53.6697C52.1703 54.2841 51.6271 54.7807 50.9812 55.1039C50.3353 55.4272 49.6122 55.5642 48.8928 55.4998C48.1734 55.4353 47.4862 55.1719 46.908 54.739L34.715 45.6071C34.0419 45.1031 33.2238 44.8308 32.383 44.8308C31.5422 44.8308 30.724 45.1031 30.051 45.6071V45.6071Z"
-              stroke="currentColor"
-              stroke-width="5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+        <BookmarkButton :func="onChangeWishlist" :checked="isInWishlist" :loading="loading" />
       </div>
       <h4 class="mb-2 text-xl md:text-2xl font-black text-headingColor leading-tight line-clamp-3 hover:text-primaryColor transition-all duration-300">
         <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"> {{ course?.title }}</router-link>
@@ -101,16 +83,24 @@
 
 <script>
 import { defineComponent, ref, computed } from 'vue'
+import { useUserStore } from '@/stores'
 import { formatPrice } from '@/utils'
+import { getWishlist, addCourseToWishlist, removeCourseFromWishlist } from '@/webServices/wishlistService'
 
 import ButtonV1 from '@/components/Button/ButtonV1.vue'
+import BookmarkButton from '@/components/Button/BookmarkButton.vue'
 import StarRating from '@/components/StarRating/StarRating.vue'
 export default defineComponent({
-  components: { ButtonV1, StarRating },
+  components: { ButtonV1, StarRating, BookmarkButton },
   props: {
     course: Object
   },
   setup(props) {
+    const userStore = useUserStore()
+
+    const loading = ref(false)
+    const id = ref(props.course?.id)
+
     const averageStar = ref(props.course?.average_star || 5)
     const reviewCount = ref(props.course?.review_count || 0)
 
@@ -118,7 +108,26 @@ export default defineComponent({
       return props.course?.price > 0 ? formatPrice(props.course?.price) : 'Free'
     })
 
-    return { averageStar, reviewCount, formattedPrice }
+    const isInWishlist = computed(() => {
+      return userStore.wishlist.some(course => course?.id === props.course?.id)
+    })
+
+    const onChangeWishlist = async () => {
+      loading.value = true
+      if (!isInWishlist.value) {
+        const res = await addCourseToWishlist({ courseId: id.value })
+
+        if (res.success) userStore.setWishlist(res.wishlist.courses)
+      } else {
+        const res = await removeCourseFromWishlist(id.value)
+
+        if (res.success) userStore.setWishlist(res.wishlist.courses)
+      }
+
+      loading.value = false
+    }
+
+    return { loading, averageStar, reviewCount, formattedPrice, isInWishlist, onChangeWishlist }
   }
 })
 </script>

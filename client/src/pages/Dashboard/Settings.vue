@@ -9,21 +9,21 @@
           v-for="navItem in nav"
           :key="navItem.id"
           @click="setActive(navItem.id)"
-          class="px-4 py-2 sm:py-4 sm:px-6 text-sm sm:text-base relative cursor-pointer transition-all duration-300 hover:text-primaryColor after:absolute after:content after:left-0 after:bottom-[-2px] after:w-full after:h-[2px] after:bg-primaryColor after:transition-all after:duration-300"
+          class="px-2 py-2 sm:py-4 sm:px-6 text-base relative cursor-pointer transition-all duration-300 hover:text-primaryColor after:absolute after:content after:left-0 after:bottom-[-2px] after:w-full after:h-[2px] after:bg-primaryColor after:transition-all after:duration-300"
           :class="navItem.isActive ? 'after:scale-100 text-primaryColor' : 'after:scale-0 text-headingColor'"
         >
           <span>{{ navItem.label }}</span>
         </li>
       </ul>
     </div>
-    <ProfileSetting v-show="nav[0].isActive" />
-    <PasswordSetting v-show="nav[1].isActive" />
-    <SocialSetting v-show="nav[2].isActive" />
+    <ProfileSetting v-show="nav[0].isActive" :user="user" />
+    <PasswordSetting v-show="nav[1].isActive" :user="user" />
+    <SocialSetting v-show="nav[2].isActive" :user="user" />
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
 import { useUserStore } from '@/stores'
 
 import ProfileSetting from '@/components/Dashboard/DashboardSetting/ProfileSetting.vue'
@@ -52,13 +52,15 @@ export default defineComponent({
       }
     ])
 
+    const user = computed(() => userStore.user)
+
     const setActive = id => {
       nav.forEach(item => {
         item.isActive = item.id === id
       })
     }
 
-    return { userStore, nav, setActive }
+    return { userStore, user, nav, setActive }
   },
   methods: {
     scrollToTop() {

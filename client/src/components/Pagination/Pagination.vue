@@ -2,7 +2,7 @@
   <div class="mt-16">
     <ul class="pagination">
       <li :class="{ disabled: meta.current_page === 1 }">
-        <button @click="changePage(meta.current_page - 1)" :disabled="meta.current_page === 1">
+        <button @click="emitFiltersChanged(meta.current_page - 1)" :disabled="meta.current_page === 1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
             <path
               fill-rule="evenodd"
@@ -14,26 +14,26 @@
         </button>
       </li>
       <li v-if="meta.current_page >= 3">
-        <button @click="changePage(1)">1</button>
+        <button @click="emitFiltersChanged(1)">1</button>
       </li>
       <li class="disabled" v-if="meta.current_page >= 4">
         <button disabled>...</button>
       </li>
       <li v-if="meta.current_page > 1">
-        <button @click="changePage(meta.current_page - 1)">{{ meta.current_page - 1 }}</button>
+        <button @click="emitFiltersChanged(meta.current_page - 1)">{{ meta.current_page - 1 }}</button>
       </li>
       <li class="active">
         <button disabled>{{ meta.current_page }}</button>
       </li>
       <li v-if="meta.current_page < meta.last_page - 1">
-        <button @click="changePage(meta.current_page + 1)">{{ meta.current_page + 1 }}</button>
+        <button @click="emitFiltersChanged(meta.current_page + 1)">{{ meta.current_page + 1 }}</button>
       </li>
       <li class="disabled" v-if="meta.last_page - meta.current_page >= 3"><button disabled>...</button></li>
       <li v-if="meta.current_page !== meta.last_page">
-        <button @click="changePage(meta.last_page)">{{ meta.last_page }}</button>
+        <button @click="emitFiltersChanged(meta.last_page)">{{ meta.last_page }}</button>
       </li>
       <li :class="{ disabled: meta.current_page === meta.last_page }">
-        <button @click="changePage(meta.current_page + 1)" :disabled="meta.current_page === meta.last_page">
+        <button @click="emitFiltersChanged(meta.current_page + 1)" :disabled="meta.current_page === meta.last_page">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
             <path
               fill-rule="evenodd"
@@ -49,20 +49,24 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   props: {
     meta: Object,
-    links: Object
+    links: Object,
+    filters: Object
   },
-  emits: ['changePage'],
+  emits: ['filters-changed'],
   setup(props, { emit }) {
-    const changePage = page => {
-      emit('changePage', page)
+    const filters = ref(props.filters)
+
+    const emitFiltersChanged = page => {
+      filters.value.page = page
+      emit('filters-changed', filters.value)
     }
 
     return {
-      changePage
+      emitFiltersChanged
     }
   }
 })

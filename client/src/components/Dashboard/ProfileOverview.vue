@@ -8,7 +8,7 @@
       <div class="flex flex-col gap-y-4 items-start md:flex-row md:items-end justify-start">
         <div class="flex-1 flex items-center justify-start">
           <div
-            class="w-14 h-14 md:w-20 md:h-20 lg:w-[120px] lg:h-[120px] p-[2px] ms:p-1 mr-2 sm:mr-4 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden"
+            class="w-16 h-16 md:w-[120px] md:h-[120px] p-[2px] sm:p-1 mr-2 sm:mr-4 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden"
           >
             <img :src="userStore.user?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
           </div>

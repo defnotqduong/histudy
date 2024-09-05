@@ -169,6 +169,9 @@ import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { registerUser, getUserProfile } from '@/webServices/authorizationService'
+import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
+import { getCart } from '@/webServices/cartService'
+import { getWishlist } from '@/webServices/wishlistService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -244,12 +247,28 @@ export default defineComponent({
 
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
-        const userData = await getUserProfile()
-        userStore.getUser(userData.user)
-        userStore.setInstructorCourses(userData.courses.courses)
-        userStore.setEnrolledCourses(userData.purchased_courses.courses)
-        userStore.setCart(userData.cart.courses)
-        userStore.setWishlist(userData.wishlist.courses)
+
+        const userPromise = Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
+          ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
+            success: true,
+            user: profile.user,
+            courses: authoredCourses.courses,
+            purchased_courses: purchasedCourses.courses,
+            cart: cart.cart,
+            wishlist: wishlist.wishlist
+          })
+        )
+
+        const [userData] = await Promise.all([userPromise])
+
+        if (userData?.success) {
+          userStore.setUser(userData.user)
+          userStore.setInstructorCourses(userData.courses.courses)
+          userStore.setEnrolledCourses(userData.purchased_courses.courses)
+          userStore.setCart(userData.cart.courses)
+          userStore.setWishlist(userData.wishlist.courses)
+        }
+
         router.push({ name: 'home' })
       }
     }

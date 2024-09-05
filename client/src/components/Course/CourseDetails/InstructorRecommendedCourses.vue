@@ -8,7 +8,7 @@
         </h2>
       </div>
       <div class="flex items-end justify-end">
-        <ButtonV3 :content="'View Courses'" :link="'courses'" />
+        <ButtonV3 :content="'View Courses'" :func="redirect" />
       </div>
     </div>
     <div class="grid grid-cols-12 mt-10 gap-4 md:gap-6">
@@ -21,6 +21,8 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+
 import CourseCardV3 from '@/components/Course/CourseCard/CourseCardV3.vue'
 import ButtonV3 from '@/components/Button/ButtonV3.vue'
 export default defineComponent({
@@ -28,6 +30,19 @@ export default defineComponent({
   props: {
     instructor: Object,
     instructorCourses: Array
+  },
+  setup(props) {
+    const router = useRouter()
+
+    const redirect = () => {
+      router.push({
+        name: 'courses',
+        query: { search: props.instructor.name }
+      })
+    }
+    return {
+      redirect
+    }
   }
 })
 </script>

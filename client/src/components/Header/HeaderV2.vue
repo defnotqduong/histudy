@@ -155,7 +155,7 @@
               </div>
             </template>
             <template v-else>
-              <ButtonV3 :content="'Login'" :link="'auth-login'" />
+              <ButtonV3 :content="'Login'" :func="redirect" />
             </template>
             <div class="block lg:hidden px-[10px]">
               <input hidden="" class="check-icon" id="check-icon" name="check-icon" type="checkbox" v-model="homeStore.isShowHeaderMenu" />
@@ -208,7 +208,7 @@ export default defineComponent({
       }
     }
 
-    const login = () => {
+    const redirect = () => {
       router.push({ name: 'auth-login' })
     }
 
@@ -220,7 +220,7 @@ export default defineComponent({
       isHeaderFixed,
       onChangeSearchEl,
       handleScroll,
-      login
+      redirect
     }
   },
   mounted() {

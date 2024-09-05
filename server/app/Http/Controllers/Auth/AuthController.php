@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Http\Resources\UserResource;
+use App\Models\Cart;
 use App\Models\Course;
 use App\Models\User;
+use App\Models\Wishlist;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +60,9 @@ class AuthController extends Controller
             $validator->validated(),
             ['password' => Hash::make($request->password)]
         ));
+
+        Cart::createCart();
+        Wishlist::createWishlist();
 
         $token =  Auth::login($user);
 
@@ -109,6 +115,61 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['success' => false, 'error' => 'Unauthorized'], 401);
         }
+    }
+
+    public function updateProfile(UserRequest $request)
+    {
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        $user->updateUser($request->all());
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'user' => new UserResource($user),
+            ],
+            200
+        );
+    }
+
+    public function changePassword(Request $request)
+    {
+
+        $messages = [
+            'password.required' => 'Current password is required.',
+            'new_password.required' => 'New password is required.',
+            'new_password.min' => 'New password must be at least :min characters.',
+            'new_password.confirmed' => 'New password confirmation does not match.',
+        ];
+
+        $request->validate([
+            'password' => 'required',
+            'new_password' => 'required|string|min:5|confirmed',
+        ], $messages);
+
+
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'errors' => [
+                    'password' => ['Wrong password']
+                ]
+            ], 422);
+        }
+
+        $user->updateUser([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password changed successfully!',
+        ], 200);
     }
 
     public function logout()

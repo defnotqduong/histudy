@@ -19,7 +19,7 @@ class CourseResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'instructor' => $this->instructor->only(['name', 'username', 'avatar']),
+            'instructor' => $this->instructor->only(['name', 'username', 'avatar', 'profession']),
             'title' => $this->title,
             'slug' => $this->slug,
             'summary' => $this->summary,

@@ -69,4 +69,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Wishlist::class);
     }
+
+    public function updateUser($data)
+    {
+        return $this->update($data);
+    }
 }
