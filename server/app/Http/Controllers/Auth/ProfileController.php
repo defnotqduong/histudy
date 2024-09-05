@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImageRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -50,4 +51,8 @@ class ProfileController extends Controller
             200
         );
     }
+
+    public function changeAvatar(ImageRequest $request) {}
+
+    public function changeBackgroundImage(ImageRequest $request) {}
 }
