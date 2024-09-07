@@ -7,14 +7,12 @@
     <div class="absolute bottom-8 w-full px-4 sm:px-8 md:px-12">
       <div class="flex flex-col gap-y-4 items-start md:flex-row md:items-end justify-start">
         <div class="flex-1 flex items-center justify-start">
-          <div
-            class="w-16 h-16 md:w-[120px] md:h-[120px] p-[2px] sm:p-1 mr-2 sm:mr-4 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden"
-          >
+          <div class="w-20 h-20 md:w-40 md:h-40 p-[2px] sm:p-1 mr-2 sm:mr-4 bg-whiteColor border-2 border-primaryOpacityColor rounded-full overflow-hidden">
             <img :src="userStore.user?.avatar" class="w-full h-full object-cover object-center rounded-full" alt="Avatar" />
           </div>
           <div>
-            <h5 class="mb-1 sm:mb-2 text-xl text-whiteColor font-extrabold">{{ userStore.user?.name }}</h5>
-            <ul class="text-xs sm:text-base flex items-center justify-start gap-1 sm:gap-2">
+            <h5 class="mb-1 sm:mb-2 text-xl lg:text-2xl text-whiteColor font-extrabold">{{ userStore.user?.name }}</h5>
+            <ul class="text-xs sm:text-base flex items-center justify-start gap-2 sm:gap-4">
               <li class="flex items-center justify-center gap-1 text-whiteColor">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path
@@ -24,7 +22,7 @@
                     fill="currentColor"
                   />
                 </svg>
-                {{ userStore.enrolledCourses.length }} Courses Enroled
+                {{ userStore.enrolledCourses.length }} Enr. Courses
               </li>
               <li class="flex items-center justify-center gap-1 text-whiteColor">
                 <svg
@@ -41,7 +39,7 @@
                   <circle cx="12" cy="8" r="7" />
                   <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
                 </svg>
-                4 Certificate
+                4 Cert.
               </li>
             </ul>
           </div>

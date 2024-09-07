@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('background_image')->nullable();
+            $table->string('background_image_public_id')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('avatar_public_id')->nullable();
             $table->string('profession')->nullable();
             $table->longText('bio')->nullable();
             $table->string('facebook')->nullable();

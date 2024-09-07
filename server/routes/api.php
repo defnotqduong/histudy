@@ -33,7 +33,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/profile', [ProfileController::class, 'profile']);
-    Route::patch('/profile-update', [ProfileController::class, 'updateProfile']);
+    Route::patch('/update-profile', [ProfileController::class, 'updateProfile']);
+    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar']);
     Route::post('/change-password', [PasswordController::class, 'changePassword']);
     Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
     Route::post('/send-verify-mail/{email}', [VerificationController::class, 'sendVerifyMail']);

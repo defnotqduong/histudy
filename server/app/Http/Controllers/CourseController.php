@@ -282,7 +282,7 @@ class CourseController extends Controller
             $url = $cloudinaryImage->getSecurePath();
             $publicId  = $cloudinaryImage->getPublicId();
 
-            if ($course->thumbnail_url) {
+            if ($course->thumbnail_public_id) {
                 Cloudinary::destroy($course->thumbnail_public_id);
             }
 

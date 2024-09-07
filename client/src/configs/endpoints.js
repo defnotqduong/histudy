@@ -20,7 +20,11 @@ export default {
   },
   UPDATE_PROFILE_API: {
     method: 'patch',
-    url: '/auth/profile-update'
+    url: '/auth/update-profile'
+  },
+  UPDATE_AVATAR_API: {
+    method: 'post',
+    url: '/auth/update-avatar'
   },
   CHANGE_PASSWORD_API: {
     method: 'post',
