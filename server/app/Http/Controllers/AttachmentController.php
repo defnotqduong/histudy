@@ -28,7 +28,7 @@ class AttachmentController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -37,7 +37,7 @@ class AttachmentController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $lessonId)
@@ -46,7 +46,7 @@ class AttachmentController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
 
@@ -82,7 +82,7 @@ class AttachmentController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -91,7 +91,7 @@ class AttachmentController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $lessonId)
@@ -100,7 +100,7 @@ class AttachmentController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         $attachment = Attachment::where('id', $id)
@@ -108,7 +108,7 @@ class AttachmentController extends Controller
             ->first();
 
         if (!$attachment) {
-            return response()->json(['success' => false, 'error' => 'Attachment not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Attachment not found'], 404);
         }
 
         Cloudinary::destroy($attachment->attachment_public_id);

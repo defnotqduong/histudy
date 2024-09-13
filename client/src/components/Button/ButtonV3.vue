@@ -23,7 +23,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
+  height: 46px;
   min-width: 120px;
   padding: 0 20px;
   font-weight: 700;

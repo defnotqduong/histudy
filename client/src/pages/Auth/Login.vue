@@ -64,7 +64,7 @@
             </svg>
           </div>
           <div v-if="errors?.email && errors?.email.length > 0">
-            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="input-group">
             <input :type="isShowPassword ? 'text' : 'password'" name="password" id="password" v-model="password" placeholder="Password" />
@@ -91,12 +91,15 @@
             </button>
           </div>
           <div v-if="errors?.password && errors?.password.length > 0">
-            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="flex items-center justify-between mt-4 mb-6">
-            <div class="remember"><Checkbox />Remember me</div>
+            <div class="remember">
+              <Checkbox />
+              Remember me
+            </div>
             <div class="forgot">
-              <a href="#">Forgot Password ?</a>
+              <router-link :to="{ name: 'auth-forgot-password' }">Forgot Password?</router-link>
             </div>
           </div>
           <div class="sign">
@@ -141,8 +144,6 @@ export default defineComponent({
     const isShowPassword = ref(false)
 
     const login = async () => {
-      if (loading.value) return
-
       loading.value = true
       errors.value = {}
 
@@ -264,9 +265,9 @@ export default defineComponent({
   width: 100%;
   border-radius: 0.375rem;
   border: 1.5px solid;
-  @apply border-borderColor;
   outline: 0;
   padding: 0.5rem 1rem 0.5rem 2rem;
+  @apply border-borderColor text-headingColor;
 }
 
 .input-group input:focus {

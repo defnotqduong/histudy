@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="file" id="filePhotoInput" class="hidden" @change="handleFilePhotoUpload" />
+    <input type="file" id="filePhotoInput" class="hidden" @change="handleFileUpload" />
     <label
       for="filePhotoInput"
       class="flex items-center justify-center w-8 h-8 sm:h-auto sm:w-auto sm:py-2 sm:px-5 text-base text-whiteColor font-semibold rounded-full sm:rounded-md border-2 border-whiteColor cursor-pointer transtion-all duration-[400ms] ease-in-out hover:bg-primaryColor hover:border-primaryColor hover:translate-y-[-2px]"
@@ -104,13 +104,15 @@ export default defineComponent({
     }
 
     const handleFileUpload = async e => {
-      if (e.target.files.length > 0) {
-        file.value = e.target.files[0]
-        imageSrc.value = URL.createObjectURL(file.value)
+      // if (e.target.files.length > 0) {
+      //   file.value = e.target.files[0]
+      //   imageSrc.value = URL.createObjectURL(file.value)
 
-        await handleCropper()
-        e.target.value = null
-      }
+      //   await handleCropper()
+      //   e.target.value = null
+      // }
+
+      alert('This feature is scheduled for future development.')
     }
 
     const closeModal = () => {

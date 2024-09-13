@@ -36,7 +36,7 @@ class WishlistController extends Controller
         $wishlist = $user->wishlist;
 
         if (!$wishlist) {
-            return response()->json(['success' => false, 'error' => 'Wishlist not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Wishlist not found'], 404);
         }
 
         $course_id = $request->courseId;
@@ -45,7 +45,7 @@ class WishlistController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $existingWishlistItem = WishlistItem::where('wishlist_id', $wishlist->id)
@@ -53,7 +53,7 @@ class WishlistController extends Controller
             ->first();
 
         if ($existingWishlistItem) {
-            return response()->json(['success' => false, 'error' => 'Course already in wishlist'], 400);
+            return response()->json(['success' => false, 'message' => 'Course already in wishlist'], 400);
         }
 
         WishlistItem::create([
@@ -78,7 +78,7 @@ class WishlistController extends Controller
         $wishlist = $user->wishlist;
 
         if (!$wishlist) {
-            return response()->json(['success' => false, 'error' => 'Wishlist not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Wishlist not found'], 404);
         }
 
 
@@ -87,7 +87,7 @@ class WishlistController extends Controller
             ->first();
 
         if (!$wishlistItem) {
-            return response()->json(['success' => false, 'error' => 'Course not found in wishlist'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found in wishlist'], 404);
         }
 
         $wishlistItem->delete();

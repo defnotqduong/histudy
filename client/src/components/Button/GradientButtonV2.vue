@@ -1,5 +1,5 @@
 <template>
-  <button class="button text-sm md:text-base" @click.prevent="handleClick" :disabled="loading" :class="{ 'opacity-70': loading }">
+  <button class="button text-sm md:text-base" @click.prevent="func" :disabled="loading" :class="{ 'opacity-70': loading }">
     {{ content }}
   </button>
 </template>
@@ -17,13 +17,7 @@ export default defineComponent({
     }
   },
   components: {},
-  methods: {
-    handleClick() {
-      if (!this.loading) {
-        this.func()
-      }
-    }
-  }
+  methods: {}
 })
 </script>
 

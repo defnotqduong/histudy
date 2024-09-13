@@ -26,9 +26,25 @@ export default {
     method: 'post',
     url: '/auth/update-avatar'
   },
+  UPDATE_BGIMAGE_API: {
+    method: 'post',
+    url: '/auth/update-background-image'
+  },
   CHANGE_PASSWORD_API: {
     method: 'post',
     url: '/auth/change-password'
+  },
+  FORGOT_PASSWORD_API: {
+    method: 'post',
+    url: '/auth/forgot-password'
+  },
+  CHECK_PASSWORD_RESET_TOKEN_API: {
+    method: 'post',
+    url: '/auth/check-password-reset-token'
+  },
+  RESET_PASSWORD_API: {
+    method: 'post',
+    url: '/auth/reset-password'
   },
   LOGOUT_USER_API: {
     method: 'post',

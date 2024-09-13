@@ -119,7 +119,7 @@ class AuthController extends Controller
 
             $user = User::find($decoded['sub']);
 
-            if (!$user) return response()->json(['success' => false, 'error' => 'User not found', 404]);
+            if (!$user) return response()->json(['success' => false, 'message' => 'User not found', 404]);
 
             // Auth::invalidate();
 
@@ -129,7 +129,7 @@ class AuthController extends Controller
 
             return $this->createNewToken($token, $refreshToken);
         } catch (JWTException $e) {
-            return response()->json(['success' => false, 'error' => 'Refresh token Invalid'], 500);
+            return response()->json(['success' => false, 'message' => 'Refresh token Invalid'], 500);
         }
     }
 

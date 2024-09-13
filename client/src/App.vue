@@ -2,6 +2,7 @@
   <div>
     <GlobalLoadingV1 v-if="loading" />
     <router-view v-else />
+    <Toast v-if="homeStore.toast.isShow" :type="homeStore.toast.type" :message="homeStore.toast.message" />
   </div>
 </template>
 
@@ -16,8 +17,9 @@ import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
+import Toast from '@/components/Toast/Toast.vue'
 export default defineComponent({
-  components: { GlobalLoadingV1 },
+  components: { GlobalLoadingV1, Toast },
   setup() {
     const userStore = useUserStore()
     const homeStore = useHomeStore()

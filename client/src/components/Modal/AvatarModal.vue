@@ -48,7 +48,16 @@
           <div class="flex items-center justify-center">
             <img ref="image" :src="imageSrc" alt="Image to crop" class="w-full h-full object-cover object-center rounded-full" />
           </div>
-          <button @click="handleImageCropped">Crop</button>
+          <div class="mt-4 flex items-center justify-end">
+            <button
+              @click="handleImageCropped"
+              :disabled="loading"
+              :class="{ 'opacity-70': loading }"
+              class="px-4 py-2 text-whiteColor bg-primaryColor rounded-md"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
       <label for="my_modal_avatar" role="button" class="modal-backdrop">Close</label>

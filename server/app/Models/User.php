@@ -30,6 +30,8 @@ class User extends Authenticatable implements JWTSubject
         'linkedin',
         'profession',
         'password',
+        'email_verified_at',
+        'is_verfied'
     ];
 
     protected $hidden = [
@@ -50,6 +52,12 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public static function findByEmail($email)
+    {
+        return self::where('email', $email)
+            ->first();
     }
 
     public function courses()

@@ -19,6 +19,22 @@ const routes = [
     }
   },
   {
+    path: '/auth/forgot-password',
+    name: 'auth-forgot-password',
+    component: () => import('@/pages/Auth/ForgotPassword.vue'),
+    meta: {
+      title: 'Forgot Password - Online Courses & Education'
+    }
+  },
+  {
+    path: '/auth/reset-password',
+    name: 'auth-reset-password',
+    component: () => import('@/pages/Auth/ResetPassword.vue'),
+    meta: {
+      title: 'Reset Password - Online Courses & Education'
+    }
+  },
+  {
     path: '/',
     name: 'global-layout',
     component: () => import('@/layouts/GlobalLayout.vue'),
@@ -184,7 +200,11 @@ router.beforeEach(async (to, from, next) => {
     } else {
       next('/auth/login')
     }
-  } else if (user && token && (to.path === '/auth/login' || to.path === '/auth/signup')) {
+  } else if (
+    user &&
+    token &&
+    (to.path === '/auth/login' || to.path === '/auth/signup' || to.path === '/auth/forgot-password' || to.path === '/auth/reset-password')
+  ) {
     next('/')
   } else {
     next()

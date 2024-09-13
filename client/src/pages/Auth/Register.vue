@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto overflow-hidden">
+  <div class="container mx-auto">
     <div class="h-screen grid grid-cols-2">
       <div class="col-span-1 py-10 px-16">
         <router-link :to="{ name: 'home' }" class="text-3xl text-headingColor font-extrabold" :style="{ fontFamily: 'Moonkids' }">HiStudy</router-link>
@@ -51,7 +51,29 @@
         </div>
         <form class="form">
           <div class="input-group">
-            <input type="text" name="username" id="username" v-model="name" placeholder="Username" />
+            <input type="text" name="username" id="username" v-model="username" placeholder="Username" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
+              <path
+                d="M12.1992 12C14.9606 12 17.1992 9.76142 17.1992 7C17.1992 4.23858 14.9606 2 12.1992 2C9.43779 2 7.19922 4.23858 7.19922 7C7.19922 9.76142 9.43779 12 12.1992 12Z"
+                stroke="#19233550"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3 22C3.57038 20.0332 4.74796 18.2971 6.3644 17.0399C7.98083 15.7827 9.95335 15.0687 12 15C16.12 15 19.63 17.91 21 22"
+                stroke="#19233550"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div v-if="errors?.username && errors?.username.length > 0">
+            <p v-for="(err, index) in errors?.username" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
+          </div>
+          <div class="input-group">
+            <input type="text" name="name" id="name" v-model="name" placeholder="Name" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
               <path
                 d="M12.1992 12C14.9606 12 17.1992 9.76142 17.1992 7C17.1992 4.23858 14.9606 2 12.1992 2C9.43779 2 7.19922 4.23858 7.19922 7C7.19922 9.76142 9.43779 12 12.1992 12Z"
@@ -70,7 +92,7 @@
             </svg>
           </div>
           <div v-if="errors?.name && errors?.name.length > 0">
-            <p v-for="(err, index) in errors?.name" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+            <p v-for="(err, index) in errors?.name" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="input-group">
             <input type="text" name="email" id="email" v-model="email" placeholder="Email" />
@@ -86,7 +108,7 @@
             </svg>
           </div>
           <div v-if="errors?.email && errors?.email.length > 0">
-            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+            <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="input-group">
             <input :type="isShowPassword ? 'text' : 'password'" name="password" id="password" v-model="password" placeholder="Password" />
@@ -113,7 +135,7 @@
             </button>
           </div>
           <div v-if="errors?.password && errors?.password.length > 0">
-            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-red-500">{{ err }}</p>
+            <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="input-group">
             <input
@@ -146,7 +168,7 @@
             </button>
           </div>
           <div v-if="errors?.password_confirmation && errors?.password_confirmation.length > 0">
-            <p v-for="(err, index) in errors?.password_confirmation" :key="index" class="mt-2 text-red-500">
+            <p v-for="(err, index) in errors?.password_confirmation" :key="index" class="mt-2 text-sm text-red-500">
               {{ err }}
             </p>
           </div>
@@ -184,6 +206,7 @@ export default defineComponent({
 
     const user = reactive({
       name: '',
+      username: '',
       email: '',
       password: '',
       password_confirmation: ''
@@ -194,12 +217,15 @@ export default defineComponent({
     const isShowPassword = ref(false)
 
     const register = async () => {
-      if (loading.value) return
-
       loading.value = true
       errors.value = {}
 
       console.log(user.name, user.email, user.password, user.password_confirmation)
+
+      if (!user.username) {
+        errors.value.username = errors.value.username || []
+        errors.value.username.push('Username is required')
+      }
 
       if (!user.name) {
         errors.value.name = errors.value.name || []
@@ -331,9 +357,9 @@ export default defineComponent({
   width: 100%;
   border-radius: 0.375rem;
   border: 1.5px solid;
-  @apply border-borderColor;
   outline: 0;
   padding: 0.5rem 1rem 0.5rem 2rem;
+  @apply border-borderColor text-headingColor;
 }
 
 .input-group input:focus {

@@ -30,7 +30,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -38,7 +38,7 @@ class LessonController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $title = $request->title;
@@ -71,7 +71,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -79,7 +79,7 @@ class LessonController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -88,7 +88,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         return response()->json([
@@ -109,7 +109,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -118,7 +118,7 @@ class LessonController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -127,7 +127,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         $lesson->updateLesson($request->all());
@@ -145,7 +145,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -153,7 +153,7 @@ class LessonController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $items = $request->items;
@@ -182,7 +182,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -191,7 +191,7 @@ class LessonController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -200,7 +200,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         if ($request->hasFile('video')) {
@@ -247,7 +247,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -256,7 +256,7 @@ class LessonController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -265,7 +265,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         if (!$lesson->title || !$lesson->video_url) {
@@ -289,7 +289,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -298,7 +298,7 @@ class LessonController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -307,7 +307,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         $lesson->updateLesson([
@@ -327,7 +327,7 @@ class LessonController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $chapterId)
@@ -336,7 +336,7 @@ class LessonController extends Controller
 
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $lesson = Lesson::where('id', $id)
@@ -345,7 +345,7 @@ class LessonController extends Controller
 
 
         if (!$lesson) {
-            return response()->json(['success' => false, 'error' => 'Lesson not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
         if ($lesson->video_public_id) {

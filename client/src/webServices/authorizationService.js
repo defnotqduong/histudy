@@ -30,8 +30,29 @@ export const updateAvatar = dataPost => {
   return connectServer[api.UPDATE_AVATAR_API.method](api.UPDATE_AVATAR_API.url, dataPost, config)
 }
 
+export const updateBackgroundImage = dataPost => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  return connectServer[api.UPDATE_BGIMAGE_API.method](api.UPDATE_BGIMAGE_API.url, dataPost, config)
+}
+
 export const changePassword = dataPost => {
   return connectServer[api.CHANGE_PASSWORD_API.method](api.CHANGE_PASSWORD_API.url, dataPost)
+}
+
+export const forgotPassword = dataPost => {
+  return connectServer[api.FORGOT_PASSWORD_API.method](api.FORGOT_PASSWORD_API.url, dataPost)
+}
+
+export const checkPasswordResetToken = dataPost => {
+  return connectServer[api.CHECK_PASSWORD_RESET_TOKEN_API.method](api.CHECK_PASSWORD_RESET_TOKEN_API.url, dataPost)
+}
+
+export const resetPassword = dataPost => {
+  return connectServer[api.RESET_PASSWORD_API.method](api.RESET_PASSWORD_API.url, dataPost)
 }
 
 export const logoutUser = dataPost => {

@@ -37,6 +37,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/update-avatar', [ProfileController::class, 'updateAvatar']);
     Route::post('/change-password', [PasswordController::class, 'changePassword']);
     Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
+    Route::post('/check-password-reset-token', [PasswordController::class, 'checkPasswordResetToken']);
+    Route::post('/reset-password', [PasswordController::class, 'resetPassword']);
     Route::post('/send-verify-mail/{email}', [VerificationController::class, 'sendVerifyMail']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

@@ -155,7 +155,7 @@
               </div>
             </template>
             <template v-else>
-              <ButtonV3 :content="'Login'" :func="redirect" />
+              <ButtonV3 :content="'Login'" :func="redirect" class="ml-3" />
             </template>
             <div class="block lg:hidden px-[10px]">
               <input hidden="" class="check-icon" id="check-icon" name="check-icon" type="checkbox" v-model="homeStore.isShowHeaderMenu" />

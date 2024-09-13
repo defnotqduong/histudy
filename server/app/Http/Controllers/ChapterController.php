@@ -28,7 +28,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $title = $request->title;
@@ -61,7 +61,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -69,7 +69,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         return response()->json([
@@ -89,7 +89,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -97,7 +97,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $chapter->updateChapter($request->all());
@@ -115,7 +115,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $items = $request->items;
@@ -143,7 +143,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -151,7 +151,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         if ($request->hasFile('video')) {
@@ -198,7 +198,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -206,7 +206,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $hasPublishedLesson = $chapter->lessons->contains('is_published', true);
@@ -232,7 +232,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -240,7 +240,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         $chapter->updateChapter([
@@ -260,7 +260,7 @@ class ChapterController extends Controller
 
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $chapter = Chapter::where('id', $id)
@@ -268,7 +268,7 @@ class ChapterController extends Controller
             ->first();
 
         if (!$chapter) {
-            return response()->json(['success' => false, 'error' => 'Chapter not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Chapter not found'], 404);
         }
 
         foreach ($chapter->lessons as $lesson) {

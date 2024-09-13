@@ -140,7 +140,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
 
@@ -157,7 +157,7 @@ class CourseController extends Controller
         $course = Course::findBySlug($slug);
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $instructor = $course->instructor;
@@ -223,7 +223,7 @@ class CourseController extends Controller
         $keyword = $request->input('keyword');
 
         if (empty($keyword)) {
-            return response()->json(['success' => false, 'error' => 'Keyword is required'], 400);
+            return response()->json(['success' => false, 'message' => 'Keyword is required'], 400);
         }
 
         $courses = Course::where('is_published', true)
@@ -252,7 +252,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $course->updateCourse($request->all());
@@ -270,7 +270,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         if ($request->hasFile('image')) {
@@ -304,7 +304,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $hasPublishedChapter = $course->chapters->contains('is_published', true);
@@ -330,7 +330,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $course->updateCourse([
@@ -349,7 +349,7 @@ class CourseController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         if ($course->thumbnail_public_id) {

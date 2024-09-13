@@ -12,6 +12,11 @@
         </div>
       </div>
     </div>
+    <NotificationBanner
+      v-if="!user?.is_verified"
+      :type="'warning'"
+      :message="'Your email address is not yet verified. Please verify your email to continue using your account.'"
+    />
     <form>
       <div class="pb-4 grid grid-cols-12 gap-4">
         <div class="col-span-12 sm:col-span-6">
@@ -94,8 +99,9 @@ import { updateProfile } from '@/webServices/authorizationService'
 import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
 import AvatarModal from '@/components/Modal/AvatarModal.vue'
 import BackgroundImageModal from '@/components/Modal/BackgroundImageModal.vue'
+import NotificationBanner from '@/components/Toast/NotificationBanner.vue'
 export default defineComponent({
-  components: { GradientButtonV2, AvatarModal, BackgroundImageModal },
+  components: { GradientButtonV2, AvatarModal, BackgroundImageModal, NotificationBanner },
   props: {
     user: Object
   },

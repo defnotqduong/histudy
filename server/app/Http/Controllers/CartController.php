@@ -36,7 +36,7 @@ class CartController extends Controller
         $cart = $user->cart;
 
         if (!$cart) {
-            return response()->json(['success' => false, 'error' => 'Cart not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Cart not found'], 404);
         }
 
         $course_id = $request->courseId;
@@ -45,7 +45,7 @@ class CartController extends Controller
             ->first();
 
         if (!$course) {
-            return response()->json(['success' => false, 'error' => 'Course not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
         $existingCartItem = CartItem::where('cart_id', $cart->id)
@@ -76,7 +76,7 @@ class CartController extends Controller
         $cart = $user->cart;
 
         if (!$cart) {
-            return response()->json(['success' => false, 'error' => 'Cart not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Cart not found'], 404);
         }
 
         $cartItem = CartItem::where('cart_id', $cart->id)
@@ -84,7 +84,7 @@ class CartController extends Controller
             ->first();
 
         if (!$cartItem) {
-            return response()->json(['success' => false, 'error' => 'Course not found in cart'], 404);
+            return response()->json(['success' => false, 'message' => 'Course not found in cart'], 404);
         }
 
         $cartItem->delete();
