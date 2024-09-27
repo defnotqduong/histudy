@@ -7,9 +7,9 @@
       <div class="col-span-1 py-10 px-24">
         <h2 class="mt-8 text-center text-headingColor text-3xl font-extrabold">Login to your Account</h2>
         <p class="mt-1 text-center text-bodyColor text-sm">Welcome here again! Select method to log in</p>
-        <ul class="my-6 flex items-center justify-center gap-4">
+        <ul class="my-6">
           <li>
-            <button class="social-button">
+            <button @click.prevent="signInWithGoogle" class="social-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                 <path
                   fill="#4285F4"
@@ -25,22 +25,7 @@
                   d="M8.14 3.77a3.837 3.837 0 012.7 1.05l2.01-1.999a6.786 6.786 0 00-4.71-1.82 7.042 7.042 0 00-6.29 3.858L4.186 6.66c.556-1.658 2.116-2.89 3.952-2.89z"
                 />
               </svg>
-              Google
-            </button>
-          </li>
-          <li>
-            <button class="social-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-                <path
-                  fill="#1877F2"
-                  d="M15 8a7 7 0 00-7-7 7 7 0 00-1.094 13.915v-4.892H5.13V8h1.777V6.458c0-1.754 1.045-2.724 2.644-2.724.766 0 1.567.137 1.567.137v1.723h-.883c-.87 0-1.14.54-1.14 1.093V8h1.941l-.31 2.023H9.094v4.892A7.001 7.001 0 0015 8z"
-                />
-                <path
-                  fill="#ffffff"
-                  d="M10.725 10.023L11.035 8H9.094V6.687c0-.553.27-1.093 1.14-1.093h.883V3.87s-.801-.137-1.567-.137c-1.6 0-2.644.97-2.644 2.724V8H5.13v2.023h1.777v4.892a7.037 7.037 0 002.188 0v-4.892h1.63z"
-                />
-              </svg>
-              Facebook
+              Sign in with Google
             </button>
           </li>
         </ul>
@@ -118,8 +103,9 @@
 <script>
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useUserStore } from '@/stores'
-import { loginUser, getUserProfile } from '@/webServices/authorizationService'
+import { loginUser, loginWithGoogle, getUserProfile } from '@/webServices/authorizationService'
 import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
@@ -207,12 +193,30 @@ export default defineComponent({
       }
     }
 
+    const signInWithGoogle = async () => {
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(getAuth(), provider)
+        .then(async result => {
+          const res = await loginWithGoogle({
+            name: result.user.displayName,
+            email: result.user.email,
+            avatar: result.user.photoURL
+          })
+
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+
     return {
       ...toRefs(user),
       isShowPassword,
       errors,
       loading,
-      login
+      login,
+      signInWithGoogle
     }
   },
   methods: {
@@ -230,7 +234,7 @@ export default defineComponent({
   justify-content: center;
   gap: 6px;
   padding: 6px;
-  width: 120px;
+  width: 100%;
   font-size: 14px;
   font-weight: 800;
   @apply text-headingColor;

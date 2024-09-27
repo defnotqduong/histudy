@@ -18,12 +18,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'refresh']]);
+        $this->middleware('auth:api', ['except' => ['register', 'login', 'loginWithGoogle', 'refresh']]);
     }
 
 
@@ -100,6 +101,34 @@ class AuthController extends Controller
         return $this->createNewToken($token, $refreshToken);
     }
 
+    public function loginWithGoogle(Request $request)
+    {
+        $user = User::findByEmail($request->email);
+
+        if ($user) {
+            $user->updateUser([
+                'name' => $request->name,
+                'avatar' => $request->avatar,
+            ]);
+        }
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'avatar' => $request->avatar,
+                'username' => $this->generateUsername($request->name),
+                'password' => Hash::make(Str::random(16)),
+            ]);
+        }
+
+        $token =  Auth::login($user);
+
+        $refreshToken = $this->createRefreshToken();
+
+        return $this->createNewToken($token, $refreshToken);
+    }
+
 
     public function logout()
     {
@@ -158,5 +187,25 @@ class AuthController extends Controller
         $refreshToken = JWTAuth::getJWTProvider()->encode($data);
 
         return $refreshToken;
+    }
+
+    protected function generateUsername($name)
+    {
+        $baseUsername = strtolower($this->removeAccents(str_replace(' ', '', $name)));
+
+        $username = $baseUsername;
+        $count = 1;
+
+        while (User::where('username', $username)->exists()) {
+            $username = $baseUsername . $count;
+            $count++;
+        }
+
+        return $username;
+    }
+
+    protected function removeAccents($str)
+    {
+        return transliterator_transliterate('Any-Latin; Latin-ASCII;', $str);
     }
 }

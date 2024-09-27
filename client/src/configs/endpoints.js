@@ -10,6 +10,10 @@ export default {
     method: 'post',
     url: '/auth/login'
   },
+  LOGIN_GOOGLE_API: {
+    method: 'post',
+    url: '/auth/google'
+  },
   REFRESH_TOKEN_API: {
     method: 'post',
     url: '/auth/refresh'

@@ -9,6 +9,10 @@ export const loginUser = dataPost => {
   return connectServer[api.LOGIN_USER_API.method](api.LOGIN_USER_API.url, dataPost)
 }
 
+export const loginWithGoogle = dataPost => {
+  return connectServer[api.LOGIN_GOOGLE_API.method](api.LOGIN_GOOGLE_API.url, dataPost)
+}
+
 export const refreshToken = dataPost => {
   return connectServer[api.REFRESH_TOKEN_API.method](api.REFRESH_TOKEN_API.url, dataPost)
 }
