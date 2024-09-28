@@ -60,8 +60,7 @@ const routes = [
         name: 'courses',
         component: () => import('@/pages/Course/Courses.vue'),
         meta: {
-          title: 'Course - Online Courses & Education',
-          isAuthenticated: true
+          title: 'Course - Online Courses & Education'
         }
       },
       {

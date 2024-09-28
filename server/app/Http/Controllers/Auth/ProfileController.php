@@ -41,6 +41,10 @@ class ProfileController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
 
+        if ($user->provider === 'google')
+            $user->updateUser($request->except('email'));
+
+
         $user->updateUser($request->all());
 
         return response()->json(
@@ -52,6 +56,7 @@ class ProfileController extends Controller
             200
         );
     }
+
 
     public function updateAvatar(ImageRequest $request)
     {

@@ -30,8 +30,9 @@ class User extends Authenticatable implements JWTSubject
         'linkedin',
         'profession',
         'password',
+        'provider',
         'email_verified_at',
-        'is_verfied'
+        'is_verified'
     ];
 
     protected $hidden = [

@@ -62,8 +62,9 @@ class AuthController extends Controller
             ['password' => Hash::make($request->password)]
         ));
 
-        Cart::createCart();
-        Wishlist::createWishlist();
+
+        Cart::createCart($user->id);
+        Wishlist::createWishlist($user->id);
 
         $token =  Auth::login($user);
 
@@ -105,13 +106,6 @@ class AuthController extends Controller
     {
         $user = User::findByEmail($request->email);
 
-        if ($user) {
-            $user->updateUser([
-                'name' => $request->name,
-                'avatar' => $request->avatar,
-            ]);
-        }
-
         if (!$user) {
             $user = User::create([
                 'name' => $request->name,
@@ -119,7 +113,13 @@ class AuthController extends Controller
                 'avatar' => $request->avatar,
                 'username' => $this->generateUsername($request->name),
                 'password' => Hash::make(Str::random(16)),
+                'provider' => 'google',
+                'email_verified_at' => now(),
+                'is_verified' => true,
             ]);
+
+            Cart::createCart($user->id);
+            Wishlist::createWishlist($user->id);
         }
 
         $token =  Auth::login($user);

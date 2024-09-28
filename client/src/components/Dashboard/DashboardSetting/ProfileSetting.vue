@@ -47,12 +47,18 @@
       <div class="pb-4 grid grid-cols-12 gap-4">
         <div class="col-span-12 sm:col-span-6">
           <label for="email" class="block mb-3 text-base text-headingColor font-bold">Email</label>
+
           <input
             id="email"
             type="email"
             v-model="user.email"
+            :readonly="user.provider === 'google'"
+            :class="{ 'cursor-no-drop': user.provider === 'google' }"
             class="w-full px-5 py-2 text-sm border-2 border-borderColor outline-none rounded-md transition-all duration-300 focus:border-primaryColor"
           />
+
+          <p v-if="user.provider === 'google'" class="mt-2 text-sm text-dangerColor">This email is linked to your Google account and cannot be changed.</p>
+
           <div class="mt-2" v-if="errors?.email && errors?.email.length > 0">
             <p v-for="(err, index) in errors?.email" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
           </div>

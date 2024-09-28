@@ -6,7 +6,7 @@
       @click="handleClick"
     ></div>
     <div class="cart-side-menu w-full sm:w-[80%] lg:w-[60%] xl:w-[50%]" :class="{ 'side-menu-active': homeStore.isShowCartSideMenu }">
-      <div class="h-full py-16 px-10">
+      <div class="h-full pt-14 px-10">
         <div class="flex items-center justify-between">
           <h4 class="text-3xl text-headingColor font-extrabold">Your shopping cart</h4>
           <CloseButton :color="'blackColor'" :func="handleClick" />
@@ -16,6 +16,9 @@
         </div>
         <div v-else class="py-6">
           <CourseCardV5 v-for="course in userStore.cart" :key="course.id" :course="course" class="mb-5" />
+          <div class="flex items-center justify-end">
+            <GradientButtonV4 class="w-full" :content="'View Cart'" :func="redirect" />
+          </div>
         </div>
       </div>
     </div>
@@ -24,13 +27,16 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHomeStore, useUserStore } from '@/stores'
 
 import CloseButton from '@/components/Button/CloseButton.vue'
 import CourseCardV5 from '@/components/Course/CourseCard/CourseCardV5.vue'
+import GradientButtonV4 from '@/components/Button/GradientButtonV4.vue'
 export default defineComponent({
-  components: { CloseButton, CourseCardV5 },
+  components: { CloseButton, CourseCardV5, GradientButtonV4 },
   setup() {
+    const router = useRouter()
     const homeStore = useHomeStore()
     const userStore = useUserStore()
 
@@ -38,7 +44,12 @@ export default defineComponent({
       homeStore.onChangeShowCartSideMenu()
     }
 
-    return { homeStore, userStore, handleClick }
+    const redirect = () => {
+      homeStore.onChangeShowCartSideMenu()
+      router.push({ name: 'cart' })
+    }
+
+    return { homeStore, userStore, handleClick, redirect }
   }
 })
 </script>

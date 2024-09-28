@@ -27,6 +27,8 @@ class UserResource extends JsonResource
             'instagram' => $this->instagram,
             'twitter' => $this->twitter,
             'linkedin' => $this->linkedin,
+            'provider' => $this->provider,
+            'is_verified' => $this->is_verified,
             'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),

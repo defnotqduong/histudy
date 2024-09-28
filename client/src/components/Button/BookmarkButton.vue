@@ -1,5 +1,5 @@
 <template>
-  <button @click.prevent="func" :disabled="loading">
+  <button @click.prevent="func" :disabled="loading" :class="{ 'cursor-no-drop': loading }">
     <label class="ui-bookmark">
       <input type="checkbox" :checked="checked" />
       <div class="bookmark">

@@ -36,28 +36,6 @@
         </div>
         <form class="form">
           <div class="input-group">
-            <input type="text" name="username" id="username" v-model="username" placeholder="Username" />
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
-              <path
-                d="M12.1992 12C14.9606 12 17.1992 9.76142 17.1992 7C17.1992 4.23858 14.9606 2 12.1992 2C9.43779 2 7.19922 4.23858 7.19922 7C7.19922 9.76142 9.43779 12 12.1992 12Z"
-                stroke="#19233550"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M3 22C3.57038 20.0332 4.74796 18.2971 6.3644 17.0399C7.98083 15.7827 9.95335 15.0687 12 15C16.12 15 19.63 17.91 21 22"
-                stroke="#19233550"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
-          <div v-if="errors?.username && errors?.username.length > 0">
-            <p v-for="(err, index) in errors?.username" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
-          </div>
-          <div class="input-group">
             <input type="text" name="name" id="name" v-model="name" placeholder="Name" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
               <path
@@ -78,6 +56,28 @@
           </div>
           <div v-if="errors?.name && errors?.name.length > 0">
             <p v-for="(err, index) in errors?.name" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
+          </div>
+          <div class="input-group">
+            <input type="text" name="username" id="username" v-model="username" placeholder="Username" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
+              <path
+                d="M12.1992 12C14.9606 12 17.1992 9.76142 17.1992 7C17.1992 4.23858 14.9606 2 12.1992 2C9.43779 2 7.19922 4.23858 7.19922 7C7.19922 9.76142 9.43779 12 12.1992 12Z"
+                stroke="#19233550"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3 22C3.57038 20.0332 4.74796 18.2971 6.3644 17.0399C7.98083 15.7827 9.95335 15.0687 12 15C16.12 15 19.63 17.91 21 22"
+                stroke="#19233550"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div v-if="errors?.username && errors?.username.length > 0">
+            <p v-for="(err, index) in errors?.username" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
           <div class="input-group">
             <input type="text" name="email" id="email" v-model="email" placeholder="Email" />
@@ -245,6 +245,7 @@ export default defineComponent({
 
       const res = await registerUser({
         name: user.name,
+        username: user.username,
         email: user.email,
         password: user.password,
         password_confirmation: user.password_confirmation

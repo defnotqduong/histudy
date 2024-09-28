@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       class="h-60 md:h-[360px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden"
-      :style="{ backgroundImage: userStore.user.background_image ? `url(${userStore.user.background_image})` : 'url(/src/assets/images/bg-image-23.jpg)' }"
+      :style="{ backgroundImage: userStore.user?.background_image ? `url(${userStore.user?.background_image})` : 'url(/src/assets/images/bg-image-23.jpg)' }"
     ></div>
     <div class="absolute bottom-8 w-full px-4 sm:px-8 md:px-12">
       <div class="flex flex-col gap-y-4 items-start md:flex-row md:items-end justify-start">

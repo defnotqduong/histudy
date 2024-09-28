@@ -26,8 +26,9 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
             $table->string('linkedin')->nullable();
+            $table->string('provider')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('is_verfied')->default(false);
+            $table->boolean('is_verified')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

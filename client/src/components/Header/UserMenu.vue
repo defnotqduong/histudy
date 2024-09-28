@@ -29,6 +29,16 @@
           </router-link>
         </li>
         <li>
+          <router-link :to="{ name: 'cart' }">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.5 3m0 0L7 15h11l3-9H5.5z" />
+              <circle cx="8" cy="20" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              <circle cx="17" cy="20" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </svg>
+            <span> Cart </span>
+          </router-link>
+        </li>
+        <li>
           <router-link :to="{ name: 'enrolled-course' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"

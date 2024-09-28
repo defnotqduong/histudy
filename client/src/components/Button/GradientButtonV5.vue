@@ -1,5 +1,5 @@
 <template>
-  <button class="button text-sm md:text-base" @click.prevent="func" :disabled="loading" :class="{ 'opacity-70': loading }">
+  <button class="button text-sm md:text-base" @click.prevent="func" :disabled="loading" :class="{ 'opacity-70 cursor-no-drop': loading }">
     <span class="btn-text">
       {{ content }}
     </span>

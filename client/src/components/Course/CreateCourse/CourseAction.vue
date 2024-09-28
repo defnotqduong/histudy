@@ -38,7 +38,7 @@
             <button
               @click="onDeleteCourse()"
               :disabled="isSubmitting"
-              :class="isSubmitting && 'opacity-75'"
+              :class="isSubmitting && 'opacity-75 cursor-no-drop'"
               class="px-3 h-10 min-h-10 text-whiteColor bg-blackColor rounded-md"
             >
               Continue

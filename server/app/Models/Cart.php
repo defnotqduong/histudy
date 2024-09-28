@@ -19,10 +19,8 @@ class Cart extends Model
         return $this->hasManyThrough(Course::class, CartItem::class, 'cart_id', 'id', 'id', 'course_id');
     }
 
-    public static function createCart()
+    public static function createCart($userId)
     {
-        $userId = Auth::id();
-
         return self::create([
             'user_id' => $userId
         ]);

@@ -19,10 +19,8 @@ class Wishlist extends Model
         return $this->hasManyThrough(Course::class, WishlistItem::class, 'wishlist_id', 'id', 'id', 'course_id');
     }
 
-    public static function createWishlist()
+    public static function createWishlist($userId)
     {
-        $userId = Auth::id();
-
         return self::create([
             'user_id' => $userId
         ]);

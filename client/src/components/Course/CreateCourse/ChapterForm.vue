@@ -44,7 +44,12 @@
             <p v-for="(err, index) in errors?.title" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
           </div>
           <div class="mt-4 flex items-center gap-x-2">
-            <button :disabled="isSubmitting" type="submit" class="px-4 py-2 text-whiteColor bg-blackColor rounded-md" :class="isSubmitting && 'opacity-75'">
+            <button
+              :disabled="isSubmitting"
+              type="submit"
+              class="px-4 py-2 text-whiteColor bg-blackColor rounded-md"
+              :class="isSubmitting && 'opacity-75 cursor-no-drop'"
+            >
               Save
             </button>
           </div>
