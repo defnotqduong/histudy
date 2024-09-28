@@ -203,7 +203,7 @@ class CourseController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Course found',
-            'course' => new CourseResource($course),
+            'course' => new CourseResource($course, false),
             'instructor' => [
                 'info' => new UserResource($instructor),
                 'published_courses_count' => $publishedCoursesCount,
@@ -217,6 +217,7 @@ class CourseController extends Controller
             'relatedCourses' => new CourseResourceCollection($relatedCourses, false)
         ], 200);
     }
+
 
     public function searchCourses(Request $request)
     {

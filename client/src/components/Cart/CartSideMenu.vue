@@ -14,11 +14,9 @@
         <div class="h-full flex items-center justify-center" v-if="userStore.cart.length === 0">
           <img src="@/assets/icons/cart-empty.svg" alt="Cart empty" />
         </div>
-        <div v-else class="py-6">
+        <div v-else class="py-6 relative">
           <CourseCardV5 v-for="course in userStore.cart" :key="course.id" :course="course" class="mb-5" />
-          <div class="flex items-center justify-end">
-            <GradientButtonV4 class="w-full" :content="'View Cart'" :func="redirect" />
-          </div>
+          <GradientButtonV4 class="w-full" :content="'View Cart'" :func="redirect" />
         </div>
       </div>
     </div>

@@ -142,7 +142,7 @@ export default defineComponent({
     const editor = useEditor({
       editorProps: {
         attributes: {
-          class: 'text-headingColor p-4 min-h-[12rem] max-h-[12rem] overflow-y-auto outline-none prose'
+          class: 'text-headingColor p-4 min-h-[12rem] max-h-[24rem] overflow-y-auto outline-none prose'
         },
         transformPastedText(text) {
           return text.toUpperCase()

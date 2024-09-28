@@ -18,7 +18,7 @@
 
     <div v-if="!isEditting" class="mt-4 text-headingColor">
       <span v-if="!description" class="italic text-bodyColor">No description</span>
-      <div v-else v-html="description" class="prose max-h-[12rem] overflow-y-auto"></div>
+      <div v-else v-html="description" class="prose max-h-[24rem] overflow-y-auto"></div>
     </div>
     <form v-else @submit.prevent="onSubmit" class="space-y-4 mt-4 w-full">
       <div class="input-group">

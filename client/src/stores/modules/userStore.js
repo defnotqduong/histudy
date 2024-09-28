@@ -22,6 +22,10 @@ export const useUserStore = defineStore(USER_STORE, {
       removeUserStore()
       removeRefreshUserStore()
       this.user = null
+      this.cart = []
+      this.wishlist = []
+      this.instructorCourses = []
+      this.enrolledCourses = []
     },
     setInstructorCourses(courses) {
       this.instructorCourses = [...courses]

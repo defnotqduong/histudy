@@ -27,8 +27,9 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-              /></svg
-            >3 days left!</span
+              />
+            </svg>
+            3 days left!</span
           >
         </div>
       </div>
@@ -93,7 +94,7 @@ export default defineComponent({
     }
 
     const buyNow = () => {
-      alert('Buy now')
+      router.push({ name: 'checkout', params: { courseId: id.value } })
     }
 
     return {

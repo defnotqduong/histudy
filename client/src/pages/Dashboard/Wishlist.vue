@@ -3,7 +3,8 @@
     <div>
       <h4 class="mb-6 pb-5 text-xl text-headingColor font-extrabold border-b-[1px] border-borderColor">Wishlist</h4>
     </div>
-    <div class="grid grid-cols-12 gap-5">
+    <div v-if="userStore.wishlist.length === 0" class="mt-4 ml-6 italic">No courses yet</div>
+    <div v-else class="grid grid-cols-12 gap-5">
       <div v-for="course in userStore.wishlist" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
         <CourseCardV6 :course="course" />
       </div>

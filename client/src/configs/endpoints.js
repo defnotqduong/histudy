@@ -63,7 +63,6 @@ export default {
   },
 
   // Cart
-
   GET_CART_API: {
     method: 'get',
     url: '/cart'
@@ -93,6 +92,12 @@ export default {
   REMOVE_COURSE_FROM_WISHLIST_API: {
     method: 'deleted',
     url: '/wishlist'
+  },
+
+  // Checkout
+  GET_COURSE_FOR_CHECKOUT_API: {
+    method: 'get',
+    url: '/checkout/course'
   },
 
   // Course

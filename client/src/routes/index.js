@@ -48,14 +48,6 @@ const routes = [
         }
       },
       {
-        path: '/cart',
-        name: 'cart',
-        component: () => import('@/pages/Cart/Cart.vue'),
-        meta: {
-          title: 'Cart - Online Courses & Education'
-        }
-      },
-      {
         path: '/courses',
         name: 'courses',
         component: () => import('@/pages/Course/Courses.vue'),
@@ -69,6 +61,23 @@ const routes = [
         component: () => import('@/pages/Course/CourseDetails.vue'),
         meta: {
           title: 'Course Details - Online Courses & Education'
+        }
+      },
+      {
+        path: '/cart',
+        name: 'cart',
+        component: () => import('@/pages/Cart/Cart.vue'),
+        meta: {
+          title: 'Cart - Online Courses & Education'
+        }
+      },
+      {
+        path: '/checkout/:courseId',
+        name: 'checkout',
+        component: () => import('@/pages/Checkout/Checkout.vue'),
+        meta: {
+          title: 'Checkout - Online Courses & Education',
+          isAuthenticated: true
         }
       },
       {

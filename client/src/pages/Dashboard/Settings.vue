@@ -16,9 +16,9 @@
         </li>
       </ul>
     </div>
-    <ProfileSetting v-show="nav[0].isActive" :user="user" />
-    <PasswordSetting v-show="nav[1].isActive" :user="user" />
-    <SocialSetting v-show="nav[2].isActive" :user="user" />
+    <ProfileSetting v-if="nav[0].isActive" :user="user" />
+    <PasswordSetting v-if="nav[1].isActive" :user="user" />
+    <SocialSetting v-if="nav[2].isActive" :user="user" />
   </div>
 </template>
 

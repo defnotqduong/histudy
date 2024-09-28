@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\WishlistController;
@@ -71,6 +72,11 @@ Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api'], function () {
     Route::get('/', [WishlistController::class, 'getWishlist']);
     Route::post('/', [WishlistController::class, 'addCourseToWishlist']);
     Route::delete('/{courseId}', [WishlistController::class, 'removeCourseFromWishlist']);
+});
+
+// Checkout Routes
+Route::group(['prefix' => 'checkout', 'middleware' => 'auth:api'], function () {
+    Route::get('/course/{id}', [CheckoutController::class, 'getCourseForCheckout']);
 });
 
 

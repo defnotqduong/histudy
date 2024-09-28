@@ -16,10 +16,19 @@
         </li>
       </ul>
     </div>
-    <div class="grid grid-cols-12 gap-2 sm:gap-4">
-      <div v-for="course in userStore.enrolledCourses" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
-        <CourseCardV4 :course="course" />
+    <div v-if="nav[0].isActive">
+      <div v-if="userStore.enrolledCourses.length === 0" class="mt-4 ml-6 italic">No courses yet</div>
+      <div class="grid grid-cols-12 gap-2 sm:gap-4">
+        <div v-for="course in userStore.enrolledCourses" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
+          <CourseCardV4 :course="course" />
+        </div>
       </div>
+    </div>
+    <div v-if="nav[1].isActive">
+      <div class="mt-4 ml-6 italic">No courses yet</div>
+    </div>
+    <div v-if="nav[2].isActive">
+      <div class="mt-4 ml-6 italic">No courses yet</div>
     </div>
   </div>
 </template>
