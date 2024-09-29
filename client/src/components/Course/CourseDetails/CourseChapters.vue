@@ -31,8 +31,9 @@
                   </div>
                   <div class="flex items-center justify-center gap-3">
                     <span class="text-sm">{{ getLessonDuration(lesson?.video_duration) }}</span>
-                    <div
+                    <button
                       v-if="lesson?.is_free"
+                      @click="handleVideoModal(lesson?.video_url)"
                       class="px-3 py-1 flex items-center justify-center gap-1 bg-primaryOpacityColor text-sm text-primaryColor rounded-md"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -44,7 +45,7 @@
                         />
                       </svg>
                       <span class="hidden sm:block">Preview</span>
-                    </div>
+                    </button>
                     <div v-else>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path
@@ -69,6 +70,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useHomeStore } from '@/stores'
 import { formatDuration } from '@/utils'
 
 export default defineComponent({
@@ -76,6 +78,8 @@ export default defineComponent({
     chapters: Array
   },
   setup() {
+    const homeStore = useHomeStore()
+
     const getChapterDuration = chapter => {
       const totalDuration = chapter?.lessons?.reduce((total, lesson) => {
         return total + (lesson?.video_duration ? parseInt(lesson.video_duration) : 0)
@@ -88,7 +92,11 @@ export default defineComponent({
       return formatDuration(seconds)
     }
 
-    return { getChapterDuration, getLessonDuration }
+    const handleVideoModal = url => {
+      homeStore.onChangeVideo({ show: true, url: url })
+    }
+
+    return { getChapterDuration, getLessonDuration, handleVideoModal }
   }
 })
 </script>

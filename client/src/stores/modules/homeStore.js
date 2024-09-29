@@ -10,6 +10,10 @@ export const useHomeStore = defineStore(HOME_STORE, {
       type: '',
       message: ''
     },
+    videoModal: {
+      isShow: false,
+      videoUrl: ''
+    },
     popularCourses: [],
     categories: []
   }),
@@ -32,6 +36,10 @@ export const useHomeStore = defineStore(HOME_STORE, {
           this.toast.message = ''
         }, timeout)
       }
+    },
+    onChangeVideo({ show = false, url = '' }) {
+      this.videoModal.isShow = show
+      this.videoModal.videoUrl = url
     },
     setPopularCourses(courses) {
       this.popularCourses = [...courses]

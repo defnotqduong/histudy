@@ -6,7 +6,7 @@
     <CartSideMenu />
     <SidebarMenu />
     <BackToTopButton />
-    <Footer />
+    <FooterV1 />
   </main>
 </template>
 
@@ -20,7 +20,7 @@ import HeaderV2 from '@/components/Header/HeaderV2.vue'
 import CartSideMenu from '@/components/Cart/CartSideMenu.vue'
 import SidebarMenu from '@/components/Header/SidebarMenu.vue'
 import BackToTopButton from '@/components/Button/BackToTopButton.vue'
-import Footer from '@/components/Footer/Footer.vue'
+import FooterV1 from '@/components/Footer/FooterV1.vue'
 export default defineComponent({
   components: {
     TopBannerV2,
@@ -29,7 +29,7 @@ export default defineComponent({
     CartSideMenu,
     SidebarMenu,
     BackToTopButton,
-    Footer
+    FooterV1
   },
   setup() {
     const homeStore = useHomeStore()
