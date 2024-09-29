@@ -12,6 +12,7 @@
           <LearningSideBar :course="course" :chapters="chapters" />
           <div class="h-full flex-1">
             <LearningContent />
+            <NotesAndDiscussion />
           </div>
         </div>
       </div>
@@ -30,11 +31,12 @@ import { getLearningInfo } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
+import NotesAndDiscussion from '@/components/Learning/NotesAndDiscussion.vue'
 import LearningSideBar from '@/components/Learning/LearningSideBar.vue'
 import LearningFooter from '@/components/Learning/LearningFooter.vue'
 
 export default defineComponent({
-  components: { LearningHeader, LearningSideBar, LearningContent, LearningFooter },
+  components: { LearningHeader, LearningSideBar, LearningContent, NotesAndDiscussion, LearningFooter },
   setup() {
     const userStore = useUserStore()
     const homeStore = useHomeStore()

@@ -2,7 +2,7 @@
   <div class="course-card">
     <div class="pb-6 relative">
       <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }"
-        ><img :src="course?.thumbnail_url" class="w-full h-48 object-cover object-center rounded-md" alt="Course Thumbnail"
+        ><img :src="course?.thumbnail_url" class="w-full h-36 object-cover object-center rounded-md" alt="Course Thumbnail"
       /></router-link>
     </div>
     <div>

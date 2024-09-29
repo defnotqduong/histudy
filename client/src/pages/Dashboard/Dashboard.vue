@@ -38,7 +38,7 @@
             </svg>
           </div>
           <div class="flex flex-col items-center justify-center">
-            <h3 class="mb-3 text-3xl sm:text-5xl text-secondaryColor font-extrabold">10</h3>
+            <h3 class="mb-3 text-3xl sm:text-5xl text-secondaryColor font-extrabold">{{ countActiveCourses }}</h3>
             <span class="text-center text-sm text-secondaryColor font-bold opacity-60 uppercase">ACTIVE COURSES</span>
           </div>
         </div>
@@ -64,7 +64,7 @@
             </svg>
           </div>
           <div class="flex flex-col items-center justify-center">
-            <h3 class="mb-3 text-3xl sm:text-5xl text-violetColor font-extrabold">7</h3>
+            <h3 class="mb-3 text-3xl sm:text-5xl text-violetColor font-extrabold">{{ countCompletedCourses }}</h3>
             <span class="text-center text-sm text-violetColor font-bold opacity-60 uppercase">COMPLETED COURSES</span>
           </div>
         </div>
@@ -74,14 +74,24 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useUserStore } from '@/stores'
 export default defineComponent({
   setup() {
     const userStore = useUserStore()
 
+    const countActiveCourses = computed(() => {
+      return userStore.enrolledCourses.filter(course => course.progress_percentage < 100).length
+    })
+
+    const countCompletedCourses = computed(() => {
+      return userStore.enrolledCourses.filter(course => course.progress_percentage === 100).length
+    })
+
     return {
-      userStore
+      userStore,
+      countActiveCourses,
+      countCompletedCourses
     }
   },
   methods: {
