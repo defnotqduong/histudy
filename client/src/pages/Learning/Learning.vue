@@ -10,14 +10,16 @@
       <div class="fixed top-0 left-0 right-0 bottom-0 z-10 mt-12 mb-14">
         <div class="w-full h-full flex items-start justify-start">
           <LearningSideBar :course="course" :chapters="chapters" />
-          <div class="h-full flex-1">
+          <div class="h-full flex-1 relative">
             <LearningContent />
-            <NotesAndDiscussion />
           </div>
         </div>
       </div>
       <div class="fixed bottom-0 left-0 right-0 z-20">
         <LearningFooter />
+      </div>
+      <div class="fixed bottom-20 right-8 z-20">
+        <NotesAndDiscussion />
       </div>
     </template>
   </div>

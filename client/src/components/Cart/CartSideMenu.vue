@@ -6,7 +6,7 @@
       @click="handleClick"
     ></div>
     <div class="cart-side-menu w-full sm:w-[80%] lg:w-[60%] xl:w-[50%]" :class="{ 'side-menu-active': homeStore.isShowCartSideMenu }">
-      <div class="h-full pt-14 px-10">
+      <div class="h-full pt-14 pb-12 px-10 overflow-y-auto">
         <div class="flex items-center justify-between">
           <h4 class="text-3xl text-headingColor font-extrabold">Your shopping cart</h4>
           <CloseButton :color="'blackColor'" :func="handleClick" />
@@ -16,6 +16,10 @@
         </div>
         <div v-else class="py-6 relative">
           <CourseCardV5 v-for="course in userStore.cart" :key="course.id" :course="course" class="mb-5" />
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0">
+        <div class="p-4 mx-6 bg-whiteColor">
           <GradientButtonV4 class="w-full" :content="'View Cart'" :func="redirect" />
         </div>
       </div>
@@ -60,7 +64,6 @@ export default defineComponent({
   bottom: 0;
   z-index: 10000;
   transform: translateX(100%);
-  overflow-y: auto;
   overscroll-behavior: contain;
   transition: transform 0.85s cubic-bezier(0.23, 1, 0.32, 1);
   @apply bg-whiteColor;

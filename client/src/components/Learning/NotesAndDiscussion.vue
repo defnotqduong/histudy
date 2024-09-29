@@ -1,5 +1,5 @@
 <template>
-  <div>Notes</div>
+  <button class="w-16 h-16 flex items-center justify-center text-whiteColor bg-primaryColor rounded-full">Notes</button>
 </template>
 
 <script>
