@@ -65,6 +65,7 @@ class CartController extends Controller
             [
                 'success' => true,
                 'message' => 'Course added to Cart successfully',
+                'cart' => new CourseResourceCollection($cart->courses, false),
             ],
             200
         );
@@ -93,6 +94,7 @@ class CartController extends Controller
             [
                 'success' => true,
                 'message' => 'Course removed from Cart successfully',
+                'cart' => new CourseResourceCollection($cart->courses, false),
             ],
             200
         );

@@ -1,24 +1,24 @@
 <template>
-  <table class="table">
+  <table class="table table-pin-rows">
     <thead>
       <tr>
-        <th>Thumbnail</th>
+        <th class="rounded-tl-md">Thumbnail</th>
         <th>Title</th>
         <th>Price</th>
-        <th class="text-center">Action</th>
+        <th class="text-center rounded-tr-md">Action</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="course in courses" :key="course.id">
         <td class="pl-0">
           <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }">
-            <img :src="course.thumbnail_url" class="w-56 h-36 rounded-md object-cover object-center" alt="course thumbnail"
+            <img :src="course.thumbnail_url" class="w-44 h-24 md:w-56 md:h-40 rounded-md object-cover object-center" alt="course thumbnail"
           /></router-link>
         </td>
         <td>
           <router-link
             :to="{ name: 'course-details', params: { slug: course?.slug } }"
-            class="text-headingColor text-xl font-bold hover:text-primaryColor transition-all duration-300"
+            class="text-headingColor text-xl font-bold line-clamp-3 hover:text-primaryColor transition-all duration-300"
           >
             {{ course.title }}
           </router-link>
@@ -28,7 +28,8 @@
         </td>
         <td>
           <div class="flex items-center justify-center gap-4">
-            <button @click.prevent="purchase(course.id)" class="button pay-btn">Purchase</button>
+            <button v-if="!isEnrolled(course.id)" @click.prevent="purchase(course.id)" class="button pay-btn">Purchase</button>
+            <button v-else @click.prevent="learning(course.slug)" class="button pay-btn">Learning</button>
             <button
               @click.prevent="remove(course.id)"
               class="relative w-9 h-9 flex items-center justify-center group after:absolute after:content after:left-0 after:top-0 after:w-full after:h-full after:opacity-0 after:rounded-full after:scale-[0.8] after:bg-grayLightColor after:transition-all after:duration-[400ms] hover:after:scale-[1.2] hover:after:opacity-100"
@@ -59,7 +60,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useHomeStore, useUserStore } from '@/stores'
 import { formatPrice } from '@/utils'
 
 export default defineComponent({
@@ -68,14 +71,21 @@ export default defineComponent({
     courses: Array,
     loading: Boolean,
     remove: Function,
-    purchase: Function
+    purchase: Function,
+    learning: Function
   },
   setup() {
+    const userStore = useUserStore()
     const loading = ref(false)
+
+    const isEnrolled = courseId => {
+      return userStore.enrolledCourses.some(course => course?.id === courseId)
+    }
 
     return {
       loading,
-      formatPrice
+      formatPrice,
+      isEnrolled
     }
   }
 })

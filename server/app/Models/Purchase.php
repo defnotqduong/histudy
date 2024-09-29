@@ -20,4 +20,9 @@ class Purchase extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public static function createPurchase($data)
+    {
+        return self::create($data);
+    }
 }

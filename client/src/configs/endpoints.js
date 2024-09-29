@@ -100,6 +100,11 @@ export default {
     url: '/checkout/course'
   },
 
+  CHECKOUT_COURSE_API: {
+    method: 'post',
+    url: '/checkout/course'
+  },
+
   // Course
   GET_ALL_COURSES_API: {
     method: 'get',
@@ -237,5 +242,11 @@ export default {
   DELETE_ATTACHMENT_API: {
     method: 'deleted',
     url: '/instructor/course/chapter/lesson/attachment'
+  },
+
+  // Learning
+  GET_LEARNING_INFO_API: {
+    method: 'get',
+    url: '/learning/learning-info'
   }
 }

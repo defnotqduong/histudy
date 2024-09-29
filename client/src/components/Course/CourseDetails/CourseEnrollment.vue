@@ -40,7 +40,7 @@
         <GradientButtonV5 class="w-full h-[60px]" :content="'View Cart'" :func="redirect" />
       </div>
       <div class="mt-5">
-        <ButtonV5 class="w-full h-[60px]" :content="'Buy Now'" :func="buyNow" />
+        <ButtonV5 class="w-full h-[60px]" :content="isEnrolled ? 'Start Learning' : 'Buy Now'" :func="isEnrolled ? startLearning : buyNow" />
       </div>
     </div>
   </div>
@@ -77,6 +77,10 @@ export default defineComponent({
       return userStore.cart.some(course => course?.id === props.course?.id)
     })
 
+    const isEnrolled = computed(() => {
+      return userStore.enrolledCourses.some(course => course?.id === props.course?.id)
+    })
+
     const redirect = () => {
       router.push({ name: 'cart' })
     }
@@ -97,14 +101,20 @@ export default defineComponent({
       router.push({ name: 'checkout', params: { courseId: id.value } })
     }
 
+    const startLearning = () => {
+      router.push({ name: 'learning', params: { slug: props.course?.slug } })
+    }
+
     return {
       loading,
       id,
       formattedPrice,
       isInCart,
+      isEnrolled,
       redirect,
       addToCart,
-      buyNow
+      buyNow,
+      startLearning
     }
   }
 })

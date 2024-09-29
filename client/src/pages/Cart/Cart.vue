@@ -17,7 +17,9 @@
       <img src="@/assets/icons/cart-empty.svg" alt="Cart empty" />
     </div>
     <div v-else class="container mt-16 mx-auto px-4">
-      <CourseTable :courses="userStore.cart" :loading="loading" :remove="remove" :purchase="purchase" />
+      <div class="overflow-x-auto">
+        <CourseTable :courses="userStore.cart" :loading="loading" :remove="remove" :purchase="purchase" :learning="learning" />
+      </div>
     </div>
   </div>
 </template>
@@ -46,14 +48,16 @@ export default defineComponent({
 
       if (!res.success) homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
 
-      if (res.success) {
-        const cartData = await getCart()
-        userStore.setCart(cartData.cart.courses)
-      }
+      if (res.success) userStore.setCart(res.cart.courses)
+
       loading.value = false
     }
     const purchase = id => {
       router.push({ name: 'checkout', params: { courseId: id } })
+    }
+
+    const learning = slug => {
+      router.push({ name: 'learning', params: { slug: slug } })
     }
 
     return {
@@ -61,7 +65,8 @@ export default defineComponent({
       homeStore,
       loading,
       remove,
-      purchase
+      purchase,
+      learning
     }
   },
   methods: {

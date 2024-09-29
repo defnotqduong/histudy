@@ -12,7 +12,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LearningController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Chapter;
 use App\Models\Course;
@@ -76,9 +78,9 @@ Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api'], function () {
 
 // Checkout Routes
 Route::group(['prefix' => 'checkout', 'middleware' => 'auth:api'], function () {
-    Route::get('/course/{id}', [CheckoutController::class, 'getCourseForCheckout']);
+    Route::get('/course/{id}', [OrderController::class, 'getCourseForCheckout']);
+    Route::post('/course/{id}', [OrderController::class, 'checkoutCourse']);
 });
-
 
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
@@ -123,4 +125,10 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
             });
         });
     });
+});
+
+
+// Learning Routes
+Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
+    Route::get('/learning-info/{slug}', [LearningController::class, 'getLearningInfo']);
 });

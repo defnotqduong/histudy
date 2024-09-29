@@ -46,4 +46,9 @@ class Lesson extends Model
     {
         return $this->delete();
     }
+
+    public function progress()
+    {
+        return $this->hasOne(UserProgress::class);
+    }
 }

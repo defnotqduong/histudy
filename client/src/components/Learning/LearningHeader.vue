@@ -2,7 +2,7 @@
   <div class="h-12 px-4 text-whiteColor bg-primaryColor">
     <div class="w-full h-full flex items-center justify-between">
       <div>
-        <h3 class="text-lg font-bold">The Complete Histudy 2023: From Zero to Expert!</h3>
+        <h3 class="text-lg font-bold">{{ course?.title }}</h3>
       </div>
       <div>
         <button
@@ -38,6 +38,9 @@ import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {},
+  props: {
+    course: Object
+  },
   setup() {
     const router = useRouter()
 

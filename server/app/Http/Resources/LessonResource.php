@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Requests\AttachmentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class LessonResource extends JsonResource
 {
@@ -14,6 +16,10 @@ class LessonResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $userId = Auth::id();
+        $userProgress = $this->progress()->where('user_id', $userId)->first();
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -24,6 +30,7 @@ class LessonResource extends JsonResource
             'is_free' => $this->is_free,
             'position' => $this->position,
             'chapter_id' => $this->chapter_id,
+            'is_completed' => $userProgress ? $userProgress->is_completed : null,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

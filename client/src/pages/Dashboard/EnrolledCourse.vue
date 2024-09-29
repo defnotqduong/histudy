@@ -25,16 +25,26 @@
       </div>
     </div>
     <div v-if="nav[1].isActive">
-      <div class="mt-4 ml-6 italic">No courses yet</div>
+      <div v-if="activeCourses.length === 0" class="mt-4 ml-6 italic">No active courses yet</div>
+      <div class="grid grid-cols-12 gap-2 sm:gap-4">
+        <div v-for="course in activeCourses" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
+          <CourseCardV4 :course="course" />
+        </div>
+      </div>
     </div>
     <div v-if="nav[2].isActive">
-      <div class="mt-4 ml-6 italic">No courses yet</div>
+      <div v-if="completedCourses.length === 0" class="mt-4 ml-6 italic">No completed courses yet</div>
+      <div class="grid grid-cols-12 gap-2 sm:gap-4">
+        <div v-for="course in completedCourses" :key="course.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
+          <CourseCardV4 :course="course" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, computed } from 'vue'
 import { useUserStore } from '@/stores'
 import CourseCardV4 from '@/components/Course/CourseCard/CourseCardV4.vue'
 
@@ -67,7 +77,15 @@ export default defineComponent({
       })
     }
 
-    return { userStore, nav, setActive }
+    const activeCourses = computed(() => {
+      return userStore.enrolledCourses.filter(course => course.progress_percentage < 100)
+    })
+
+    const completedCourses = computed(() => {
+      return userStore.enrolledCourses.filter(course => course.progress_percentage === 100)
+    })
+
+    return { userStore, nav, setActive, activeCourses, completedCourses }
   },
   methods: {
     scrollToTop() {

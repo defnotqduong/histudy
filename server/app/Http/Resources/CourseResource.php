@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class CourseResource extends JsonResource
 {
@@ -17,6 +18,21 @@ class CourseResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+        $user = Auth::user();
+        $progress = null;
+
+        if ($user && $user->purchasedCourses->contains($this->id)) {
+            $completedLessons = $this->chapters->flatMap->lessons->filter(function ($lesson) use ($user) {
+                return $lesson->progress()->where('user_id', $user->id)->where('is_completed', true)->exists();
+            })->count();
+
+            $totalLessons = $this->chapters->flatMap->lessons->count();
+
+            if ($totalLessons > 0) {
+                $progress = floor(($completedLessons / $totalLessons) * 100);
+            }
+        }
+
         return [
             'id' => $this->id,
             'instructor' => $this->instructor->only(['name', 'username', 'avatar', 'profession']),
@@ -42,6 +58,7 @@ class CourseResource extends JsonResource
                 $this->chapters->flatMap->lessons->count(),
                 $this->publishedChapters->flatMap->publishedLessons->count()
             ),
+            'progress_percentage' => $progress,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

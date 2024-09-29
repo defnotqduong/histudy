@@ -104,4 +104,9 @@ class Course extends Model
             ->limit(9)
             ->get();
     }
+
+    public function userProgress()
+    {
+        return $this->hasManyThrough(UserProgress::class, Lesson::class);
+    }
 }

@@ -72,7 +72,7 @@ const routes = [
         }
       },
       {
-        path: '/checkout/:courseId',
+        path: '/payment/checkout/:courseId',
         name: 'checkout',
         component: () => import('@/pages/Checkout/Checkout.vue'),
         meta: {
@@ -164,19 +164,19 @@ const routes = [
     ]
   },
   {
-    path: '/lesson',
-    name: 'lesson-layout',
-    component: () => import('@/layouts/LessonLayout.vue'),
+    path: '/:slug/learning',
+    name: 'learning-layout',
+    component: () => import('@/layouts/LearningLayout.vue'),
     meta: {
       isAuthenticated: true
     },
     children: [
       {
         path: '',
-        name: 'lesson',
-        component: () => import('@/pages/Lesson/Lesson.vue'),
+        name: 'learning',
+        component: () => import('@/pages/Learning/Learning.vue'),
         meta: {
-          title: 'Lesson - Online Courses & Education'
+          title: 'Learning - Online Courses & Education'
         }
       }
     ]

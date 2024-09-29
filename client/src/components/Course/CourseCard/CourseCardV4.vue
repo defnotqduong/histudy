@@ -24,8 +24,9 @@
               clip-rule="evenodd"
               d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
               fill="currentColor"
-            /></svg
-          ><span>{{ course?.lesson_count }} Lessons</span>
+            />
+          </svg>
+          <span>{{ course?.lesson_count }} Lessons</span>
         </li>
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -35,36 +36,43 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-            /></svg
-          ><span>{{ course?.customer_count }} Students</span>
+            />
+          </svg>
+          <span>{{ course?.customer_count }} Students</span>
         </li>
       </ul>
       <div class="mb-5 relative">
         <h6 class="mb-2 text-xs text-headingColor font-bold uppercase opacity-60">Complete</h6>
         <div class="h-[6px] bg-progressColor rounded-lg">
-          <div class="w-[40%] h-full bg-successColor rounded-lg"></div>
+          <div :style="{ width: course?.progress_percentage + '%' }" class="h-full bg-successColor rounded-lg"></div>
         </div>
-        <span class="text-sm text-bodyColor font-bold uppercase opacity-60 absolute right-0 top-0">40%</span>
+        <span class="text-sm text-bodyColor font-bold uppercase opacity-60 absolute right-0 top-0">{{ course?.progress_percentage }}%</span>
       </div>
+
+      <ButtonV7 v-if="course?.progress_percentage < 100" :content="'Learning'" :func="redirect" class="w-full" />
+      <ButtonV7 v-else :content="'Download Certificate'" :func="downloadCert" class="w-full" />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { formatPrice } from '@/utils'
 import { getWishlist, addCourseToWishlist, removeCourseFromWishlist } from '@/webServices/wishlistService'
 
 import BookmarkButton from '@/components/Button/BookmarkButton.vue'
 import StarRating from '@/components/StarRating/StarRating.vue'
+import ButtonV7 from '@/components/Button/ButtonV7.vue'
 
 export default defineComponent({
-  components: { StarRating, BookmarkButton },
+  components: { StarRating, BookmarkButton, ButtonV7 },
   props: {
     course: Object
   },
   setup(props) {
+    const router = useRouter()
     const userStore = useUserStore()
 
     const loading = ref(false)
@@ -96,7 +104,15 @@ export default defineComponent({
       loading.value = false
     }
 
-    return { loading, averageStar, reviewCount, formattedPrice, isInWishlist, onChangeWishlist }
+    const redirect = () => {
+      router.push({ name: 'learning', params: { slug: props.course?.slug } })
+    }
+
+    const downloadCert = () => {
+      alert('This feature is scheduled for future development.')
+    }
+
+    return { loading, averageStar, reviewCount, formattedPrice, isInWishlist, onChangeWishlist, redirect, downloadCert }
   }
 })
 </script>

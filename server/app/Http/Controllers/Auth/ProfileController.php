@@ -79,7 +79,7 @@ class ProfileController extends Controller
 
             $user->updateUser([
                 'avatar' => $url,
-                // 'avatar_public_id' => $publicId
+                'avatar_public_id' => $publicId
             ]);
         }
 
