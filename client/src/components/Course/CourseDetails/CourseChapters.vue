@@ -33,7 +33,7 @@
                     <span class="text-sm">{{ getLessonDuration(lesson?.video_duration) }}</span>
                     <button
                       v-if="lesson?.is_free"
-                      @click="handleVideoModal(lesson?.video_url)"
+                      @click="handleVideoModal(lesson?.id)"
                       class="px-3 py-1 flex items-center justify-center gap-1 bg-primaryOpacityColor text-sm text-primaryColor rounded-md"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -72,6 +72,7 @@
 import { defineComponent } from 'vue'
 import { useHomeStore } from '@/stores'
 import { formatDuration } from '@/utils'
+import { getFreeLessonVideoUrl } from '@/webServices/learningService'
 
 export default defineComponent({
   props: {
@@ -92,8 +93,9 @@ export default defineComponent({
       return formatDuration(seconds)
     }
 
-    const handleVideoModal = url => {
-      homeStore.onChangeVideo({ show: true, url: url })
+    const handleVideoModal = async id => {
+      const res = await getFreeLessonVideoUrl(id)
+      homeStore.onChangeVideo({ show: true, url: res.video_url })
     }
 
     return { getChapterDuration, getLessonDuration, handleVideoModal }

@@ -248,5 +248,17 @@ export default {
   GET_LEARNING_INFO_API: {
     method: 'get',
     url: '/learning/learning-info'
+  },
+  GET_LESSON_INFO_API: {
+    method: 'get',
+    url: '/learning/lesson-info'
+  },
+  GET_FREE_LESSON_VIDEO_URL_API: {
+    method: 'get',
+    url: '/learning/free/lesson-video'
+  },
+  GET_ATTACHMENT_SIGNED_URL_API: {
+    method: 'get',
+    url: '/learning/attachment/get-signed-url'
   }
 }

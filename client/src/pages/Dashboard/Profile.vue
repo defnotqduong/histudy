@@ -1,5 +1,5 @@
 <template>
-  <div class="p-7 text-lg bg-whiteColor rounded-md shadow-shadow01">
+  <div id="child-content" class="p-7 text-lg bg-whiteColor rounded-md shadow-shadow01">
     <div>
       <h4 class="mb-6 pb-5 text-xl text-headingColor font-extrabold border-b-[1px] border-borderColor">My Profile</h4>
     </div>
@@ -61,7 +61,10 @@ export default defineComponent({
   },
   methods: {
     scrollToTop() {
-      window.scrollTo({ top: 0 })
+      const childContent = document.getElementById('child-content')
+      if (childContent) {
+        childContent.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   },
   created() {

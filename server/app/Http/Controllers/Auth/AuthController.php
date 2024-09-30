@@ -104,6 +104,9 @@ class AuthController extends Controller
 
     public function loginWithGoogle(Request $request)
     {
+
+        $verifiedIdToken = Auth::verifyIdToken($request->token);
+
         $user = User::findByEmail($request->email);
 
         if (!$user) {

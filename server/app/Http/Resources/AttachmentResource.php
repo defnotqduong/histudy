@@ -19,7 +19,7 @@ class AttachmentResource extends JsonResource
             'name' => $this->name,
             'attachment_url' => $this->attachment_url,
             'attachment_public_id' => $this->attachment_public_id,
-            'course_id' => $this->course_id,
+            'lesson_id' => $this->lesson_id,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

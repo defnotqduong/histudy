@@ -1,5 +1,5 @@
 <template>
-  <div class="p-7 bg-whiteColor rounded-md shadow-shadow01">
+  <div id="child-content" class="p-7 bg-whiteColor rounded-md shadow-shadow01">
     <div><h4 class="mb-6 pb-5 text-xl text-headingColor font-extrabold border-b-[1px] border-borderColor">Dashboard</h4></div>
     <div class="grid grid-cols-12 gap-4 md:gap-6">
       <div class="col-span-12 sm:col-span-6 lg:col-span-4 transition-all duration-300 hover:-translate-y-1">
@@ -96,7 +96,10 @@ export default defineComponent({
   },
   methods: {
     scrollToTop() {
-      window.scrollTo({ top: 0 })
+      const childContent = document.getElementById('child-content')
+      if (childContent) {
+        childContent.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   },
   created() {

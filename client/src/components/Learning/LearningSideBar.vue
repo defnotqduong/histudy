@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-[360px] border-r-[1px] border-borderColor overflow-auto custom-scrollbar">
+  <div class="h-full border-r-[1px] border-borderColor overflow-auto custom-scrollbar" :class="isShowSideBar ? 'w-[360px]' : 'w-0'">
     <div class="p-4 border-b-[1px] border-borderColor">
       <div class="h-full text-xl text-headingColor font-extrabold flex items-center justify-start gap-3">Course Content</div>
     </div>
@@ -21,7 +21,7 @@
                 <a
                   href=""
                   class="flex items-center justify-between text-base transition-all duration-300 hover:text-primaryColor"
-                  :class="lesson.is_completed ? 'text-primaryColor' : 'text-headingColor'"
+                  :class="lesson.is_completed || lesson.id === currentLesson.id ? 'text-primaryColor' : 'text-headingColor'"
                 >
                   <div class="flex items-center justify-center gap-2">
                     <span
@@ -42,7 +42,8 @@
                   </div>
                   <div class="flex items-center justify-center gap-2">
                     <span class="text-sm">{{ getLessonDuration(lesson?.video_duration) }}</span>
-                    <span v-if="lesson?.is_completed">
+                    <span v-if="lesson.id === currentLesson.id" class="w-4 h-4"></span>
+                    <span v-else-if="lesson?.is_completed">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 24 24">
                         <path
                           d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm4.71,8.71-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
@@ -79,7 +80,9 @@ export default defineComponent({
   components: {},
   props: {
     course: Object,
-    chapters: Array
+    chapters: Array,
+    currentLesson: Object,
+    isShowSideBar: Boolean
   },
   setup() {
     const getChapterDuration = chapter => {

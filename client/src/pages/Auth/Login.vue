@@ -198,10 +198,12 @@ export default defineComponent({
       const provider = new GoogleAuthProvider()
       signInWithPopup(getAuth(), provider)
         .then(async result => {
+          console.log(result.user)
           const res = await loginWithGoogle({
             name: result.user.displayName,
             email: result.user.email,
-            avatar: result.user.photoURL
+            avatar: result.user.photoURL,
+            token: result.user.accessToken
           })
 
           if (!res.success) {
