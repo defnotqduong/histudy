@@ -31,6 +31,11 @@ class Lesson extends Model
         return $this->hasMany(Attachment::class)->orderBy('created_at', 'desc');
     }
 
+    public function discussions()
+    {
+        return $this->hasMany(LessonDiscussion::class);
+    }
+
     public static function createLesson($data)
     {
         return self::create($data);

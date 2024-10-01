@@ -1,14 +1,21 @@
 <template>
-  <div class="h-full w-full relative overflow-auto custom-scrollbar pb-40">
+  <div class="h-full w-full pb-40 px-4 pt-4 relative overflow-auto custom-scrollbar">
+    <h4 class="mb-2 flex items-center justify-start gap-2 text-xl text-headingColor font-extrabold">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M4.91602 1.33366V1.16699H17.5827V16.3337H17.416V3.33366C17.416 2.80322 17.2053 2.29452 16.8302 1.91945C16.4552 1.54437 15.9465 1.33366 15.416 1.33366H4.91602Z"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <path
+          d="M15.416 2.91699H2.08268C1.97218 2.91699 1.86619 2.96089 1.78805 3.03903C1.70991 3.11717 1.66602 3.22315 1.66602 3.33366V19.167C1.66602 19.2775 1.70991 19.3835 1.78805 19.4616C1.86619 19.5398 1.97218 19.5837 2.08268 19.5837H15.416C15.5265 19.5837 15.6325 19.5398 15.7106 19.4616C15.7888 19.3835 15.8327 19.2775 15.8327 19.167V3.33366C15.8327 3.22315 15.7888 3.11717 15.7106 3.03903C15.6325 2.96089 15.5265 2.91699 15.416 2.91699ZM8.74935 14.5837H4.99935C4.88884 14.5837 4.78286 14.5398 4.70472 14.4616C4.62658 14.3835 4.58268 14.2775 4.58268 14.167C4.58268 14.0565 4.62658 13.9505 4.70472 13.8724C4.78286 13.7942 4.88884 13.7503 4.99935 13.7503H8.74935C8.85986 13.7503 8.96584 13.7942 9.04398 13.8724C9.12212 13.9505 9.16602 14.0565 9.16602 14.167C9.16602 14.2775 9.12212 14.3835 9.04398 14.4616C8.96584 14.5398 8.85986 14.5837 8.74935 14.5837ZM12.4993 11.2503H4.99935C4.88884 11.2503 4.78286 11.2064 4.70472 11.1283C4.62658 11.0501 4.58268 10.9442 4.58268 10.8337C4.58268 10.7232 4.62658 10.6172 4.70472 10.539C4.78286 10.4609 4.88884 10.417 4.99935 10.417H12.4993C12.6099 10.417 12.7158 10.4609 12.794 10.539C12.8721 10.6172 12.916 10.7232 12.916 10.8337C12.916 10.9442 12.8721 11.0501 12.794 11.1283C12.7158 11.2064 12.6099 11.2503 12.4993 11.2503ZM12.4993 7.91699H4.99935C4.88884 7.91699 4.78286 7.87309 4.70472 7.79495C4.62658 7.71681 4.58268 7.61083 4.58268 7.50033C4.58268 7.38982 4.62658 7.28384 4.70472 7.2057C4.78286 7.12756 4.88884 7.08366 4.99935 7.08366H12.4993C12.6099 7.08366 12.7158 7.12756 12.794 7.2057C12.8721 7.28384 12.916 7.38982 12.916 7.50033C12.916 7.61083 12.8721 7.71681 12.794 7.79495C12.7158 7.87309 12.6099 7.91699 12.4993 7.91699Z"
+          fill="currentColor"
+        />
+      </svg>
+      {{ lesson?.info?.title }}
+    </h4>
     <div>
-      <iframe
-        width="100%"
-        height="500"
-        :src="lesson?.info?.video_url"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      <VideoPlayer :url="lesson?.info?.video_url" :func="updateLesson" class="w-full h-[500px]" />
     </div>
     <div v-if="lesson?.info?.description" class="pt-10 px-12 mx-auto">
       <h4 class="mb-5 text-2xl font-extrabold text-headingColor">About Lesson</h4>
@@ -16,7 +23,7 @@
     </div>
     <div v-if="lesson?.attachments.length > 0" class="pt-10 px-12 mx-auto">
       <h4 class="mb-5 text-2xl font-extrabold text-headingColor">Attachments</h4>
-      <div v-for="attachment in lesson?.attachments" :key="attachment.id" class="w-[50%] mb-2 px-4 py-3 bg-primaryOpacityColor rounded-md">
+      <div v-for="attachment in lesson?.attachments" :key="attachment.id" class="max-w-[500px] mb-2 px-4 py-3 bg-primaryOpacityColor rounded-md">
         <div class="flex items-center justify-start gap-2 text-primaryColor">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path
@@ -50,13 +57,17 @@
 import { defineComponent } from 'vue'
 import JsFileDownloader from 'js-file-downloader'
 import { useHomeStore } from '@/stores'
+import { updateCompletedLesson } from '@/webServices/learningService'
+
+import VideoPlayer from '@/components/VideoComponents/VideoPlayer.vue'
 
 export default defineComponent({
-  components: {},
+  components: { VideoPlayer },
   props: {
-    lesson: Object
+    lesson: Object,
+    updateStatusLesson: Function
   },
-  setup() {
+  setup(props) {
     const homeStore = useHomeStore()
 
     const downloadAttachment = async url => {
@@ -69,7 +80,15 @@ export default defineComponent({
         })
     }
 
-    return { downloadAttachment }
+    const updateLesson = async () => {
+      if (props.lesson?.info?.is_completed) return
+
+      const res = await updateCompletedLesson({ lesson_id: props.lesson?.info?.id })
+
+      if (res.success) props.updateStatusLesson()
+    }
+
+    return { downloadAttachment, updateLesson }
   }
 })
 </script>

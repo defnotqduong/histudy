@@ -22,7 +22,7 @@
     </div>
     <form v-else @submit.prevent="onSubmit" class="space-y-4 mt-4 w-full">
       <div class="input-group">
-        <textarea type="text" v-model="summary" class="textarea" placeholder="" />
+        <textarea type="text" v-model="summary" class="textarea" placeholder=""></textarea>
         <div v-if="errors?.summary && errors?.summary.length > 0">
           <p v-for="(err, index) in errors?.summary" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
         </div>

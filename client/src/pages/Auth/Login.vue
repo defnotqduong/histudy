@@ -200,11 +200,10 @@ export default defineComponent({
         .then(async result => {
           console.log(result.user)
           const res = await loginWithGoogle({
-            name: result.user.displayName,
-            email: result.user.email,
-            avatar: result.user.photoURL,
-            token: result.user.accessToken
+            id_token: result.user.accessToken
           })
+
+          console.log(res)
 
           if (!res.success) {
             homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })

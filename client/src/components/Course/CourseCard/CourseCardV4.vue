@@ -49,8 +49,8 @@
         <span class="text-sm text-bodyColor font-bold uppercase opacity-60 absolute right-0 top-0">{{ course?.progress_percentage }}%</span>
       </div>
 
-      <ButtonV7 v-if="course?.progress_percentage < 100" :content="'Learning'" :func="redirect" class="w-full" />
-      <ButtonV7 v-else :content="'Download Certificate'" :func="downloadCert" class="w-full" />
+      <ButtonV7 :content="'Learning'" :func="redirect" class="w-full" />
+      <!-- <ButtonV7 :content="'Download Certificate'" :func="downloadCert" class="w-full" /> -->
     </div>
   </div>
 </template>

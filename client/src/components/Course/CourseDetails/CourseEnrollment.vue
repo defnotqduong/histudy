@@ -40,7 +40,7 @@
         <GradientButtonV5 class="w-full h-[60px]" :content="'View Cart'" :func="redirect" />
       </div>
       <div class="mt-5">
-        <ButtonV5 class="w-full h-[60px]" :content="isEnrolled ? 'Start Learning' : 'Buy Now'" :func="isEnrolled ? startLearning : buyNow" />
+        <ButtonV5 class="w-full h-[60px]" :content="isEnrolled ? 'Learning' : 'Buy Now'" :func="isEnrolled ? startLearning : buyNow" />
       </div>
     </div>
   </div>

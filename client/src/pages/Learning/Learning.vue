@@ -9,17 +9,46 @@
       <LearningHeader :course="course" />
       <div class="fixed top-0 left-0 right-0 bottom-0 z-10 mt-12 mb-14">
         <div class="w-full h-full flex items-start justify-start">
-          <LearningSideBar :course="course" :chapters="chapters" :currentLesson="currentLesson?.info" :isShowSideBar="isShowSideBar" />
+          <LearningSideBar
+            :course="course"
+            :chapters="chapters"
+            :currentLesson="currentLesson?.info"
+            :prevLessonId="prevLessonId"
+            :nextLessonId="nextLessonId"
+            :getCurrentLesson="getCurrentLesson"
+            :isShowSideBar="isShowSideBar"
+          />
           <div class="h-full flex-1 relative">
-            <LearningContent :lesson="currentLesson" />
+            <LearningContent :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
           </div>
+          <LessonDiscussionModal
+            v-if="isShowLessonDiscussionModal"
+            :discussions="currentLesson?.discussions"
+            :isShowLessonDiscussionModal="isShowLessonDiscussionModal"
+            :toggleLessonDiscussionModal="toggleLessonDiscussionModal"
+          />
+          <LessonNoteModal v-if="isShowLessonNoteModal" :isShowLessonNoteModal="isShowLessonNoteModal" :toggleLessonNoteModal="toggleLessonNoteModal" />
+          <CourseReviewModal
+            v-if="isShowCourseReviewModal"
+            :isShowCourseReviewModal="isShowCourseReviewModal"
+            :toggleCourseReviewModal="toggleCourseReviewModal"
+          />
+          <ActionPanel
+            :toggleLessonDiscussionModal="toggleLessonDiscussionModal"
+            :toggleLessonNoteModal="toggleLessonNoteModal"
+            :toggleCourseReviewModal="toggleCourseReviewModal"
+          />
         </div>
       </div>
       <div class="fixed bottom-0 left-0 right-0 z-20">
-        <LearningFooter :currentLesson="currentLesson?.info" :isShowSideBar="isShowSideBar" :toggleSideBar="toggleSideBar" />
-      </div>
-      <div class="fixed bottom-20 right-8 z-20">
-        <NotesAndDiscussion />
+        <LearningFooter
+          :currentLesson="currentLesson?.info"
+          :prevLessonId="prevLessonId"
+          :nextLessonId="nextLessonId"
+          :getCurrentLesson="getCurrentLesson"
+          :isShowSideBar="isShowSideBar"
+          :toggleSideBar="toggleSideBar"
+        />
       </div>
     </template>
   </div>
@@ -33,12 +62,15 @@ import { getLearningInfo, getLessonInfo } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
-import NotesAndDiscussion from '@/components/Learning/NotesAndDiscussion.vue'
+import ActionPanel from '@/components/Learning/ActionPanel.vue'
 import LearningSideBar from '@/components/Learning/LearningSideBar.vue'
 import LearningFooter from '@/components/Learning/LearningFooter.vue'
+import LessonNoteModal from '@/components/Learning/LessonNoteModal.vue'
+import LessonDiscussionModal from '@/components/Learning/LessonDiscussionModal.vue'
+import CourseReviewModal from '@/components/Learning/CourseReviewModal.vue'
 
 export default defineComponent({
-  components: { LearningHeader, LearningSideBar, LearningContent, NotesAndDiscussion, LearningFooter },
+  components: { LearningHeader, LearningSideBar, LearningContent, ActionPanel, LearningFooter, LessonNoteModal, LessonDiscussionModal, CourseReviewModal },
   setup() {
     const userStore = useUserStore()
     const homeStore = useHomeStore()
@@ -49,19 +81,66 @@ export default defineComponent({
     const course = ref(null)
     const chapters = ref([])
     const currentLesson = ref(null)
+    const prevLessonId = ref(null)
+    const nextLessonId = ref(null)
     const loading = ref(false)
     const isShowSideBar = ref(true)
+    const isShowLessonDiscussionModal = ref(false)
+    const isShowLessonNoteModal = ref(false)
+    const isShowCourseReviewModal = ref(false)
 
     const toggleSideBar = () => {
       isShowSideBar.value = !isShowSideBar.value
     }
 
+    const toggleLessonDiscussionModal = () => {
+      isShowLessonDiscussionModal.value = !isShowLessonDiscussionModal.value
+      isShowLessonNoteModal.value = false
+      isShowCourseReviewModal.value = false
+    }
+
+    const toggleLessonNoteModal = () => {
+      isShowLessonNoteModal.value = !isShowLessonNoteModal.value
+      isShowLessonDiscussionModal.value = false
+      isShowCourseReviewModal.value = false
+    }
+
+    const toggleCourseReviewModal = () => {
+      isShowCourseReviewModal.value = !isShowCourseReviewModal.value
+      isShowLessonDiscussionModal.value = false
+      isShowLessonNoteModal.value = false
+    }
+
+    const updateStatusLesson = () => {
+      const updatedChapters = chapters.value.map(chapter => {
+        const updatedLessons = chapter.lessons.map(lesson => {
+          if (lesson.id === currentLesson.value?.info?.id) {
+            return { ...lesson, is_completed: 1 }
+          }
+          return lesson
+        })
+
+        return { ...chapter, lessons: updatedLessons }
+      })
+
+      chapters.value = updatedChapters
+    }
+
     const getCurrentLesson = async id => {
+      if (!id) return
+
       const lessonInfoRes = await getLessonInfo(id)
 
       console.log('lesson', lessonInfoRes)
 
+      if (!lessonInfoRes.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: lessonInfoRes.data.message })
+        return
+      }
+
       currentLesson.value = lessonInfoRes.lesson
+      prevLessonId.value = lessonInfoRes.previous_lesson_id
+      nextLessonId.value = lessonInfoRes.next_lesson_id
     }
 
     const fetchData = async () => {
@@ -88,6 +167,14 @@ export default defineComponent({
           break
         }
       }
+
+      if (!foundLesson && chapters.value.length > 0) {
+        const lastChapter = chapters.value[chapters.value.length - 1]
+        if (lastChapter.lessons.length > 0) {
+          foundLesson = lastChapter.lessons[lastChapter.lessons.length - 1]
+        }
+      }
+
       if (foundLesson) {
         await getCurrentLesson(foundLesson.id)
       }
@@ -103,9 +190,19 @@ export default defineComponent({
       course,
       chapters,
       currentLesson,
+      prevLessonId,
+      nextLessonId,
       loading,
       isShowSideBar,
-      toggleSideBar
+      isShowLessonNoteModal,
+      isShowLessonDiscussionModal,
+      isShowCourseReviewModal,
+      toggleCourseReviewModal,
+      toggleSideBar,
+      toggleLessonNoteModal,
+      toggleLessonDiscussionModal,
+      getCurrentLesson,
+      updateStatusLesson
     }
   }
 })

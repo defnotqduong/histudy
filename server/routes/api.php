@@ -132,6 +132,7 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
 Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     Route::get('/learning-info/{slug}', [LearningController::class, 'getLearningInfo']);
     Route::get('/lesson-info/{lessonId}', [LearningController::class, 'getLessonInfo']);
+    Route::post('/lesson/update-completed', [LearningController::class, 'updateCompletedLesson']);
     Route::get('/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);
     Route::get('/attachment/get-signed-url/{attachmentId}', [LearningController::class, 'getAttachmentSignedUrl']);
 });

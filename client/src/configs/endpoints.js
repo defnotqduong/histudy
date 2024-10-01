@@ -260,5 +260,9 @@ export default {
   GET_ATTACHMENT_SIGNED_URL_API: {
     method: 'get',
     url: '/learning/attachment/get-signed-url'
+  },
+  UPDATE_COMPLETED_LESSON_API: {
+    method: 'post',
+    url: '/learning/lesson/update-completed'
   }
 }

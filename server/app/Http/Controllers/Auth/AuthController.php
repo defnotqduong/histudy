@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
+use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 
 class AuthController extends Controller
 {
@@ -102,19 +103,29 @@ class AuthController extends Controller
         return $this->createNewToken($token, $refreshToken);
     }
 
-    public function loginWithGoogle(Request $request)
+    public function loginWithGoogle(Request $request, FirebaseAuth $firebaseAuth)
     {
 
-        $verifiedIdToken = Auth::verifyIdToken($request->token);
+        $idToken = $request->id_token;
 
-        $user = User::findByEmail($request->email);
+        $verifiedIdToken = $firebaseAuth->verifyIdToken($idToken);
+
+        abort_if(!$verifiedIdToken, 401, 'The token is invalid');
+
+        $firebaseUserId = $verifiedIdToken->claims()->get('sub');
+
+        $email = $verifiedIdToken->claims()->get('email');
+        $name = $verifiedIdToken->claims()->get('name');
+        $avatar = $verifiedIdToken->claims()->get('picture');
+
+        $user = User::findByEmail($email);
 
         if (!$user) {
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'avatar' => $request->avatar,
-                'username' => $this->generateUsername($request->name),
+                'name' => $name,
+                'email' => $email,
+                'avatar' => $avatar,
+                'username' => $this->generateUsername($name),
                 'password' => Hash::make(Str::random(16)),
                 'provider' => 'google',
                 'email_verified_at' => now(),

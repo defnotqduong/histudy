@@ -6,6 +6,7 @@ export default {
       colors: {
         primaryColor: '#2F57EF',
         secondaryColor: '#B966E7',
+        thirtyColor: 'rgba(18, 48, 96, 1)',
         coralColor: '#E9967A',
         violetColor: '#800080',
         pinkColor: '#DB7093',

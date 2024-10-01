@@ -14,8 +14,8 @@
       </span>
     </button>
     <div class="flex items-center justify-center gap-4">
-      <PrevButton class="h-10" :content="'Previous'" :func="prev" />
-      <NextButton class="h-10" :content="'Next'" :func="next" />
+      <PrevButton :content="'Previous'" :func="prev" class="h-10" :class="!prevLessonId ? 'cursor-not-allowed' : ''" />
+      <NextButton :content="'Next'" :func="next" class="h-10" :class="!nextLessonId ? 'cursor-not-allowed' : ''" />
     </div>
   </div>
 </template>
@@ -29,6 +29,9 @@ export default defineComponent({
   components: { NextButton, PrevButton },
   props: {
     currentLesson: Object,
+    prevLessonId: Number,
+    nextLessonId: Number,
+    getCurrentLesson: Function,
     isShowSideBar: Boolean,
     toggleSideBar: Function
   },
@@ -36,12 +39,13 @@ export default defineComponent({
     const toggle = () => {
       props.toggleSideBar()
     }
-    const next = () => {
-      alert('next')
+
+    const next = async () => {
+      await props.getCurrentLesson(props.nextLessonId)
     }
 
-    const prev = () => {
-      alert('preve')
+    const prev = async () => {
+      await props.getCurrentLesson(props.prevLessonId)
     }
 
     return {

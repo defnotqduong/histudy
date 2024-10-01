@@ -1,27 +1,30 @@
 <template>
-  <div class="h-full border-r-[1px] border-borderColor overflow-auto custom-scrollbar" :class="isShowSideBar ? 'w-[360px]' : 'w-0'">
+  <div class="h-full border-r border-borderColor overflow-auto custom-scrollbar" :class="isShowSideBar ? 'w-80' : 'w-0'">
     <div class="p-4 border-b-[1px] border-borderColor">
       <div class="h-full text-xl text-headingColor font-extrabold flex items-center justify-start gap-3">Course Content</div>
     </div>
     <div class="relative">
       <div v-for="(chapter, index) in chapters" :key="index" class="sticky top-0 border-b-[1px] border-borderColor">
         <div class="collapse collapse-arrow">
-          <input type="checkbox" class="peer" />
-          <div
-            class="collapse-title text-base font-bold text-headingColor bg-whiteColor transition-all duration-150 ease-in-out peer-checked:text-primaryColor"
-          >
-            {{ chapter?.title }}
+          <input type="checkbox" class="peer" :checked="chapter.id === chapterWithCurrentLesson.id" />
+          <div class="collapse-title text-base font-bold text-headingColor bg-whiteColor transition-all duration-150 ease-in-out">
+            {{ index + 1 }}. {{ chapter?.title }}
             <span class="ml-2 py-[2px] px-3 text-sm rounded-md bg-grayLightColor"
               >{{ getCompletedLessonCount(chapter?.lessons) }}/{{ chapter?.lesson_count }}</span
             >
           </div>
           <div class="collapse-content peer-checked:bg-whiteColor">
             <ul>
-              <li v-for="(lesson, index) in chapter?.lessons" :key="index" class="mb-3">
-                <a
-                  href=""
-                  class="flex items-center justify-between text-base transition-all duration-300 hover:text-primaryColor"
-                  :class="lesson.is_completed || lesson.id === currentLesson.id ? 'text-primaryColor' : 'text-headingColor'"
+              <li
+                v-for="(lesson, index) in chapter?.lessons"
+                :key="index"
+                class="mb-2 p-2 rounded-md"
+                :class="lesson.id === currentLesson?.id ? 'bg-primaryOpacityColor text-primaryColor' : 'text-headingColor'"
+              >
+                <button
+                  :disabled="lesson.id === currentLesson?.id"
+                  @click="getLesson(lesson.id)"
+                  class="w-full flex items-center justify-between text-base transition-all duration-300"
                 >
                   <div class="flex items-center justify-center gap-2">
                     <span
@@ -42,15 +45,15 @@
                   </div>
                   <div class="flex items-center justify-center gap-2">
                     <span class="text-sm">{{ getLessonDuration(lesson?.video_duration) }}</span>
-                    <span v-if="lesson.id === currentLesson.id" class="w-4 h-4"></span>
-                    <span v-else-if="lesson?.is_completed">
+                    <span v-if="lesson.id === currentLesson?.id && !lesson.is_completed" class="w-4 h-4"></span>
+                    <span v-else-if="lesson?.is_completed" class="text-primaryColor">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 24 24">
                         <path
                           d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm4.71,8.71-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
                         />
                       </svg>
                     </span>
-                    <span v-else>
+                    <span v-else class="text-headingColor">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path
                           d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
@@ -62,7 +65,7 @@
                       </svg>
                     </span>
                   </div>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -73,7 +76,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { formatDuration } from '@/utils'
 
 export default defineComponent({
@@ -82,9 +85,16 @@ export default defineComponent({
     course: Object,
     chapters: Array,
     currentLesson: Object,
+    prevLessonId: Number,
+    nextLessonId: Number,
+    getCurrentLesson: Function,
     isShowSideBar: Boolean
   },
-  setup() {
+  setup(props) {
+    const chapterWithCurrentLesson = computed(() => {
+      return props.chapters.find(chapter => chapter.lessons.some(lesson => lesson.id === props.currentLesson?.id))
+    })
+
     const getChapterDuration = chapter => {
       const totalDuration = chapter?.lessons?.reduce((total, lesson) => {
         return total + (lesson?.video_duration ? parseInt(lesson.video_duration) : 0)
@@ -101,9 +111,17 @@ export default defineComponent({
       return lessons?.filter(lesson => lesson.is_completed).length || 0
     }
 
-    return { getChapterDuration, getLessonDuration, getCompletedLessonCount }
+    const getLesson = async id => {
+      await props.getCurrentLesson(id)
+    }
+
+    return { chapterWithCurrentLesson, getChapterDuration, getLessonDuration, getCompletedLessonCount, getLesson }
   }
 })
 </script>
 
-<style></style>
+<style scoped>
+.collapse-content {
+  padding-bottom: 4px !important;
+}
+</style>
