@@ -81,7 +81,9 @@ class LearningController extends Controller
 
         $discussions = LessonDiscussion::where('lesson_id', $lessonId)
             ->whereNull('parent_id')
+            ->orderBy('created_at', 'desc')
             ->get();
+
 
         $previousLesson = Lesson::where('position', '<', $lesson->position)
             ->where('chapter_id', $lesson->chapter_id)
@@ -196,6 +198,54 @@ class LearningController extends Controller
         ]);
     }
 
+    public function createDiscussion(Request $request, $lessonId)
+    {
+        $request->validate([
+            'comment' => 'required|string',
+            'parent_id' => 'nullable|exists:lesson_discussions,id',
+        ]);
+
+        $userId = Auth::id();
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('is_published', true)
+            ->first();
+
+        if (!$lesson) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lesson not found or not published'
+            ], 404);
+        }
+
+        $isEnrolled = $lesson->chapter->course->customers()->where('user_id', $userId)->exists();
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $discussion = LessonDiscussion::createDiscussion([
+            'comment' => $request->comment,
+            'parent_id' => $request->parent_id ? $request->parent_id : null,
+            'user_id' => $userId,
+            'lesson_id' => $lessonId,
+        ]);
+
+        $discussions = LessonDiscussion::where('lesson_id', $lessonId)
+            ->whereNull('parent_id')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment created successfully!',
+            'discussions' => LessonDiscussionResource::collection($discussions)
+        ], 201);
+    }
 
 
     public function getAttachmentSignedUrl($attachmentId)

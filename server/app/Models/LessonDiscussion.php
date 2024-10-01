@@ -35,4 +35,9 @@ class LessonDiscussion extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public static function createDiscussion($data)
+    {
+        return self::create($data);
+    }
 }

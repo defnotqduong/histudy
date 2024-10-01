@@ -264,5 +264,9 @@ export default {
   UPDATE_COMPLETED_LESSON_API: {
     method: 'post',
     url: '/learning/lesson/update-completed'
+  },
+  CREATE_DISCUSSION_API: {
+    method: 'post',
+    url: '/learning/lesson/discussion'
   }
 }

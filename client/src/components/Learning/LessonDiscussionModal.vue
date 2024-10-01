@@ -4,33 +4,36 @@
       <div class="flex items-center justify-between text-headingColor font-bold">
         <span>Discussions</span>
         <button @click="toggleLessonDiscussionModal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 25 25" fill="none">
-            <path
-              d="M12 22.4199C17.5228 22.4199 22 17.9428 22 12.4199C22 6.89707 17.5228 2.41992 12 2.41992C6.47715 2.41992 2 6.89707 2 12.4199C2 17.9428 6.47715 22.4199 12 22.4199Z"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M10.5596 8.41992L13.6196 11.29C13.778 11.4326 13.9047 11.6068 13.9914 11.8015C14.0781 11.9962 14.123 12.2068 14.123 12.4199C14.123 12.633 14.0781 12.8439 13.9914 13.0386C13.9047 13.2332 13.778 13.4075 13.6196 13.55L10.5596 16.4199"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <g>
+              <path
+                d="M15 4L15 20M15 4H7.2002C6.08009 4 5.51962 4 5.0918 4.21799C4.71547 4.40973 4.40973 4.71547 4.21799 5.0918C4 5.51962 4 6.08009 4 7.2002V16.8002C4 17.9203 4 18.4796 4.21799 18.9074C4.40973 19.2837 4.71547 19.5905 5.0918 19.7822C5.51921 20 6.07901 20 7.19694 20L15 20M15 4H16.8002C17.9203 4 18.4796 4 18.9074 4.21799C19.2837 4.40973 19.5905 4.71547 19.7822 5.0918C20 5.5192 20 6.079 20 7.19691L20 16.8031C20 17.921 20 18.48 19.7822 18.9074C19.5905 19.2837 19.2837 19.5905 18.9074 19.7822C18.48 20 17.921 20 16.8031 20H15"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
           </svg>
         </button>
       </div>
     </div>
     <div class="px-4 py-4">
-      <form>
+      <form @submit.prevent="createDisc">
         <textarea
-          class="w-full min-h-28 p-2 text-headingColor border border-borderColor outline-none rounded-md resize-none focus:border-primaryColor"
-          placeholder="Enter content..."
+          v-model="comment"
+          class="w-full min-h-28 p-2 text-headingColor border border-borderColor outline-none rounded-md resize-none focus:border-headingColor"
+          placeholder="Enter comment..."
         ></textarea>
         <div class="mt-2 flex justify-end">
-          <button class="px-4 py-1 text-whiteColor bg-primaryColor rounded-md transition-all duration-200 hover:opacity-90">Send</button>
+          <button
+            type="submit"
+            :disabled="loading"
+            :class="{ 'cursor-not-allowed': loading }"
+            class="px-4 py-1 text-whiteColor bg-primaryColor rounded-md transition-all duration-200 hover:opacity-90"
+          >
+            Send
+          </button>
         </div>
       </form>
       <div class="mt-6">
@@ -44,7 +47,7 @@
           <span class="text-headingColor font-bold"> {{ discussions.length }} Comments</span>
         </div>
         <ul>
-          <li v-for="(discussion, index) in discussions" :key="index" class="mb-5">
+          <li v-for="(discussion, index) in discussions" :key="index" class="mb-4">
             <div>
               <div class="flex items-center justify-start gap-2">
                 <div class="w-8 rounded-full overflow-hidden">
@@ -55,7 +58,7 @@
                   <time class="text-xs opacity-50">{{ formatTimeLong(discussion?.created_at) }}</time>
                 </div>
               </div>
-              <div class="mt-2 flex items-center justify-start gap-2">
+              <div class="mt-1 flex items-center justify-start gap-2">
                 <div class="w-8"></div>
                 <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ discussion?.comment }}</div>
               </div>
@@ -77,7 +80,7 @@
                           <time class="text-xs opacity-50">{{ formatTimeLong(reply?.created_at) }}</time>
                         </div>
                       </div>
-                      <div class="mt-2 flex items-center justify-start gap-2">
+                      <div class="mt-1 flex items-center justify-start gap-2">
                         <div class="w-8"></div>
                         <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ reply?.comment }}</div>
                       </div>
@@ -94,18 +97,42 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { formatTimeLong, formatTimeShort } from '@/utils'
+import { createDiscussion } from '@/webServices/learningService'
+
 export default defineComponent({
   props: {
+    currentLesson: Object,
     discussions: Array,
+    updateDiscussions: Function,
     isShowLessonDiscussionModal: Boolean,
     toggleLessonDiscussionModal: Function
   },
   setup(props) {
+    const comment = ref('')
+    const loading = ref(false)
+
+    const createDisc = async () => {
+      loading.value = true
+      const res = await createDiscussion(props.currentLesson?.id, {
+        comment: comment.value
+      })
+
+      if (res.success) {
+        comment.value = ''
+        props.updateDiscussions(res.discussions)
+      }
+
+      loading.value = false
+    }
+
     return {
+      comment,
+      loading,
       formatTimeLong,
-      formatTimeShort
+      formatTimeShort,
+      createDisc
     }
   }
 })

@@ -23,7 +23,9 @@
           </div>
           <LessonDiscussionModal
             v-if="isShowLessonDiscussionModal"
-            :discussions="currentLesson?.discussions"
+            :currentLesson="currentLesson?.info"
+            :discussions="discussions"
+            :updateDiscussions="updateDiscussions"
             :isShowLessonDiscussionModal="isShowLessonDiscussionModal"
             :toggleLessonDiscussionModal="toggleLessonDiscussionModal"
           />
@@ -83,6 +85,7 @@ export default defineComponent({
     const currentLesson = ref(null)
     const prevLessonId = ref(null)
     const nextLessonId = ref(null)
+    const discussions = ref([])
     const loading = ref(false)
     const isShowSideBar = ref(true)
     const isShowLessonDiscussionModal = ref(false)
@@ -126,6 +129,10 @@ export default defineComponent({
       chapters.value = updatedChapters
     }
 
+    const updateDiscussions = arr => {
+      discussions.value = arr
+    }
+
     const getCurrentLesson = async id => {
       if (!id) return
 
@@ -141,6 +148,7 @@ export default defineComponent({
       currentLesson.value = lessonInfoRes.lesson
       prevLessonId.value = lessonInfoRes.previous_lesson_id
       nextLessonId.value = lessonInfoRes.next_lesson_id
+      discussions.value = lessonInfoRes.lesson.discussions
     }
 
     const fetchData = async () => {
@@ -192,6 +200,7 @@ export default defineComponent({
       currentLesson,
       prevLessonId,
       nextLessonId,
+      discussions,
       loading,
       isShowSideBar,
       isShowLessonNoteModal,
@@ -202,7 +211,8 @@ export default defineComponent({
       toggleLessonNoteModal,
       toggleLessonDiscussionModal,
       getCurrentLesson,
-      updateStatusLesson
+      updateStatusLesson,
+      updateDiscussions
     }
   }
 })

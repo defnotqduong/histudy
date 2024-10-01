@@ -20,3 +20,8 @@ export const getAttachmentSignedUrl = id => {
 export const updateCompletedLesson = dataPost => {
   return connectServer[api.UPDATE_COMPLETED_LESSON_API.method](api.UPDATE_COMPLETED_LESSON_API.url, dataPost)
 }
+
+export const createDiscussion = (lessonId, dataPost) => {
+  const url = `/learning/lesson` + '/' + lessonId + '/discussion'
+  return connectServer[api.CREATE_DISCUSSION_API.method](url, dataPost)
+}
