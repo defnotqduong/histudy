@@ -16,6 +16,7 @@ import { getPopularCourses, getAuthoredCourses, getPurchasedCourses } from '@/we
 import { getAllCategories } from '@/webServices/categoryService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
+import { getCert } from '@/webServices/certService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'

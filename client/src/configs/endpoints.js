@@ -94,6 +94,11 @@ export default {
     url: '/wishlist'
   },
 
+  GET_CERT_API: {
+    method: 'get',
+    url: '/cert'
+  },
+
   // Checkout
   GET_COURSE_FOR_CHECKOUT_API: {
     method: 'get',
@@ -200,6 +205,7 @@ export default {
     method: 'deleted',
     url: '/instructor/course/chapter'
   },
+
   // Lesson
   CREATE_LESSON_API: {
     method: 'post',

@@ -179,6 +179,7 @@ import { registerUser, getUserProfile } from '@/webServices/authorizationService
 import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
+import { getCert } from '@/webServices/certService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
