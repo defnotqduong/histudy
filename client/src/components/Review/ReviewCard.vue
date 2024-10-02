@@ -6,7 +6,7 @@
     <div>
       <h5 class="text-headingColor text-xl font-extrabold transition-all duration-300 hover:text-primaryColor">{{ review?.user?.name }}</h5>
       <StarRating class="mt-1 mb-2" :averageStar="review?.rating" :size="16" />
-      <p class="text-lg text-bodyColor">{{ review?.comment }}</p>
+      <p class="text-lg text-bodyColor">{{ review?.content }}</p>
     </div>
   </div>
 </template>

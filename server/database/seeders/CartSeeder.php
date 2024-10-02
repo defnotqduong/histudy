@@ -11,14 +11,5 @@ class CartSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
-        Cart::create([
-            'user_id' => 1
-        ]);
-
-        Cart::create([
-            'user_id' => 2
-        ]);
-    }
+    public function run(): void {}
 }

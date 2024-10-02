@@ -61,15 +61,15 @@ export default defineComponent({
       console.log('categories', categoriesData)
 
       if (userData?.success) {
-        this.userStore.setUser(userData.user)
-        this.userStore.setInstructorCourses(userData.courses.courses)
-        this.userStore.setEnrolledCourses(userData.purchased_courses.courses)
-        this.userStore.setCart(userData.cart.courses)
-        this.userStore.setWishlist(userData.wishlist.courses)
+        this.userStore.setUser(userData?.user)
+        this.userStore.setInstructorCourses(userData?.courses?.courses)
+        this.userStore.setEnrolledCourses(userData?.purchased_courses?.courses)
+        this.userStore.setCart(userData?.cart?.courses)
+        this.userStore.setWishlist(userData?.wishlist?.courses)
       }
 
       if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses.courses)
-      if (categoriesData.success) this.homeStore.setCategories(categoriesData.categories)
+      if (categoriesData?.success) this.homeStore.setCategories(categoriesData.categories)
       this.loading = false
     }
   },

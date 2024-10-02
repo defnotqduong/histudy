@@ -52,7 +52,7 @@
             <button
               @click="handleImageCropped"
               :disabled="loading"
-              :class="{ 'opacity-70': loading }"
+              :class="{ 'opacity-70 cursor-not-allowed': loading }"
               class="px-4 py-2 text-whiteColor bg-primaryColor rounded-md"
             >
               Save

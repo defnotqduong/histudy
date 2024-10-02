@@ -100,7 +100,7 @@ export default defineComponent({
 .course-card {
   width: 100%;
   height: 100%;
-  padding: 30px 30px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
   transition: all 0.3s;

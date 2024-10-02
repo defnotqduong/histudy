@@ -6,12 +6,16 @@ use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\LessonDiscussionResource;
+use App\Http\Resources\LessonNoteResource;
 use App\Http\Resources\LessonResource;
+use App\Http\Resources\ReviewResource;
 use App\Models\Attachment;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LessonDiscussion;
+use App\Models\LessonNote;
+use App\Models\Review;
 use App\Models\UserProgress;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -46,11 +50,14 @@ class LearningController extends Controller
             ], 403);
         }
 
+        $userReview = $course->reviews()->where('user_id', $user->id)->first();
+
         return response()->json([
             'success' => true,
             'message' => 'Course found',
             'course' => new CourseResource($course, false),
             'chapters' => new ChapterResourceCollection($course->publishedChapters, false),
+            'review' => $userReview ? new ReviewResource($userReview) : null,
         ], 200);
     }
 
@@ -81,8 +88,14 @@ class LearningController extends Controller
 
         $discussions = LessonDiscussion::where('lesson_id', $lessonId)
             ->whereNull('parent_id')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
+
+        $notes = LessonNote::where('lesson_id', $lessonId)
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
 
 
         $previousLesson = Lesson::where('position', '<', $lesson->position)
@@ -140,7 +153,8 @@ class LearningController extends Controller
             'lesson' => [
                 'info' => new LessonResource($lesson),
                 'attachments' => AttachmentResource::collection($lesson->attachments),
-                'discussions' => LessonDiscussionResource::collection($discussions)
+                'discussions' => LessonDiscussionResource::collection($discussions),
+                'notes' => LessonNoteResource::collection($notes)
             ],
             'previous_lesson_id' => $previousLesson ? $previousLesson->id : null,
             'next_lesson_id' => $nextLesson ? $nextLesson->id : null,
@@ -201,7 +215,7 @@ class LearningController extends Controller
     public function createDiscussion(Request $request, $lessonId)
     {
         $request->validate([
-            'comment' => 'required|string',
+            'content' => 'required|string',
             'parent_id' => 'nullable|exists:lesson_discussions,id',
         ]);
 
@@ -227,8 +241,8 @@ class LearningController extends Controller
             ], 403);
         }
 
-        $discussion = LessonDiscussion::createDiscussion([
-            'comment' => $request->comment,
+        LessonDiscussion::createDiscussion([
+            'content' => $request->content,
             'parent_id' => $request->parent_id ? $request->parent_id : null,
             'user_id' => $userId,
             'lesson_id' => $lessonId,
@@ -236,7 +250,7 @@ class LearningController extends Controller
 
         $discussions = LessonDiscussion::where('lesson_id', $lessonId)
             ->whereNull('parent_id')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
 
@@ -244,6 +258,159 @@ class LearningController extends Controller
             'success' => true,
             'message' => 'Comment created successfully!',
             'discussions' => LessonDiscussionResource::collection($discussions)
+        ], 201);
+    }
+
+    public function createNoteLesson(Request $request, $lessonId)
+    {
+
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $userId = Auth::id();
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('is_published', true)
+            ->first();
+
+        if (!$lesson) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lesson not found or not published'
+            ], 404);
+        }
+
+        $isEnrolled = $lesson->chapter->course->customers()->where('user_id', $userId)->exists();
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        LessonNote::createNote([
+            'content' => $request->content,
+            'user_id' => $userId,
+            'lesson_id' => $lessonId,
+        ]);
+
+        $notes = LessonNote::where('lesson_id', $lessonId)
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Note created successfully!',
+            'notes' => LessonNoteResource::collection($notes)
+        ], 201);
+    }
+
+    public function deleteNoteLesson($lessonId, $noteId)
+    {
+        $userId = Auth::id();
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('is_published', true)
+            ->first();
+
+        if (!$lesson) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lesson not found or not published'
+            ], 404);
+        }
+
+        $isEnrolled = $lesson->chapter->course->customers()->where('user_id', $userId)->exists();
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $note = LessonNote::where('id', $noteId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$note) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Note not found '
+            ], 404);
+        }
+
+        $note->delete();
+
+        $notes = LessonNote::where('lesson_id', $lessonId)
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Note deleted successfully!',
+            'notes' => LessonNoteResource::collection($notes)
+        ], 201);
+    }
+
+    public function reviewCourse(Request $request, $courseId)
+    {
+
+        $request->validate([
+            'content' => 'nullable|string',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+        $userId = Auth::id();
+
+        $course = Course::where('id', $courseId)
+            ->where('is_published', true)
+            ->first();
+
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lesson not found or not published'
+            ], 404);
+        }
+
+        $isEnrolled = $course->customers()->where('user_id', $userId)->exists();
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $existingReview = Review::where('course_id', $courseId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($existingReview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have already reviewed this course'
+            ], 400);
+        }
+
+        $review = Review::createReview([
+            'course_id' => $courseId,
+            'user_id' => $userId,
+            'content' => $request->content,
+            'rating' => $request->rating
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review created successfully!',
+            'review' => new ReviewResource($review)
         ], 201);
     }
 

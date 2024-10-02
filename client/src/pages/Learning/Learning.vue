@@ -29,13 +29,26 @@
             :isShowLessonDiscussionModal="isShowLessonDiscussionModal"
             :toggleLessonDiscussionModal="toggleLessonDiscussionModal"
           />
-          <LessonNoteModal v-if="isShowLessonNoteModal" :isShowLessonNoteModal="isShowLessonNoteModal" :toggleLessonNoteModal="toggleLessonNoteModal" />
+          <LessonNoteModal
+            v-if="isShowLessonNoteModal"
+            :currentLesson="currentLesson?.info"
+            :notes="notes"
+            :updateNotes="updateNotes"
+            :isShowLessonNoteModal="isShowLessonNoteModal"
+            :toggleLessonNoteModal="toggleLessonNoteModal"
+          />
           <CourseReviewModal
             v-if="isShowCourseReviewModal"
+            :courseId="course?.id"
+            :review="review"
+            :updateReview="updateReview"
             :isShowCourseReviewModal="isShowCourseReviewModal"
             :toggleCourseReviewModal="toggleCourseReviewModal"
           />
           <ActionPanel
+            :isShowLDiscModal="isShowLessonDiscussionModal"
+            :isShowLNoteModal="isShowLessonNoteModal"
+            :isShowCReviewModal="isShowCourseReviewModal"
             :toggleLessonDiscussionModal="toggleLessonDiscussionModal"
             :toggleLessonNoteModal="toggleLessonNoteModal"
             :toggleCourseReviewModal="toggleCourseReviewModal"
@@ -81,11 +94,13 @@ export default defineComponent({
 
     const slug = ref(route.params.slug)
     const course = ref(null)
+    const review = ref(null)
     const chapters = ref([])
     const currentLesson = ref(null)
     const prevLessonId = ref(null)
     const nextLessonId = ref(null)
     const discussions = ref([])
+    const notes = ref([])
     const loading = ref(false)
     const isShowSideBar = ref(true)
     const isShowLessonDiscussionModal = ref(false)
@@ -133,6 +148,14 @@ export default defineComponent({
       discussions.value = arr
     }
 
+    const updateNotes = arr => {
+      notes.value = arr
+    }
+
+    const updateReview = rv => {
+      review.value = rv
+    }
+
     const getCurrentLesson = async id => {
       if (!id) return
 
@@ -149,6 +172,7 @@ export default defineComponent({
       prevLessonId.value = lessonInfoRes.previous_lesson_id
       nextLessonId.value = lessonInfoRes.next_lesson_id
       discussions.value = lessonInfoRes.lesson.discussions
+      notes.value = lessonInfoRes.lesson.notes
     }
 
     const fetchData = async () => {
@@ -164,6 +188,7 @@ export default defineComponent({
       }
 
       course.value = res.course
+      review.value = res.review
       chapters.value = res.chapters
 
       let foundLesson = null
@@ -196,11 +221,13 @@ export default defineComponent({
 
     return {
       course,
+      review,
       chapters,
       currentLesson,
       prevLessonId,
       nextLessonId,
       discussions,
+      notes,
       loading,
       isShowSideBar,
       isShowLessonNoteModal,
@@ -212,7 +239,9 @@ export default defineComponent({
       toggleLessonDiscussionModal,
       getCurrentLesson,
       updateStatusLesson,
-      updateDiscussions
+      updateDiscussions,
+      updateNotes,
+      updateReview
     }
   }
 })

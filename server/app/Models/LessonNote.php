@@ -5,26 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LessonDiscussion extends Model
+class LessonNote extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'content',
-        'parent_id',
         'user_id',
         'lesson_id',
     ];
-
-    public function parent()
-    {
-        return $this->belongsTo(LessonDiscussion::class, 'parent_id');
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(LessonDiscussion::class, 'parent_id')->orderBy('created_at', 'asc');
-    }
 
     public function user()
     {
@@ -36,7 +25,7 @@ class LessonDiscussion extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public static function createDiscussion($data)
+    public static function createNote($data)
     {
         return self::create($data);
     }

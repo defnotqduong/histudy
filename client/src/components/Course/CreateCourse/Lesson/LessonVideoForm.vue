@@ -73,7 +73,7 @@
             />
           </svg>
           <div class="mt-2 font-bold text-primaryColor">Choose files or drag and drop</div>
-          <span class="text-sm">Video (1GB)</span>
+          <span class="text-sm">Video (512GB)</span>
 
           <button
             v-if="file"

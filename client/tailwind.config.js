@@ -9,6 +9,7 @@ export default {
         thirtyColor: 'rgba(18, 48, 96, 1)',
         coralColor: '#E9967A',
         violetColor: '#800080',
+        yellowColor: '#ffd700',
         pinkColor: '#DB7093',
         blueColor: '#457B9D',
         blackColor: '#111113',

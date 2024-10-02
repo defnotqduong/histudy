@@ -3,7 +3,8 @@
     <div class="flex flex-col">
       <button
         @click.prevent="toggleLDiscussModal"
-        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-headingColor"
+        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-thirtyColor"
+        :class="{ 'text-thirtyColor': isShowLDiscModal }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -18,7 +19,8 @@
       </button>
       <button
         @click.prevent="toggleLNoteModal"
-        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-headingColor"
+        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-thirtyColor"
+        :class="{ 'text-thirtyColor': isShowLNoteModal }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -33,7 +35,8 @@
       </button>
       <button
         @click.prevent="toggleCReviewModal"
-        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-headingColor"
+        class="py-6 px-2 border-b border-borderColor text-bodyColor transition-all duration-200 hover:text-thirtyColor"
+        :class="{ 'text-thirtyColor': isShowCReviewModal }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -50,6 +53,9 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
+    isShowLDiscModal: Boolean,
+    isShowLNoteModal: Boolean,
+    isShowCReviewModal: Boolean,
     toggleLessonDiscussionModal: Function,
     toggleLessonNoteModal: Function,
     toggleCourseReviewModal: Function

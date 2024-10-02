@@ -130,10 +130,13 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
 
 // Learning Routes
 Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
+    Route::post('/course/review/{courseId}', [LearningController::class, 'reviewCourse']);
     Route::get('/learning-info/{slug}', [LearningController::class, 'getLearningInfo']);
     Route::get('/lesson-info/{lessonId}', [LearningController::class, 'getLessonInfo']);
     Route::post('/lesson/update-completed', [LearningController::class, 'updateCompletedLesson']);
     Route::post('/lesson/{lessonId}/discussion', [LearningController::class, 'createDiscussion']);
+    Route::post('/lesson/{lessonId}/note', [LearningController::class, 'createNoteLesson']);
+    Route::delete('/lesson/{lessonId}/note/{noteId}', [LearningController::class, 'deleteNoteLesson']);
     Route::get('/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);
     Route::get('/attachment/get-signed-url/{attachmentId}', [LearningController::class, 'getAttachmentSignedUrl']);
 });

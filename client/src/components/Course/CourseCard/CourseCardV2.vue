@@ -42,8 +42,9 @@
               clip-rule="evenodd"
               d="M7.5 4.5C6.67157 4.5 6 5.17157 6 6V15.4013C6.44126 15.1461 6.95357 15 7.5 15H18V4.5H7.5ZM18 16.5H7.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H18V16.5ZM4.5 18L4.5 6C4.5 4.34315 5.84315 3 7.5 3H18.75L19.5 3.75V21H7.5C5.84315 21 4.5 19.6569 4.5 18Z"
               fill="currentColor"
-            /></svg
-          ><span>{{ course?.lesson_count }} Lessons</span>
+            />
+          </svg>
+          <span>{{ course?.lesson_count }} Lessons</span>
         </li>
         <li class="text-sm text-bodyColor font-medium flex items-center justify-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
@@ -53,8 +54,9 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-            /></svg
-          ><span>{{ course?.customer_count }} Students</span>
+            />
+          </svg>
+          <span>{{ course?.customer_count }} Students</span>
         </li>
       </ul>
       <p class="mb-5 text-lg text-bodyColor font-medium line-clamp-2 md:line-clamp-4">
@@ -89,8 +91,9 @@
                 clip-rule="evenodd"
                 d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z"
                 fill="currentColor"
-              /></svg
-          ></router-link>
+              />
+            </svg>
+          </router-link>
         </button>
       </div>
     </div>
@@ -153,7 +156,7 @@ export default defineComponent({
 .course-card {
   width: 100%;
   height: 100%;
-  padding: 30px 30px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.4);
   transition: all 0.3s;

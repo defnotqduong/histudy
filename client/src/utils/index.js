@@ -51,10 +51,17 @@ export const formatTimeLong = date => {
       })
     )
   } else if (inputDate.getFullYear() === now.getFullYear()) {
-    return inputDate.toLocaleDateString([], {
-      day: '2-digit',
-      month: 'short'
-    })
+    return (
+      inputDate.toLocaleDateString([], {
+        day: '2-digit',
+        month: 'long'
+      }) +
+      ' ' +
+      inputDate.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    )
   } else {
     return inputDate.toLocaleDateString()
   }

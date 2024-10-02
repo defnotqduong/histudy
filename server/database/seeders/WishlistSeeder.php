@@ -11,14 +11,5 @@ class WishlistSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
-        Wishlist::create([
-            'user_id' => 1
-        ]);
-
-        Wishlist::create([
-            'user_id' => 2
-        ]);
-    }
+    public function run(): void {}
 }

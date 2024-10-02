@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->longText('comment');
+            $table->longText('content')->nullable();
             $table->unsignedTinyInteger('rating');
 
             $table->unsignedBigInteger('course_id');

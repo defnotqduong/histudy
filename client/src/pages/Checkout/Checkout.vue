@@ -116,10 +116,9 @@ export default defineComponent({
       if (!res.success) homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
 
       if (res.success) {
-        const [cart, purchasedCourses] = await Promise.all([removeCourseFromCart(id.value), getPurchasedCourses()])
+        const [purchasedCourses] = await Promise.all([getPurchasedCourses()])
 
         userStore.setEnrolledCourses(purchasedCourses.courses.courses)
-        userStore.setCart(cart.cart.courses)
 
         homeStore.onChangeToast({ show: true, type: 'success', message: 'Your payment was successfully!' })
       }

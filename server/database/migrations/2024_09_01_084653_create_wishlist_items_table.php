@@ -23,7 +23,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['wishlist_id', 'course_id']);
-            $table->index(['wishlist_id', 'course_id']);
+            $table->index('wishlist_id');
+            $table->index('course_id');
         });
     }
 

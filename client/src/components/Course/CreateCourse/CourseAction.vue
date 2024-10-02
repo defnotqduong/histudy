@@ -17,8 +17,9 @@
         <path
           d="M3.9231 7.5H20.0767L19.1344 20.2216C19.0183 21.7882 17.7135 23 16.1426 23H7.85724C6.28636 23 4.98148 21.7882 4.86544 20.2216L3.9231 7.5Z"
           fill="currentColor"
-        /></svg
-    ></label>
+        />
+      </svg>
+    </label>
     <input type="checkbox" :id="'my_modal_' + course?.id" class="modal-toggle" />
     <div class="modal" role="dialog">
       <div class="modal-box bg-white p-8 flex flex-col gap-8">

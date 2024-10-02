@@ -18,19 +18,22 @@
         </button>
       </div>
     </div>
-    <div class="px-4 py-4">
+    <div class="px-4 pt-4 pb-8">
       <form @submit.prevent="createDisc">
         <textarea
-          v-model="comment"
+          v-model="content"
           class="w-full min-h-28 p-2 text-headingColor border border-borderColor outline-none rounded-md resize-none focus:border-headingColor"
-          placeholder="Enter comment..."
+          placeholder="Enter content..."
         ></textarea>
+        <div v-if="errors?.content && errors?.content.length > 0">
+          <p v-for="(err, index) in errors?.content" :key="index" class="mt-2 text-sm text-dangerColor">{{ err }}</p>
+        </div>
         <div class="mt-2 flex justify-end">
           <button
             type="submit"
-            :disabled="loading"
-            :class="{ 'cursor-not-allowed': loading }"
-            class="px-4 py-1 text-whiteColor bg-primaryColor rounded-md transition-all duration-200 hover:opacity-90"
+            :disabled="submit"
+            :class="{ 'cursor-not-allowed': submit }"
+            class="px-4 py-1 text-whiteColor bg-thirtyColor rounded-md transition-all duration-200 hover:opacity-90"
           >
             Send
           </button>
@@ -54,21 +57,46 @@
                   <img :src="discussion?.user?.avatar" alt="avatar" />
                 </div>
                 <div class="flex flex-col">
-                  <span class="text-sm text-headingColor font-bold line-clamp-1">{{ discussion?.user?.name }}</span>
+                  <span class="text-sm text-headingColor font-bold line-clamp-1">
+                    {{ discussion?.user?.name }}
+                  </span>
                   <time class="text-xs opacity-50">{{ formatTimeLong(discussion?.created_at) }}</time>
                 </div>
               </div>
               <div class="mt-1 flex items-center justify-start gap-2">
                 <div class="w-8"></div>
-                <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ discussion?.comment }}</div>
+                <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ discussion?.content }}</div>
               </div>
-              <div class="mt-1 flex items-center justify-start gap-2">
+              <div class="flex items-center justify-start gap-2">
                 <div class="w-8"></div>
-                <button class="text-sm text-thirtyColor font-bold">Reply</button>
+                <div class="flex-1">
+                  <button v-if="activeReplyId !== discussion.id" @click="toggleIsShowReplyForm(discussion.id)" class="text-sm text-thirtyColor font-bold">
+                    Reply
+                  </button>
+                  <button v-else @click="toggleIsShowReplyForm(discussion.id)" class="text-sm text-thirtyColor font-bold">Cancel</button>
+                  <form v-if="activeReplyId === discussion.id" @submit.prevent="createReply(discussion.id)">
+                    <textarea
+                      v-model="contentReply"
+                      class="w-full min-h-20 p-2 text-sm text-headingColor border border-borderColor outline-none rounded-md resize-none focus:border-headingColor"
+                      placeholder="Enter content..."
+                    ></textarea>
+                    <div class="mt-1 flex justify-end">
+                      <button
+                        type="submit"
+                        :disabled="loading"
+                        :class="{ 'cursor-not-allowed': loading }"
+                        class="px-4 py-1 text-sm text-whiteColor bg-thirtyColor rounded-md transition-all duration-200 hover:opacity-90"
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
+
               <div class="mt-2 flex items-center justify-start gap-2">
                 <div class="w-8"></div>
-                <div>
+                <div class="flex-1">
                   <ul>
                     <li v-for="(reply, index) in discussion.replies" :key="index" class="mb-2">
                       <div class="flex items-center justify-start gap-2">
@@ -76,13 +104,15 @@
                           <img :src="reply?.user?.avatar" alt="avatar" />
                         </div>
                         <div class="flex flex-col">
-                          <span class="text-sm text-headingColor font-bold line-clamp-1">{{ reply?.user?.name }}</span>
+                          <span class="text-sm text-headingColor font-bold line-clamp-1">
+                            {{ reply?.user?.name }}
+                          </span>
                           <time class="text-xs opacity-50">{{ formatTimeLong(reply?.created_at) }}</time>
                         </div>
                       </div>
                       <div class="mt-1 flex items-center justify-start gap-2">
                         <div class="w-8"></div>
-                        <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ reply?.comment }}</div>
+                        <div class="flex-1 p-2 text-sm text-headingColor bg-grayLightColor rounded-lg">{{ reply?.content }}</div>
                       </div>
                     </li>
                   </ul>
@@ -98,6 +128,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useUserStore, useHomeStore } from '@/stores'
 import { formatTimeLong, formatTimeShort } from '@/utils'
 import { createDiscussion } from '@/webServices/learningService'
 
@@ -110,17 +141,53 @@ export default defineComponent({
     toggleLessonDiscussionModal: Function
   },
   setup(props) {
-    const comment = ref('')
+    const userStore = useUserStore()
+    const homeStore = useHomeStore()
+
+    const content = ref('')
+    const contentReply = ref('')
+    const submit = ref(false)
     const loading = ref(false)
+    const activeReplyId = ref(null)
+    const errors = ref({})
+
+    const toggleIsShowReplyForm = id => {
+      activeReplyId.value = activeReplyId.value === id ? null : id
+    }
 
     const createDisc = async () => {
-      loading.value = true
+      errors.value = {}
+      submit.value = true
+
       const res = await createDiscussion(props.currentLesson?.id, {
-        comment: comment.value
+        content: content.value
+      })
+
+      if (!res.success) {
+        errors.value = res.data.errors
+      }
+
+      if (res.success) {
+        content.value = ''
+        props.updateDiscussions(res.discussions)
+      }
+
+      submit.value = false
+    }
+
+    const createReply = async parent_id => {
+      if (!contentReply.value) return
+
+      loading.value = true
+
+      const res = await createDiscussion(props.currentLesson?.id, {
+        content: contentReply.value,
+        parent_id: parent_id
       })
 
       if (res.success) {
-        comment.value = ''
+        contentReply.value = ''
+        activeReplyId.value = null
         props.updateDiscussions(res.discussions)
       }
 
@@ -128,11 +195,18 @@ export default defineComponent({
     }
 
     return {
-      comment,
+      userStore,
+      content,
+      contentReply,
+      submit,
       loading,
+      activeReplyId,
+      errors,
       formatTimeLong,
       formatTimeShort,
-      createDisc
+      toggleIsShowReplyForm,
+      createDisc,
+      createReply
     }
   }
 })

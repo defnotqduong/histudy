@@ -268,5 +268,17 @@ export default {
   CREATE_DISCUSSION_API: {
     method: 'post',
     url: '/learning/lesson/discussion'
+  },
+  CREATE_NOTE_API: {
+    method: 'post',
+    url: '/learning/lesson/note'
+  },
+  DELETE_NOTE_API: {
+    method: 'deleted',
+    url: '/learning/lesson/note'
+  },
+  REVIEW_COURSE_API: {
+    method: 'post',
+    url: '/learning/course/review'
   }
 }
