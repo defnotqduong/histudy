@@ -8,3 +8,7 @@ export const getCourseForCheckout = id => {
 export const checkoutCourse = id => {
   return connectServer[api.CHECKOUT_COURSE_API.method](api.CHECKOUT_COURSE_API.url + '/' + id)
 }
+
+export const getAllOrder = () => {
+  return connectServer[api.GET_ALL_ORDER_API.method](api.GET_ALL_ORDER_API.url)
+}

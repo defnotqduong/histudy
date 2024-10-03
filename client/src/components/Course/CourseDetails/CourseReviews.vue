@@ -14,49 +14,13 @@
         </div>
         <div class="col-span-12 md:col-span-9 mt-8">
           <div class="flex flex-col gap-2">
-            <div class="flex flex-wrap items-center justify-start">
-              <StarRating :averageStar="5" :size="16" class="w-full sm:w-auto" />
+            <div v-for="(r, index) in starPercentages" :key="index" class="flex flex-wrap items-center justify-start">
+              <StarRating :averageStar="r.rating" :size="16" class="w-full sm:w-auto" />
               <div class="flex-1 flex items-center">
                 <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
-                  <div class="w-[60%] h-full bg-warningColor"></div>
+                  <div class="h-full bg-warningColor" :style="{ width: `${r.percent}%` }"></div>
                 </div>
-                <span class="font-semibold">60%</span>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-start">
-              <StarRating :averageStar="4" :size="16" class="w-full sm:w-auto" />
-              <div class="flex-1 flex items-center">
-                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
-                  <div class="w-[60%] h-full bg-warningColor"></div>
-                </div>
-                <span class="font-semibold">60%</span>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-start">
-              <StarRating :averageStar="3" :size="16" class="w-full sm:w-auto" />
-              <div class="flex-1 flex items-center">
-                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
-                  <div class="w-[60%] h-full bg-warningColor"></div>
-                </div>
-                <span class="font-semibold">60%</span>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-start">
-              <StarRating :averageStar="2" :size="16" class="w-full sm:w-auto" />
-              <div class="flex-1 flex items-center">
-                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
-                  <div class="w-[60%] h-full bg-warningColor"></div>
-                </div>
-                <span class="font-semibold">60%</span>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-start">
-              <StarRating :averageStar="1" :size="16" class="w-full sm:w-auto" />
-              <div class="flex-1 flex items-center">
-                <div class="ml-0 sm:ml-4 lg:ml-8 mr-3 w-[75%] sm:w-auto sm:flex-1 bg-progressColor h-[6px]">
-                  <div class="w-[60%] h-full bg-warningColor"></div>
-                </div>
-                <span class="font-semibold">60%</span>
+                <span class="font-semibold">{{ r.percent }}%</span>
               </div>
             </div>
           </div>
@@ -73,7 +37,6 @@
         >
           <ReviewCard :review="review" />
         </div>
-        <!-- <Pagination /> -->
       </div>
       <div v-else class="italic">No reviews yet</div>
     </div>
@@ -101,7 +64,27 @@ export default defineComponent({
 
     const formatAvgStar = computed(() => formatNumber(averageStar.value, 1))
 
-    return { averageStar, reviewCount, formatAvgStar }
+    const starPercentages = computed(() => {
+      const totalReviews = reviewCount.value
+      if (totalReviews === 0) return []
+
+      const starCounts = {
+        5: props.reviews.filter(review => review.rating === 5).length,
+        4: props.reviews.filter(review => review.rating === 4).length,
+        3: props.reviews.filter(review => review.rating === 3).length,
+        2: props.reviews.filter(review => review.rating === 2).length,
+        1: props.reviews.filter(review => review.rating === 1).length
+      }
+
+      const percentages = [5, 4, 3, 2, 1].map(star => ({
+        rating: star,
+        percent: Math.round((starCounts[star] / totalReviews) * 100)
+      }))
+
+      return percentages
+    })
+
+    return { averageStar, reviewCount, formatAvgStar, starPercentages }
   }
 })
 </script>

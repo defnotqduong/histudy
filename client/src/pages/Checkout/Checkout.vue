@@ -74,9 +74,9 @@ import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useHomeStore, useUserStore } from '@/stores'
 import { formatPrice } from '@/utils'
-import { getCourseForCheckout, checkoutCourse } from '@/webServices/checkoutService'
+import { getCourseForCheckout, checkoutCourse } from '@/webServices/orderService'
 import { getPurchasedCourses } from '@/webServices/courseService'
-import { removeCourseFromCart } from '@/webServices/cartService'
+import { getAllOrder } from '@/webServices/orderService'
 
 import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
 
@@ -116,9 +116,10 @@ export default defineComponent({
       if (!res.success) homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
 
       if (res.success) {
-        const [purchasedCourses] = await Promise.all([getPurchasedCourses()])
+        const [purchasedCourses, orders] = await Promise.all([getPurchasedCourses(), getAllOrder()])
 
         userStore.setEnrolledCourses(purchasedCourses.courses.courses)
+        userStore.setOrders(orders.orders)
 
         homeStore.onChangeToast({ show: true, type: 'success', message: 'Your payment was successfully!' })
       }

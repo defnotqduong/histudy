@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CertController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
@@ -76,10 +77,16 @@ Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api'], function () {
     Route::delete('/{courseId}', [WishlistController::class, 'removeCourseFromWishlist']);
 });
 
-// Checkout Routes
-Route::group(['prefix' => 'checkout', 'middleware' => 'auth:api'], function () {
-    Route::get('/course/{id}', [OrderController::class, 'getCourseForCheckout']);
-    Route::post('/course/{id}', [OrderController::class, 'checkoutCourse']);
+// Cert Routes
+Route::group(['prefix' => 'cert', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [CertController::class, 'getAllCert']);
+});
+
+// Order Routes
+Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [OrderController::class, 'getAllOrder']);
+    Route::get('/checkout/course/{id}', [OrderController::class, 'getCourseForCheckout']);
+    Route::post('/checkout/course/{id}', [OrderController::class, 'checkoutCourse']);
 });
 
 // Instructor Routes

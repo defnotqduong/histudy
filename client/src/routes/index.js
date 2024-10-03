@@ -121,6 +121,22 @@ const routes = [
             }
           },
           {
+            path: '/cert',
+            name: 'cert',
+            component: () => import('@/pages/Dashboard/Cert.vue'),
+            meta: {
+              title: 'Certificate - Online Courses & Education'
+            }
+          },
+          {
+            path: '/order-history',
+            name: 'order-history',
+            component: () => import('@/pages/Dashboard/Order.vue'),
+            meta: {
+              title: 'Order - Online Courses & Education'
+            }
+          },
+          {
             path: '/settings',
             name: 'settings',
             component: () => import('@/pages/Dashboard/Settings.vue'),

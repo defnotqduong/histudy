@@ -109,7 +109,8 @@ import { loginUser, loginWithGoogle, getUserProfile } from '@/webServices/author
 import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
-import { getCert } from '@/webServices/certService'
+import { getAllCert } from '@/webServices/certService'
+import { getAllOrder } from '@/webServices/orderService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -170,16 +171,24 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
-          ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
-            success: true,
-            user: profile.user,
-            courses: authoredCourses.courses,
-            purchased_courses: purchasedCourses.courses,
-            cart: cart.cart,
-            wishlist: wishlist.wishlist
-          })
-        )
+        const userPromise = Promise.all([
+          getUserProfile(),
+          getAuthoredCourses(),
+          getPurchasedCourses(),
+          getCart(),
+          getWishlist(),
+          getAllCert(),
+          getAllOrder()
+        ]).then(([profile, authoredCourses, purchasedCourses, cart, wishlist, certs, orders]) => ({
+          success: true,
+          user: profile.user,
+          courses: authoredCourses.courses,
+          purchased_courses: purchasedCourses.courses,
+          cart: cart.cart,
+          wishlist: wishlist.wishlist,
+          certs: certs.certs,
+          orders: orders.orders
+        }))
 
         const [userData] = await Promise.all([userPromise])
 
@@ -189,6 +198,8 @@ export default defineComponent({
           userStore.setEnrolledCourses(userData.purchased_courses.courses)
           userStore.setCart(userData.cart.courses)
           userStore.setWishlist(userData.wishlist.courses)
+          this.userStore.setCerts(userData?.certs)
+          this.userStore.setOrders(userData?.orders)
         }
 
         router.push({ name: 'home' })

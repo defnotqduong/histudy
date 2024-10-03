@@ -16,7 +16,8 @@ import { getPopularCourses, getAuthoredCourses, getPurchasedCourses } from '@/we
 import { getAllCategories } from '@/webServices/categoryService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
-import { getCert } from '@/webServices/certService'
+import { getAllCert } from '@/webServices/certService'
+import { getAllOrder } from '@/webServices/orderService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
@@ -41,14 +42,16 @@ export default defineComponent({
       const accToken = gtka()
 
       const userPromise = accToken
-        ? Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
-            ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
+        ? Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+            ([profile, authoredCourses, purchasedCourses, cart, wishlist, certs, orders]) => ({
               success: true,
               user: profile.user,
               courses: authoredCourses.courses,
               purchased_courses: purchasedCourses.courses,
               cart: cart.cart,
-              wishlist: wishlist.wishlist
+              wishlist: wishlist.wishlist,
+              certs: certs.certs,
+              orders: orders.orders
             })
           )
         : Promise.resolve(null)
@@ -67,6 +70,8 @@ export default defineComponent({
         this.userStore.setEnrolledCourses(userData?.purchased_courses?.courses)
         this.userStore.setCart(userData?.cart?.courses)
         this.userStore.setWishlist(userData?.wishlist?.courses)
+        this.userStore.setCerts(userData?.certs)
+        this.userStore.setOrders(userData?.orders)
       }
 
       if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses.courses)

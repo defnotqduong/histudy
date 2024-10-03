@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\PurchaseResource;
 use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,19 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['getCourseForCheckout']]);
+    }
+
+    public function getAllOrder()
+    {
+        $user = Auth::user();
+
+        return response()->json(
+            [
+                'success' => true,
+                'orders' => PurchaseResource::collection($user->orders),
+            ],
+            200
+        );
     }
 
     public function getCourseForCheckout(Request $request, $id)

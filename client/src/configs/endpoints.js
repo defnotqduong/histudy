@@ -94,20 +94,25 @@ export default {
     url: '/wishlist'
   },
 
-  GET_CERT_API: {
+  GET_ALL_CERT_API: {
     method: 'get',
     url: '/cert'
   },
 
-  // Checkout
+  // Order
+  GET_ALL_ORDER_API: {
+    method: 'get',
+    url: '/order'
+  },
+
   GET_COURSE_FOR_CHECKOUT_API: {
     method: 'get',
-    url: '/checkout/course'
+    url: '/order/checkout/course'
   },
 
   CHECKOUT_COURSE_API: {
     method: 'post',
-    url: '/checkout/course'
+    url: '/order/checkout/course'
   },
 
   // Course

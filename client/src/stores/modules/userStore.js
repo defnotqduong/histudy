@@ -8,7 +8,9 @@ export const useUserStore = defineStore(USER_STORE, {
     cart: [],
     wishlist: [],
     instructorCourses: [],
-    enrolledCourses: []
+    enrolledCourses: [],
+    certs: [],
+    orders: []
   }),
   actions: {
     login(accToken, refToken) {
@@ -38,6 +40,12 @@ export const useUserStore = defineStore(USER_STORE, {
     },
     setWishlist(courses) {
       this.wishlist = [...courses]
+    },
+    setCerts(certs) {
+      this.certs = [...certs]
+    },
+    setOrders(orders) {
+      this.orders = [...orders]
     }
   }
 })
