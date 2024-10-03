@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mux/mux-player": "^2.9.1",
     "@tiptap/extension-link": "^2.6.6",
     "@tiptap/extension-text-align": "^2.6.6",
     "@tiptap/extension-underline": "^2.6.5",
