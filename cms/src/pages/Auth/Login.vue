@@ -1,39 +1,11 @@
 <template>
   <div class="container mx-auto overflow-hidden">
     <div class="h-screen grid grid-cols-2">
-      <div class="col-span-1 py-10 px-16">
-        <router-link :to="{ name: 'home' }" class="text-3xl text-headingColor font-extrabold" :style="{ fontFamily: 'Moonkids' }">HiStudy</router-link>
-      </div>
+      <div class="col-span-1"></div>
       <div class="col-span-1 py-10 px-24">
         <h2 class="mt-8 text-center text-headingColor text-3xl font-extrabold">Login to your Account</h2>
-        <p class="mt-1 text-center text-bodyColor text-sm">Welcome here again! Select method to log in</p>
-        <ul class="my-6">
-          <li>
-            <button @click.prevent="signInWithGoogle" class="social-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-                <path
-                  fill="#4285F4"
-                  d="M14.9 8.161c0-.476-.039-.954-.121-1.422h-6.64v2.695h3.802a3.24 3.24 0 01-1.407 2.127v1.75h2.269c1.332-1.22 2.097-3.02 2.097-5.15z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M8.14 15c1.898 0 3.499-.62 4.665-1.69l-2.268-1.749c-.631.427-1.446.669-2.395.669-1.836 0-3.393-1.232-3.952-2.888H1.85v1.803A7.044 7.044 0 008.14 15z"
-                />
-                <path fill="#FBBC04" d="M4.187 9.342a4.17 4.17 0 010-2.68V4.859H1.849a6.97 6.97 0 000 6.286l2.338-1.803z" />
-                <path
-                  fill="#EA4335"
-                  d="M8.14 3.77a3.837 3.837 0 012.7 1.05l2.01-1.999a6.786 6.786 0 00-4.71-1.82 7.042 7.042 0 00-6.29 3.858L4.186 6.66c.556-1.658 2.116-2.89 3.952-2.89z"
-                />
-              </svg>
-              Sign in with Google
-            </button>
-          </li>
-        </ul>
-        <div class="flex items-center justify-center">
-          <div class="line"></div>
-          <div class="px-2 text-xs text-bodyColor">or continue with email</div>
-          <div class="line"></div>
-        </div>
+        <p class="mt-1 text-center text-bodyColor text-sm">Admins or instructors only. Please log in with your email and password.</p>
+
         <form class="form">
           <div class="input-group">
             <input type="text" name="email" id="email" v-model="email" placeholder="Email" />
@@ -78,23 +50,10 @@
           <div v-if="errors?.password && errors?.password.length > 0">
             <p v-for="(err, index) in errors?.password" :key="index" class="mt-2 text-sm text-red-500">{{ err }}</p>
           </div>
-          <div class="flex items-center justify-between mt-4 mb-6">
-            <div class="remember">
-              <Checkbox />
-              Remember me
-            </div>
-            <div class="forgot">
-              <router-link :to="{ name: 'auth-forgot-password' }">Forgot Password?</router-link>
-            </div>
-          </div>
-          <div class="sign">
+          <div class="mt-4 sign">
             <GradientButtonV2 :content="'Log in'" :func="login" :loading="loading" />
           </div>
         </form>
-        <p class="link">
-          Don't have an account?
-          <router-link :to="{ name: 'auth-register' }" rel="noopener noreferrer" href="#" class="">Create an account</router-link>
-        </p>
       </div>
     </div>
   </div>
@@ -103,14 +62,8 @@
 <script>
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useUserStore, useHomeStore } from '@/stores'
-import { loginUser, loginWithGoogle, getUserProfile } from '@/webServices/authorizationService'
-import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
-import { getCart } from '@/webServices/cartService'
-import { getWishlist } from '@/webServices/wishlistService'
-import { getAllCert } from '@/webServices/certService'
-import { getAllOrder } from '@/webServices/orderService'
+import { loginUser, getUserProfile } from '@/webServices/authorizationService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -171,35 +124,15 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([
-          getUserProfile(),
-          getAuthoredCourses(),
-          getPurchasedCourses(),
-          getCart(),
-          getWishlist(),
-          getAllCert(),
-          getAllOrder()
-        ]).then(([profile, authoredCourses, purchasedCourses, cart, wishlist, certs, orders]) => ({
+        const userPromise = Promise.all([getUserProfile()]).then(([profile]) => ({
           success: true,
-          user: profile.user,
-          courses: authoredCourses.courses,
-          purchased_courses: purchasedCourses.courses,
-          cart: cart.cart,
-          wishlist: wishlist.wishlist,
-          certs: certs.certs,
-          orders: orders.orders
+          user: profile.user
         }))
 
         const [userData] = await Promise.all([userPromise])
 
         if (userData?.success) {
           userStore.setUser(userData.user)
-          userStore.setInstructorCourses(userData.courses.courses)
-          userStore.setEnrolledCourses(userData.purchased_courses.courses)
-          userStore.setCart(userData.cart.courses)
-          userStore.setWishlist(userData.wishlist.courses)
-          this.userStore.setCerts(userData?.certs)
-          this.userStore.setOrders(userData?.orders)
         }
 
         router.push({ name: 'home' })
