@@ -264,7 +264,7 @@ export default defineComponent({
         userStore.login(res.data.access_token, res.data.refresh_token)
 
         const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
-          ([profile, purchasedCourses, cart, wishlist, certs]) => ({
+          ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
             success: true,
             user: profile.user,
             purchased_courses: purchasedCourses.courses,
