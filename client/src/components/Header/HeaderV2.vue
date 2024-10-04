@@ -21,8 +21,9 @@
                 <a class="flex items-center justify-center gap-1">
                   <span>Course</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
-                ></a>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </a>
                 <ul class="sub-menu grid grid-cols-2">
                   <li v-for="category in homeStore.categories" :key="category.id" class="col-span-1">
                     <router-link :to="{ name: 'courses', query: { category_id: category.id } }" class="line-clamp-1">
@@ -35,8 +36,9 @@
                 <a class="flex items-center justify-center gap-1">
                   <span>Category</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg
-                ></a>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </a>
                 <ul class="sub-menu grid grid-cols-2">
                   <li v-for="category in homeStore.categories" :key="category.id" class="col-span-1">
                     <router-link :to="{ name: 'courses', query: { category_id: category.id } }" class="line-clamp-1">

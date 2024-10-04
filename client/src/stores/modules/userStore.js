@@ -7,7 +7,6 @@ export const useUserStore = defineStore(USER_STORE, {
     user: null,
     cart: [],
     wishlist: [],
-    instructorCourses: [],
     enrolledCourses: [],
     certs: [],
     orders: []
@@ -17,20 +16,18 @@ export const useUserStore = defineStore(USER_STORE, {
       localEnUserStore(accToken)
       localEnRefreshUserStore(refToken)
     },
-    setUser(user) {
-      this.user = user
-    },
     logout() {
       removeUserStore()
       removeRefreshUserStore()
       this.user = null
       this.cart = []
       this.wishlist = []
-      this.instructorCourses = []
       this.enrolledCourses = []
+      this.certs = []
+      this.orders = []
     },
-    setInstructorCourses(courses) {
-      this.instructorCourses = [...courses]
+    setUser(user) {
+      this.user = user
     },
     setEnrolledCourses(courses) {
       this.enrolledCourses = [...courses]

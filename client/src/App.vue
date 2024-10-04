@@ -12,7 +12,7 @@ import { defineComponent, ref } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
 import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
-import { getPopularCourses, getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
+import { getPopularCourses, getPurchasedCourses } from '@/webServices/courseService'
 import { getAllCategories } from '@/webServices/categoryService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
@@ -42,11 +42,10 @@ export default defineComponent({
       const accToken = gtka()
 
       const userPromise = accToken
-        ? Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
-            ([profile, authoredCourses, purchasedCourses, cart, wishlist, certs, orders]) => ({
+        ? Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+            ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
               success: true,
               user: profile.user,
-              courses: authoredCourses.courses,
               purchased_courses: purchasedCourses.courses,
               cart: cart.cart,
               wishlist: wishlist.wishlist,
@@ -66,7 +65,6 @@ export default defineComponent({
 
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
-        this.userStore.setInstructorCourses(userData?.courses?.courses)
         this.userStore.setEnrolledCourses(userData?.purchased_courses?.courses)
         this.userStore.setCart(userData?.cart?.courses)
         this.userStore.setWishlist(userData?.wishlist?.courses)

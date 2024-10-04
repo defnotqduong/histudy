@@ -9,7 +9,7 @@
         <p class="mt-1 text-center text-bodyColor text-sm">Welcome! Select method to log in</p>
         <ul class="my-6">
           <li>
-            <button class="social-button">
+            <button @click.prevent="signInWithGoogle" class="social-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                 <path
                   fill="#4285F4"
@@ -174,9 +174,10 @@
 <script>
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useUserStore } from '@/stores'
-import { registerUser, getUserProfile } from '@/webServices/authorizationService'
-import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
+import { registerUser, loginWithGoogle, getUserProfile } from '@/webServices/authorizationService'
+import { getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
 import { getAllCert } from '@/webServices/certService'
@@ -262,39 +263,81 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([
-          getUserProfile(),
-          getAuthoredCourses(),
-          getPurchasedCourses(),
-          getCart(),
-          getWishlist(),
-          getAllCert(),
-          getAllOrder()
-        ]).then(([profile, authoredCourses, purchasedCourses, cart, wishlist, certs]) => ({
-          success: true,
-          user: profile.user,
-          courses: authoredCourses.courses,
-          purchased_courses: purchasedCourses.courses,
-          cart: cart.cart,
-          wishlist: wishlist.wishlist,
-          certs: certs.certs,
-          orders: orders.orders
-        }))
+        const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+          ([profile, purchasedCourses, cart, wishlist, certs]) => ({
+            success: true,
+            user: profile.user,
+            purchased_courses: purchasedCourses.courses,
+            cart: cart.cart,
+            wishlist: wishlist.wishlist,
+            certs: certs.certs,
+            orders: orders.orders
+          })
+        )
 
         const [userData] = await Promise.all([userPromise])
 
         if (userData?.success) {
           userStore.setUser(userData.user)
-          userStore.setInstructorCourses(userData.courses.courses)
           userStore.setEnrolledCourses(userData.purchased_courses.courses)
           userStore.setCart(userData.cart.courses)
           userStore.setWishlist(userData.wishlist.courses)
-          this.userStore.setCerts(userData?.certs)
-          this.userStore.setOrders(userData?.orders)
+          userStore.setCerts(userData?.certs)
+          userStore.setOrders(userData?.orders)
         }
 
         router.push({ name: 'home' })
       }
+    }
+
+    const signInWithGoogle = async () => {
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(getAuth(), provider)
+        .then(async result => {
+          console.log(result.user)
+          const res = await loginWithGoogle({
+            id_token: result.user.accessToken
+          })
+
+          console.log(res)
+
+          if (!res.success) {
+            homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
+            return
+          }
+
+          if (res.success) {
+            userStore.login(res.data.access_token, res.data.refresh_token)
+
+            const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+              ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
+                success: true,
+                user: profile.user,
+                purchased_courses: purchasedCourses.courses,
+                cart: cart.cart,
+                wishlist: wishlist.wishlist,
+                certs: certs.certs,
+                orders: orders.orders
+              })
+            )
+
+            const [userData] = await Promise.all([userPromise])
+
+            if (userData?.success) {
+              userStore.setUser(userData.user)
+              userStore.setEnrolledCourses(userData.purchased_courses.courses)
+              userStore.setCart(userData.cart.courses)
+              userStore.setWishlist(userData.wishlist.courses)
+              userStore.setCerts(userData?.certs)
+              userStore.setOrders(userData?.orders)
+            }
+
+            router.push({ name: 'home' })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
 
     return {
@@ -302,7 +345,8 @@ export default defineComponent({
       isShowPassword,
       errors,
       loading,
-      register
+      register,
+      signInWithGoogle
     }
   },
   methods: {

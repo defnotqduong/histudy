@@ -106,7 +106,7 @@ import { useRouter } from 'vue-router'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useUserStore, useHomeStore } from '@/stores'
 import { loginUser, loginWithGoogle, getUserProfile } from '@/webServices/authorizationService'
-import { getAuthoredCourses, getPurchasedCourses } from '@/webServices/courseService'
+import { getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
 import { getAllCert } from '@/webServices/certService'
@@ -171,35 +171,27 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([
-          getUserProfile(),
-          getAuthoredCourses(),
-          getPurchasedCourses(),
-          getCart(),
-          getWishlist(),
-          getAllCert(),
-          getAllOrder()
-        ]).then(([profile, authoredCourses, purchasedCourses, cart, wishlist, certs, orders]) => ({
-          success: true,
-          user: profile.user,
-          courses: authoredCourses.courses,
-          purchased_courses: purchasedCourses.courses,
-          cart: cart.cart,
-          wishlist: wishlist.wishlist,
-          certs: certs.certs,
-          orders: orders.orders
-        }))
+        const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+          ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
+            success: true,
+            user: profile.user,
+            purchased_courses: purchasedCourses.courses,
+            cart: cart.cart,
+            wishlist: wishlist.wishlist,
+            certs: certs.certs,
+            orders: orders.orders
+          })
+        )
 
         const [userData] = await Promise.all([userPromise])
 
         if (userData?.success) {
           userStore.setUser(userData.user)
-          userStore.setInstructorCourses(userData.courses.courses)
           userStore.setEnrolledCourses(userData.purchased_courses.courses)
           userStore.setCart(userData.cart.courses)
           userStore.setWishlist(userData.wishlist.courses)
-          this.userStore.setCerts(userData?.certs)
-          this.userStore.setOrders(userData?.orders)
+          userStore.setCerts(userData?.certs)
+          userStore.setOrders(userData?.orders)
         }
 
         router.push({ name: 'home' })
@@ -225,14 +217,15 @@ export default defineComponent({
           if (res.success) {
             userStore.login(res.data.access_token, res.data.refresh_token)
 
-            const userPromise = Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
-              ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
+            const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
+              ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
                 success: true,
                 user: profile.user,
-                courses: authoredCourses.courses,
                 purchased_courses: purchasedCourses.courses,
                 cart: cart.cart,
-                wishlist: wishlist.wishlist
+                wishlist: wishlist.wishlist,
+                certs: certs.certs,
+                orders: orders.orders
               })
             )
 
@@ -240,10 +233,11 @@ export default defineComponent({
 
             if (userData?.success) {
               userStore.setUser(userData.user)
-              userStore.setInstructorCourses(userData.courses.courses)
               userStore.setEnrolledCourses(userData.purchased_courses.courses)
               userStore.setCart(userData.cart.courses)
               userStore.setWishlist(userData.wishlist.courses)
+              userStore.setCerts(userData?.certs)
+              userStore.setOrders(userData?.orders)
             }
 
             router.push({ name: 'home' })
