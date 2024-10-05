@@ -14,6 +14,9 @@ const routes = [
     path: '/',
     name: 'global-layout',
     component: () => import('@/layouts/GlobalLayout.vue'),
+    meta: {
+      isAuthenticated: true
+    },
     children: [
       {
         path: '',
@@ -24,11 +27,82 @@ const routes = [
         }
       },
       {
-        path: 'course',
-        name: 'course',
-        component: () => import('@/pages/Course/CreateCourse.vue'),
+        path: 'users',
+        name: 'users',
+        component: () => import('@/pages/Dashboard/Users.vue'),
         meta: {
-          title: 'Course - Online Courses & Education'
+          title: 'Users - Online Courses & Education'
+        }
+      },
+      {
+        path: 'invoices',
+        name: 'invoices',
+        component: () => import('@/pages/Dashboard/Invoices.vue'),
+        meta: {
+          title: 'Invoices - Online Courses & Education'
+        }
+      },
+      {
+        path: 'courses',
+        name: 'courses',
+        component: () => import('@/pages/Dashboard/Courses.vue'),
+        meta: {
+          title: 'Courses - Online Courses & Education'
+        }
+      },
+      {
+        path: 'instructor/create-course',
+        name: 'create-course',
+        component: () => import('@/pages/Dashboard/CreateCourse/CreateCourse.vue'),
+        meta: {
+          title: 'Create Course - Online Courses & Education'
+        }
+      },
+      {
+        path: 'instructor/course/:slug',
+        name: 'create-course-details',
+        component: () => import('@/pages/Dashboard/CreateCourse/CreateCourseDetails.vue')
+      },
+      {
+        path: 'instructor/course/:slug/chapter/:chapterId',
+        name: 'create-course-chapter',
+        component: () => import('@/pages/Dashboard/CreateCourse/CreateChapter.vue')
+      },
+      {
+        path: 'instructor/course/:slug/chapter/:chapterId/lesson/:lessonId',
+        name: 'create-course-lesson',
+        component: () => import('@/pages/Dashboard/CreateCourse/CreateLesson.vue')
+      },
+      {
+        path: 'categories',
+        name: 'categories',
+        component: () => import('@/pages/Dashboard/Categories.vue'),
+        meta: {
+          title: 'Categories - Online Courses & Education'
+        }
+      },
+      {
+        path: 'quiz',
+        name: 'quiz',
+        component: () => import('@/pages/Dashboard/Quiz.vue'),
+        meta: {
+          title: 'Quiz - Online Courses & Education'
+        }
+      },
+      {
+        path: 'manage-team',
+        name: 'manage-team',
+        component: () => import('@/pages/Dashboard/ManageTeam.vue'),
+        meta: {
+          title: 'Manage Team - Online Courses & Education'
+        }
+      },
+      {
+        path: 'course-analytics',
+        name: 'course-analytics',
+        component: () => import('@/pages/Dashboard/CourseAnalytics.vue'),
+        meta: {
+          title: 'Course Analytics - Online Courses & Education'
         }
       }
     ]

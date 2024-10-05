@@ -63,7 +63,7 @@
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
-import { loginUser, getUserProfile } from '@/webServices/authorizationService'
+import { loginAuthorizedUser, getUserProfile } from '@/webServices/authorizationService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -110,10 +110,12 @@ export default defineComponent({
         return
       }
 
-      const res = await loginUser({
+      const res = await loginAuthorizedUser({
         email: user.email,
         password: user.password
       })
+
+      console.log(res)
 
       if (!res.success) {
         errors.value = res.data.errors
@@ -135,56 +137,8 @@ export default defineComponent({
           userStore.setUser(userData.user)
         }
 
-        router.push({ name: 'home' })
+        router.push({ name: 'dashboard' })
       }
-    }
-
-    const signInWithGoogle = async () => {
-      const provider = new GoogleAuthProvider()
-      signInWithPopup(getAuth(), provider)
-        .then(async result => {
-          console.log(result.user)
-          const res = await loginWithGoogle({
-            id_token: result.user.accessToken
-          })
-
-          console.log(res)
-
-          if (!res.success) {
-            homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
-            return
-          }
-
-          if (res.success) {
-            userStore.login(res.data.access_token, res.data.refresh_token)
-
-            const userPromise = Promise.all([getUserProfile(), getAuthoredCourses(), getPurchasedCourses(), getCart(), getWishlist()]).then(
-              ([profile, authoredCourses, purchasedCourses, cart, wishlist]) => ({
-                success: true,
-                user: profile.user,
-                courses: authoredCourses.courses,
-                purchased_courses: purchasedCourses.courses,
-                cart: cart.cart,
-                wishlist: wishlist.wishlist
-              })
-            )
-
-            const [userData] = await Promise.all([userPromise])
-
-            if (userData?.success) {
-              userStore.setUser(userData.user)
-              userStore.setInstructorCourses(userData.courses.courses)
-              userStore.setEnrolledCourses(userData.purchased_courses.courses)
-              userStore.setCart(userData.cart.courses)
-              userStore.setWishlist(userData.wishlist.courses)
-            }
-
-            router.push({ name: 'home' })
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
 
     return {
@@ -192,8 +146,7 @@ export default defineComponent({
       isShowPassword,
       errors,
       loading,
-      login,
-      signInWithGoogle
+      login
     }
   },
   methods: {

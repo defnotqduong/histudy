@@ -6,7 +6,9 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base: '/',
   plugins: [vue()],
-
+  server: {
+    port: 5173
+  },
   resolve: {
     alias: {
       '~': fileURLToPath(new URL('./node_modules', import.meta.url)),

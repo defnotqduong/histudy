@@ -25,7 +25,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['register', 'login', 'loginWithGoogle', 'refresh']]);
+        $this->middleware('auth:api', ['except' => ['register', 'login', 'loginAuthorizedUser', 'loginWithGoogle', 'refresh']]);
     }
 
 
@@ -77,6 +77,34 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
+        $messages = [
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email format is invalid.',
+            'password.required' => 'Password is required.',
+            'password.string' => 'Password must be a string.',
+            'password.min' => 'Password must be at least 5 characters.',
+            'password.max' => 'Password may not be greater than 100 characters.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:5|max:100'
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+        if (!$token = Auth::attempt($validator->validated())) {
+            return response()->json(['success' => false, 'errors' => ['email' => ['Wrong account or password'], 'password' => ['Wrong account or password']]], 422);
+        }
+
+        $refreshToken = $this->createRefreshToken();
+
+        return $this->createNewToken($token, $refreshToken);
+    }
+
+    public function loginAuthorizedUser(Request $request)
+    {
         $messages = [
             'email.required' => 'Email is required.',
             'email.email' => 'Email format is invalid.',

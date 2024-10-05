@@ -44,9 +44,6 @@
             </ul>
           </div>
         </div>
-        <div>
-          <ButtonV6 :content="'Create a New Course'" :func="redirect" />
-        </div>
       </div>
     </div>
   </div>
@@ -63,13 +60,8 @@ export default defineComponent({
     const userStore = useUserStore()
     const router = useRouter()
 
-    const redirect = () => {
-      router.push({ name: 'create-course-overview' })
-    }
-
     return {
-      userStore,
-      redirect
+      userStore
     }
   }
 })

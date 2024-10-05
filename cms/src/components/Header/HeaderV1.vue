@@ -1,46 +1,50 @@
 <template>
-  <header :class="{ 'header-sticky': isHeaderFixed }">
-    <div class="py-3">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between">
-          <div class="ml-[-10px]">
-            <div class="px-[10px]">
-              <router-link :to="{ name: 'dashboard' }">
-                <img src="@/assets/images/logo.jpg" class="max-h-10 object-cover object-center" alt="Logo" />
-              </router-link>
-            </div>
-          </div>
-          <div class="flex items-center justify-center gap-2 mr-[-10px]">
-            <div class="px-[10px]">
-              <ul>
-                <li class="user-menu">
-                  <a
-                    class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-5 h-5">
-                      <path
-                        d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    <span class="hidden lg:block mt-1 line-clamp-1">Quang Dương</span>
-                  </a>
-                  <UserMenu />
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <header>
+    <div class="py-4 px-4">
+      <div>
+        <ul class="flex items-center justify-end gap-6">
+          <li class="has-child-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4.5835 7.41667C4.5835 3.32056 7.90405 0 12.0002 0C16.0963 0 19.4168 3.32056 19.4168 7.41667V8.33334C19.4168 10.5339 19.7156 12.4847 20.171 13.8507C20.4004 14.539 20.6515 15.0238 20.8818 15.316C21.0523 15.5324 21.1541 15.5761 21.1774 15.5834C21.7248 15.5891 22.1668 16.0346 22.1668 16.5833V16.7917C22.1668 17.344 21.7191 17.7917 21.1668 17.7917H2.8335C2.28121 17.7917 1.8335 17.344 1.8335 16.7917V16.5833C1.8335 16.0346 2.27551 15.5891 2.82292 15.5834C2.84626 15.5761 2.948 15.5324 3.11851 15.316C3.34881 15.0238 3.59994 14.539 3.82936 13.8507C4.2847 12.4847 4.5835 10.5339 4.5835 8.33334V7.41667ZM2.81774 15.5847C2.81773 15.5846 2.81863 15.5844 2.82044 15.5841L2.81886 15.5845C2.81812 15.5847 2.81774 15.5847 2.81774 15.5847Z"
+                fill="currentColor"
+              />
+              <path
+                d="M9.25013 19.5C8.87258 19.5 8.52722 19.7126 8.35723 20.0497C8.18723 20.3869 8.2216 20.791 8.44606 21.0945C9.27818 22.2199 10.5352 23 12.0001 23C13.465 23 14.7221 22.2199 15.5542 21.0945C15.7787 20.791 15.813 20.3869 15.643 20.0497C15.473 19.7126 15.1277 19.5 14.7501 19.5H9.25013Z"
+                fill="currentColor"
+              />
+            </svg>
+            <span class="absolute -top-3 -right-4 w-5 h-5 rounded-full bg-dangerColor text-sm text-whiteColor font-semibold flex items-center justify-center">
+              3
+            </span>
+          </li>
+          <li class="user-menu">
+            <a
+              class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="hidden lg:block mt-1 line-clamp-1">{{ userStore.user?.username }}</span>
+            </a>
+            <UserMenu />
+          </li>
+        </ul>
       </div>
     </div>
   </header>
@@ -111,7 +115,7 @@ header.header-sticky {
 .has-child-menu {
   position: relative;
 }
-
+.has-child-menu,
 .has-child-menu > a {
   font-size: 18px;
   font-weight: 700;
@@ -126,6 +130,7 @@ header.header-sticky {
   transition: transform 0.3s, color 0.3s 0.1s;
 }
 
+.has-child-menu:hover,
 .has-child-menu:hover > a {
   @apply text-primaryColor;
 }

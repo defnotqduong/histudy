@@ -48,13 +48,7 @@
       </div>
       <div v-else class="relative mt-6">
         <div class="h-80">
-          <iframe
-            :src="lesson.video_url"
-            frameborder="0"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            class="w-full h-full rounded-md"
-          ></iframe>
+          <VideoPlayer class="w-full h-full" :url="lesson.video_url" />
         </div>
         <div class="text-sm mt-3">Videos can take a few minutes to process. Refresh the page if video does not appear.</div>
       </div>
@@ -103,7 +97,10 @@ import { useHomeStore } from '@/stores'
 import { uploadLessonVideo } from '@/webServices/lessonService'
 import { loadVideo } from '@/utils'
 
+import VideoPlayer from '@/components/VideoComponents/VideoPlayer.vue'
+
 export default defineComponent({
+  components: { VideoPlayer },
   props: {
     lesson: Object,
     slug: String,

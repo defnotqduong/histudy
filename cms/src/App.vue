@@ -10,6 +10,8 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
+import { gtka } from '@/helpers/localStorageHelper'
+import { getUserProfile } from '@/webServices/authorizationService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
@@ -31,9 +33,23 @@ export default defineComponent({
     async loadData() {
       this.loading = true
 
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
+      const accToken = gtka()
+
+      const userPromise = accToken
+        ? Promise.all([getUserProfile()]).then(([profile]) => ({
+            success: true,
+            user: profile.user
+          }))
+        : Promise.resolve(null)
+
+      const [userData] = await Promise.all([userPromise])
+
+      console.log('user', userData)
+
+      if (userData?.success) {
+        this.userStore.setUser(userData?.user)
+      }
+      this.loading = false
     }
   },
   created() {

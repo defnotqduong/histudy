@@ -1,35 +1,33 @@
 <template>
   <div class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="min-h-[50vh] w-[60%] mx-auto">
-        <h2 class="text-2xl font-extrabold text-headingColor">Name your course</h2>
-        <p>What would you like to name your course? Don't worrry, you can change this later.</p>
-        <form class="form">
-          <div for="title" class="input-group">
-            <div class="pb-2 text-headingColor font-bold">Course title</div>
-            <input type="text" name="title" id="title" v-model="title" placeholder="" />
-            <div v-if="errors?.title && errors?.title.length > 0">
-              <p v-for="(err, index) in errors?.title" :key="index" class="mt-2 text-red-500">{{ err }}</p>
-            </div>
+    <div class="px-10">
+      <h2 class="text-2xl font-extrabold text-headingColor">Name your course</h2>
+      <p>What would you like to name your course? Don't worrry, you can change this later.</p>
+      <form class="form">
+        <div for="title" class="input-group">
+          <div class="pb-2 text-headingColor font-bold">Course title</div>
+          <input type="text" name="title" id="title" v-model="title" placeholder="" />
+          <div v-if="errors?.title && errors?.title.length > 0">
+            <p v-for="(err, index) in errors?.title" :key="index" class="mt-2 text-red-500">{{ err }}</p>
           </div>
-          <p>What will you teach in this course?</p>
-          <div class="mt-6 flex items-center justify-start gap-3">
-            <button
-              @click.prevent="cancel"
-              class="h-10 min-w-16 px-4 flex items-center justify-center font-semibold text-headingColor bg-whiteColor rounded-md transition-all duration-300 hover:text-whiteColor hover:bg-dangerColor"
-            >
-              Cancel
-            </button>
-            <button
-              @click.prevent="create"
-              class="h-10 min-w-16 px-4 flex items-center justify-center font-semibold text-whiteColor bg-bodyColor rounded-md transition-all duration-300 hover:text-whiteColor hover:bg-primaryColor"
-            >
-              <LoadingV1 v-if="loading" />
-              <span v-else>Continue</span>
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <p>What will you teach in this course?</p>
+        <div class="mt-6 flex items-center justify-start gap-3">
+          <button
+            @click.prevent="cancel"
+            class="h-10 min-w-16 px-4 flex items-center justify-center font-semibold text-headingColor bg-whiteColor rounded-md transition-all duration-300 hover:text-whiteColor hover:bg-dangerColor"
+          >
+            Cancel
+          </button>
+          <button
+            @click.prevent="create"
+            class="h-10 min-w-16 px-4 flex items-center justify-center font-semibold text-whiteColor bg-bodyColor rounded-md transition-all duration-300 hover:text-whiteColor hover:bg-primaryColor"
+          >
+            <LoadingV1 v-if="loading" />
+            <span v-else>Continue</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -55,7 +53,7 @@ export default defineComponent({
     })
 
     const cancel = () => {
-      router.back()
+      router.push({ name: 'courses' })
     }
 
     const create = async () => {
@@ -120,7 +118,7 @@ export default defineComponent({
 }
 
 .input-group input {
-  width: 60%;
+  width: 45%;
   border-radius: 0.375rem;
   border: 1px solid;
   @apply border-borderColor;

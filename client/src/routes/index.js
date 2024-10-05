@@ -117,7 +117,15 @@ const routes = [
             name: 'wishlist',
             component: () => import('@/pages/Dashboard/Wishlist.vue'),
             meta: {
-              title: 'Wishlist - Online Courses & Education'
+              title: 'My Wishlist - Online Courses & Education'
+            }
+          },
+          {
+            path: '/my-quiz',
+            name: 'my-quiz',
+            component: () => import('@/pages/Dashboard/MyQuiz.vue'),
+            meta: {
+              title: 'My Quiz - Online Courses & Education'
             }
           },
           {
@@ -125,7 +133,7 @@ const routes = [
             name: 'cert',
             component: () => import('@/pages/Dashboard/Cert.vue'),
             meta: {
-              title: 'Certificate - Online Courses & Education'
+              title: 'My Certificate - Online Courses & Education'
             }
           },
           {
@@ -133,7 +141,7 @@ const routes = [
             name: 'order-history',
             component: () => import('@/pages/Dashboard/Order.vue'),
             meta: {
-              title: 'Order - Online Courses & Education'
+              title: 'My Order - Online Courses & Education'
             }
           },
           {
@@ -143,37 +151,6 @@ const routes = [
             meta: {
               title: 'Settings - Online Courses & Education'
             }
-          }
-        ]
-      },
-      {
-        path: '/instructor',
-        name: 'create-course',
-        component: () => import('@/layouts/CreateCourseLayout.vue'),
-        meta: {
-          isAuthenticated: true,
-          title: 'Create Course - Online Courses & Education'
-        },
-        children: [
-          {
-            path: 'create-course',
-            name: 'create-course-overview',
-            component: () => import('@/pages/Course/CreateCourse.vue')
-          },
-          {
-            path: 'course/:slug',
-            name: 'create-course-details',
-            component: () => import('@/pages/Course/CreateCourseDetails.vue')
-          },
-          {
-            path: 'course/:slug/chapter/:chapterId',
-            name: 'create-course-chapter',
-            component: () => import('@/pages/Course/CreateChapter.vue')
-          },
-          {
-            path: 'course/:slug/chapter/:chapterId/lesson/:lessonId',
-            name: 'create-course-lesson',
-            component: () => import('@/pages/Course/CreateLesson.vue')
           }
         ]
       }

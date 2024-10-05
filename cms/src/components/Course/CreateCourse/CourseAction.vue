@@ -115,7 +115,7 @@ export default defineComponent({
 
       isSubmitting.value = false
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Course deleted Successfully !' })
-      router.push({ name: 'dashboard' })
+      router.push({ name: 'courses' })
     }
 
     return { isSubmitting, onChangeCourse, onDeleteCourse }

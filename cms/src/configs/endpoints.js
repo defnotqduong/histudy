@@ -1,11 +1,10 @@
 import { method } from 'lodash'
 
 export default {
-  // User
-
-  LOGIN_USER_API: {
+  // Authorized User
+  LOGIN_AUTHORIZED_USER_API: {
     method: 'post',
-    url: '/auth/login'
+    url: '/auth/login/authorized-user'
   },
   REFRESH_TOKEN_API: {
     method: 'post',

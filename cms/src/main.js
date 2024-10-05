@@ -8,6 +8,8 @@ import router from '@/routes'
 import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 
+import '@/configs/firebaseConfig'
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 

@@ -34,6 +34,7 @@ use App\Models\Course;
 // Auth Routes
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login/authorized-user', [AuthController::class, 'loginAuthorizedUser']);
     Route::post('/google', [AuthController::class, 'loginWithGoogle']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
@@ -47,6 +48,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/send-verify-mail/{email}', [VerificationController::class, 'sendVerifyMail']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
 
 // Category Routes
 Route::group(['prefix' => 'category'], function () {

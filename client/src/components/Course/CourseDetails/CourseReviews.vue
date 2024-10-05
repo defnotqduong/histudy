@@ -66,7 +66,29 @@ export default defineComponent({
 
     const starPercentages = computed(() => {
       const totalReviews = reviewCount.value
-      if (totalReviews === 0) return []
+      if (totalReviews === 0)
+        return [
+          {
+            rating: 5,
+            percent: 100
+          },
+          {
+            rating: 4,
+            percent: 0
+          },
+          {
+            rating: 3,
+            percent: 0
+          },
+          {
+            rating: 2,
+            percent: 0
+          },
+          {
+            rating: 1,
+            percent: 0
+          }
+        ]
 
       const starCounts = {
         5: props.reviews.filter(review => review.rating === 5).length,

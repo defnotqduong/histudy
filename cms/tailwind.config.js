@@ -32,7 +32,7 @@ export default {
         secondaryOpacityColor: '#B966E721',
         coralOpacityColor: '#E9967A21',
         violetOpacityColor: '#80008021',
-        blackOpacityColor: 'rgba(0, 0, 0, 0.04)',
+        blackOpacityColor: 'rgba(0, 0, 0, 0.1)',
         whiteOpacityColor: '#FFFFFF21',
         pinkOpacityColor: '#DB709321',
         dangerOpacityColor: '#FF000310',
