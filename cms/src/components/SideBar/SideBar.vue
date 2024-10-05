@@ -5,7 +5,7 @@
         <img src="@/assets/images/logo.jpg" class="max-h-12 object-cover object-center" alt="Logo" />
       </div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('dashboard') }">
           <router-link :to="{ name: 'dashboard' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@
       </ul>
       <div class="sidebar-title">Data</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('users') }">
           <router-link :to="{ name: 'users' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 -64 640 640">
               <path
@@ -39,7 +39,7 @@
             Users
           </router-link>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('invoices') }">
           <router-link :to="{ name: 'invoices' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024">
               <path
@@ -57,7 +57,7 @@
       </ul>
       <div class="sidebar-title">Content</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('courses') }">
           <router-link :to="{ name: 'courses' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 1920 1920">
               <path
@@ -68,7 +68,7 @@
             Courses
           </router-link>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('create-course') }">
           <router-link :to="{ name: 'create-course' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -81,7 +81,7 @@
       </ul>
       <div class="sidebar-title">Customization</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('categories') }">
           <router-link :to="{ name: 'categories' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 32 32" version="1.1">
               <path
@@ -91,7 +91,7 @@
             Categories</router-link
           >
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('quiz') }">
           <router-link :to="{ name: 'quiz' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -101,10 +101,29 @@
             Quiz</router-link
           >
         </li>
+        <li class="sidebar-item" :class="{ active: isActive('certs') }">
+          <router-link :to="{ name: 'certs' }">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg>
+            Certs</router-link
+          >
+        </li>
       </ul>
       <div class="sidebar-title">Controllers</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('manage-team') }">
           <router-link :to="{ name: 'manage-team' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -118,7 +137,7 @@
       </ul>
       <div class="sidebar-title">Analytics</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item">
+        <li class="sidebar-item" :class="{ active: isActive('course-analytics') }">
           <router-link :to="{ name: 'course-analytics' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -136,7 +155,21 @@
 
 <script>
 import { defineComponent } from 'vue'
-export default defineComponent({})
+import { useRoute, useRouter } from 'vue-router'
+export default defineComponent({
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+
+    const isActive = name => {
+      return route.name === name
+    }
+
+    return {
+      isActive
+    }
+  }
+})
 </script>
 
 <style scoped>
@@ -160,8 +193,12 @@ export default defineComponent({})
   @apply rounded-md px-3 py-[6px] flex items-center justify-start;
 }
 
+.sidebar-item.active a {
+  @apply bg-primaryOpacityColor;
+}
+
 .sidebar-item a:hover {
-  @apply bg-blackOpacityColor;
+  @apply bg-primaryOpacityColor;
 }
 
 .sidebar-item svg {

@@ -90,6 +90,14 @@ const routes = [
         }
       },
       {
+        path: 'certs',
+        name: 'certs',
+        component: () => import('@/pages/Dashboard/Certs.vue'),
+        meta: {
+          title: 'Certs - Online Courses & Education'
+        }
+      },
+      {
         path: 'manage-team',
         name: 'manage-team',
         component: () => import('@/pages/Dashboard/ManageTeam.vue'),

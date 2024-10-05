@@ -58,7 +58,7 @@ class CourseController extends Controller
         return response()->json(
             [
                 'success' => true,
-                'courses' => new CourseResourceCollection($user->courses),
+                'courses' => new CourseResourceCollection($user->instructorCourses),
             ],
             200
         );
@@ -129,7 +129,6 @@ class CourseController extends Controller
             'courses' => new CourseResourceCollection($courses, false)
         ], 200);
     }
-
 
     public function getCourse(Request $request, $slug)
     {

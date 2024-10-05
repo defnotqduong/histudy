@@ -93,6 +93,7 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
 
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
+
     // Course Routes
     Route::group(['prefix' => 'course'], function () {
         Route::post('/', [CourseController::class, 'createCourse']);

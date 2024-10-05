@@ -4,7 +4,14 @@
 
 <script>
 import { defineComponent } from 'vue'
-export default defineComponent({})
+import { useRouter } from 'vue-router'
+export default defineComponent({
+  setup() {
+    const router = useRouter()
+
+    router.push({ name: 'home' })
+  }
+})
 </script>
 
 <style></style>

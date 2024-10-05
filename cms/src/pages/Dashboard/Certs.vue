@@ -1,5 +1,5 @@
 <template>
-  <div>Quiz</div>
+  <div>Certs</div>
 </template>
 
 <script>

@@ -6,19 +6,17 @@
           <li class="has-child-menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.5835 7.41667C4.5835 3.32056 7.90405 0 12.0002 0C16.0963 0 19.4168 3.32056 19.4168 7.41667V8.33334C19.4168 10.5339 19.7156 12.4847 20.171 13.8507C20.4004 14.539 20.6515 15.0238 20.8818 15.316C21.0523 15.5324 21.1541 15.5761 21.1774 15.5834C21.7248 15.5891 22.1668 16.0346 22.1668 16.5833V16.7917C22.1668 17.344 21.7191 17.7917 21.1668 17.7917H2.8335C2.28121 17.7917 1.8335 17.344 1.8335 16.7917V16.5833C1.8335 16.0346 2.27551 15.5891 2.82292 15.5834C2.84626 15.5761 2.948 15.5324 3.11851 15.316C3.34881 15.0238 3.59994 14.539 3.82936 13.8507C4.2847 12.4847 4.5835 10.5339 4.5835 8.33334V7.41667ZM2.81774 15.5847C2.81773 15.5846 2.81863 15.5844 2.82044 15.5841L2.81886 15.5845C2.81812 15.5847 2.81774 15.5847 2.81774 15.5847Z"
-                fill="currentColor"
-              />
-              <path
-                d="M9.25013 19.5C8.87258 19.5 8.52722 19.7126 8.35723 20.0497C8.18723 20.3869 8.2216 20.791 8.44606 21.0945C9.27818 22.2199 10.5352 23 12.0001 23C13.465 23 14.7221 22.2199 15.5542 21.0945C15.7787 20.791 15.813 20.3869 15.643 20.0497C15.473 19.7126 15.1277 19.5 14.7501 19.5H9.25013Z"
-                fill="currentColor"
+                d="M9.00195 17H5.60636C4.34793 17 3.71872 17 3.58633 16.9023C3.4376 16.7925 3.40126 16.7277 3.38515 16.5436C3.37082 16.3797 3.75646 15.7486 4.52776 14.4866C5.32411 13.1835 6.00031 11.2862 6.00031 8.6C6.00031 7.11479 6.63245 5.69041 7.75766 4.6402C8.88288 3.59 10.409 3 12.0003 3C13.5916 3 15.1177 3.59 16.2429 4.6402C17.3682 5.69041 18.0003 7.11479 18.0003 8.6C18.0003 11.2862 18.6765 13.1835 19.4729 14.4866C20.2441 15.7486 20.6298 16.3797 20.6155 16.5436C20.5994 16.7277 20.563 16.7925 20.4143 16.9023C20.2819 17 19.6527 17 18.3943 17H15.0003M9.00195 17L9.00031 18C9.00031 19.6569 10.3435 21 12.0003 21C13.6572 21 15.0003 19.6569 15.0003 18V17M9.00195 17H15.0003"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
             <span class="absolute -top-3 -right-4 w-5 h-5 rounded-full bg-dangerColor text-sm text-whiteColor font-semibold flex items-center justify-center">
-              3
+              1
             </span>
+            <NotiContainer />
           </li>
           <li class="user-menu">
             <a
@@ -56,9 +54,10 @@ import { useRouter } from 'vue-router'
 import { useHomeStore, useUserStore } from '@/stores'
 
 import UserMenu from '@/components/Header/UserMenu.vue'
+import NotiContainer from '@/components/Header/NotiContainer.vue'
 
 export default defineComponent({
-  components: { UserMenu },
+  components: { UserMenu, NotiContainer },
   setup() {
     const homeStore = useHomeStore()
     const userStore = useUserStore()
@@ -211,6 +210,7 @@ header.header-sticky {
   position: relative;
 }
 
+.noti-container,
 .user-menu-list-wrapper {
   position: absolute;
   top: 100%;
@@ -249,6 +249,7 @@ header.header-sticky {
   transition: clip 0.55s linear, opacity 0.2s linear;
 }
 
+.has-child-menu:hover .noti-container,
 .has-child-menu:hover .sub-menu,
 .user-menu:hover .user-menu-list-wrapper {
   top: 100%;

@@ -27,6 +27,35 @@ export default {
   },
 
   // Course
+  GET_ALL_COURSES_API: {
+    method: 'get',
+    url: '/course'
+  },
+
+  GET_POPULAR_COURSES_API: {
+    method: 'get',
+    url: '/course/popular'
+  },
+
+  GET_COURSE_FOR_GUEST_API: {
+    method: 'get',
+    url: '/course'
+  },
+
+  GET_AUTHORED_COURSES_API: {
+    method: 'get',
+    url: '/course/authored'
+  },
+
+  GET_PURCHASED_COURSES_API: {
+    method: 'get',
+    url: '/course/purchased'
+  },
+
+  SEARCH_COURSES_API: {
+    method: 'get',
+    url: '/course/search'
+  },
 
   // Instructor Routes
   // Course

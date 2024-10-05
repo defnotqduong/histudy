@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10">
+  <div class="pt-10 pb-40">
     <div v-if="loading" class="min-h-[60vh] flex items-center justify-center text-primaryColor">
       <LoadingV1 />
     </div>
