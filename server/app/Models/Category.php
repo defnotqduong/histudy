@@ -10,7 +10,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'description',
+        'is_published'
     ];
 
     public function courses()
@@ -20,6 +22,6 @@ class Category extends Model
 
     public static function getAllCategories()
     {
-        return self::orderBy('name', 'asc')->get();
+        return self::where('is_published', true)->orderBy('name', 'asc')->get();
     }
 }

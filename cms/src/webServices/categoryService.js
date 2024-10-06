@@ -4,3 +4,7 @@ import connectServer from '@/configs/connectServer'
 export const getAllCategories = dataPost => {
   return connectServer[api.GET_ALL_CATEGORY_API.method](api.GET_ALL_CATEGORY_API.url, dataPost)
 }
+
+export const getInstructorCategories = dataPost => {
+  return connectServer[api.GET_INSTRUCTOR_CATEGORY_API.method](api.GET_INSTRUCTOR_CATEGORY_API.url, dataPost)
+}

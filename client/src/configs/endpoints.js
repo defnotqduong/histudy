@@ -131,11 +131,6 @@ export default {
     url: '/course'
   },
 
-  GET_AUTHORED_COURSES_API: {
-    method: 'get',
-    url: '/course/authored'
-  },
-
   GET_PURCHASED_COURSES_API: {
     method: 'get',
     url: '/course/purchased'

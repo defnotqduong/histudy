@@ -3,6 +3,7 @@
     <div>
       <h4 class="mb-6 pb-5 text-xl text-headingColor font-extrabold border-b-[1px] border-borderColor">My Quiz</h4>
     </div>
+    <div class="mt-4 ml-6 italic">No quizes yet</div>
   </div>
 </template>
 

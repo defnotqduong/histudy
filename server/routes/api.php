@@ -50,7 +50,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-// Category Routes
+//Publish Category Routes
 Route::group(['prefix' => 'category'], function () {
     Route::get('/', [CategoryController::class, 'getAllCategory']);
 });
@@ -60,7 +60,6 @@ Route::group(['prefix' => 'course'], function () {
     Route::get('/', [CourseController::class, 'getAllCourses']);
     Route::get('/search', [CourseController::class, 'searchCourses']);
     Route::get('/popular', [CourseController::class, 'getPopularCourses']);
-    Route::get('/authored', [CourseController::class, 'getAuthoredCourses']);
     Route::get('/purchased', [CourseController::class, 'getPurchasedCourses']);
     Route::get('/{slug}', [CourseController::class, 'getCourseForGuest']);
 });
@@ -94,8 +93,14 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
 
+    // Category Routes
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/', [CategoryController::class, 'getAllCategoryForInstructor']);
+    });
+
     // Course Routes
     Route::group(['prefix' => 'course'], function () {
+        Route::get('/authored', [CourseController::class, 'getAuthoredCourses']);
         Route::post('/', [CourseController::class, 'createCourse']);
         Route::get('/{slug}', [CourseController::class, 'getCourse']);
         Route::patch('/{slug}', [CourseController::class, 'updateCourse']);

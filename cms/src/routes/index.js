@@ -27,11 +27,11 @@ const routes = [
         }
       },
       {
-        path: 'users',
-        name: 'users',
-        component: () => import('@/pages/Dashboard/Users.vue'),
+        path: 'customers',
+        name: 'customers',
+        component: () => import('@/pages/Dashboard/Customers.vue'),
         meta: {
-          title: 'Users - Online Courses & Education'
+          title: 'Customers - Online Courses & Education'
         }
       },
       {

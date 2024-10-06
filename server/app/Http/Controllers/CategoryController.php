@@ -21,4 +21,15 @@ class CategoryController extends Controller
             'categories' => CategoryResource::collection(Category::getAllCategories())
         ]);
     }
+
+    public function getAllCategoryForInstructor()
+    {
+        $categories = Category::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get all Categories successfully',
+            'categories' => CategoryResource::collection($categories)
+        ]);
+    }
 }

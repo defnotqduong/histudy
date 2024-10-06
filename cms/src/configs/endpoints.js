@@ -42,11 +42,6 @@ export default {
     url: '/course'
   },
 
-  GET_AUTHORED_COURSES_API: {
-    method: 'get',
-    url: '/course/authored'
-  },
-
   GET_PURCHASED_COURSES_API: {
     method: 'get',
     url: '/course/purchased'
@@ -58,7 +53,18 @@ export default {
   },
 
   // Instructor Routes
+
+  // Category
+  GET_INSTRUCTOR_CATEGORY_API: {
+    method: 'get',
+    url: '/instructor/category'
+  },
+
   // Course
+  GET_AUTHORED_COURSES_API: {
+    method: 'get',
+    url: '/instructor/course/authored'
+  },
   CREATE_COURSE_API: {
     method: 'post',
     url: '/instructor/course'
