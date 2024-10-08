@@ -1,5 +1,5 @@
 <template>
-  <div>Manage Team</div>
+  <div>Create category</div>
 </template>
 
 <script>

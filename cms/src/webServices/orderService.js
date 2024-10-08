@@ -12,3 +12,7 @@ export const checkoutCourse = id => {
 export const getAllOrder = () => {
   return connectServer[api.GET_ALL_ORDER_API.method](api.GET_ALL_ORDER_API.url)
 }
+
+export const getAllInvoiceForInstructor = () => {
+  return connectServer[api.GET_ALL_INVOICE_FOR_INSTRUCTOR_API.method](api.GET_ALL_INVOICE_FOR_INSTRUCTOR_API.url)
+}

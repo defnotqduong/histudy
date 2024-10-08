@@ -76,9 +76,25 @@ const routes = [
       {
         path: 'categories',
         name: 'categories',
-        component: () => import('@/pages/Dashboard/Categories.vue'),
+        component: () => import('@/pages/Dashboard/Category/Categories.vue'),
         meta: {
           title: 'Categories - Online Courses & Education'
+        }
+      },
+      {
+        path: 'instructor/category/:id',
+        name: 'edit-category',
+        component: () => import('@/pages/Dashboard/Category/EditCategory.vue'),
+        meta: {
+          title: 'Category - Online Courses & Education'
+        }
+      },
+      {
+        path: 'instructor/create-category',
+        name: 'create-category',
+        component: () => import('@/pages/Dashboard/Category/CreateCategory.vue'),
+        meta: {
+          title: 'Category - Online Courses & Education'
         }
       },
       {
@@ -98,11 +114,27 @@ const routes = [
         }
       },
       {
-        path: 'manage-team',
-        name: 'manage-team',
-        component: () => import('@/pages/Dashboard/ManageTeam.vue'),
+        path: 'users',
+        name: 'users',
+        component: () => import('@/pages/Dashboard/Users.vue'),
         meta: {
-          title: 'Manage Team - Online Courses & Education'
+          title: 'Users - Online Courses & Education'
+        }
+      },
+      {
+        path: 'roles',
+        name: 'roles',
+        component: () => import('@/pages/Dashboard/Role/Roles.vue'),
+        meta: {
+          title: 'Roles - Online Courses & Education'
+        }
+      },
+      {
+        path: 'permissions',
+        name: 'permissions',
+        component: () => import('@/pages/Dashboard/Permission/Permissions.vue'),
+        meta: {
+          title: 'Permissions - Online Courses & Education'
         }
       },
       {

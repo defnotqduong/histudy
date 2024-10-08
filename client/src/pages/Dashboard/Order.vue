@@ -27,7 +27,7 @@
             <td>
               {{ formatTimeLong(order?.purchase_date) }}
             </td>
-            <td>Success</td>
+            <td><span class="px-3 py-1 rounded-full text-whiteColor text-xs text-center bg-successColor leading-none"> Success </span></td>
           </tr>
         </tbody>
       </table>

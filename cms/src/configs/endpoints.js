@@ -54,10 +54,84 @@ export default {
 
   // Instructor Routes
 
+  // Permission
+  GET_ALL_PERMISSION_API: {
+    method: 'get',
+    url: '/permission'
+  },
+
+  CREATE_PERMISSION_API: {
+    method: 'post',
+    url: '/permission'
+  },
+
+  UPDATE_PERMISSION_API: {
+    method: 'patch',
+    url: '/permission'
+  },
+
+  DELETE_PERMISSION_API: {
+    method: 'deleted',
+    url: '/permission'
+  },
+
+  // Role
+  GET_ALL_ROLE_API: {
+    method: 'get',
+    url: '/role'
+  },
+
+  CREATE_ROLE_API: {
+    method: 'post',
+    url: '/role'
+  },
+
+  UPDATE_ROLE_API: {
+    method: 'patch',
+    url: '/role'
+  },
+
+  DELETE_ROLE_API: {
+    method: 'deleted',
+    url: '/role'
+  },
+
   // Category
-  GET_INSTRUCTOR_CATEGORY_API: {
+  GET_ALL_CATEGORY_FOR_INSTRUCTOR_API: {
     method: 'get',
     url: '/instructor/category'
+  },
+
+  GET_CATEGORY_FOR_INSTRUCTOR_API: {
+    method: 'get',
+    url: '/instructor/category'
+  },
+
+  UPDATE_CATEGORY_API: {
+    method: 'patch',
+    url: '/instructor/category'
+  },
+
+  PUBLISH_CATEGORY_API: {
+    method: 'patch',
+    url: '/instructor/category/publish'
+  },
+
+  UNPUBLISH_CATEGORY_API: {
+    method: 'patch',
+    url: '/instructor/category/unpublish'
+  },
+
+  DELETE_CATEGORY_API: {
+    method: 'deleted',
+    url: '/instructor/category'
+  },
+
+  // Invoice
+
+  GET_ALL_INVOICE_FOR_INSTRUCTOR_API: {
+    method: 'get',
+    url: '/instructor/invoice'
   },
 
   // Course

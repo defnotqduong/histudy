@@ -11,14 +11,13 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CertController;
 use App\Http\Controllers\ChapterController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Permission\PermissionController;
+use App\Http\Controllers\Permission\RoleController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Chapter;
-use App\Models\Course;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,12 +89,40 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
     Route::post('/checkout/course/{id}', [OrderController::class, 'checkoutCourse']);
 });
 
+// Permission Routes
+Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [PermissionController::class, 'getAllPermission']);
+    Route::post('/', [PermissionController::class, 'createPermission']);
+    Route::patch('/{id}', [PermissionController::class, 'updatePermission']);
+    Route::delete('/{id}', [PermissionController::class, 'deletePermission']);
+});
+
+// Role Routes
+
+Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [RoleController::class, 'getAllRole']);
+    Route::post('/', [RoleController::class, 'createRole']);
+    Route::patch('/{id}', [RoleController::class, 'updateRole']);
+    Route::delete('/{id}', [RoleController::class, 'deleteRole']);
+});
+
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
 
     // Category Routes
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [CategoryController::class, 'getAllCategoryForInstructor']);
+        Route::get('/{id}', [CategoryController::class, 'getCategoryForInstructor']);
+        Route::patch('/{id}', [CategoryController::class, 'updateCategory']);
+        Route::patch('/{id}/publish', [CategoryController::class, 'publishCategory']);
+        Route::patch('/{id}/unpublish', [CategoryController::class, 'unpublishCategory']);
+        Route::delete('/{id}', [CategoryController::class, 'deleteCategory']);
+    });
+
+    // Invoice Routes
+
+    Route::group(['prefix' => 'invoice'], function () {
+        Route::get('/', [OrderController::class, 'getAllInvoiceForInstructor']);
     });
 
     // Course Routes

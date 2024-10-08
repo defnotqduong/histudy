@@ -29,6 +29,20 @@ class OrderController extends Controller
         );
     }
 
+    public function getAllInvoiceForInstructor()
+    {
+        $user = Auth::user();
+
+        $courses = $user->instructorCourses->pluck('id');
+
+        $purchases = Purchase::whereIn('course_id', $courses)->get();
+
+        return response()->json([
+            'success' => true,
+            'invoices' => PurchaseResource::collection($purchases),
+        ], 200);
+    }
+
     public function getCourseForCheckout(Request $request, $id)
     {
         $course = Course::where('id', $id)
