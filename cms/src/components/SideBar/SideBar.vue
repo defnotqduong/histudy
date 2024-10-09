@@ -27,9 +27,9 @@
           </router-link>
         </li>
       </ul>
-      <div class="sidebar-title">Data</div>
+      <div v-if="isInstructor" class="sidebar-title">Data</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item" :class="{ active: isActive('customers') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('customers') }">
           <router-link :to="{ name: 'customers' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 -64 640 640">
               <path
@@ -39,7 +39,7 @@
             Customers
           </router-link>
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('invoices') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('invoices') }">
           <router-link :to="{ name: 'invoices' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024">
               <path
@@ -55,9 +55,9 @@
           </router-link>
         </li>
       </ul>
-      <div class="sidebar-title">Content</div>
+      <div v-if="isInstructor" class="sidebar-title">Content</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item" :class="{ active: isActive('courses') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('courses') }">
           <router-link :to="{ name: 'courses' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 1920 1920">
               <path
@@ -68,7 +68,7 @@
             Courses
           </router-link>
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('create-course') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('create-course') }">
           <router-link :to="{ name: 'create-course' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -81,7 +81,7 @@
       </ul>
       <div class="sidebar-title">Customization</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item" :class="{ active: isActive('categories') }">
+        <li v-if="isAdmin" class="sidebar-item" :class="{ active: isActive('categories') }">
           <router-link :to="{ name: 'categories' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 32 32" version="1.1">
               <path
@@ -91,7 +91,7 @@
             Categories</router-link
           >
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('quiz') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('quiz') }">
           <router-link :to="{ name: 'quiz' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -101,7 +101,7 @@
             Quiz</router-link
           >
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('certs') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('certs') }">
           <router-link :to="{ name: 'certs' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -121,9 +121,9 @@
           >
         </li>
       </ul>
-      <div class="sidebar-title">Controllers</div>
+      <div v-if="isAdmin" class="sidebar-title">Controllers</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item" :class="{ active: isActive('users') }">
+        <li v-if="isAdmin" class="sidebar-item" :class="{ active: isActive('users') }">
           <router-link :to="{ name: 'users' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -134,7 +134,7 @@
             Users
           </router-link>
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('roles') }">
+        <li v-if="isAdmin" class="sidebar-item" :class="{ active: isActive('roles') }">
           <router-link :to="{ name: 'roles' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 52 52">
               <path
@@ -148,7 +148,7 @@
             Roles
           </router-link>
         </li>
-        <li class="sidebar-item" :class="{ active: isActive('permissions') }">
+        <li v-if="isAdmin" class="sidebar-item" :class="{ active: isActive('permissions') }">
           <router-link :to="{ name: 'permissions' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 1920 1920">
               <path
@@ -160,9 +160,9 @@
           </router-link>
         </li>
       </ul>
-      <div class="sidebar-title">Analytics</div>
+      <div v-if="isInstructor" class="sidebar-title">Analytics</div>
       <ul class="sidebar-list">
-        <li class="sidebar-item" :class="{ active: isActive('course-analytics') }">
+        <li v-if="isInstructor" class="sidebar-item" :class="{ active: isActive('course-analytics') }">
           <router-link :to="{ name: 'course-analytics' }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path
@@ -179,19 +179,33 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores'
 export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
 
+    const userStore = useUserStore()
+
     const isActive = name => {
       return route.name === name
     }
 
+    const isInstructor = computed(() => {
+      return userStore.user?.roles.includes('instructor')
+    })
+
+    const isAdmin = computed(() => {
+      return userStore.user?.roles.includes('admin')
+    })
+
     return {
-      isActive
+      userStore,
+      isActive,
+      isInstructor,
+      isAdmin
     }
   }
 })

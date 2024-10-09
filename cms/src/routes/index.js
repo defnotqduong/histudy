@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { gtka } from '@/helpers/localStorageHelper'
+import { useUserStore } from '@/stores'
 
 const routes = [
   {
@@ -213,16 +214,15 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach(async (to, from, next) => {
-  const user = true
   const token = gtka()
 
   if (to.meta.isAuthenticated) {
-    if (user && token) {
+    if (token) {
       next()
     } else {
       next('/auth/login')
     }
-  } else if (user && token && to.path === '/auth/login') {
+  } else if (token && to.path === '/auth/login') {
     next('/')
   } else {
     next()

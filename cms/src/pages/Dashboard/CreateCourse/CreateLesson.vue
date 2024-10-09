@@ -108,7 +108,7 @@
 <script>
 import { defineComponent, ref, watch, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getLesson } from '@/webServices/lessonService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -127,6 +127,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const slug = ref(route.params.slug)
     const chapterId = ref(Number(route.params.chapterId))
@@ -155,6 +156,14 @@ export default defineComponent({
       loading.value = false
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     watch(
       () => [route.params.slug, route.params.chapterId, route.params.lessonId],
       ([newSlug, newChapterId, newLessonId]) => {
@@ -167,7 +176,10 @@ export default defineComponent({
     )
 
     onMounted(async () => {
-      await Promise.all([fetchData(slug.value, chapterId.value, lessonId.value)])
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await Promise.all([fetchData(slug.value, chapterId.value, lessonId.value)])
+      }
     })
 
     return {

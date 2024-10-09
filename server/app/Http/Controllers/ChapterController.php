@@ -16,6 +16,19 @@ class ChapterController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:instructor'], [
+            'only' => [
+                'createChapter',
+                'getChapter',
+                'updateChapter',
+                'reorderChapter',
+                'uploadChapterVideo',
+                'publishChapter',
+                'unpublishChapter',
+                'deleteChapter'
+            ]
+        ]);
     }
 
     public function createChapter(ChapterRequest $request, $slug)

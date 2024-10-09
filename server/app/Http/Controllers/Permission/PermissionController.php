@@ -12,6 +12,16 @@ class PermissionController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:admin'], [
+            'only' => [
+                'getAllPermission',
+                'getPermission',
+                'createPermission',
+                'updatePermission',
+                'deletePermission'
+            ]
+        ]);
     }
 
     public function getAllPermission()

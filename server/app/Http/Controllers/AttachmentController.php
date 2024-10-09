@@ -16,6 +16,13 @@ class AttachmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:instructor'], [
+            'only' => [
+                'createLessonAttachment',
+                'deleteLessonAttachment'
+            ]
+        ]);
     }
 
     public function createLessonAttachment(AttachmentRequest $request, $slug, $chapterId, $lessonId)

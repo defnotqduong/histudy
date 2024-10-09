@@ -13,6 +13,10 @@ export const getCategoryForInstructor = id => {
   return connectServer[api.GET_CATEGORY_FOR_INSTRUCTOR_API.method](api.GET_CATEGORY_FOR_INSTRUCTOR_API.url + '/' + id)
 }
 
+export const createCategory = dataPost => {
+  return connectServer[api.CREATE_CATEGORY_API.method](api.CREATE_CATEGORY_API.url, dataPost)
+}
+
 export const updateCategory = (id, dataPost) => {
   return connectServer[api.UPDATE_CATEGORY_API.method](api.UPDATE_CATEGORY_API.url + '/' + id, dataPost)
 }

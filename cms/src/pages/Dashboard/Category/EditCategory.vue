@@ -53,7 +53,7 @@
 <script>
 import { defineComponent, ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getCategoryForInstructor } from '@/webServices/categoryService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -64,6 +64,7 @@ export default defineComponent({
   components: { LoadingV1, NotificationBanner, NameForm },
   setup() {
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const route = useRoute()
     const router = useRouter()
@@ -71,6 +72,14 @@ export default defineComponent({
     const id = ref(route.params.id)
     const category = ref(null)
     const loading = ref(false)
+
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
 
     const fetchData = async id => {
       loading.value = true
@@ -94,7 +103,10 @@ export default defineComponent({
     )
 
     onMounted(async () => {
-      await Promise.all([fetchData(id.value)])
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await Promise.all([fetchData(id.value)])
+      }
     })
 
     return {

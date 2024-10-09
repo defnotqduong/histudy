@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\ImageRequest;
-use App\Http\Resources\ChapterResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\UserResource;
-use App\Models\Attachment;
 use App\Models\Course;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -29,7 +27,21 @@ class CourseController extends Controller
                 'searchCourses'
             ]]
         );
+
+        $this->middleware(['role:instructor'], [
+            'only' => [
+                'createCourse',
+                'getCourse',
+                'updateCourse',
+                'updateCourseThumbnail',
+                'publishCourse',
+                'unpublishCourse',
+                'deleteCourse'
+            ]
+        ]);
     }
+
+
 
     public function createCourse(CourseRequest $request)
     {

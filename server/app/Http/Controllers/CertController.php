@@ -11,6 +11,10 @@ class CertController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:instructor'], [
+            'only' => ['']
+        ]);
     }
 
     public function getAllCert()

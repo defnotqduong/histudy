@@ -6,7 +6,7 @@
 
     <div v-if="!loading">
       <div class="mb-6 pb-5 flex items-end justify-between border-b-[1px] border-borderColor">
-        <h4 class="text-xl text-headingColor font-extrabold">Course List</h4>
+        <h4 class="text-xl text-headingColor font-extrabold">Category List</h4>
         <ButtonV7 :content="'Create'" :func="redirect" />
       </div>
       <div v-if="categories.length === 0" class="mt-4 ml-6 italic">No categories yet</div>
@@ -99,7 +99,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getAllCategoryForInstructor, publishCategory, unpublishCategory, deleteCategory } from '@/webServices/categoryService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -110,6 +110,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const categories = ref([])
     const loading = ref(false)
@@ -134,35 +135,29 @@ export default defineComponent({
         const res = await publishCategory(category.id)
 
         if (!res.success) {
-          homeStore.onChangeToast({ show: true, type: 'error', message: res.data.messaeg })
-          isSubmitting.value = false
-          return
+          homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
         }
 
         if (res.success) {
           homeStore.onChangeToast({ show: true, type: 'success', message: 'Category published Successfully !' })
-
           const res = await getAllCategoryForInstructor()
-
           if (res.success) categories.value = res.categories
         }
       } else {
         const res = await unpublishCategory(category.id)
 
         if (!res.success) {
-          homeStore.onChangeToast({ show: true, type: 'error', message: res.data.messaeg })
-          isSubmitting.value = false
-          return
+          homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
         }
 
         if (res.success) {
           homeStore.onChangeToast({ show: true, type: 'success', message: 'Category unpublished Successfully !' })
-
           const res = await getAllCategoryForInstructor()
-
           if (res.success) categories.value = res.categories
         }
       }
+
+      isSubmitting.value = false
     }
 
     const onDeleteCategory = async id => {
@@ -171,7 +166,7 @@ export default defineComponent({
       const res = await deleteCategory(id)
 
       if (!res.success) {
-        homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
+        homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
         isSubmitting.value = false
         return
       }
@@ -185,8 +180,19 @@ export default defineComponent({
       router.push({ name: 'create-category' })
     }
 
-    onMounted(() => {
-      fetchData()
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {

@@ -70,7 +70,7 @@
 <script>
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getRole, getAllPermission, updateRole } from '@/webServices/permissionService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -81,6 +81,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const permissions = ref([])
     const id = ref(route.params.id)
@@ -121,6 +122,14 @@ export default defineComponent({
       }
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     const fetchData = async () => {
       loading.value = true
 
@@ -150,10 +159,12 @@ export default defineComponent({
       }
     )
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
-
     return {
       homeStore,
       loading,

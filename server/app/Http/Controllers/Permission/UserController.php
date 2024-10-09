@@ -17,6 +17,16 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:admin'], [
+            'only' => [
+                'getAllUser',
+                'getUser',
+                'createUser',
+                'updateUser',
+                'deleteUser'
+            ]
+        ]);
     }
 
     public function getAllUser()

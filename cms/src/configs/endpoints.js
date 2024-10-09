@@ -144,6 +144,11 @@ export default {
     url: '/instructor/category'
   },
 
+  CREATE_CATEGORY_API: {
+    method: 'post',
+    url: '/instructor/category'
+  },
+
   UPDATE_CATEGORY_API: {
     method: 'patch',
     url: '/instructor/category'

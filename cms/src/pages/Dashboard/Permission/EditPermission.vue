@@ -48,7 +48,7 @@
 <script>
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { formatTimeLong } from '@/utils'
 import { updatePermission, getPermission } from '@/webServices/permissionService'
 
@@ -60,6 +60,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const id = ref(route.params.id)
     const name = ref(null)
@@ -84,6 +85,14 @@ export default defineComponent({
       }
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     const fetchData = async () => {
       loading.value = true
 
@@ -106,8 +115,11 @@ export default defineComponent({
       }
     )
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {

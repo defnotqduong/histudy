@@ -11,6 +11,18 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['getAllCategory']]);
+
+        $this->middleware(['role:admin'], [
+            'only' => [
+                'getAllCategoryForInstructor',
+                'getCategoryForInstructor',
+                'createCategory',
+                'updateCategory',
+                'publishCategory',
+                'unpublishCategory',
+                'deleteCategory'
+            ]
+        ]);
     }
 
     public function getAllCategory(Request $request)
@@ -51,6 +63,22 @@ class CategoryController extends Controller
         ], 200);
     }
 
+    public function createCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+        ]);
+
+        Category::create([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Category created successfully',
+        ], 200);
+    }
+
     public function updateCategory(Request $request, $id)
     {
         $request->validate([
@@ -66,8 +94,9 @@ class CategoryController extends Controller
             ], 404);
         }
 
-        $category->name = $request->name;
-        $category->save();
+        $category->update([
+            'name' => $request->name
+        ]);
 
         return response()->json([
             'success' => true,

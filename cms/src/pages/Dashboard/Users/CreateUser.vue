@@ -86,7 +86,7 @@
 <script>
 import { defineComponent, onMounted, ref, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getAllRole } from '@/webServices/permissionService'
 import { createUser } from '@/webServices/userService'
 
@@ -97,6 +97,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const roles = ref([])
     const chosseRoles = ref([])
@@ -145,6 +146,14 @@ export default defineComponent({
       }
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     const fetchData = async () => {
       loading.value = true
       const res = await getAllRole()
@@ -152,8 +161,11 @@ export default defineComponent({
       loading.value = false
     }
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {

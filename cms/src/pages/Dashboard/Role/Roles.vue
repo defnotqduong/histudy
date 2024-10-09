@@ -25,7 +25,7 @@
           <tbody>
             <tr v-for="(role, index) in roles" :key="index">
               <td>{{ index + 1 }}</td>
-              <td class="text-headingColor whitespace-nowrap">{{ role.name }}</td>
+              <td class="whitespace-nowrap">{{ role.name }}</td>
               <td>
                 <div class="flex flex-wrap items-center gap-2">
                   <span v-for="(permission, index) in role.permissions" :key="index" class="px-2 text-primaryColor rounded-full bg-primaryOpacityColor">{{
@@ -102,7 +102,7 @@
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { formatTimeLong } from '@/utils'
 import { getAllRole, deleteRole } from '@/webServices/permissionService'
 
@@ -114,6 +114,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const roles = ref([])
     const loading = ref(false)
@@ -138,6 +139,14 @@ export default defineComponent({
       router.push({ name: 'create-role' })
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     const fetchData = async () => {
       loading.value = true
 
@@ -148,8 +157,11 @@ export default defineComponent({
       loading.value = false
     }
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {
@@ -187,7 +199,7 @@ export default defineComponent({
 }
 
 .table tbody tr {
-  @apply text-base text-bodyColor font-semibold border-b border-borderColor;
+  @apply text-base text-headingColor font-semibold border-b border-borderColor;
 }
 
 .table td {

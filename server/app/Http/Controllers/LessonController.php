@@ -18,6 +18,20 @@ class LessonController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => []]);
+
+        $this->middleware(['role:instructor'], [
+            'only' => [
+                'createLesson',
+                'getLesson',
+                'updateLesson',
+                'reorderLesson',
+                'uploadLessonVideo',
+                'publishLesson',
+                'unpublishLesson',
+                'deleteLesson'
+
+            ]
+        ]);
     }
 
     public function createLesson(LessonRequest $request, $slug, $chapterId)

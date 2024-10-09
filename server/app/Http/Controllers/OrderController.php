@@ -14,6 +14,12 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['getCourseForCheckout']]);
+
+        $this->middleware(['role:instructor'], [
+            'only' => [
+                'getAllInvoiceForInstructor',
+            ]
+        ]);
     }
 
     public function getAllOrder()

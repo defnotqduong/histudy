@@ -48,7 +48,8 @@
 </template>
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import { useHomeStore } from '@/stores'
+import { useRouter } from 'vue-router'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getAllInvoiceForInstructor } from '@/webServices/orderService'
 import { formatPrice, formatTimeLong } from '@/utils'
 
@@ -57,10 +58,20 @@ import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 export default defineComponent({
   components: { LoadingV1 },
   setup() {
+    const router = useRouter()
+    const userStore = useUserStore()
     const homeStore = useHomeStore()
 
     const invoices = ref([])
     const loading = ref(false)
+
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
 
     const fetchData = async () => {
       loading.value = true
@@ -74,8 +85,11 @@ export default defineComponent({
       loading.value = false
     }
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {

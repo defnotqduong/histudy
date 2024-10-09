@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { formatTimeLong } from '@/utils'
 import { createPermission } from '@/webServices/permissionService'
 
@@ -51,6 +51,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const name = ref(null)
     const errors = ref(null)
@@ -72,6 +73,18 @@ export default defineComponent({
         router.push({ name: 'permissions' })
       }
     }
+
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+    })
 
     return {
       homeStore,
@@ -105,26 +118,5 @@ export default defineComponent({
 
 .input-group input:focus {
   @apply border-primaryColor;
-}
-
-.table thead {
-  background-size: 300% 100%;
-  @apply bg-primaryOpacityColor;
-}
-.table th {
-  @apply text-base text-headingColor font-bold;
-}
-
-.table thead tr {
-  border-bottom: none;
-}
-
-.table tbody tr {
-  @apply text-base text-bodyColor font-semibold border-b border-borderColor;
-}
-
-.table td {
-  padding-top: 24px;
-  padding-bottom: 24px;
 }
 </style>

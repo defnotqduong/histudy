@@ -124,6 +124,7 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [CategoryController::class, 'getAllCategoryForInstructor']);
         Route::get('/{id}', [CategoryController::class, 'getCategoryForInstructor']);
+        Route::post('/', [CategoryController::class, 'createCategory']);
         Route::patch('/{id}', [CategoryController::class, 'updateCategory']);
         Route::patch('/{id}/publish', [CategoryController::class, 'publishCategory']);
         Route::patch('/{id}/unpublish', [CategoryController::class, 'unpublishCategory']);

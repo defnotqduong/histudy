@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs } from 'vue'
+import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { createCourse } from '@/webServices/courseService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -43,6 +43,7 @@ export default defineComponent({
   components: { LoadingV1 },
   setup() {
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
     const router = useRouter()
 
     const loading = ref(false)
@@ -84,6 +85,18 @@ export default defineComponent({
         router.push({ name: 'create-course-details', params: { slug: res.course.slug } })
       }
     }
+
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+    })
 
     return {
       homeStore,

@@ -105,7 +105,7 @@
 <script>
 import { defineComponent, ref, reactive, watch, onMounted, computed, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getCourse } from '@/webServices/courseService'
 import { getAllCategories } from '@/webServices/categoryService'
 
@@ -135,6 +135,7 @@ export default defineComponent({
   },
   setup() {
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
     const route = useRoute()
     const router = useRouter()
 
@@ -163,6 +164,14 @@ export default defineComponent({
       if (res.success) categories.value = [...res.categories]
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     watch(
       () => route.params.slug,
       newSlug => {
@@ -172,7 +181,10 @@ export default defineComponent({
     )
 
     onMounted(async () => {
-      await Promise.all([fetchData(slug.value), getCategories()])
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await Promise.all([fetchData(slug.value), getCategories()])
+      }
     })
 
     const requiredFields = computed(() => [

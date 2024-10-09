@@ -86,7 +86,7 @@
 <script>
 import { defineComponent, ref, watch, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getChapter } from '@/webServices/chapterService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
@@ -102,6 +102,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const slug = ref(route.params.slug)
     const id = ref(Number(route.params.chapterId))
@@ -123,6 +124,14 @@ export default defineComponent({
       loading.value = false
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     watch(
       () => [route.params.slug, route.params.chapterId],
       ([newSlug, newId]) => {
@@ -134,7 +143,10 @@ export default defineComponent({
     )
 
     onMounted(async () => {
-      await Promise.all([fetchData(slug.value, id.value)])
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await Promise.all([fetchData(slug.value, id.value)])
+      }
     })
 
     const requiredFields = computed(() => [chapter.value?.title, lessons.value.some(lesson => lesson?.is_published)])

@@ -102,7 +102,7 @@
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { formatTimeLong } from '@/utils'
 import { getAllUser, deleteUser } from '@/webServices/userService'
 
@@ -114,6 +114,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const users = ref([])
     const loading = ref(false)
@@ -138,6 +139,14 @@ export default defineComponent({
       router.push({ name: 'create-user' })
     }
 
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('admin')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
+
     const fetchData = async () => {
       loading.value = true
 
@@ -150,8 +159,11 @@ export default defineComponent({
       loading.value = false
     }
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {
@@ -189,7 +201,7 @@ export default defineComponent({
 }
 
 .table tbody tr {
-  @apply text-base text-bodyColor font-semibold border-b border-borderColor;
+  @apply text-base text-headingColor font-semibold border-b border-borderColor;
 }
 
 .table td {

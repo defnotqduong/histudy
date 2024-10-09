@@ -112,7 +112,7 @@
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHomeStore } from '@/stores'
+import { useHomeStore, useUserStore } from '@/stores'
 import { getAuthoredCourses, deleteCourse } from '@/webServices/courseService'
 import { formatPrice, formatTimeLong } from '@/utils'
 
@@ -124,10 +124,19 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const homeStore = useHomeStore()
+    const userStore = useUserStore()
 
     const courses = ref([])
     const loading = ref(false)
     const isSubmitting = ref(false)
+
+    const checkUserRole = async () => {
+      if (!userStore.user?.roles.includes('instructor')) {
+        router.push({ name: 'dashboard' })
+        return false
+      }
+      return true
+    }
 
     const fetchData = async () => {
       loading.value = true
@@ -163,8 +172,11 @@ export default defineComponent({
       router.push({ name: 'create-course' })
     }
 
-    onMounted(() => {
-      fetchData()
+    onMounted(async () => {
+      const hasRole = await checkUserRole()
+      if (hasRole) {
+        await fetchData()
+      }
     })
 
     return {

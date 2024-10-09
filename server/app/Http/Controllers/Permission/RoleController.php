@@ -12,6 +12,16 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['']]);
+
+        $this->middleware(['role:admin'], [
+            'only' => [
+                'getAllRole',
+                'getRole',
+                'createRole',
+                'updateRole',
+                'deleteRole'
+            ]
+        ]);
     }
 
     public function getAllRole()
