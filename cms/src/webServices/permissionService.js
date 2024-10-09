@@ -5,6 +5,10 @@ export const getAllPermission = () => {
   return connectServer[api.GET_ALL_PERMISSION_API.method](api.GET_ALL_PERMISSION_API.url)
 }
 
+export const getPermission = id => {
+  return connectServer[api.GET_PERMISSION_API.method](api.GET_PERMISSION_API.url + '/' + id)
+}
+
 export const createPermission = dataPost => {
   return connectServer[api.CREATE_PERMISSION_API.method](api.CREATE_PERMISSION_API.url, dataPost)
 }
@@ -19,6 +23,10 @@ export const deletePermission = id => {
 
 export const getAllRole = () => {
   return connectServer[api.GET_ALL_ROLE_API.method](api.GET_ALL_ROLE_API.url)
+}
+
+export const getRole = id => {
+  return connectServer[api.GET_ROLE_API.method](api.GET_ROLE_API.url + '/' + id)
 }
 
 export const createRole = dataPost => {

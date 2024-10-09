@@ -116,9 +116,25 @@ const routes = [
       {
         path: 'users',
         name: 'users',
-        component: () => import('@/pages/Dashboard/Users.vue'),
+        component: () => import('@/pages/Dashboard/Users/Users.vue'),
         meta: {
           title: 'Users - Online Courses & Education'
+        }
+      },
+      {
+        path: 'user/create',
+        name: 'create-user',
+        component: () => import('@/pages/Dashboard/Users/CreateUser.vue'),
+        meta: {
+          title: 'Create User - Online Courses & Education'
+        }
+      },
+      {
+        path: 'user/:id/edit',
+        name: 'edit-user',
+        component: () => import('@/pages/Dashboard/Users/EditUser.vue'),
+        meta: {
+          title: 'Edit User - Online Courses & Education'
         }
       },
       {
@@ -130,11 +146,43 @@ const routes = [
         }
       },
       {
+        path: 'role/create',
+        name: 'create-role',
+        component: () => import('@/pages/Dashboard/Role/CreateRole.vue'),
+        meta: {
+          title: 'Create Role - Online Courses & Education'
+        }
+      },
+      {
+        path: 'role/:id/edit',
+        name: 'edit-role',
+        component: () => import('@/pages/Dashboard/Role/EditRole.vue'),
+        meta: {
+          title: 'Edit Role - Online Courses & Education'
+        }
+      },
+      {
         path: 'permissions',
         name: 'permissions',
         component: () => import('@/pages/Dashboard/Permission/Permissions.vue'),
         meta: {
           title: 'Permissions - Online Courses & Education'
+        }
+      },
+      {
+        path: 'permission/create',
+        name: 'create-permission',
+        component: () => import('@/pages/Dashboard/Permission/CreatePermission.vue'),
+        meta: {
+          title: 'Create Permission - Online Courses & Education'
+        }
+      },
+      {
+        path: 'permission/:id/edit',
+        name: 'edit-permission',
+        component: () => import('@/pages/Dashboard/Permission/EditPermission.vue'),
+        meta: {
+          title: 'Edit Permission - Online Courses & Education'
         }
       },
       {

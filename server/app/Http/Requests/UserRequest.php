@@ -36,14 +36,15 @@ class UserRequest extends FormRequest
             'instagram' => 'nullable|string|url|max:255',
             'twitter' => 'nullable|string|url|max:255',
             'linkedin' => 'nullable|string|url|max:255',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'sometimes|required|string|min:5',
+            'roles' => 'sometimes|array|exists:roles,name'
         ];
 
         if ($this->isMethod('patch')) {
             $rules['name'] = 'sometimes|required|string|max:255';
             $rules['username'] = 'sometimes|required|string|max:255|unique:users,username,' . $userId;
             $rules['email'] = 'sometimes|required|string|email|max:255|unique:users,email,' . $userId;
-            $rules['password'] = 'sometimes|required|string|min:5|confirmed';
+            $rules['password'] = 'sometimes|required|string|min:5';
         }
 
         return $rules;
@@ -57,19 +58,20 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'The name field is required.',
-            'username.required' => 'The username field is required.',
-            'username.unique' => 'The username has already been taken.',
-            'email.required' => 'The email field is required.',
-            'email.email' => 'The email must be a valid email address.',
-            'email.unique' => 'The email has already been taken.',
-            'password.required' => 'The password field is required.',
-            'password.min' => 'The password must be at least 5 characters.',
-            'password.confirmed' => 'The password confirmation does not match.',
-            'facebook.url' => 'The Facebook URL is not valid.',
-            'instagram.url' => 'The Instagram URL is not valid.',
-            'twitter.url' => 'The Twitter URL is not valid.',
-            'linkedin.url' => 'The LinkedIn URL is not valid.',
+            'name.required' => 'Name is required.',
+            'name.string' => 'Name must be a string.',
+            'username.required' => 'Name is required.',
+            'username.string' => 'Name must be a string.',
+            'username.unique' => 'This username already exists.',
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email format is invalid.',
+            'email.max' => 'Email may not be greater than 100 characters.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'Password is required.',
+            'password.string' => 'Password must be a string.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least 5 characters.',
+            'password.max' => 'Password may not be greater than 100 characters.',
         ];
     }
 }

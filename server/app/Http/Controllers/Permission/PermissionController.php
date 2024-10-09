@@ -18,11 +18,28 @@ class PermissionController extends Controller
     {
 
 
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('created_at', 'asc')->get();
 
         return response()->json([
             'success' => true,
             'permissions' => PermissionResource::collection($permissions)
+        ], 200);
+    }
+
+    public function getPermission($id)
+    {
+        $permission = Permission::find($id);
+
+        if (!$permission) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Permission not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'permission' => new PermissionResource($permission)
         ], 200);
     }
 

@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'twitter' => $this->twitter,
             'linkedin' => $this->linkedin,
             'provider' => $this->provider,
+            'roles' => $this->getRoleNames(),
             'is_verified' => $this->is_verified,
             'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at->toDateTimeString(),

@@ -54,8 +54,40 @@ export default {
 
   // Instructor Routes
 
+  // User
+
+  GET_ALL_USER_API: {
+    method: 'get',
+    url: '/users'
+  },
+
+  GET_USER_API: {
+    method: 'get',
+    url: '/users'
+  },
+
+  CREATE_USER_API: {
+    method: 'post',
+    url: '/users'
+  },
+
+  UPDATE_USER_API: {
+    method: 'patch',
+    url: '/users'
+  },
+
+  DELETE_USER_API: {
+    method: 'deleted',
+    url: '/users'
+  },
+
   // Permission
   GET_ALL_PERMISSION_API: {
+    method: 'get',
+    url: '/permission'
+  },
+
+  GET_PERMISSION_API: {
     method: 'get',
     url: '/permission'
   },
@@ -77,6 +109,11 @@ export default {
 
   // Role
   GET_ALL_ROLE_API: {
+    method: 'get',
+    url: '/role'
+  },
+
+  GET_ROLE_API: {
     method: 'get',
     url: '/role'
   },

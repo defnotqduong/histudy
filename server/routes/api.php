@@ -17,6 +17,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
+use App\Http\Controllers\Permission\UserController;
 use App\Http\Controllers\WishlistController;
 
 /*
@@ -92,18 +93,28 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
 // Permission Routes
 Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function () {
     Route::get('/', [PermissionController::class, 'getAllPermission']);
+    Route::get('{id}', [PermissionController::class, 'getPermission']);
     Route::post('/', [PermissionController::class, 'createPermission']);
     Route::patch('/{id}', [PermissionController::class, 'updatePermission']);
     Route::delete('/{id}', [PermissionController::class, 'deletePermission']);
 });
 
 // Role Routes
-
 Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function () {
     Route::get('/', [RoleController::class, 'getAllRole']);
+    Route::get('/{id}', [RoleController::class, 'getRole']);
     Route::post('/', [RoleController::class, 'createRole']);
     Route::patch('/{id}', [RoleController::class, 'updateRole']);
     Route::delete('/{id}', [RoleController::class, 'deleteRole']);
+});
+
+// User Routes 
+Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [UserController::class, 'getAllUser']);
+    Route::post('/', [UserController::class, 'createUser']);
+    Route::get('/{id}', [UserController::class, 'getUser']);
+    Route::patch('/{id}', [UserController::class, 'updateUser']);
+    Route::delete('/{id}', [UserController::class, 'deleteUser']);
 });
 
 // Instructor Routes

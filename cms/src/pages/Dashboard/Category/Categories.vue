@@ -7,7 +7,7 @@
     <div v-if="!loading">
       <div class="mb-6 pb-5 flex items-end justify-between border-b-[1px] border-borderColor">
         <h4 class="text-xl text-headingColor font-extrabold">Course List</h4>
-        <ButtonV7 :content="'Create Category'" :func="redirect" />
+        <ButtonV7 :content="'Create'" :func="redirect" />
       </div>
       <div v-if="categories.length === 0" class="mt-4 ml-6 italic">No categories yet</div>
       <div v-else class="overflow-x-auto">

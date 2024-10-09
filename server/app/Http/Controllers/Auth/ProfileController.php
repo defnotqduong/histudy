@@ -21,19 +21,15 @@ class ProfileController extends Controller
 
     public function profile()
     {
-        try {
-            $user = Auth::user();
+        $user = Auth::user();
 
-            return response()->json(
-                [
-                    'success' => true,
-                    'user' => new UserResource($user),
-                ],
-                200
-            );
-        } catch (JWTException $e) {
-            return response()->json(['success' => false, 'error' => 'Unauthorized'], 401);
-        }
+        return response()->json(
+            [
+                'success' => true,
+                'user' => new UserResource($user),
+            ],
+            200
+        );
     }
 
     public function updateProfile(UserRequest $request)
