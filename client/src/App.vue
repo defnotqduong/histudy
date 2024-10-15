@@ -18,6 +18,7 @@ import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
 import { getAllCert } from '@/webServices/certService'
 import { getAllOrder } from '@/webServices/orderService'
+import { getListNotiByUser } from '@/webServices/notificationService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
@@ -42,15 +43,16 @@ export default defineComponent({
       const accToken = gtka()
 
       const userPromise = accToken
-        ? Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
-            ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
+        ? Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder(), getListNotiByUser()]).then(
+            ([profile, purchasedCourses, cart, wishlist, certs, orders, notis]) => ({
               success: true,
               user: profile.user,
               purchased_courses: purchasedCourses.courses,
               cart: cart.cart,
               wishlist: wishlist.wishlist,
               certs: certs.certs,
-              orders: orders.orders
+              orders: orders.orders,
+              notifications: notis.notifications
             })
           )
         : Promise.resolve(null)

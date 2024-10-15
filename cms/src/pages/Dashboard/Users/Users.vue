@@ -15,17 +15,20 @@
           <thead>
             <tr>
               <th>ID</th>
+              <th>Avatar</th>
               <th>Name</th>
               <th>Username</th>
               <th>Email</th>
               <th>Roles</th>
-              <th>Created</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(user, index) in users" :key="index">
               <td>{{ user.id }}</td>
+              <td>
+                <img :src="user.avatar" class="w-14 h-14 object-cover object-center rounded-full" alt="avatar" />
+              </td>
               <td>{{ user.name }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
@@ -34,7 +37,6 @@
                   <span v-for="(role, index) in user.roles" :key="index" class="px-2 text-primaryColor rounded-full bg-primaryOpacityColor">{{ role }}</span>
                 </div>
               </td>
-              <td>{{ formatTimeLong(user.created_at) }}</td>
               <td>
                 <div class="flex items-center justify-center gap-2">
                   <router-link :to="{ name: 'edit-user', params: { id: user.id } }" class="px-3 py-2 text-primaryColor bg-primaryOpacityColor rounded-md">

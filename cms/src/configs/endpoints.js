@@ -52,6 +52,13 @@ export default {
     url: '/course/search'
   },
 
+  // Notification Routes
+
+  GET_LIST_NOTI_BY_USER: {
+    method: 'get',
+    url: '/notifications'
+  },
+
   // Instructor Routes
 
   // User

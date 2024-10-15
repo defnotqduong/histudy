@@ -12,6 +12,7 @@ import { defineComponent, ref } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
 import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
+import { getListNotiByUser } from '@/webServices/notificationService'
 
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
@@ -36,9 +37,10 @@ export default defineComponent({
       const accToken = gtka()
 
       const userPromise = accToken
-        ? Promise.all([getUserProfile()]).then(([profile]) => ({
+        ? Promise.all([getUserProfile(), getListNotiByUser()]).then(([profile, notis]) => ({
             success: true,
-            user: profile.user
+            user: profile.user,
+            notifications: notis.notifications
           }))
         : Promise.resolve(null)
 

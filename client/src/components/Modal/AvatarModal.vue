@@ -100,8 +100,8 @@ export default defineComponent({
       } else {
         cropper = new Cropper(image.value, {
           aspectRatio: 1,
-          minCropBoxWidth: 256,
-          minCropBoxHeight: 256,
+          minCropBoxWidth: 396,
+          minCropBoxHeight: 396,
           viewMode: 2,
           dragMode: 'move',
           cropBoxMovable: false,

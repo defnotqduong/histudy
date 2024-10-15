@@ -64,6 +64,7 @@ import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
 import { loginAuthorizedUser, getUserProfile } from '@/webServices/authorizationService'
+import { getListNotiByUser } from '@/webServices/notificationService'
 
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
@@ -126,9 +127,10 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([getUserProfile()]).then(([profile]) => ({
+        const userPromise = Promise.all([getUserProfile(), getListNotiByUser()]).then(([profile, notis]) => ({
           success: true,
-          user: profile.user
+          user: profile.user,
+          notifications: notis.notifications
         }))
 
         const [userData] = await Promise.all([userPromise])
@@ -198,7 +200,7 @@ export default defineComponent({
 .input-group input {
   width: 100%;
   border-radius: 0.375rem;
-  border: 1.5px solid;
+  border: 1px solid;
   outline: 0;
   padding: 0.5rem 1rem 0.5rem 2rem;
   @apply border-borderColor text-headingColor;

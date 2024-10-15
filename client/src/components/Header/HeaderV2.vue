@@ -1,6 +1,6 @@
 <template>
   <header :class="{ 'header-sticky': isHeaderFixed }">
-    <div class="py-3">
+    <div class="py-4">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between">
           <div class="ml-[-10px]">

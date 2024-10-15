@@ -14,6 +14,7 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
@@ -90,6 +91,12 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
     Route::post('/checkout/course/{id}', [OrderController::class, 'checkoutCourse']);
 });
 
+// Notification Routes
+
+Route::group(['prefix' => 'notifications', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [NotificationController::class, 'getListNotiByUser']);
+});
+
 // Permission Routes
 Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function () {
     Route::get('/', [PermissionController::class, 'getAllPermission']);
@@ -108,7 +115,7 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function () {
     Route::delete('/{id}', [RoleController::class, 'deleteRole']);
 });
 
-// User Routes 
+// Manage User Routes 
 Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
     Route::get('/', [UserController::class, 'getAllUser']);
     Route::post('/', [UserController::class, 'createUser']);

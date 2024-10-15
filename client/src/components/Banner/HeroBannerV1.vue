@@ -106,7 +106,7 @@ import 'swiper/css/navigation'
 
 import GradientButtonV3 from '@/components/Button/GradientButtonV3.vue'
 import SocialListV1 from '@/components/SocialList/SocialListV1.vue'
-SocialListV1
+
 export default defineComponent({
   components: {
     Swiper,

@@ -99,6 +99,13 @@ export default {
     url: '/cert'
   },
 
+  // Notification Routes
+
+  GET_LIST_NOTI_BY_USER: {
+    method: 'get',
+    url: '/notifications'
+  },
+
   // Order
   GET_ALL_ORDER_API: {
     method: 'get',

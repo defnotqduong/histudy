@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\PurchaseResource;
+use App\Jobs\RabbitMQJob;
+use App\Jobs\SendRabbitMQNotification;
 use App\Models\Course;
 use App\Models\Purchase;
+use App\Services\RabbitMQService;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -96,6 +99,10 @@ class OrderController extends Controller
             'user_id' => $user->id,
             'course_id' => $id
         ]);
+
+        $message = $user->name . ' has just purchased the course ' . $course->title;
+
+        SendRabbitMQNotification::dispatch($message);
 
         return response()->json([
             'success' => true,
