@@ -2,7 +2,7 @@
   <div class="h-12 px-4 text-whiteColor bg-primaryColor">
     <div class="w-full h-full flex items-center justify-between">
       <div>
-        <h3 class="text-lg font-bold">{{ course?.title }}</h3>
+        <router-link :to="{ name: 'course-details', params: { slug: course?.slug } }" class="text-lg font-bold">{{ course?.title }}</router-link>
       </div>
       <div>
         <button

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('receiver_id')->references('id')->on('users');
 
             $table->string('content');
+            $table->string('link')->nullable();
 
             $table->timestamps();
         });

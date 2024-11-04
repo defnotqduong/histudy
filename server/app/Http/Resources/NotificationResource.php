@@ -20,12 +20,15 @@ class NotificationResource extends JsonResource
             'sender' => [
                 'id' => $this->sender_id,
                 'name' => $this->sender->name,
+                'avatar' => $this->sender->avatar,
             ],
-            'receiver_id' => [
+            'receiver' => [
                 'id' => $this->receiver_id,
                 'name' => $this->receiver->name,
+                'avatar' => $this->sender->avatar,
             ],
             'content' => $this->content,
+            'link' => $this->link,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

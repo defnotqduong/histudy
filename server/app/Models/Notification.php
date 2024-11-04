@@ -19,6 +19,7 @@ class Notification extends Model
         'sender_id',
         'receiver_id',
         'content',
+        'link'
     ];
 
     /**

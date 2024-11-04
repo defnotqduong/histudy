@@ -8,13 +8,16 @@ use App\Http\Resources\CourseResource;
 use App\Http\Resources\LessonDiscussionResource;
 use App\Http\Resources\LessonNoteResource;
 use App\Http\Resources\LessonResource;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ReviewResource;
+use App\Jobs\SendRabbitMQNotification;
 use App\Models\Attachment;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LessonDiscussion;
 use App\Models\LessonNote;
+use App\Models\Notification;
 use App\Models\Review;
 use App\Models\UserProgress;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -219,7 +222,8 @@ class LearningController extends Controller
             'parent_id' => 'nullable|exists:lesson_discussions,id',
         ]);
 
-        $userId = Auth::id();
+        $user = Auth::user();
+        $userId = $user->id;
 
         $lesson = Lesson::where('id', $lessonId)
             ->where('is_published', true)
@@ -241,7 +245,7 @@ class LearningController extends Controller
             ], 403);
         }
 
-        LessonDiscussion::createDiscussion([
+        $discussion = LessonDiscussion::createDiscussion([
             'content' => $request->content,
             'parent_id' => $request->parent_id ? $request->parent_id : null,
             'user_id' => $userId,
@@ -253,6 +257,27 @@ class LearningController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
+        if ($request->parent_id) {
+            $parentComment = LessonDiscussion::find($request->parent_id);
+
+            if ($parentComment) {
+                $receiverId = $parentComment->user_id;
+
+                $notificationData = [
+                    'sender_id' => $userId,
+                    'receiver_id' => $receiverId,
+                    'content' => $user->name . ' has replied to your comment in the course "' . $lesson->chapter->course->title . '".',
+                    'noti_type' => 'lesson_comment_reply',
+                ];
+
+                $notification = Notification::create($notificationData);
+
+                $notificationResourceArray = (new NotificationResource($notification))->toArray(request());
+
+                (new SendRabbitMQNotification($notificationResourceArray))->handle();
+            }
+        }
+
 
         return response()->json([
             'success' => true,
@@ -260,6 +285,7 @@ class LearningController extends Controller
             'discussions' => LessonDiscussionResource::collection($discussions)
         ], 201);
     }
+
 
     public function createNoteLesson(Request $request, $lessonId)
     {
@@ -366,7 +392,7 @@ class LearningController extends Controller
             'rating' => 'required|integer|min:1|max:5'
         ]);
 
-        $userId = Auth::id();
+        $user = Auth::user();
 
         $course = Course::where('id', $courseId)
             ->where('is_published', true)
@@ -380,7 +406,7 @@ class LearningController extends Controller
             ], 404);
         }
 
-        $isEnrolled = $course->customers()->where('user_id', $userId)->exists();
+        $isEnrolled = $course->customers()->where('user_id', $user->id)->exists();
 
         if (!$isEnrolled) {
             return response()->json([
@@ -390,7 +416,7 @@ class LearningController extends Controller
         }
 
         $existingReview = Review::where('course_id', $courseId)
-            ->where('user_id', $userId)
+            ->where('user_id',  $user->id)
             ->first();
 
         if ($existingReview) {
@@ -402,10 +428,24 @@ class LearningController extends Controller
 
         $review = Review::createReview([
             'course_id' => $courseId,
-            'user_id' => $userId,
+            'user_id' =>  $user->id,
             'content' => $request->content,
             'rating' => $request->rating
         ]);
+
+        $notificationData = [
+            'sender_id' => $user->id,
+            'receiver_id' => $course->instructor_id,
+            'content' => $user->name . ' has submitted a ' . $request->rating . '-star review for the course "' . $course->title . '".',
+            'noti_type' => 'review',
+        ];
+
+
+        $notification = Notification::create($notificationData);
+
+        $notificationResourceArray = (new NotificationResource($notification))->toArray(request());
+
+        (new SendRabbitMQNotification($notificationResourceArray))->handle();
 
         return response()->json([
             'success' => true,

@@ -14,6 +14,8 @@ import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
 import { getListNotiByUser } from '@/webServices/notificationService'
 
+import { connectSocket } from '@/configs/socketConfig.js'
+
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
 import VideoModal from '@/components/VideoComponents/VideoModal.vue'
@@ -50,7 +52,20 @@ export default defineComponent({
 
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
+        this.userStore.setNotification(userData?.notifications)
+
+        const socket = connectSocket(userData.user.id)
+
+        socket.on('connect', () => {
+          console.log('Socket connected:', socket.id)
+        })
+
+        socket.on('message', data => {
+          console.log('Received message:', data)
+          this.userStore.setNotification([data])
+        })
       }
+
       this.loading = false
     }
   },

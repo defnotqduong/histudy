@@ -9,7 +9,8 @@ export const useUserStore = defineStore(USER_STORE, {
     wishlist: [],
     enrolledCourses: [],
     certs: [],
-    orders: []
+    orders: [],
+    notifications: []
   }),
   actions: {
     login(accToken, refToken) {
@@ -25,6 +26,7 @@ export const useUserStore = defineStore(USER_STORE, {
       this.enrolledCourses = []
       this.certs = []
       this.orders = []
+      this.notifications = []
     },
     setUser(user) {
       this.user = user
@@ -43,6 +45,9 @@ export const useUserStore = defineStore(USER_STORE, {
     },
     setOrders(orders) {
       this.orders = [...orders]
+    },
+    setNotification(notis) {
+      this.notifications = [...notis, ...this.notifications]
     }
   }
 })

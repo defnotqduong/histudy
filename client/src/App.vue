@@ -20,6 +20,8 @@ import { getAllCert } from '@/webServices/certService'
 import { getAllOrder } from '@/webServices/orderService'
 import { getListNotiByUser } from '@/webServices/notificationService'
 
+import { connectSocket } from '@/configs/socketConfig.js'
+
 import GlobalLoadingV1 from '@/components/Loading/GlobalLoadingV1.vue'
 import Toast from '@/components/Toast/Toast.vue'
 import VideoModal from '@/components/VideoComponents/VideoModal.vue'
@@ -72,6 +74,18 @@ export default defineComponent({
         this.userStore.setWishlist(userData?.wishlist?.courses)
         this.userStore.setCerts(userData?.certs)
         this.userStore.setOrders(userData?.orders)
+        this.userStore.setNotification(userData?.notifications)
+
+        const socket = connectSocket(userData.user.id)
+
+        socket.on('connect', () => {
+          console.log('Socket connected:', socket.id)
+        })
+
+        socket.on('message', data => {
+          console.log('Received message:', data)
+          this.userStore.setNotification([data])
+        })
       }
 
       if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses.courses)

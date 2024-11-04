@@ -1,6 +1,6 @@
 <template>
   <header :class="{ 'header-sticky': isHeaderFixed }">
-    <div class="py-4">
+    <div class="py-3">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between">
           <div class="ml-[-10px]">
@@ -141,9 +141,9 @@
                     <span
                       class="absolute -top-3 -right-4 w-5 h-5 rounded-full bg-dangerColor text-sm text-whiteColor font-semibold flex items-center justify-center"
                     >
-                      1
+                      {{ userStore.notifications.length }}
                     </span>
-                    <NotiContainer />
+                    <NotiContainer v-if="userStore.notifications.length > 0" />
                   </li>
                 </ul>
               </div>
@@ -391,6 +391,11 @@ header.header-sticky {
   opacity: 0;
   transform: translateZ(0);
   transition: clip 0.45s linear, opacity 0.25s linear;
+}
+
+.noti-container {
+  min-width: 400px;
+  max-height: 500px;
 }
 
 .search-container {

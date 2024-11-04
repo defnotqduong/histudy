@@ -4,7 +4,8 @@ import { removeUserStore, removeRefreshUserStore, localEnUserStore, localEnRefre
 
 export const useUserStore = defineStore(USER_STORE, {
   state: () => ({
-    user: null
+    user: null,
+    notifications: []
   }),
   actions: {
     login(accToken, refToken) {
@@ -16,9 +17,13 @@ export const useUserStore = defineStore(USER_STORE, {
       removeUserStore()
       removeRefreshUserStore()
       this.user = null
+      this.notifications = []
     },
     setUser(user) {
       this.user = user
+    },
+    setNotification(notis) {
+      this.notifications = [...notis, ...this.notifications]
     }
   }
 })

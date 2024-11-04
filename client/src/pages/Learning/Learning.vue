@@ -6,7 +6,7 @@
       </div>
     </template>
     <template v-else>
-      <LearningHeader :course="course" />
+      <LearningHeader :course="course" :slug="slug" />
       <div class="fixed top-0 left-0 right-0 bottom-0 z-10 mt-12 mb-14">
         <div class="w-full h-full flex items-start justify-start">
           <LearningSideBar
@@ -221,6 +221,7 @@ export default defineComponent({
 
     return {
       course,
+      slug,
       review,
       chapters,
       currentLesson,

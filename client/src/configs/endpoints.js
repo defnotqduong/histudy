@@ -1,5 +1,3 @@
-import { method } from 'lodash'
-
 export default {
   // User
   REGISTER_USER_API: {

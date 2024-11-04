@@ -113,6 +113,8 @@ import { getAllCert } from '@/webServices/certService'
 import { getAllOrder } from '@/webServices/orderService'
 import { getListNotiByUser } from '@/webServices/notificationService'
 
+import { connectSocket } from '@/configs/socketConfig.js'
+
 import Checkbox from '@/components/Checkbox/Checkbox.vue'
 import GradientButtonV1 from '@/components/Button/GradientButtonV1.vue'
 import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
@@ -200,6 +202,18 @@ export default defineComponent({
           userStore.setWishlist(userData.wishlist.courses)
           userStore.setCerts(userData?.certs)
           userStore.setOrders(userData?.orders)
+          userStore.setNotification(userData?.notifications)
+
+          const socket = connectSocket(userData.user.id)
+
+          socket.on('connect', () => {
+            console.log('Socket connected:', socket.id)
+          })
+
+          socket.on('message', data => {
+            console.log('Received message:', data)
+            userStore.setNotification([data])
+          })
         }
 
         router.push({ name: 'home' })
@@ -225,17 +239,24 @@ export default defineComponent({
           if (res.success) {
             userStore.login(res.data.access_token, res.data.refresh_token)
 
-            const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder()]).then(
-              ([profile, purchasedCourses, cart, wishlist, certs, orders]) => ({
-                success: true,
-                user: profile.user,
-                purchased_courses: purchasedCourses.courses,
-                cart: cart.cart,
-                wishlist: wishlist.wishlist,
-                certs: certs.certs,
-                orders: orders.orders
-              })
-            )
+            const userPromise = Promise.all([
+              getUserProfile(),
+              getPurchasedCourses(),
+              getCart(),
+              getWishlist(),
+              getAllCert(),
+              getAllOrder(),
+              getListNotiByUser()
+            ]).then(([profile, purchasedCourses, cart, wishlist, certs, orders, notis]) => ({
+              success: true,
+              user: profile.user,
+              purchased_courses: purchasedCourses.courses,
+              cart: cart.cart,
+              wishlist: wishlist.wishlist,
+              certs: certs.certs,
+              orders: orders.orders,
+              notifications: notis.notifications
+            }))
 
             const [userData] = await Promise.all([userPromise])
 
@@ -246,6 +267,18 @@ export default defineComponent({
               userStore.setWishlist(userData.wishlist.courses)
               userStore.setCerts(userData?.certs)
               userStore.setOrders(userData?.orders)
+              userStore.setNotification(userData?.notifications)
+
+              const socket = connectSocket(userData.user.id)
+
+              socket.on('connect', () => {
+                console.log('Socket connected:', socket.id)
+              })
+
+              socket.on('message', data => {
+                console.log('Received message:', data)
+                userStore.setNotification([data])
+              })
             }
 
             router.push({ name: 'home' })

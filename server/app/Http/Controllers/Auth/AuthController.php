@@ -63,6 +63,8 @@ class AuthController extends Controller
             ['password' => Hash::make($request->password)]
         ));
 
+        $user->syncRoles('user');
+
 
         Cart::createCart($user->id);
         Wishlist::createWishlist($user->id);
@@ -159,6 +161,8 @@ class AuthController extends Controller
                 'email_verified_at' => now(),
                 'is_verified' => true,
             ]);
+
+            $user->syncRoles('user');
 
             Cart::createCart($user->id);
             Wishlist::createWishlist($user->id);

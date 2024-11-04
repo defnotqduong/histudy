@@ -137,6 +137,7 @@ export default defineComponent({
 
         if (userData?.success) {
           userStore.setUser(userData.user)
+          userStore.setNotification(userData.notifications)
         }
 
         router.push({ name: 'dashboard' })
