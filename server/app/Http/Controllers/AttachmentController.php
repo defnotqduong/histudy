@@ -7,13 +7,16 @@ use App\Models\Attachment;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AttachmentController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware('auth:api', ['except' => ['']]);
 
@@ -23,6 +26,8 @@ class AttachmentController extends Controller
                 'deleteLessonAttachment'
             ]
         ]);
+
+        $this->uploadService = $uploadService;
     }
 
     public function createLessonAttachment(AttachmentRequest $request, $slug, $chapterId, $lessonId)
@@ -58,25 +63,33 @@ class AttachmentController extends Controller
 
 
         if ($request->hasFile('attachment')) {
-            $cloudinaryFile = Cloudinary::uploadFile($request->file('attachment')->getRealPath(), [
-                'folder' => 'files',
-            ]);
+            $file = $request->file('attachment');
 
-            $url = $cloudinaryFile->getSecurePath();
-            $publicId = $cloudinaryFile->getPublicId();
-            $name = $request->file('attachment')->getClientOriginalName();
+            $uploadResult = $this->uploadService->multipartUploaderToS3('files', $file);
 
-            $data = [
-                'name' => $name,
-                'attachment_url' => $url,
-                'attachment_public_id' => $publicId,
-                'lesson_id' => $lesson->id,
-            ];
+            if ($uploadResult['status']) {
 
-            Attachment::createAttachment($data);
+                $data = [
+                    'name' => $uploadResult['fileName'],
+                    'attachment_url' => $uploadResult['filePath'],
+                    'lesson_id' => $lesson->id,
+                ];
+
+                Attachment::createAttachment($data);
+
+                return response()->json(['success' => true, 'message' => 'Attachment added successfully'], 200);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image.',
+            ], 500);
         }
 
-        return response()->json(['success' => true, 'message' => 'Attachment added successfully'], 200);
+        return response()->json([
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
     }
 
     public function deleteLessonAttachment(Request $request, $slug, $chapterId, $lessonId, $id)
@@ -118,7 +131,7 @@ class AttachmentController extends Controller
             return response()->json(['success' => false, 'message' => 'Attachment not found'], 404);
         }
 
-        Cloudinary::destroy($attachment->attachment_public_id);
+        $this->uploadService->deleteObjectS3($attachment->attachment_url);
 
         $attachment->deleteAttachment();
 

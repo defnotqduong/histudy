@@ -22,7 +22,6 @@ return new class extends Migration
             $table->longText('summary')->nullable();
             $table->longText('description')->nullable();
             $table->longText('thumbnail_url')->nullable();
-            $table->longText('thumbnail_public_id')->nullable();
             $table->float('price')->nullable();
             $table->boolean('is_published')->default(false);
 

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description')->nullable();
             $table->longText('video_url')->nullable();
-            $table->longText('video_public_id')->nullable();
             $table->integer('video_duration')->nullable();
 
             $table->boolean('is_published')->default(false);

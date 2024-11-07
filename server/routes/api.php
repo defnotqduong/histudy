@@ -127,6 +127,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
 
+
     // Category Routes
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [CategoryController::class, 'getAllCategoryForInstructor']);
@@ -199,5 +200,4 @@ Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     Route::post('/lesson/{lessonId}/note', [LearningController::class, 'createNoteLesson']);
     Route::delete('/lesson/{lessonId}/note/{noteId}', [LearningController::class, 'deleteNoteLesson']);
     Route::get('/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);
-    Route::get('/attachment/get-signed-url/{attachmentId}', [LearningController::class, 'getAttachmentSignedUrl']);
 });

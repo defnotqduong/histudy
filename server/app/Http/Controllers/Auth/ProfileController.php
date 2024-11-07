@@ -7,16 +7,24 @@ use App\Http\Requests\ImageRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class ProfileController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware('auth:api', ['except' => []]);
+
+        $this->uploadService = $uploadService;
     }
 
     public function profile()
@@ -60,30 +68,41 @@ class ProfileController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
 
+
         if ($request->hasFile('image')) {
 
-            $cloudinaryImage = Cloudinary::upload($request->file('image')->getRealPath(), [
-                'folder' => 'images'
-            ]);
+            $file = $request->file('image');
 
-            $url = $cloudinaryImage->getSecurePath();
-            $publicId  = $cloudinaryImage->getPublicId();
+            $uploadResult = $this->uploadService->multipartUploaderToS3('images', $file);
 
-            if ($user->avatar_public_id) {
-                Cloudinary::destroy($user->avatar_public_id);
+            if ($uploadResult['status']) {
+
+                // if ($user->avatar) {
+                //     $this->uploadService->deleteObjectS3($user->avatar);
+                // }
+
+                $user->updateUser([
+                    'avatar' => $uploadResult['filePath'],
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Avatar updated successfully',
+                    'user' => new UserResource($user),
+                    'uploadResult' => $uploadResult
+                ], 200);
             }
 
-            $user->updateUser([
-                'avatar' => $url,
-                'avatar_public_id' => $publicId
-            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image.',
+            ], 500);
         }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Avatar updated successfully',
-            'user' => new UserResource($user),
-        ], 200);
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
     }
 
     public function changeBackgroundImage(ImageRequest $request) {}

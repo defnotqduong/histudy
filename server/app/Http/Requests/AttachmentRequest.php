@@ -23,7 +23,7 @@ class AttachmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attachment' => 'required|file|mimes:pdf',
+            'attachment' => 'required|file',
         ];
     }
 
@@ -37,7 +37,6 @@ class AttachmentRequest extends FormRequest
         return [
             'attachment.required' => 'The file attachment is required.',
             'attachment.file' => 'The uploaded file must be a valid file.',
-            'attachment.mimes' => 'The file must be a PDF document.',
         ];
     }
 }

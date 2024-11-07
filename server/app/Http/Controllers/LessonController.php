@@ -9,13 +9,17 @@ use App\Http\Resources\LessonResource;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware('auth:api', ['except' => []]);
 
@@ -32,6 +36,8 @@ class LessonController extends Controller
 
             ]
         ]);
+
+        $this->uploadService = $uploadService;
     }
 
     public function createLesson(LessonRequest $request, $slug, $chapterId)
@@ -219,35 +225,31 @@ class LessonController extends Controller
 
         if ($request->hasFile('video')) {
 
-            $cloudinaryVideo = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
-                'folder' => 'videos'
-            ]);
+            $file = $request->file('video');
 
-            $url = $cloudinaryVideo->getSecurePath();
-            $publicId = $cloudinaryVideo->getPublicId();
-            $duration = $request->duration;
+            $uploadResult = $this->uploadService->multipartUploaderToS3('videos', $file);
 
-            if ($lesson->video_public_id) {
-                Cloudinary::destroy($lesson->video_public_id, [
-                    'resource_type' => 'video'
+            if ($uploadResult['status']) {
+
+                if ($lesson->video_url) {
+                    $this->uploadService->deleteObjectS3($lesson->video_url);
+                }
+
+                $lesson->updateLesson([
+                    'video_url' => $uploadResult['filePath'],
+                    'video_duration' =>  $request->duration
                 ]);
+
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Video updated successfully',
+                        'chapter' => new LessonResource($lesson),
+                    ],
+                    200
+                );
             }
-
-            $lesson->updateLesson([
-                'video_url' => $url,
-                'video_public_id' => $publicId,
-                'video_duration' => $duration
-            ]);
         }
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Video updated successfully',
-                'chapter' => new LessonResource($lesson),
-            ],
-            200
-        );
     }
 
 
@@ -362,15 +364,13 @@ class LessonController extends Controller
             return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
-        if ($lesson->video_public_id) {
-            Cloudinary::destroy($lesson->video_public_id, [
-                'resource_type' => 'video'
-            ]);
+        if ($lesson->video_url) {
+            $this->uploadService->deleteObjectS3($lesson->video_url);
         }
 
         foreach ($lesson->attachments as $attachment) {
-            if ($attachment->attachment_public_id) {
-                Cloudinary::destroy($attachment->attachment_public_id);
+            if ($attachment->attachment_url) {
+                $this->uploadService->deleteObjectS3($attachment->attachment_url);
             }
 
             $attachment->deleteAttachment();

@@ -112,7 +112,7 @@
                   href=""
                   class="relative transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[1.5px] after:bg-primaryColor after:rounded hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-300"
                 >
-                  defnotqduong@gmail.com</a
+                  quangduongsayhi@gmail.com</a
                 >
               </li>
               <li class="mb-2">

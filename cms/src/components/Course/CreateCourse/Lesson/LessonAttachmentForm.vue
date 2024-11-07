@@ -72,7 +72,7 @@
             />
           </svg>
           <div class="mt-2 font-bold text-primaryColor">Choose files or drag and drop</div>
-          <span class="text-sm">Only PDF files are allowed</span>
+          <span class="text-sm">All file types are allowed</span>
 
           <button
             v-if="file"
@@ -157,6 +157,7 @@ export default defineComponent({
 
       if (!res.success) {
         errors.value = res.data.errors
+        homeStore.onChangeToast({ show: true, type: 'error', message: 'File upload failed' })
         isSubmitting.value = false
         return
       }

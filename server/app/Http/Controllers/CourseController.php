@@ -10,13 +10,17 @@ use App\Http\Resources\CourseResourceCollection;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\UserResource;
 use App\Models\Course;
+use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware(
             'auth:api',
@@ -39,6 +43,8 @@ class CourseController extends Controller
                 'deleteCourse'
             ]
         ]);
+
+        $this->uploadService = $uploadService;
     }
 
 
@@ -287,24 +293,36 @@ class CourseController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $cloudinaryImage = Cloudinary::upload($request->file('image')->getRealPath(), [
-                'folder' => 'images'
-            ]);
+            $file = $request->file('image');
 
-            $url = $cloudinaryImage->getSecurePath();
-            $publicId  = $cloudinaryImage->getPublicId();
+            $uploadResult = $this->uploadService->multipartUploaderToS3('images', $file);
 
-            if ($course->thumbnail_public_id) {
-                Cloudinary::destroy($course->thumbnail_public_id);
+            if ($uploadResult['status']) {
+
+                if ($course->thumbnail_url) {
+                    $this->uploadService->deleteObjectS3($course->thumbnail_url);
+                }
+
+                $course->updateCourse([
+                    'thumbnail_url' => $uploadResult['filePath'],
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Course updated successfully',
+                    'course' => new CourseResource($course)
+                ], 200);
             }
-
-            $course->updateCourse([
-                'thumbnail_url' => $url,
-                'thumbnail_public_id' => $publicId
-            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image.',
+            ], 500);
         }
 
-        return response()->json(['success' => true, 'message' => 'Course updated successfully', 'course' => new CourseResource($course)], 200);
+        return response()->json([
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
     }
 
     public function publishCourse(Request $request, $slug)
@@ -364,23 +382,21 @@ class CourseController extends Controller
             return response()->json(['success' => false, 'message' => 'Course not found'], 404);
         }
 
-        if ($course->thumbnail_public_id) {
-            Cloudinary::destroy($course->thumbnail_public_id);
+        if ($course->thumbnail_url) {
+            $this->uploadService->deleteObjectS3($course->thumbnail_url);
         }
 
         foreach ($course->chapters as $chapter) {
 
             foreach ($chapter->lessons as $lesson) {
 
-                if ($lesson->video_public_id) {
-                    Cloudinary::destroy($lesson->video_public_id, [
-                        'resource_type' => 'video'
-                    ]);
+                if ($lesson->video_url) {
+                    $this->uploadService->deleteObjectS3($lesson->video_url);
                 }
 
                 foreach ($lesson->attachments as $attachment) {
-                    if ($attachment->attachment_public_id) {
-                        Cloudinary::destroy($attachment->attachment_public_id);
+                    if ($attachment->attachment_url) {
+                        $this->uploadService->deleteObjectS3($attachment->attachment_url);
                     }
 
                     $attachment->deleteAttachment();

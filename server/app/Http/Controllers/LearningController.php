@@ -453,37 +453,4 @@ class LearningController extends Controller
             'review' => new ReviewResource($review)
         ], 201);
     }
-
-
-    public function getAttachmentSignedUrl($attachmentId)
-    {
-        $attachment = Attachment::find($attachmentId);
-
-        if (!$attachment) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Attachment not found'
-            ], 404);
-        }
-
-        $userId = Auth::id();
-
-        $isEnrolled = $attachment->lesson->chapter->course->customers()->where('user_id', $userId)->exists();
-
-        if (!$isEnrolled) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You have not enrolled in this course'
-            ], 403);
-        }
-
-        $url = Cloudinary::getUrl($attachment->attachment_public_id, [
-            'sign_url' => true,
-            'resource_type' => 'raw',
-            'attachment' => true,
-            'expires_at' => now()->addMinutes(30),
-        ]);
-
-        return response()->json(['success' => true, 'signed_url' => $url], 200);
-    }
 }

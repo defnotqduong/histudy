@@ -20,7 +20,6 @@ class Course extends Model
         'summary',
         'description',
         'thumbnail_url',
-        'thumbnail_public_id',
         'price',
         'is_published',
         'category_id',

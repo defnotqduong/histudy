@@ -41,8 +41,8 @@ export default defineComponent({
       const userPromise = accToken
         ? Promise.all([getUserProfile(), getListNotiByUser()]).then(([profile, notis]) => ({
             success: true,
-            user: profile.user,
-            notifications: notis.notifications
+            user: profile?.user,
+            notifications: notis?.notifications
           }))
         : Promise.resolve(null)
 
