@@ -77,9 +77,9 @@ class ProfileController extends Controller
 
             if ($uploadResult['status']) {
 
-                // if ($user->avatar) {
-                //     $this->uploadService->deleteObjectS3($user->avatar);
-                // }
+                if ($user->avatar && !$this->isGoogleAvatar($user->avatar)) {
+                    $this->uploadService->deleteObjectS3($user->avatar);
+                }
 
                 $user->updateUser([
                     'avatar' => $uploadResult['filePath'],
@@ -106,4 +106,9 @@ class ProfileController extends Controller
     }
 
     public function changeBackgroundImage(ImageRequest $request) {}
+
+    private function isGoogleAvatar($avatarUrl)
+    {
+        return strpos($avatarUrl, 'googleusercontent.com') !== false;
+    }
 }
