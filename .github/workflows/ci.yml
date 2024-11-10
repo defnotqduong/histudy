@@ -9,3 +9,5 @@ on:
 jobs:
   client:
     uses: ./.github/workflows/client.yaml
+  cms:
+    use: ./.github/workflows/cms.yaml
