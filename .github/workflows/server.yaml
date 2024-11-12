@@ -19,7 +19,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "LARAVEL_ENV=${{ inputs.laravel_env }}" > .env  # Sử dụng giá trị từ input để tạo file .env
+          echo "LARAVEL_ENV=${{ inputs.laravel_env }}" > .env  # Sử dụng giá trị từ input
 
       - name: Debug secret
         run: echo "LARAVEL_ENV=${{ inputs.laravel_env }}" # Kiểm tra giá trị LARAVEL_ENV
