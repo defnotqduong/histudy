@@ -38,14 +38,10 @@ jobs:
           chmod -R 775 bootstrap/cache
 
       - name: Prepare EC2 server directory
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
+          ssh -o StrictHostKeyChecking=no -i ${{ env.EC2_PRIVATE_KEY }} ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
 
       - name: Deploy to EC2
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
-          scp -i "$SSH_PRIVATE_KEY" -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
-          ssh -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
+          scp -i ${{ env.EC2_PRIVATE_KEY }} -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
+          ssh -i ${{ env.EC2_PRIVATE_KEY }} ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
