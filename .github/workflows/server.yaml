@@ -42,6 +42,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Add EC2 to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy to AWS EC2
-        # Deploy to AWS EC2
-        run: ssh ${{ secrets.EC2_HOST }} "cd /var/www/html/histudy-server && git pull && composer install - no-dev && php artisan migrate - force && php artisan optimize"
+        run: |
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "\
+            cd /var/www/html/histudy-server && \
+            git pull && \
+            composer install --no-dev && \
+            php artisan migrate --force && \
+            php artisan optimize"
