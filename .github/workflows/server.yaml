@@ -20,9 +20,11 @@ jobs:
       - name: Get the latest code
         uses: actions/checkout@v2
 
+      - name: Ensure server directory exists
+        run: mkdir -p server
+
       - name: Create .env file from secrets
-        run: |
-          echo "${{ secrets.LARAVEL_ENV }}" > server/.env
+        run: echo "${{ secrets.LARAVEL_ENV }}" > server/.env
         working-directory: server
 
       - name: Install Dependencies
