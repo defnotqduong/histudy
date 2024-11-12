@@ -10,7 +10,11 @@ env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
   EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
   EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }} # Truyền LARAVEL_ENV vào workflow con
 
 jobs:
   server:
     uses: ./.github/workflows/server.yaml
+    secrets: inherit
+    with:
+      laravel_env: ${{ secrets.LARAVEL_ENV }} # Truyền thêm biến LARAVEL_ENV vào

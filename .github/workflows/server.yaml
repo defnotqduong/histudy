@@ -1,7 +1,7 @@
 name: CI/CD server Histudy
 
 on:
-  workflow_call:
+  workflow_call: # Để nhận workflow gọi từ workflow cha
 
 jobs:
   build:
@@ -19,10 +19,10 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "${{ secrets.LARAVEL_ENV }}" > .env
+          echo "LARAVEL_ENV=${{ inputs.laravel_env }}" > .env  # Sử dụng giá trị từ input để tạo file .env
 
       - name: Debug secret
-        run: echo "LARAVEL_ENV=${{ secrets.LARAVEL_ENV }}"
+        run: echo "LARAVEL_ENV=${{ inputs.laravel_env }}" # Kiểm tra giá trị LARAVEL_ENV
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
