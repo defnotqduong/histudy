@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'server/**'
+      - "server/**"
 
 env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -42,5 +42,8 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
+          # Copy the code to EC2 server
           scp -i "$SSH_PRIVATE_KEY" -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
+
+          # SSH into EC2 and run necessary Laravel commands
           ssh -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
