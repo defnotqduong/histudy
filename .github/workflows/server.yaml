@@ -3,11 +3,6 @@ name: CI/CD server Histudy
 on:
   workflow_call:
 
-env:
-  EC2_HOST: ${{ secrets.EC2_HOST }}
-  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-
 jobs:
   build:
     runs-on: self-hosted
@@ -39,9 +34,9 @@ jobs:
 
       - name: Prepare EC2 server directory
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
+          ssh -o StrictHostKeyChecking=no -i ${{ env.EC2_PRIVATE_KEY }} ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
 
       - name: Deploy to EC2
         run: |
-          scp -i ${{ secrets.EC2_PRIVATE_KEY }} -r . ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/var/www/html/histudy-server
-          ssh -i ${{ secrets.EC2_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
+          scp -i ${{ env.EC2_PRIVATE_KEY }} -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
+          ssh -i ${{ env.EC2_PRIVATE_KEY }} ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
