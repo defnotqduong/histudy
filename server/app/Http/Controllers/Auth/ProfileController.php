@@ -105,6 +105,7 @@ class ProfileController extends Controller
         ], 400);
     }
 
+    public function changeBackgroundImage(ImageRequest $request) {}
 
     private function isGoogleAvatar($avatarUrl)
     {
