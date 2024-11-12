@@ -16,52 +16,36 @@ jobs:
         working-directory: ./server
 
     steps:
-      # Lấy mã nguồn mới nhất từ repository
       - name: Get the latest code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Đảm bảo thư mục server tồn tại
       - name: Ensure server directory exists
         run: mkdir -p ./server
 
-      # Tạo file .env từ secrets
-      - name: Create .env file from secrets
-        run: echo "${{ secrets.LARAVEL_ENV }}" > ./server/.env
-        working-directory: ./server
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.LARAVEL_ENV }}" > .env
 
-      # Kiểm tra xem file .env đã được tạo hay chưa
-      - name: Check .env file
-        run: ls -la ./server
-        working-directory: ./server
-
-      # Cài đặt dependencies cho Laravel
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-        working-directory: ./server
 
-      # Tạo Laravel key mới
       - name: Generate Laravel key
         run: php artisan key:generate --force
-        working-directory: ./server
 
-      # Thiết lập quyền cho thư mục storage và bootstrap/cache
       - name: Set storage permissions
         run: |
           chmod -R 775 storage
           chmod -R 775 bootstrap/cache
-        working-directory: ./server
 
-      # Chuẩn bị thư mục trên EC2 server
       - name: Prepare EC2 server directory
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
-          ssh -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
+          ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "mkdir -p /var/www/html/histudy-server"
 
-      # Triển khai mã lên EC2 và chạy các lệnh Laravel cần thiết
       - name: Deploy to EC2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
-          scp -i "$SSH_PRIVATE_KEY" -r ./server/. ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
+          scp -i "$SSH_PRIVATE_KEY" -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
           ssh -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
