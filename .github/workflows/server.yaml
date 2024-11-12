@@ -21,8 +21,6 @@ jobs:
     steps:
       - name: Get the latest code
         uses: actions/checkout@v2
-        with:
-          path: server
 
       - name: Copy .env file from secrets
         run: echo "${{ secrets.LARAVEL_ENV }}" > server/.env
