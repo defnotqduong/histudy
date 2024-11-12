@@ -1,4 +1,4 @@
-name: CI/CD for Histudy
+name: CI/CD server Histudy
 
 on:
   push:
@@ -8,4 +8,4 @@ on:
 
 jobs:
   server:
-    uses: ./.github/workflows/server.yaml 
+    uses: ./.github/workflows/server.yaml
