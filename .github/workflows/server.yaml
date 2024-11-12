@@ -19,9 +19,6 @@ jobs:
       - name: Get the latest code
         uses: actions/checkout@v2
 
-      - name: Copy .env file from secrets
-        run: echo "${{ secrets.LARAVEL_ENV }}" > server/.env
-
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
         working-directory: server
