@@ -25,7 +25,7 @@ jobs:
         run: echo "LARAVEL_ENV=${{ secrets.LARAVEL_ENV }}"
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
       - name: Generate Laravel key
         run: php artisan key:generate --force
@@ -42,17 +42,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy to AWS EC2 using EC2 Instance Connect
-        run: |
-          # Install AWS EC2 Instance Connect CLI
-          sudo apt-get install -y ec2-instance-connect
-
-          # Connect to EC2 using EC2 Instance Connect and run the deployment commands
-          aws ec2-instance-connect send-ssh-public-key \
-            --region ${{ secrets.AWS_REGION }} \
-            --instance-id ${{ secrets.EC2_HOST }} \
-            --instance-os-user ubuntu \
-            --ssh-public-key file://$HOME/.ssh/id_rsa.pub
-
-          # SSH into EC2 instance and deploy
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "cd /var/www/html/histudy-server && git pull && composer install --no-dev && php artisan migrate --force && php artisan optimize"
+      - name: Deploy to AWS EC2
+        run: ssh ${{ secrets.EC2_HOST }} "cd /var/www/html/histudy-server && git pull && composer install - no-dev && php artisan migrate - force && php artisan optimize"
