@@ -19,20 +19,25 @@ jobs:
     steps:
       - name: Get the latest code
         uses: actions/checkout@v2.3.2
+        with:
+          path: server
 
       - name: Copy .env file from secrets
-        run: echo "${{ secrets.LARAVEL_ENV }}" > .env
+        run: echo "${{ secrets.LARAVEL_ENV }}" > server/.env
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        working-directory: server
 
       - name: Generate Laravel key
         run: php artisan key:generate --force
+        working-directory: server
 
       - name: Set storage permissions
         run: |
           chmod -R 775 storage
           chmod -R 775 bootstrap/cache
+        working-directory: server
 
       - name: Prepare EC2 server directory
         run: |
@@ -42,8 +47,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         run: |
-          # Copy the code to EC2 server
-          scp -i "$SSH_PRIVATE_KEY" -r . ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
-
-          # SSH into EC2 and run necessary Laravel commands
+          scp -i "$SSH_PRIVATE_KEY" -r server/. ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}:/var/www/html/histudy-server
           ssh -i "$SSH_PRIVATE_KEY" ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "cd /var/www/html/histudy-server && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan storage:link"
