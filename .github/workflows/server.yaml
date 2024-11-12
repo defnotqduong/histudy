@@ -55,7 +55,7 @@ jobs:
       - name: Deploy to AWS EC2
         run: |
           ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "\
-            cd /var/www/html/histudy-server && \
+            cd /home/ubuntu/actions-runner/_work/histudy/histudy/server && \
             git pull && \
             composer install --no-dev && \
             php artisan migrate --force && \
