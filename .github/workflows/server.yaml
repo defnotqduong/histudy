@@ -24,21 +24,21 @@ jobs:
       - name: Debug secret
         run: echo "LARAVEL_ENV=${{ secrets.LARAVEL_ENV }}"
 
-      # - name: Install Dependencies
-      #   run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+      - name: Install Dependencies
+        run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
-      # - name: Generate Laravel key
-      #   run: php artisan key:generate --force
+      - name: Generate Laravel key
+        run: php artisan key:generate --force
 
-      # - name: Set storage permissions
-      #   run: |
-      #     chmod -R 775 storage
-      #     chmod -R 775 bootstrap/cache
+      - name: Set storage permissions
+        run: |
+          chmod -R 775 storage
+          chmod -R 775 bootstrap/cache
 
-      # - name: Run migrate and optimize
-      #   run: |
-      #     php artisan migrate --force
-      #     php artisan optimize
+      - name: Run migrate and optimize
+        run: |
+          php artisan migrate --force
+          php artisan optimize
 
       # - name: Start Laravel server
       #   run: |
