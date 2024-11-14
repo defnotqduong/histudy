@@ -30,6 +30,11 @@ jobs:
           port: 22
           script: |
             # Kiểm tra và tạo thư mục server nếu chưa tồn tại
+            if [ ! -d "/var/www/histudy" ]; then
+              echo "Directory /var/www/histudy does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy
+            fi
+
             if [ ! -d "/var/www/histudy/server" ]; then
               echo "Directory /var/www/histudy/server does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server
