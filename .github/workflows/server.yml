@@ -1,18 +1,3 @@
-name: CI/CD Server Histudy
-
-on:
-  push:
-    branches:
-      - "main"
-    paths:
-      - "server/**"
-
-env:
-  EC2_HOST: ${{ secrets.EC2_HOST }}
-  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -32,15 +17,16 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
             # Di chuyển thư mục code Laravel vào /var/www
-            sudo mv ~/histudy/server /var/www/histudy
-            cd /var/www/histudy
+            mv ~/histudy /var/www/histudy/server
+            cd /var/www/histudy/server
 
-            # Cài đặt các dependencies
-            sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
-
-            # Cài đặt quyền cho các thư mục cần thiết
+            # Đảm bảo quyền truy cập thư mục
             sudo chmod -R 775 storage
             sudo chmod -R 775 bootstrap/cache
+
+            # Cài đặt dependencies
+            export COMPOSER_ALLOW_SUPERUSER=1
+            sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
             # Tạo key cho Laravel
             sudo php artisan key:generate --force
@@ -48,3 +34,7 @@ jobs:
             # Thực thi migration và tối ưu hóa
             sudo php artisan migrate --force
             sudo php artisan optimize
+
+            # Khởi động lại Nginx nếu cần
+            sudo systemctl restart nginx
+          EOF
