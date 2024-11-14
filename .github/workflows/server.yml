@@ -41,7 +41,7 @@ jobs:
 
             # Sao chép mã nguồn từ GitHub repository lên EC2
             echo "Copying code to /var/www/histudy/server"
-            sudo rsync -avz --delete $GITHUB_WORKSPACE/server/ ubuntu@${{ env.EC2_HOST }}:/var/www/histudy/server/
+            sudo rsync -avz --delete /home/runner/work/histudy/histudy/server ubuntu@${{ env.EC2_HOST }}:/var/www/histudy/server/
 
             # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
             echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
