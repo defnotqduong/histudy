@@ -41,25 +41,28 @@ jobs:
 
             # Sao chép mã nguồn từ actions runner lên EC2
             echo "Copying code to /var/www/histudy/server"
-            echo $GITHUB_WORKSPACE
-            # sudo cp -r $GITHUB_WORKSPACE/actions-runner/histudy/histudy/server/* /var/www/histudy/server/
+            echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+            echo "Listing directories in $GITHUB_WORKSPACE:"
+            ls -d $GITHUB_WORKSPACE/*
 
-            # # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
-            # echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
+            sudo cp -r $GITHUB_WORKSPACE/actions-runner/histudy/histudy/server/* /var/www/histudy/server/
 
-            # # Di chuyển vào thư mục chứa server
-            # cd /var/www/histudy/server
+            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
+            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
 
-            # # Cài đặt dependencies cho Laravel
-            # sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+            # Di chuyển vào thư mục chứa server
+            cd /var/www/histudy/server
 
-            # # Tạo key cho Laravel
-            # sudo php artisan key:generate --force
+            # Cài đặt dependencies cho Laravel
+            sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
-            # # Chạy migrate và optimize
-            # sudo php artisan migrate --force
-            # sudo php artisan optimize
+            # Tạo key cho Laravel
+            sudo php artisan key:generate --force
 
-            # # Cấp quyền cho thư mục storage và bootstrap/cache
-            # sudo chmod -R 775 storage
-            # sudo chmod -R 775 bootstrap/cache
+            # Chạy migrate và optimize
+            sudo php artisan migrate --force
+            sudo php artisan optimize
+
+            # Cấp quyền cho thư mục storage và bootstrap/cache
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
