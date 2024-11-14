@@ -29,6 +29,16 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           script: |
+            # Kiểm tra xem thư mục server có tồn tại không, nếu không thì tạo
+            if [ ! -d "/var/www/histudy/server" ]; then
+              echo "Directory /var/www/histudy/server does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/server
+              sudo chown ubuntu:ubuntu /var/www/histudy/server
+              sudo chmod -R 775 /var/www/histudy/server
+            else
+              echo "Directory /var/www/histudy/server already exists."
+            fi
+
             # Di chuyển vào thư mục chứa server
             cd /var/www/histudy/server
 
