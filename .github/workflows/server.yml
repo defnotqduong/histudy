@@ -15,54 +15,36 @@ env:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USERNAME }}
-          key: ${{ env.EC2_PRIVATE_KEY }}
-          port: 22
-          script: |
-            # Kiểm tra xem thư mục server có tồn tại không, nếu không thì tạo
-            if [ ! -d "/var/www/histudy/server" ]; then
-              echo "Directory /var/www/histudy/server does not exist. Creating it now."
-              sudo mkdir -p /var/www/histudy/server
-              sudo chown ubuntu:ubuntu /var/www/histudy/server
-              sudo chmod -R 775 /var/www/histudy/server
-            else
-              echo "Directory /var/www/histudy/server already exists."
-            fi
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-            # Sao chép mã nguồn từ actions runner lên EC2
-            echo "Copying code to /var/www/histudy/server"
-            echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-            echo "Listing directories in $GITHUB_WORKSPACE:"
-            ls -d $GITHUB_WORKSPACE/*
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # Di chuyển thư mục code Laravel vào /var/www
+            sudo mv ~/histudy/server /var/www/histudy
+            cd /var/www/histudy
 
-            sudo cp -r $GITHUB_WORKSPACE/actions-runner/histudy/histudy/server/* /var/www/histudy/server/
-
-            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
-            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
-
-            # Di chuyển vào thư mục chứa server
-            cd /var/www/histudy/server
-
-            # Cài đặt dependencies cho Laravel
+            # Cài đặt các dependencies
             sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+
+            # Cài đặt quyền cho các thư mục cần thiết
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
 
             # Tạo key cho Laravel
             sudo php artisan key:generate --force
 
-            # Chạy migrate và optimize
+            # Thực thi migration và tối ưu hóa
             sudo php artisan migrate --force
             sudo php artisan optimize
-
-            # Cấp quyền cho thư mục storage và bootstrap/cache
-            sudo chmod -R 775 storage
-            sudo chmod -R 775 bootstrap/cache
