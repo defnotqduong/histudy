@@ -37,12 +37,14 @@ jobs:
               sudo chmod -R 775 /var/www/histudy/server
             else
               echo "Directory /var/www/histudy/server already exists."
-            fi
+
+            # In ra đường dẫn và các tệp trong $GITHUB_WORKSPACE/server
+            echo "Listing files in $GITHUB_WORKSPACE/server/"
+            ls -l $GITHUB_WORKSPACE/server/
 
             # Sao chép mã nguồn từ actions runner lên EC2
             echo "Copying code to /var/www/histudy/server"
-            sudo cp -r /home/runner/work/histudy/histudy/server/* /var/www/histudy/server/
-
+            sudo cp -r $GITHUB_WORKSPACE/server/* /var/www/histudy/server/
 
             # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
             echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
