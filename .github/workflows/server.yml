@@ -1,18 +1,3 @@
-name: CI/CD Server Histudy
-
-on:
-  push:
-    branches:
-      - "main"
-    paths:
-      - "server/**"
-
-env:
-  EC2_HOST: ${{ secrets.EC2_HOST }}
-  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -30,9 +15,11 @@ jobs:
           port: 22
           script: |
             # Kiểm tra và tạo thư mục server nếu chưa tồn tại
-            if [ ! -d "/var/www/histudy" ]; then
+            if [ ! -d "/var/www/histudy/server" ]; then
               echo "Directory /var/www/histudy/server does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server
+            else
+              echo "Directory /var/www/histudy/server already exists."
             fi
 
             # Cấp quyền cho thư mục server ngay cả khi thư mục đã tồn tại
@@ -47,7 +34,7 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           source: "server/*"
-          target: "/var/www/histudy"
+          target: "/var/www/histudy/server"
 
       - name: Set up Laravel environment and run deployment tasks
         uses: appleboy/ssh-action@master

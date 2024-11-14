@@ -32,6 +32,10 @@ use App\Http\Controllers\WishlistController;
 |
 */
 
+Route::get('/check-status', function () {
+    return response()->json(['status' => 'OK']);
+});
+
 // Auth Routes
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
