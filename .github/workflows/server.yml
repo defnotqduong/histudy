@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: self-hosted # Sử dụng runner tự host của bạn
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -41,7 +41,8 @@ jobs:
 
             # Sao chép mã nguồn từ actions runner lên EC2
             echo "Copying code to /var/www/histudy/server"
-            sudo cp -r /home/actions-runner/work/histudy/histudy/server/* /var/www/histudy/server/
+            sudo cp -r /home/runner/work/histudy/histudy/server/* /var/www/histudy/server/
+
 
             # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
             echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
