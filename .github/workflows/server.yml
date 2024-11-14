@@ -1,0 +1,50 @@
+name: CI/CD Server Histudy
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "server/**"
+
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Di chuyển vào thư mục chứa server
+            cd /var/www/histudy/server
+
+            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
+            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" > .env
+
+            # Cài đặt dependencies cho Laravel
+            composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+
+            # Tạo key cho Laravel
+            php artisan key:generate --force
+
+            # Chạy migrate và optimize
+            php artisan migrate --force
+            php artisan optimize
+
+            # Cấp quyền cho thư mục storage và bootstrap/cache
+            chmod -R 775 storage
+            chmod -R 775 bootstrap/cache
