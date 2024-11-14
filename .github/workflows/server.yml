@@ -5,51 +5,60 @@ on:
     branches:
       - "main"
     paths:
-      - "server/**"
+      - "server/**" # Chỉ deploy khi có thay đổi trong thư mục server
 
 env:
-  EC2_HOST: ${{ secrets.EC2_HOST }}
-  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+  EC2_HOST: ${{ secrets.EC2_HOST }} # Địa chỉ IP hoặc tên miền EC2 của bạn
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }} # Tên người dùng EC2 (thường là ubuntu)
+  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }} # SSH private key để truy cập EC2
+  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }} # Môi trường Laravel (dev, prod...)
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Dùng GitHub-hosted runner (ubuntu-latest)
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2 # Lấy mã nguồn từ repository
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      - name: Set up SSH key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }} # Địa chỉ host EC2
+          username: ${{ env.EC2_USERNAME }} # Tên người dùng trên EC2
+          key: ${{ env.EC2_PRIVATE_KEY }} # SSH private key để kết nối
+          port: 22 # Cổng SSH mặc định
+          script: |
+            # Kiểm tra xem thư mục server có tồn tại không, nếu không thì tạo
+            if [ ! -d "/var/www/histudy/server" ]; then
+              echo "Directory /var/www/histudy/server does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/server
+              sudo chown ubuntu:ubuntu /var/www/histudy/server
+              sudo chmod -R 775 /var/www/histudy/server
+            else
+              echo "Directory /var/www/histudy/server already exists."
+            fi
 
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
-            # Di chuyển thư mục code Laravel vào /var/www
-            mv ~/histudy /var/www/histudy/server
+            # Sao chép mã nguồn từ GitHub repository lên EC2
+            echo "Copying code to /var/www/histudy/server"
+            sudo rsync -avz --delete $GITHUB_WORKSPACE/server/ ubuntu@${{ env.EC2_HOST }}:/var/www/histudy/server/
+
+            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
+            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
+
+            # Di chuyển vào thư mục chứa server
             cd /var/www/histudy/server
 
-            # Đảm bảo quyền truy cập thư mục
-            sudo chmod -R 775 storage
-            sudo chmod -R 775 bootstrap/cache
-
-            # Cài đặt dependencies
-            export COMPOSER_ALLOW_SUPERUSER=1
+            # Cài đặt dependencies cho Laravel
             sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
             # Tạo key cho Laravel
             sudo php artisan key:generate --force
 
-            # Thực thi migration và tối ưu hóa
+            # Chạy migrate và optimize
             sudo php artisan migrate --force
             sudo php artisan optimize
 
-            # Khởi động lại Nginx nếu cần
-            sudo systemctl restart nginx
-          EOF
+            # Cấp quyền cho thư mục storage và bootstrap/cache
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
