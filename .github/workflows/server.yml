@@ -31,15 +31,8 @@ jobs:
           script: |
             # Kiểm tra và tạo thư mục server nếu chưa tồn tại
             if [ ! -d "/var/www/histudy" ]; then
-              echo "Directory /var/www/histudy does not exist. Creating it now."
-              sudo mkdir -p /var/www/histudy
-            fi
-
-            if [ ! -d "/var/www/histudy/server" ]; then
               echo "Directory /var/www/histudy/server does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server
-            else
-              echo "Directory /var/www/histudy/server already exists."
             fi
 
             # Cấp quyền cho thư mục server ngay cả khi thư mục đã tồn tại
@@ -54,7 +47,7 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           source: "server/*"
-          target: "/var/www/histudy/server"
+          target: "/var/www/histudy"
 
       - name: Set up Laravel environment and run deployment tasks
         uses: appleboy/ssh-action@master
