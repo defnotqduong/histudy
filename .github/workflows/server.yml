@@ -21,40 +21,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USERNAME }}
-          key: ${{ env.EC2_PRIVATE_KEY }}
-          port: 22
-          script: |
-            # Kiểm tra xem thư mục server có tồn tại không, nếu không thì tạo
-            if [ ! -d "/var/www/histudy/server" ]; then
-              echo "Directory /var/www/histudy/server does not exist. Creating it now."
-              sudo mkdir -p /var/www/histudy/server
-              sudo chown ubuntu:ubuntu /var/www/histudy/server
-              sudo chmod -R 775 /var/www/histudy/server
-            else
-              echo "Directory /var/www/histudy/server already exists."
-            fi
+      # - name: Set up SSH key
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.EC2_HOST }}
+      #     username: ${{ env.EC2_USERNAME }}
+      #     key: ${{ env.EC2_PRIVATE_KEY }}
+      #     port: 22
+      #     script: |
+      #       # Kiểm tra xem thư mục server có tồn tại không, nếu không thì tạo
+      #       if [ ! -d "/var/www/histudy/server" ]; then
+      #         echo "Directory /var/www/histudy/server does not exist. Creating it now."
+      #         sudo mkdir -p /var/www/histudy/server
+      #         sudo chown ubuntu:ubuntu /var/www/histudy/server
+      #         sudo chmod -R 775 /var/www/histudy/server
+      #       else
+      #         echo "Directory /var/www/histudy/server already exists."
+      #       fi
 
-            # Di chuyển vào thư mục chứa server
-            cd /var/www/histudy/server
+      #       # Di chuyển vào thư mục chứa server
+      #       cd /var/www/histudy/server
 
-            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
-            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" > .env
+      #       # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
+      #       echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" > .env
 
-            # Cài đặt dependencies cho Laravel
-            composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+      #       # Cài đặt dependencies cho Laravel
+      #       composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
-            # Tạo key cho Laravel
-            php artisan key:generate --force
+      #       # Tạo key cho Laravel
+      #       php artisan key:generate --force
 
-            # Chạy migrate và optimize
-            php artisan migrate --force
-            php artisan optimize
+      #       # Chạy migrate và optimize
+      #       php artisan migrate --force
+      #       php artisan optimize
 
-            # Cấp quyền cho thư mục storage và bootstrap/cache
-            chmod -R 775 storage
-            chmod -R 775 bootstrap/cache
+      #       # Cấp quyền cho thư mục storage và bootstrap/cache
+      #       chmod -R 775 storage
+      #       chmod -R 775 bootstrap/cache
