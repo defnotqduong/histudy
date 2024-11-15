@@ -1,30 +1,79 @@
-- name: Set up Laravel environment and run deployment tasks
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ env.EC2_HOST }}
-    username: ${{ env.EC2_USERNAME }}
-    key: ${{ env.EC2_PRIVATE_KEY }}
-    port: 22
-    script: |
-      echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
-      sudo chown www-data:www-data /var/www/histudy/server/.env
-      sudo chmod 644 /var/www/histudy/server/.env
+name: CI/CD Server Histudy
 
-      if [ ! -d "/var/www/histudy/server/storage/app/firebase" ]; then
-        echo "Firebase directory does not exist. Creating it now."
-        sudo mkdir -p /var/www/histudy/server/storage/app/firebase
-      fi
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "server/**"
 
-      echo "FIREBASE_ADMIN_SDK=${{ env.FIREBASE_ADMIN_SDK }}" | sudo tee /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
-      sudo chown www-data:www-data /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
-      sudo chmod 644 /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+  LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+  FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
 
-      cd /var/www/histudy/server
-      sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
-      sudo php artisan key:generate --force
-      sudo php artisan migrate --force
-      sudo php artisan optimize
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-      sudo chown -R www-data:www-data /var/www/histudy/server
-      sudo chmod -R 775 /var/www/histudy/server/storage
-      sudo chmod -R 775 /var/www/histudy/server/bootstrap/cache
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up server directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            if [ ! -d "/var/www/histudy" ]; then
+              echo "Directory /var/www/histudy/server does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/server
+            fi
+            sudo chown -R ubuntu:ubuntu /var/www/histudy/server
+            sudo chmod -R 775 /var/www/histudy/server
+
+      - name: Deploy to EC2 with SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          source: "server/*"
+          target: "/var/www/histudy"
+
+      - name: Set up Laravel environment and run deployment tasks
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
+            sudo chown www-data:www-data /var/www/histudy/server/.env
+            sudo chmod 644 /var/www/histudy/server/.env
+
+            if [ ! -d "/var/www/histudy/server/storage/app/firebase" ]; then
+              echo "Firebase directory does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/server/storage/app/firebase
+            fi
+
+            echo "FIREBASE_ADMIN_SDK=${{ env.FIREBASE_ADMIN_SDK }}" | sudo tee /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
+            sudo chown www-data:www-data /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
+            sudo chmod 644 /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
+
+            cd /var/www/histudy/server
+            sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+            sudo php artisan key:generate --force
+            sudo php artisan migrate --force
+            sudo php artisan optimize
+
+            sudo chown -R www-data:www-data /var/www/histudy/server
+            sudo chmod -R 775 /var/www/histudy/server/storage
+            sudo chmod -R 775 /var/www/histudy/server/bootstrap/cache
