@@ -33,7 +33,7 @@ use App\Http\Controllers\WishlistController;
 */
 
 Route::get('/check-status', function () {
-    return response()->json(['status' => 'ok', 'messsage' => 'Success!']);
+    return response()->json(['status' => 'ok']);
 });
 
 // Auth Routes
