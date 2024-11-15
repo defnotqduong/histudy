@@ -62,7 +62,7 @@ jobs:
               sudo mkdir -p /var/www/histudy/server/storage/app/firebase
             fi
 
-            echo "$FIREBASE_ADMIN_SDK" | sudo tee /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json > /dev/null
+            echo "FIREBASE_ADMIN_SDK=${{ env.FIREBASE_ADMIN_SDK }}" | sudo tee /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
             sudo chown www-data:www-data /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
             sudo chmod 644 /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
 
