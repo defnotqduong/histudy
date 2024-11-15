@@ -69,3 +69,4 @@ jobs:
             sudo chown -R www-data:www-data /var/www/histudy/server
             sudo chmod -R 775 /var/www/histudy/server/storage
             sudo chmod -R 775 /var/www/histudy/server/bootstrap/cache
+            sudo chmod 644 /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk-ir68l-f8c1c9c05d.json
