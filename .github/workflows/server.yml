@@ -29,13 +29,11 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           script: |
-            # Kiểm tra và tạo thư mục server nếu chưa tồn tại
             if [ ! -d "/var/www/histudy" ]; then
               echo "Directory /var/www/histudy/server does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server
             fi
 
-            # Cấp quyền cho thư mục server ngay cả khi thư mục đã tồn tại
             sudo chown -R ubuntu:ubuntu /var/www/histudy/server
             sudo chmod -R 775 /var/www/histudy/server
 
@@ -57,22 +55,17 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           script: |
-            # Tạo file .env và sao chép nội dung từ LARAVEL_ENV vào
             echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
 
-            # Di chuyển vào thư mục chứa server
             cd /var/www/histudy/server
 
-            # Cài đặt dependencies cho Laravel
             sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
 
-            # Tạo key cho Laravel
             sudo php artisan key:generate --force
 
-            # Chạy migrate và optimize
             sudo php artisan migrate --force
             sudo php artisan optimize
 
-            # Cấp quyền cho thư mục storage và bootstrap/cache
-            sudo chmod -R 775 storage
-            sudo chmod -R 775 bootstrap/cache
+            sudo chown -R www-data:www-data /var/www/histudy/server
+            sudo chmod -R 775 /var/www/histudy/server/storage
+            sudo chmod -R 775 /var/www/histudy/server/bootstrap/cache
