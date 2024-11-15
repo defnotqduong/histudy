@@ -34,7 +34,6 @@ jobs:
               echo "Directory /var/www/histudy/server does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server
             fi
-
             sudo chown -R ubuntu:ubuntu /var/www/histudy/server
             sudo chmod -R 775 /var/www/histudy/server
 
@@ -58,16 +57,18 @@ jobs:
           script: |
             echo "LARAVEL_ENV=${{ env.LARAVEL_ENV }}" | sudo tee /var/www/histudy/server/.env
 
+            if [ ! -d "/var/www/histudy/server/storage/app/firebase" ]; then
+              echo "Firebase directory does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/server/storage/app/firebase
+            fi
+
             echo "$FIREBASE_ADMIN_SDK" | sudo tee /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json > /dev/null
             sudo chown www-data:www-data /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
             sudo chmod 644 /var/www/histudy/server/storage/app/firebase/histudy-2024-firebase-adminsdk.json
 
             cd /var/www/histudy/server
-
             sudo composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
-
             sudo php artisan key:generate --force
-
             sudo php artisan migrate --force
             sudo php artisan optimize
 
