@@ -26,11 +26,11 @@ class UploadService
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => env('AWS_DEFAULT_REGION')
+                'region'  => 'ap-southeast-1'
             ]);
 
             $uploader = new MultipartUploader($s3, $contents, [
-                'bucket' => env('AWS_BUCKET'),
+                'bucket' => 'histudy-2024-bucket-s3',
                 'key'    => $path,
                 'ContentType' => $file->getMimeType(),
             ]);
