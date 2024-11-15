@@ -26,7 +26,11 @@ class UploadService
 
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => 'ap-southeast-1'
+                'region'  => 'ap-southeast-1',
+                'credentials' => [
+                    'key'    => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
             ]);
 
             $uploader = new MultipartUploader($s3, $contents, [
