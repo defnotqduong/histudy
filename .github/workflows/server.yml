@@ -75,5 +75,6 @@ jobs:
             sudo php artisan optimize
 
             sudo chown -R www-data:www-data /var/www/histudy/server
+            sudo chmod -R 775 /var/www/histudy/server
             sudo chmod -R 775 /var/www/histudy/server/storage
             sudo chmod -R 775 /var/www/histudy/server/bootstrap/cache
