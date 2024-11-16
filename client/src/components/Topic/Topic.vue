@@ -20,62 +20,71 @@
 <script>
 import { defineComponent } from 'vue'
 import TopicCard from '@/components/Topic/TopicCard.vue'
+import webDesign from '@/assets/images/web-design.jpg'
+import design from '@/assets/images/design.jpg'
+import personal from '@/assets/images/personal.jpg'
+import server from '@/assets/images/server.jpg'
+import pantone from '@/assets/images/pantone.jpg'
+import paintPalette from '@/assets/images/paint-palette.jpg'
+import smartphone from '@/assets/images/smartphone.jpg'
+import infographic from '@/assets/images/infographic.jpg'
+
 export default defineComponent({
   components: { TopicCard },
   setup() {
     const topics = [
       {
         id: 1,
-        url: '/src/assets/images/web-design.jpg',
+        url: webDesign,
         title: 'Web Design',
         link: 'home',
         content: 1
       },
       {
         id: 2,
-        url: '/src/assets/images/design.jpg',
+        url: design,
         title: 'Backend',
         link: 'home',
         content: 2
       },
       {
         id: 3,
-        url: '/src/assets/images/personal.jpg',
+        url: personal,
         title: 'Full Stack',
         link: 'home',
         content: 1
       },
       {
         id: 4,
-        url: '/src/assets/images/server.jpg',
+        url: server,
         title: 'Mobile Application',
         link: 'home',
         content: 1
       },
       {
         id: 5,
-        url: '/src/assets/images/pantone.jpg',
+        url: pantone,
         title: 'Backend',
         link: 'home',
         content: 2
       },
       {
         id: 6,
-        url: '/src/assets/images/paint-palette.jpg',
+        url: paintPalette,
         title: 'Finance & Accounting',
         link: 'home',
         content: 3
       },
       {
         id: 7,
-        url: '/src/assets/images/smartphone.jpg',
+        url: smartphone,
         title: 'Graphic Design',
         link: 'home',
         content: 1
       },
       {
         id: 8,
-        url: '/src/assets/images/infographic.jpg',
+        url: infographic,
         title: 'Cloud',
         link: 'home',
         content: 1

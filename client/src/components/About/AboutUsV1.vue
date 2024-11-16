@@ -4,7 +4,7 @@
       <div class="grid grid-cols-12 gap-7">
         <div class="col-span-6">
           <div>
-            <img src="../../assets/images/about-01.jpg" class="w-full h-auto object-cover object-center" alt="About us" />
+            <img src="@/assets/images/about-01.jpg" class="w-full h-auto object-cover object-center" alt="About us" />
           </div>
         </div>
         <div class="col-span-6 flex flex-col items-start">

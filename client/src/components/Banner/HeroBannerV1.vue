@@ -1,3 +1,9 @@
+<script setup>
+import bgImage1 from '@/assets/images/bg-image-01.jpg'
+import bgImage2 from '@/assets/images/bg-image-02.jpg'
+import bgImage3 from '@/assets/images/bg-image-03.jpg'
+</script>
+
 <template>
   <section>
     <Swiper
@@ -10,7 +16,7 @@
       class="h-[460px] md:h-[640px] hero-banner"
     >
       <SwiperSlide
-        :style="{ backgroundImage: 'url(/src/assets/images/bg-image-01.jpg)' }"
+        :style="{ backgroundImage: `url(${bgImage1})` }"
         class="relative w-full h-full bg-no-repeat bg-cover bg-center after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient04 after:opacity-50"
       >
         <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
@@ -38,7 +44,7 @@
         </div>
       </SwiperSlide>
       <SwiperSlide
-        :style="{ backgroundImage: 'url(/src/assets/images/bg-image-02.jpg)' }"
+        :style="{ backgroundImage: `url(${bgImage2})` }"
         class="relative w-full h-full bg-no-repeat bg-cover bg-center after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:bg-blackColor after:opacity-50"
       >
         <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
@@ -66,7 +72,7 @@
         </div></SwiperSlide
       >
       <SwiperSlide
-        :style="{ backgroundImage: 'url(/src/assets/images/bg-image-03.jpg)' }"
+        :style="{ backgroundImage: `url(${bgImage3})` }"
         class="relative w-full h-full bg-no-repeat bg-cover bg-center after:absolute after:content after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient04 after:opacity-50"
       >
         <div class="absolute top-0 left-0 w-full h-full z-[1] flex items-center justify-center">
