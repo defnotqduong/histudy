@@ -2,6 +2,7 @@ import axios from 'axios'
 import { TIMEOUT } from '@/configs/constantTypes'
 import { refTokenUserStore, localEnUserStore, localEnRefreshUserStore, gtka } from '@/helpers/localStorageHelper'
 import { useUserStore } from '@/stores'
+import { BASE_API_URL } from '@/configs/baseUrl'
 
 const connectServer = (config = {}) => {
   const userStore = useUserStore()
@@ -51,8 +52,7 @@ const connectServer = (config = {}) => {
 }
 
 export const endpointAccess = path => {
-  const endpoint = import.meta.env.PROD == true ? import.meta.env.VITE_API_PROD : import.meta.env.VITE_API_DEV
-  return `${endpoint}${path}`
+  return `${BASE_API_URL}${path}`
 }
 
 export const get = async (path, data = {}, config = {}) => {

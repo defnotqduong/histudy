@@ -26,11 +26,6 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: Create .env file for Vue.js with CLIENT_ENV secrets
-        run: |
-          # Tạo file .env cho client từ CLIENT_ENV secrets
-          echo "VUE_ENV=${{ env.VUE_ENV }}" > client/.env
-
       - name: Install dependencies and Build Vue.js application
         run: |
           cd client
