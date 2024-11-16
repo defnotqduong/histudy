@@ -1,0 +1,64 @@
+name: CI/CD System Messsage Histudy
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "sys_message_queue/**"
+
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Set up sys message directory on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            if [ ! -d "/var/www/histudy" ]; then
+              echo "Directory /var/www/histudy/sys_message_queue does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/sys_message_queue
+            fi
+
+            sudo chown -R ubuntu:ubuntu /var/www/histudy/sys_message_queue
+            sudo chmod -R 775 /var/www/histudy/sys_message_queue
+
+      - name: Copy files to EC2 server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          source: "sys_message_queue/*"
+          target: "/var/www/histudy"
+
+      - name: SSH to EC2 and install dependencies
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www/histudy/sys_message_queue
+            npm install
+            pm2 start server.js --name "sys_message_queue"
