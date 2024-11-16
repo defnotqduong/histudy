@@ -49,6 +49,7 @@ jobs:
               echo "Directory /var/www/histudy/client does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/client
             fi
+
             sudo chown -R ubuntu:ubuntu /var/www/histudy/client
             sudo chmod -R 775 /var/www/histudy/client
 
