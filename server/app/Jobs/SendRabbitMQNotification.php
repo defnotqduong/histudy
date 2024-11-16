@@ -26,16 +26,23 @@ class SendRabbitMQNotification
 
     public function handle(): void
     {
+
+        $host = config('services.rabbitmq.host');
+        $port = config('services.rabbitmq.port');
+        $username = config('services.rabbitmq.username');
+        $password = config('services.rabbitmq.password');
+        $vhost = config('services.rabbitmq.vhost');
+        $queue = config('services.rabbitmq.queue');
+
         $connection = new AMQPStreamConnection(
-            'armadillo-01.rmq.cloudamqp.com',
-            5672,
-            'trolilrv',
-            '74LkbREC1HHd061d-Z1l74vSgnTcbVaz',
-            'trolilrv'
+            $host,
+            $port,
+            $username,
+            $password,
+            $vhost
         );
 
         $channel = $connection->channel();
-        $queue = 'notifications';
 
         $channel->queue_declare($queue, false, true, false, false);
 

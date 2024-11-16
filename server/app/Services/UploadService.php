@@ -19,18 +19,25 @@ class UploadService
             'fileName' => '',
             'filePath' => ''
         ];
+
         if ($file) {
             $fileName = $this->getFileName($file);
             $path = $folder . '/' . $fileName;
             $contents = fopen($file, 'rb');
 
+            $awsConfig = config('services.aws');
+
             $s3 = new S3Client([
                 'version' => 'latest',
-                'region'  => env('AWS_DEFAULT_REGION'),
+                'region'  => $awsConfig['region'],
+                'credentials' => [
+                    'key'    => $awsConfig['access_key_id'],
+                    'secret' => $awsConfig['secret_access_key'],
+                ],
             ]);
 
             $uploader = new MultipartUploader($s3, $contents, [
-                'bucket' => env('AWS_BUCKET'),
+                'bucket' => $awsConfig['bucket'],
                 'key'    => $path,
                 'ContentType' => $file->getMimeType(),
             ]);
@@ -52,7 +59,6 @@ class UploadService
 
         return $initial;
     }
-
 
     public function upLoadObjectToS3(string $folder, UploadedFile $file)
     {

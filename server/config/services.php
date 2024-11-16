@@ -37,4 +37,21 @@ return [
         'redirect' => 'http://example.com/callback-url',
     ],
 
+    'rabbitmq' => [
+        'host' => env('RABBITMQ_HOST'),
+        'port' => env('RABBITMQ_PORT'),
+        'username' => env('RABBITMQ_USER'),
+        'password' => env('RABBITMQ_PASSWORD'),
+        'vhost' => env('RABBITMQ_VHOST'),
+        'queue' => env('RABBITMQ_QUEUE')
+    ],
+
+    'aws' => [
+        'access_key_id' => env('AWS_ACCESS_KEY_ID'),
+        'secret_access_key' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+    ],
+
 ];
