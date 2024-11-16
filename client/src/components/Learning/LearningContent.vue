@@ -83,14 +83,11 @@ export default defineComponent({
     const homeStore = useHomeStore()
 
     const downloadAttachment = async url => {
-      console.log(url)
       new JsFileDownloader({
         url: url
       })
         .then(function () {})
-        .catch(function (error) {
-          console.log(error)
-        })
+        .catch(function (error) {})
     }
 
     const updateLesson = async () => {

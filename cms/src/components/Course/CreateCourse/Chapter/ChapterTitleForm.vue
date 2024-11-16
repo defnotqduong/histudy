@@ -80,7 +80,6 @@ export default defineComponent({
 
       const res = await updateChapter(props.slug, props.id, { title: title.value })
 
-      console.log(res)
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors

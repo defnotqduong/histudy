@@ -154,8 +154,6 @@ export default defineComponent({
 
       const res = await getAllUser()
 
-      console.log(res)
-
       if (res.success) users.value = res.users
 
       loading.value = false

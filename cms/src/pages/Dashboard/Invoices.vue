@@ -78,8 +78,6 @@ export default defineComponent({
 
       const res = await getAllInvoiceForInstructor()
 
-      console.log(res)
-
       if (res.success) invoices.value = res.invoices
 
       loading.value = false

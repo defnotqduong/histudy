@@ -61,12 +61,6 @@ export default defineComponent({
 
       const [userData, coursesData, categoriesData] = await Promise.all([userPromise, getPopularCourses(), getAllCategories()])
 
-      console.log('user', userData)
-
-      console.log('popular courses', coursesData)
-
-      console.log('categories', categoriesData)
-
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
         this.userStore.setEnrolledCourses(userData?.purchased_courses?.courses)
@@ -78,12 +72,9 @@ export default defineComponent({
 
         const socket = connectSocket(userData.user.id)
 
-        socket.on('connect', () => {
-          console.log('Socket connected:', socket.id)
-        })
+        socket.on('connect', () => {})
 
         socket.on('message', data => {
-          console.log('Received message:', data)
           this.userStore.setNotification([data])
         })
       }

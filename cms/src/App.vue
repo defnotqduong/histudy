@@ -48,20 +48,15 @@ export default defineComponent({
 
       const [userData] = await Promise.all([userPromise])
 
-      console.log('user', userData)
-
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
         this.userStore.setNotification(userData?.notifications)
 
         const socket = connectSocket(userData.user.id)
 
-        socket.on('connect', () => {
-          console.log('Socket connected:', socket.id)
-        })
+        socket.on('connect', () => {})
 
         socket.on('message', data => {
-          console.log('Received message:', data)
           this.userStore.setNotification([data])
         })
       }

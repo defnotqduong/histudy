@@ -95,7 +95,7 @@ export default defineComponent({
     const fetchData = async slug => {
       loading.value = true
       const res = await getCourseForGuest(slug)
-      console.log(res)
+
       if (!res.success) {
         router.push({ name: 'home' })
         return

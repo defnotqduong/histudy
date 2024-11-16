@@ -72,8 +72,6 @@ export default defineComponent({
           title: course.title
         })
 
-        console.log(res)
-
         if (!res.success) {
           errors.value = res.data.errors
           loading.value = false

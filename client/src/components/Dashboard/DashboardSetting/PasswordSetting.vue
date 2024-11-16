@@ -77,7 +77,7 @@ export default defineComponent({
         new_password: newPassword.value,
         new_password_confirmation: newPasswordConfirmation.value
       })
-      console.log(res)
+
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors

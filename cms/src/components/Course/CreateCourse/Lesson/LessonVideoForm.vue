@@ -128,14 +128,12 @@ export default defineComponent({
     const handleDrop = e => {
       if (e.dataTransfer.files.length > 0) {
         file.value = e.dataTransfer.files[0]
-        console.log(file.value)
       }
     }
 
     const handleFileChange = e => {
       if (e.target.files.length > 0) {
         file.value = e.target.files[0]
-        console.log(file.value)
       }
     }
 

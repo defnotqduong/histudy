@@ -145,7 +145,7 @@ export default defineComponent({
     const fetchData = async (slug, chapterId, lessonId) => {
       loading.value = true
       const res = await getLesson(slug, chapterId, lessonId)
-      console.log(res)
+
       if (!res.success) {
         router.push({ name: 'home' })
         return

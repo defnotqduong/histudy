@@ -121,8 +121,6 @@ export default defineComponent({
 
       const res = await getAllCategoryForInstructor()
 
-      console.log(res)
-
       if (res.success) categories.value = res.categories
 
       loading.value = false

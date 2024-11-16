@@ -213,12 +213,9 @@ export default defineComponent({
 
           const socket = connectSocket(userData.user.id)
 
-          socket.on('connect', () => {
-            console.log('Socket connected:', socket.id)
-          })
+          socket.on('connect', () => {})
 
           socket.on('message', data => {
-            console.log('Received message:', data)
             userStore.setNotification([data])
           })
         }
@@ -231,12 +228,9 @@ export default defineComponent({
       const provider = new GoogleAuthProvider()
       signInWithPopup(getAuth(), provider)
         .then(async result => {
-          console.log(result.user)
           const res = await loginWithGoogle({
             id_token: result.user.accessToken
           })
-
-          console.log(res)
 
           if (!res.success) {
             homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
@@ -278,12 +272,9 @@ export default defineComponent({
 
               const socket = connectSocket(userData.user.id)
 
-              socket.on('connect', () => {
-                console.log('Socket connected:', socket.id)
-              })
+              socket.on('connect', () => {})
 
               socket.on('message', data => {
-                console.log('Received message:', data)
                 userStore.setNotification([data])
               })
             }
@@ -291,9 +282,7 @@ export default defineComponent({
             router.push({ name: 'home' })
           }
         })
-        .catch(error => {
-          console.log(error)
-        })
+        .catch(error => {})
     }
 
     return {

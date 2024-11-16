@@ -106,8 +106,6 @@ export default defineComponent({
         rating: rating.value
       })
 
-      console.log(res)
-
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
       }

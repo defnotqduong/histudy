@@ -116,8 +116,6 @@ export default defineComponent({
         password: user.password
       })
 
-      console.log(res)
-
       if (!res.success) {
         errors.value = res.data.errors
         loading.value = false

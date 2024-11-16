@@ -118,8 +118,6 @@ export default defineComponent({
 
       const res = await getCourseForCheckout(id.value)
 
-      console.log(res)
-
       if (!res.success) router.push({ name: 'home' })
 
       if (res.success) course.value = res.course
@@ -131,8 +129,6 @@ export default defineComponent({
       loading.value = true
 
       const res = await checkoutCourse(id.value)
-
-      console.log(res)
 
       if (!res.success) homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
 

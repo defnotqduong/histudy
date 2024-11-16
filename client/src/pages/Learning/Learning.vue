@@ -161,8 +161,6 @@ export default defineComponent({
 
       const lessonInfoRes = await getLessonInfo(id)
 
-      console.log('lesson', lessonInfoRes)
-
       if (!lessonInfoRes.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: lessonInfoRes.data.message })
         return
@@ -179,8 +177,6 @@ export default defineComponent({
       loading.value = true
 
       const res = await getLearningInfo(slug.value)
-
-      console.log('course', res)
 
       if (!res.success) {
         router.push({ name: 'home' })

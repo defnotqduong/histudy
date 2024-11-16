@@ -11,7 +11,6 @@ export const refTokenUserStore = async () => {
 
     return { access_token, refresh_token }
   } catch (error) {
-    console.log('Error refreshing access token:', error)
     return null
   }
 }

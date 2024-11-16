@@ -84,7 +84,6 @@ export default defineComponent({
     const fetchData = async id => {
       loading.value = true
       const res = await getCategoryForInstructor(id)
-      console.log(res)
       if (!res.success) {
         router.push({ name: 'categories' })
         return

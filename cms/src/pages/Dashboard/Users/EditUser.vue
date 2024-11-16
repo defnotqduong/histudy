@@ -167,7 +167,7 @@ export default defineComponent({
       if (!userData.success) {
         router.push({ name: 'user' })
       }
-      console.log(userData)
+
       if (userData.success) {
         user.name = userData.user.name
         user.username = userData.user.username

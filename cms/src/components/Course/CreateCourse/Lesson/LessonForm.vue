@@ -98,8 +98,6 @@ export default defineComponent({
 
       const res = await createLesson(props.slug, props.chapterId, { title: title.value })
 
-      console.log(res)
-
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
         errors.value = res.data.errors
