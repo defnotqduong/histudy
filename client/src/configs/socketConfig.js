@@ -1,8 +1,8 @@
 import { io } from 'socket.io-client'
+import { BASE_WS_URL } from '@/configs/baseUrl'
 
 export const connectSocket = userId => {
-  const wsEndpoint = import.meta.env.PROD ? import.meta.env.VITE_WS_API_PROD : import.meta.env.VITE_WS_API_DEV
-  const socket = io(wsEndpoint, {
+  const socket = io(BASE_WS_URL, {
     query: { id: userId },
     transports: ['websocket']
   })
