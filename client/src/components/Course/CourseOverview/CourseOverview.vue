@@ -1,8 +1,5 @@
-<script setup>
-import bgImage10 from '@/assets/images/bg-image-10.jpg'
-</script>
 <template>
-  <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: `url(${bgImage1})` }">
+  <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: `url(${bgImage10})` }">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-12">
         <div class="col-span-12 lg:col-span-8 lg:pr-[16%]">
@@ -116,6 +113,8 @@ import { defineComponent, ref, computed } from 'vue'
 import { formatDateShort, formatNumber } from '@/utils'
 
 import StarRating from '@/components/StarRating/StarRating.vue'
+
+import bgImage10 from '@/assets/images/bg-image-10.jpg'
 export default defineComponent({
   components: { StarRating },
   props: {
@@ -128,7 +127,7 @@ export default defineComponent({
 
     const fmAvgStar = computed(() => formatNumber(avgStar.value, 1))
 
-    return { avgStar, fmAvgStar }
+    return { avgStar, fmAvgStar, bgImage10 }
   },
   methods: {
     formatDateShort

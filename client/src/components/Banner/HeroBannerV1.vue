@@ -1,9 +1,3 @@
-<script setup>
-import bgImage1 from '@/assets/images/bg-image-01.jpg'
-import bgImage2 from '@/assets/images/bg-image-02.jpg'
-import bgImage3 from '@/assets/images/bg-image-03.jpg'
-</script>
-
 <template>
   <section>
     <Swiper
@@ -113,6 +107,10 @@ import 'swiper/css/navigation'
 import GradientButtonV3 from '@/components/Button/GradientButtonV3.vue'
 import SocialListV1 from '@/components/SocialList/SocialListV1.vue'
 
+import bgImage1 from '@/assets/images/bg-image-01.jpg'
+import bgImage2 from '@/assets/images/bg-image-02.jpg'
+import bgImage3 from '@/assets/images/bg-image-03.jpg'
+
 export default defineComponent({
   components: {
     Swiper,
@@ -122,6 +120,9 @@ export default defineComponent({
   },
   setup() {
     return {
+      bgImage1,
+      bgImage2,
+      bgImage3,
       modules: [Navigation, Autoplay]
     }
   }
