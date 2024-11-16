@@ -65,7 +65,7 @@ class AttachmentController extends Controller
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
 
-            $uploadResult = $this->uploadService->multipartUploaderToS3('files', $file);
+            $uploadResult = $this->uploadService->upLoadObjectToS3('files', $file);
 
             if ($uploadResult['status']) {
 

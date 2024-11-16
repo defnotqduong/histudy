@@ -227,7 +227,7 @@ class LessonController extends Controller
 
             $file = $request->file('video');
 
-            $uploadResult = $this->uploadService->multipartUploaderToS3('videos', $file);
+            $uploadResult = $this->uploadService->upLoadObjectToS3('videos', $file);
 
             if ($uploadResult['status']) {
 

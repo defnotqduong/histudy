@@ -73,7 +73,7 @@ class ProfileController extends Controller
 
             $file = $request->file('image');
 
-            $uploadResult = $this->uploadService->multipartUploaderToS3('images', $file);
+            $uploadResult = $this->uploadService->upLoadObjectToS3('images', $file);
 
             if ($uploadResult['status']) {
 
