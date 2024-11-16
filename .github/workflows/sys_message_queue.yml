@@ -61,4 +61,4 @@ jobs:
           script: |
             cd /var/www/histudy/sys_message_queue
             npm install
-            pm2 start server.js --name "sys_message_queue"
+            pm2 start server.js --name "sys_message_queue" -f
