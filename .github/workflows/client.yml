@@ -19,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "18.x"
 
@@ -61,7 +61,7 @@ jobs:
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
           source: "client/dist/*"
-          target: "/var/www/histudy/client"
+          target: "/var/www/histudy"
 
       - name: Restart Nginx
         uses: appleboy/ssh-action@master
