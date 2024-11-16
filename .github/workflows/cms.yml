@@ -1,4 +1,4 @@
-name: CI/CD Client Histudy
+name: CI/CD CMS Histudy
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
           npm install
           npm run build
 
-      - name: Set up client directory on EC2
+      - name: Set up cms directory on EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.EC2_HOST }}
