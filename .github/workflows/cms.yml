@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - "client/**"
+      - "cms/**"
 
 env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies and Build Vue.js application
         run: |
-          cd client
+          cd cms
           npm install
           npm run build
 
@@ -40,12 +40,12 @@ jobs:
           port: 22
           script: |
             if [ ! -d "/var/www/histudy" ]; then
-              echo "Directory /var/www/histudy/client does not exist. Creating it now."
-              sudo mkdir -p /var/www/histudy/client
+              echo "Directory /var/www/histudy/cms does not exist. Creating it now."
+              sudo mkdir -p /var/www/histudy/cms
             fi
 
-            sudo chown -R ubuntu:ubuntu /var/www/histudy/client
-            sudo chmod -R 775 /var/www/histudy/client
+            sudo chown -R ubuntu:ubuntu /var/www/histudy/cms
+            sudo chmod -R 775 /var/www/histudy/cms
 
       - name: Deploy to EC2 with SCP
         uses: appleboy/scp-action@master
@@ -54,7 +54,7 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.EC2_PRIVATE_KEY }}
           port: 22
-          source: "client/dist/*"
+          source: "cms/dist/*"
           target: "/var/www/histudy"
 
       - name: Restart Nginx
