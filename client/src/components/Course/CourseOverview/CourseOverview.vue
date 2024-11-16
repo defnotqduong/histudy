@@ -1,5 +1,8 @@
+<script setup>
+import bgImage10 from '@/assets/images/bg-image-10.jpg'
+</script>
 <template>
-  <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: 'url(/src/assets/images/bg-image-10.jpg)' }">
+  <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: `url(${bgImage1})` }">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-12">
         <div class="col-span-12 lg:col-span-8 lg:pr-[16%]">
