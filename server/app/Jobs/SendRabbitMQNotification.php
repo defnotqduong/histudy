@@ -27,11 +27,11 @@ class SendRabbitMQNotification
     public function handle(): void
     {
         $connection = new AMQPStreamConnection(
-            env('RABBITMQ_HOST', '127.0.0.1'),
-            env('RABBITMQ_PORT', 5672),
-            env('RABBITMQ_USER', 'guest'),
-            env('RABBITMQ_PASSWORD', '12345'),
-            env('RABBITMQ_VHOST', '/')
+            env('RABBITMQ_HOST'),
+            env('RABBITMQ_PORT'),
+            env('RABBITMQ_USER'),
+            env('RABBITMQ_PASSWORD'),
+            env('RABBITMQ_VHOST')
         );
 
         $channel = $connection->channel();

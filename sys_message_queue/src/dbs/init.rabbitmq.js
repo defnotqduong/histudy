@@ -5,7 +5,7 @@ const { initializeSocketServer, broadcastMessage } = require('./init.websocket')
 
 const connectToRabbitMQ = async () => {
   try {
-    const connection = await amqp.connect('amqp://guest:12345@localhost')
+    const connection = await amqp.connect('amqps://trolilrv:74LkbREC1HHd061d-Z1l74vSgnTcbVaz@armadillo.rmq.cloudamqp.com/trolilrv')
     if (!connection) throw new Error('Connection not established')
 
     const channel = await connection.createChannel()
