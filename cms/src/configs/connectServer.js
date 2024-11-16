@@ -2,6 +2,7 @@ import axios from 'axios'
 import { TIMEOUT } from '@/configs/constantTypes'
 import { refTokenUserStore, localEnUserStore, localEnRefreshUserStore, gtka } from '@/helpers/localStorageHelper'
 import { useUserStore } from '@/stores'
+import { BASE_API_URL } from '@/configs/baseUrl'
 
 const connectServer = (config = {}) => {
   const userStore = useUserStore()
