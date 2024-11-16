@@ -107,7 +107,7 @@ class UploadService
         if (is_string($pathFile) && DiskHelper::getS3Disk()->exists($pathFile)) {
             $url = DiskHelper::getS3Disk()->url($pathFile);
             $initial['filePath'] = $url;
-            return $initial;
+            return $initial['filePath'];
         }
     }
 
