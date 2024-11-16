@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       class="h-60 md:h-[360px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden"
-      :style="{ backgroundImage: userStore.user?.background_image ? `url(${userStore.user?.background_image})` : 'url(/src/assets/images/bg-image-23.jpg)' }"
+      :style="{ backgroundImage: userStore.user?.background_image ? `url(${userStore.user?.background_image})` : `url(${bgImage23})` }"
     ></div>
     <div class="absolute bottom-8 w-full px-4 sm:px-8 md:px-12">
       <div class="flex flex-col gap-y-4 items-start md:flex-row md:items-end justify-start">
@@ -54,6 +54,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import ButtonV6 from '@/components/Button/ButtonV6.vue'
+import bgImage23 from '@/assets/images/bg-image-23.jpg'
 export default defineComponent({
   components: { ButtonV6 },
   setup() {
@@ -61,7 +62,8 @@ export default defineComponent({
     const router = useRouter()
 
     return {
-      userStore
+      userStore,
+      bgImage23
     }
   }
 })

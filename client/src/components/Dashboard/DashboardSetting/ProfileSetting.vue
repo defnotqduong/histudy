@@ -3,7 +3,7 @@
     <div class="relative mb-6">
       <div
         class="h-40 sm:h-[260px] bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden"
-        :style="{ backgroundImage: user?.background_image ? `url(${user?.background_image})` : 'url(/src/assets/images/bg-image-23.jpg)' }"
+        :style="{ backgroundImage: user?.background_image ? `url(${user?.background_image})` : `url(${bgImage23})` }"
       ></div>
       <div class="absolute bottom-2 md:bottom-4 w-full px-2 sm:px-4 lg:px-8">
         <div class="flex items-end justify-between">
@@ -106,6 +106,7 @@ import GradientButtonV2 from '@/components/Button/GradientButtonV2.vue'
 import AvatarModal from '@/components/Modal/AvatarModal.vue'
 import BackgroundImageModal from '@/components/Modal/BackgroundImageModal.vue'
 import NotificationBanner from '@/components/Toast/NotificationBanner.vue'
+import bgImage23 from '@/assets/images/bg-image-23.jpg'
 export default defineComponent({
   components: { GradientButtonV2, AvatarModal, BackgroundImageModal, NotificationBanner },
   props: {
@@ -138,12 +139,7 @@ export default defineComponent({
       loading.value = false
     }
 
-    return {
-      loading,
-      errors,
-      user,
-      updateInfo
-    }
+    return { bgImage23, loading, errors, user, updateInfo }
   }
 })
 </script>
