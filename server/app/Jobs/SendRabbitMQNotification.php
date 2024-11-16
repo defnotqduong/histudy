@@ -27,15 +27,15 @@ class SendRabbitMQNotification
     public function handle(): void
     {
         $connection = new AMQPStreamConnection(
-            env('RABBITMQ_HOST'),
-            env('RABBITMQ_PORT'),
-            env('RABBITMQ_USER'),
-            env('RABBITMQ_PASSWORD'),
-            env('RABBITMQ_VHOST')
+            'armadillo-01.rmq.cloudamqp.com',
+            5672,
+            'trolilrv',
+            '74LkbREC1HHd061d-Z1l74vSgnTcbVaz',
+            'trolilrv'
         );
 
         $channel = $connection->channel();
-        $queue = env('RABBITMQ_QUEUE', 'notifications');
+        $queue = 'notifications';
 
         $channel->queue_declare($queue, false, true, false, false);
 
