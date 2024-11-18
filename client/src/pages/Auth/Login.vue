@@ -36,7 +36,7 @@
         </div>
         <form class="form">
           <div class="input-group">
-            <input type="text" name="email" id="email" v-model="email" placeholder="Email" />
+            <input type="text" name="email" id="email" v-model="email" placeholder="Email" autocomplete="email" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute top-1/2 left-2 -translate-y-1/2 w-5 h-5">
               <path
                 d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"
