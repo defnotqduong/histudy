@@ -1,7 +1,7 @@
 <template>
   <button class="button" @click.prevent="func">
     <span
-      class="relative text-sm md:text-base whitespace-nowrap after:absolute after:content-[attr(data-text)] after:top-1/2 after:left-full after:transform after:translate-x-full after:-translate-y-1/2 after:whitespace-nowrap"
+      class="relative text-sm md:text-base whitespace-nowrap after:absolute after:content-[attr(data-text)] after:top-1/2 after:left-[105%] after:transform after:translate-x-full after:-translate-y-1/2 after:whitespace-nowrap"
       :data-text="content"
       >{{ content }}</span
     >
