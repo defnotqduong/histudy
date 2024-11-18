@@ -73,7 +73,7 @@ class PasswordController extends Controller
         }
 
         $token = Str::random(40);
-        $frontendUrl = env('FRONTEND_URL', 'http://localhost:5173');
+        $frontendUrl = config('services.client.client_url');
         $url = $frontendUrl . '/auth/reset-password?token=' . $token;
 
         $data['url'] = $url;
