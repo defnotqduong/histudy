@@ -59,6 +59,10 @@ jobs:
             sudo chown www-data:www-data /var/www/histudy/server/.env
             sudo chmod 644 /var/www/histudy/server/.env
 
+            if ! grep -q "MAIL_PASSWORD=" /var/www/histudy/server/.env || [ -z "$(grep 'MAIL_PASSWORD=' /var/www/histudy/server/.env | cut -d'=' -f2)" ]; then
+              echo "MAIL_PASSWORD=\"wktx jkre nzgf whes\"" | sudo tee -a /var/www/histudy/server/.env
+            fi
+
             if [ ! -d "/var/www/histudy/server/storage/app/firebase" ]; then
               echo "Firebase directory does not exist. Creating it now."
               sudo mkdir -p /var/www/histudy/server/storage/app/firebase
