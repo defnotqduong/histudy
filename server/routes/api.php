@@ -203,5 +203,6 @@ Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     Route::post('/lesson/{lessonId}/discussion', [LearningController::class, 'createDiscussion']);
     Route::post('/lesson/{lessonId}/note', [LearningController::class, 'createNoteLesson']);
     Route::delete('/lesson/{lessonId}/note/{noteId}', [LearningController::class, 'deleteNoteLesson']);
-    Route::get('/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);
 });
+
+Route::get('/learning/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);
