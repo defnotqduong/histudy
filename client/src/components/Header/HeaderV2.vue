@@ -149,7 +149,7 @@
               </div>
               <div class="hidden lg:block w-[1.5px] h-9 bg-borderColor ml-4 mr-1"></div>
               <div class="px-[10px]">
-                <ul>
+                <ul class="hidden lg:block">
                   <li class="user-menu">
                     <a
                       class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor"
@@ -175,6 +175,30 @@
                     <UserMenu />
                   </li>
                 </ul>
+                <div class="block lg:hidden relative" ref="menuContainer">
+                  <button
+                    @click="onChangeUserMenu"
+                    class="flex items-center justify-center gap-2 text-headingColor text-base font-bold cursor-pointer transitin-all duration-[400ms] hover:text-primaryColor"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-5 h-5">
+                      <path
+                        d="M17.5 21.0001H6.5C5.11929 21.0001 4 19.8808 4 18.5001C4 14.4194 10 14.5001 12 14.5001C14 14.5001 20 14.4194 20 18.5001C20 19.8808 18.8807 21.0001 17.5 21.0001Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  <UserMenu :class="{ active: isShowUserMenu }" />
+                </div>
               </div>
             </template>
             <template v-else>
@@ -218,10 +242,21 @@ export default defineComponent({
 
     const isShowSearchEl = ref(false)
     const isHeaderFixed = ref(false)
-    const isShowMenu = ref(false)
+    const isShowUserMenu = ref(false)
+    const menuContainer = ref(null)
 
     const onChangeSearchEl = () => {
       isShowSearchEl.value = !isShowSearchEl.value
+    }
+
+    const onChangeUserMenu = () => {
+      isShowUserMenu.value = !isShowUserMenu.value
+    }
+
+    const handleClickOutside = event => {
+      if (menuContainer.value && !menuContainer.value.contains(event.target)) {
+        isShowUserMenu.value = false
+      }
     }
 
     const handleScroll = () => {
@@ -240,18 +275,23 @@ export default defineComponent({
       homeStore,
       userStore,
       isShowSearchEl,
-      isShowMenu,
+      isShowUserMenu,
       isHeaderFixed,
+      menuContainer,
       onChangeSearchEl,
+      onChangeUserMenu,
       handleScroll,
-      redirect
+      redirect,
+      handleClickOutside
     }
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('click', this.handleClickOutside)
   },
   unmounted() {
     window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('click', this.handleClickOutside)
   }
 })
 </script>
@@ -418,7 +458,8 @@ header.header-sticky {
 
 .has-child-menu:hover .sub-menu,
 .has-child-menu:hover .noti-container,
-.user-menu:hover .user-menu-list-wrapper {
+.user-menu:hover .user-menu-list-wrapper,
+.user-menu-list-wrapper.active {
   top: 100%;
   visibility: visible;
   opacity: 1;
