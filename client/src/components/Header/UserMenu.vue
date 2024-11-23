@@ -7,7 +7,7 @@
         </div>
         <div class="flex-1">
           <h5 class="text-base text-heading font-bold line-clamp-1">{{ userStore.user.username }}</h5>
-          <button>
+          <button @click="closeUserMenu">
             <router-link
               :to="{ name: 'profile' }"
               class="flex items-center justify-center gap-1 text-sm font-bold cursor-pointer relative after:absolute after:content after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[2px] after:rounded hover:after:w-full hover:after:right-auto hover:after:left-0 after:transition-width after:duration-[400ms]"
@@ -18,7 +18,7 @@
         </div>
       </div>
       <ul>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'dashboard' }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -28,7 +28,7 @@
             <span>Dashboard</span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'cart' }">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.5 3m0 0L7 15h11l3-9H5.5z" />
@@ -38,7 +38,7 @@
             <span> Cart </span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'enrolled-course' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@
             <span> Enrolled Courses </span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'wishlist' }">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
               <path
@@ -68,7 +68,7 @@
             <span>Wishlist</span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'my-quiz' }">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
               <path d="M130.735 253.626m-66.735 0a66.735 66.735 0 1 0 133.47 0 66.735 66.735 0 1 0-133.47 0Z" fill="currentColor" />
@@ -82,7 +82,7 @@
             <span>My Quiz Attempts</span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'cert' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@
             <span>Certs</span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'order-history' }">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
               <path
@@ -116,7 +116,7 @@
       </ul>
       <hr class="h-[1.5px] bg-borderColor my-[10px] -mx-4" />
       <ul>
-        <li>
+        <li @click="closeUserMenu">
           <router-link :to="{ name: 'settings' }">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
               <path
@@ -139,7 +139,7 @@
             <span>Settings</span>
           </router-link>
         </li>
-        <li>
+        <li @click="closeUserMenu">
           <button @click.prevent="logout">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
               <path d="M23.9917 6L6 6L6 42H24" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
@@ -160,6 +160,12 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import { logoutUser } from '@/webServices/authorizationService.js'
 export default defineComponent({
+  props: {
+    closeUserMenu: {
+      type: Function,
+      default: () => {}
+    }
+  },
   setup() {
     const userStore = useUserStore()
     const router = useRouter()

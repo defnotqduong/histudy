@@ -197,7 +197,7 @@
                       />
                     </svg>
                   </button>
-                  <UserMenu :class="{ active: isShowUserMenu }" />
+                  <UserMenu :class="{ active: isShowUserMenu }" :closeUserMenu="closeUserMenu" />
                 </div>
               </div>
             </template>
@@ -253,6 +253,10 @@ export default defineComponent({
       isShowUserMenu.value = !isShowUserMenu.value
     }
 
+    const closeUserMenu = () => {
+      isShowUserMenu.value = false
+    }
+
     const handleClickOutside = event => {
       if (menuContainer.value && !menuContainer.value.contains(event.target)) {
         isShowUserMenu.value = false
@@ -282,7 +286,8 @@ export default defineComponent({
       onChangeUserMenu,
       handleScroll,
       redirect,
-      handleClickOutside
+      handleClickOutside,
+      closeUserMenu
     }
   },
   mounted() {
