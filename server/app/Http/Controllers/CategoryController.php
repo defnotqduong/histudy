@@ -112,7 +112,7 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    public function updateCategoryLogo(Request $request, $id)
+    public function updateCategoryLogo(ImageRequest $request, $id)
     {
         $category = Category::find($id);
 

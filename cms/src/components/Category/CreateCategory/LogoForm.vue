@@ -82,8 +82,8 @@
           </button>
         </label>
       </form>
-      <div v-if="errors?.logo && errors?.logo.length > 0">
-        <p v-for="(err, index) in errors?.logo" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+      <div v-if="errors?.image && errors?.image.length > 0">
+        <p v-for="(err, index) in errors?.image" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
       </div>
       <div v-else class="text-sm text-muted-foreground mt-4">1:1 aspect ratio recommended</div>
     </template>
