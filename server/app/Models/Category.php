@@ -24,4 +24,17 @@ class Category extends Model
     {
         return self::where('is_published', true)->orderBy('name', 'asc')->get();
     }
+
+    public static function getPopularCategories()
+    {
+        return self::withCount([
+            'courses' => function ($query) {
+                $query->where('is_published', true);
+            }
+        ])
+            ->having('courses_count', '>', 0)
+            ->orderBy('courses_count', 'desc')
+            ->limit(8)
+            ->get();
+    }
 }

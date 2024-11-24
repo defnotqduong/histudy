@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function __construct(UploadService $uploadService)
     {
-        $this->middleware('auth:api', ['except' => ['getAllCategory']]);
+        $this->middleware('auth:api', ['except' => ['getAllCategory', 'getPopularCategories']]);
 
         $this->middleware(['role:admin'], [
             'only' => [
@@ -41,6 +41,16 @@ class CategoryController extends Controller
             'categories' => CategoryResource::collection(Category::getAllCategories())
         ], 200);
     }
+
+    public function getPopularCategories()
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Get popular categories successfully',
+            'topics' => CategoryResource::collection(Category::getPopularCategories())
+        ], 200);
+    }
+
 
     public function getAllCategoryForInstructor()
     {

@@ -58,9 +58,10 @@ Route::group(['prefix' => 'auth'], function () {
 //Publish Category Routes
 Route::group(['prefix' => 'category'], function () {
     Route::get('/', [CategoryController::class, 'getAllCategory']);
+    Route::get('/popular', [CategoryController::class, 'getPopularCategories']);
 });
 
-// Public Course Routes
+//Public Course Routes
 Route::group(['prefix' => 'course'], function () {
     Route::get('/', [CourseController::class, 'getAllCourses']);
     Route::get('/search', [CourseController::class, 'searchCourses']);

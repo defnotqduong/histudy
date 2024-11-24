@@ -14,7 +14,7 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'logo_url' => $this->logo_url,
@@ -22,5 +22,11 @@ class CategoryResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
+
+        if (isset($this->courses_count)) {
+            $data['courses_count'] = $this->courses_count;
+        }
+
+        return $data;
     }
 }

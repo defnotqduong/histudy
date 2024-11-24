@@ -60,6 +60,11 @@ export default {
     url: '/category'
   },
 
+  GET_POPULAR_CATEGORIES_API: {
+    method: 'get',
+    url: '/category/popular'
+  },
+
   // Cart
   GET_CART_API: {
     method: 'get',

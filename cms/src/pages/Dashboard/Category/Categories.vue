@@ -15,6 +15,7 @@
           <thead>
             <tr>
               <th>STT</th>
+              <th>Logo</th>
               <th>Category Name</th>
               <th>Status</th>
               <th class="text-center">Action</th>
@@ -23,6 +24,9 @@
           <tbody>
             <tr v-for="(category, index) in categories" :key="index">
               <td>{{ index + 1 }}</td>
+              <td>
+                <img :src="category?.logo_url" class="w-16 object-cover object-center rounded-md" alt="course thumbnail" />
+              </td>
 
               <td class="text-headingColor font-bold">
                 {{ category.name }}

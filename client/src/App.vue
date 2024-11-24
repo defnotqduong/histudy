@@ -13,7 +13,7 @@ import { useUserStore, useHomeStore } from '@/stores'
 import { gtka } from '@/helpers/localStorageHelper'
 import { getUserProfile } from '@/webServices/authorizationService'
 import { getPopularCourses, getPurchasedCourses } from '@/webServices/courseService'
-import { getAllCategories } from '@/webServices/categoryService'
+import { getAllCategories, getPopularCategories } from '@/webServices/categoryService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
 import { getAllCert } from '@/webServices/certService'
@@ -59,7 +59,12 @@ export default defineComponent({
           )
         : Promise.resolve(null)
 
-      const [userData, coursesData, categoriesData] = await Promise.all([userPromise, getPopularCourses(), getAllCategories()])
+      const [userData, coursesData, categoriesData, topicsData] = await Promise.all([
+        userPromise,
+        getPopularCourses(),
+        getAllCategories(),
+        getPopularCategories()
+      ])
 
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
@@ -81,6 +86,7 @@ export default defineComponent({
 
       if (coursesData?.success) this.homeStore.setPopularCourses(coursesData.courses.courses)
       if (categoriesData?.success) this.homeStore.setCategories(categoriesData.categories)
+      if (topicsData?.success) this.homeStore.setTopics(topicsData.topics)
       this.loading = false
     }
   },

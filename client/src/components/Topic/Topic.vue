@@ -9,7 +9,7 @@
         </h2>
       </div>
       <div class="grid grid-cols-12 mt-14 gap-3 md:gap-7">
-        <div class="col-span-6 md:col-span-4 xl:col-span-3" v-for="topic in topics" :key="topic.id">
+        <div class="col-span-6 md:col-span-4 xl:col-span-3" v-for="topic in homeStore.topics" :key="topic.id">
           <TopicCard :topic="topic" />
         </div>
       </div>
@@ -19,79 +19,17 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useHomeStore } from '@/stores'
 import TopicCard from '@/components/Topic/TopicCard.vue'
-import webDesign from '@/assets/images/web-design.jpg'
-import design from '@/assets/images/design.jpg'
-import personal from '@/assets/images/personal.jpg'
-import server from '@/assets/images/server.jpg'
-import pantone from '@/assets/images/pantone.jpg'
-import paintPalette from '@/assets/images/paint-palette.jpg'
-import smartphone from '@/assets/images/smartphone.jpg'
-import infographic from '@/assets/images/infographic.jpg'
 
 export default defineComponent({
   components: { TopicCard },
   setup() {
-    const topics = [
-      {
-        id: 1,
-        url: webDesign,
-        title: 'Web Design',
-        link: 'home',
-        content: 1
-      },
-      {
-        id: 2,
-        url: design,
-        title: 'Backend',
-        link: 'home',
-        content: 2
-      },
-      {
-        id: 3,
-        url: personal,
-        title: 'Full Stack',
-        link: 'home',
-        content: 1
-      },
-      {
-        id: 4,
-        url: server,
-        title: 'Mobile Application',
-        link: 'home',
-        content: 1
-      },
-      {
-        id: 5,
-        url: pantone,
-        title: 'Backend',
-        link: 'home',
-        content: 2
-      },
-      {
-        id: 6,
-        url: paintPalette,
-        title: 'Finance & Accounting',
-        link: 'home',
-        content: 3
-      },
-      {
-        id: 7,
-        url: smartphone,
-        title: 'Graphic Design',
-        link: 'home',
-        content: 1
-      },
-      {
-        id: 8,
-        url: infographic,
-        title: 'Cloud',
-        link: 'home',
-        content: 1
-      }
-    ]
+    const homeStore = useHomeStore()
 
-    return { topics }
+    return {
+      homeStore
+    }
   }
 })
 </script>
