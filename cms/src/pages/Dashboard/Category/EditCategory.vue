@@ -44,6 +44,7 @@
           </div>
 
           <NameForm :category="category" :id="id" :fetchData="fetchData" />
+          <LogoForm :category="category" :id="id" :fetchData="fetchData" />
         </div>
       </div>
     </div>
@@ -59,9 +60,10 @@ import { getCategoryForInstructor } from '@/webServices/categoryService'
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import NotificationBanner from '@/components/Toast/NotificationBanner.vue'
 import NameForm from '@/components/Category/CreateCategory/NameForm.vue'
+import LogoForm from '@/components/Category/CreateCategory/LogoForm.vue'
 
 export default defineComponent({
-  components: { LoadingV1, NotificationBanner, NameForm },
+  components: { LoadingV1, NotificationBanner, NameForm, LogoForm },
   setup() {
     const homeStore = useHomeStore()
     const userStore = useUserStore()

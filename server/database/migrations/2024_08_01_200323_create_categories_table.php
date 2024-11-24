@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->longText('logo_url')->nullable();
             $table->boolean('is_published')->default(false);
             $table->timestamps();
         });

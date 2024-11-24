@@ -21,6 +21,20 @@ export const updateCategory = (id, dataPost) => {
   return connectServer[api.UPDATE_CATEGORY_API.method](api.UPDATE_CATEGORY_API.url + '/' + id, dataPost)
 }
 
+export const updateCategoryLogo = (id, dataPost, uploadProgress) => {
+  const url = `/instructor/category/${id}/logo`
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    onUploadProgress: progressEvent => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      uploadProgress(progress)
+    }
+  }
+  return connectServer[api.UPDATE_LOGO_CATEGORY_API.method](url, dataPost, config)
+}
+
 export const publishCategory = id => {
   const url = `/instructor/category/${id}/publish`
   return connectServer[api.PUBLISH_CATEGORY_API.method](url)

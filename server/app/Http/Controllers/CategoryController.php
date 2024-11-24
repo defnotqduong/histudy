@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImageRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware('auth:api', ['except' => ['getAllCategory']]);
 
@@ -18,11 +23,14 @@ class CategoryController extends Controller
                 'getCategoryForInstructor',
                 'createCategory',
                 'updateCategory',
+                'updateCategoryLogo',
                 'publishCategory',
                 'unpublishCategory',
                 'deleteCategory'
             ]
         ]);
+
+        $this->uploadService = $uploadService;
     }
 
     public function getAllCategory(Request $request)
@@ -102,6 +110,51 @@ class CategoryController extends Controller
             'success' => true,
             'message' => 'Category updated successfully',
         ], 200);
+    }
+
+    public function updateCategoryLogo(ImageRequest $request, $id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found',
+            ], 404);
+        }
+
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+
+            $uploadResult = $this->uploadService->multipartUploaderToS3('images', $file);
+
+            if ($uploadResult['status']) {
+
+                if ($category->logo_url) {
+                    $this->uploadService->deleteObjectS3($category->logo_url);
+                }
+
+                $category->update([
+                    'logo_url' => $uploadResult['filePath'],
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category updated successfully',
+                    'category' => new CategoryResource($category)
+                ], 200);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image.',
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
     }
 
     public function publishCategory($id)

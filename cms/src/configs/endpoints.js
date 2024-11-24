@@ -161,6 +161,11 @@ export default {
     url: '/instructor/category'
   },
 
+  UPDATE_LOGO_CATEGORY_API: {
+    method: 'patch',
+    url: '/instructor/category'
+  },
+
   PUBLISH_CATEGORY_API: {
     method: 'patch',
     url: '/instructor/category/publish'
