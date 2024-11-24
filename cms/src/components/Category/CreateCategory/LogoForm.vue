@@ -48,8 +48,8 @@
           <path d="M18 8C18 9.10457 17.1046 10 16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8Z" fill="currentColor" />
         </svg>
       </div>
-      <div v-else class="relative mt-6 h-72">
-        <img :src="logoUrl" class="w-full h-full object-cover object-center rounded-md" alt="Category logo" />
+      <div v-else class="relative mt-6 h-60 flex items-center justify-center">
+        <img :src="logoUrl" class="w-32 h-32 object-cover object-center rounded-md" alt="Category logo" />
       </div>
     </template>
 
