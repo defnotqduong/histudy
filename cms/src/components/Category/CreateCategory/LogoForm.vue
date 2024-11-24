@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 py-4 px-6 bg-lighterColor rounded-md">
     <div class="font-bold text-headingColor flex items-start justify-between">
-      Category Logo
+      Category logo
       <button @click.prevent="toggleEdit" class="flex items-center gap-2">
         <template v-if="isEditting"> Cancel </template>
 
@@ -49,7 +49,7 @@
         </svg>
       </div>
       <div v-else class="relative mt-6 h-72">
-        <img :src="logoUrl" class="w-full h-full object-cover object-center rounded-md" alt="Course thumbnail" />
+        <img :src="logoUrl" class="w-full h-full object-cover object-center rounded-md" alt="Category logo" />
       </div>
     </template>
 
@@ -156,7 +156,7 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      homeStore.onChangeToast({ show: true, type: 'success', message: 'Category updated Successfully !' })
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
       props.fetchData(props.slug)
       toggleEdit()
     }
@@ -179,3 +179,4 @@ export default defineComponent({
 </script>
 
 <style></style>
+s
