@@ -162,7 +162,7 @@ export default {
   },
 
   UPDATE_LOGO_CATEGORY_API: {
-    method: 'patch',
+    method: 'post',
     url: '/instructor/category'
   },
 
