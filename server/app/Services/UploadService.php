@@ -9,6 +9,7 @@ use Aws\Exception\MultipartUploadException;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 
+
 class UploadService
 {
 
@@ -88,6 +89,73 @@ class UploadService
         return $initial;
     }
 
+    public function uploadVideoToS3(string $folder, UploadedFile $file): array
+    {
+        $temporaryFolder = storage_path('app/hls_temp/' . uniqid());
+
+        if (!mkdir($temporaryFolder, 0777, true) && !is_dir($temporaryFolder)) {
+            return [
+                'status' => false,
+                'message' => 'Unable to create temporary folder.'
+            ];
+        }
+
+        try {
+
+            $tempMp4File = $temporaryFolder . '/' . $this->getFileName($file);
+            $file->move($temporaryFolder, basename($tempMp4File));
+
+            if (!$this->convertMp4ToHls($tempMp4File, $temporaryFolder)) {
+                return [
+                    'status' => false,
+                    'message' => 'Failed to convert MP4 to HLS.'
+                ];
+            }
+
+
+            $uploadedFiles = [];
+            foreach (glob("$temporaryFolder/*") as $filePath) {
+                $uploadedFile = new UploadedFile(
+                    $filePath,
+                    basename($filePath),
+                    mime_content_type($filePath),
+                    null,
+                    true
+                );
+
+                $uploadResult = $this->upLoadObjectToS3($folder, $uploadedFile);
+                if ($uploadResult['status']) {
+                    $uploadedFiles[] = $uploadResult['filePath'];
+                }
+            }
+
+
+            if (empty($uploadedFiles)) {
+                return [
+                    'status' => false,
+                    'message' => 'No files were uploaded.'
+                ];
+            }
+
+            return [
+                'status' => true,
+                'uploadedFiles' => $uploadedFiles
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ];
+        } finally {
+
+            array_map('unlink', glob("$temporaryFolder/*"));
+            rmdir($temporaryFolder);
+        }
+    }
+
+
+
+
     public function getObjectUrlFromS3(string|array $pathFile): string|array
     {
         $initial = [
@@ -157,5 +225,19 @@ class UploadService
         $fileName = $fileName . '_' . time() . '.' . $extension;
 
         return $fileName;
+    }
+
+    private function convertMp4ToHls(string $inputFile, string $outputFolder): bool
+    {
+        $hlsPlaylist = $outputFolder . '/output.m3u8';
+        $command = sprintf(
+            'ffmpeg -i %s -codec: copy -start_number 0 -hls_time 10 -hls_list_size 0 -f hls %s',
+            escapeshellarg($inputFile),
+            escapeshellarg($hlsPlaylist)
+        );
+
+        exec($command, $output, $returnVar);
+
+        return $returnVar === 0;
     }
 }

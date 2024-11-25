@@ -64,5 +64,19 @@ export default defineComponent({
 <style scoped>
 .custom-video-player {
   background-color: #000;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+}
+
+.custom-video-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.custom-video-player:hover {
+  cursor: pointer;
+  opacity: 0.95;
 }
 </style>

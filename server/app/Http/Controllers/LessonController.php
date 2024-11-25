@@ -223,28 +223,64 @@ class LessonController extends Controller
             return response()->json(['success' => false, 'message' => 'Lesson not found'], 404);
         }
 
-        if ($request->hasFile('video')) {
+        // if ($request->hasFile('video')) {
 
+        //     $file = $request->file('video');
+
+        //     $uploadResult = $this->uploadService->multipartUploaderToS3('videos', $file);
+
+        //     if ($uploadResult['status']) {
+
+        //         if ($lesson->video_url) {
+        //             $this->uploadService->deleteObjectS3($lesson->video_url);
+        //         }
+
+        //         $lesson->updateLesson([
+        //             'video_url' => $uploadResult['filePath'],
+        //             'video_duration' =>  $request->duration
+        //         ]);
+
+        //         return response()->json(
+        //             [
+        //                 'success' => true,
+        //                 'message' => 'Video updated successfully',
+        //                 'chapter' => new LessonResource($lesson),
+        //             ],
+        //             200
+        //         );
+        //     }
+        // }
+
+        if ($request->hasFile('video')) {
             $file = $request->file('video');
 
-            $uploadResult = $this->uploadService->multipartUploaderToS3('videos', $file);
+            $uploadResult = $this->uploadService->uploadVideoToS3('videos', $file);
 
             if ($uploadResult['status']) {
+                // Lấy URL của file .m3u8
+                $m3u8FileUrl = collect($uploadResult['uploadedFiles'])
+                    ->first(fn($filePath) => str_ends_with($filePath, '.m3u8'));
 
+                if (!$m3u8FileUrl) {
+                    return response()->json(['success' => false, 'message' => 'M3U8 file not found.'], 500);
+                }
+
+                // Xóa video cũ nếu tồn tại
                 if ($lesson->video_url) {
                     $this->uploadService->deleteObjectS3($lesson->video_url);
                 }
 
+                // Cập nhật lesson
                 $lesson->updateLesson([
-                    'video_url' => $uploadResult['filePath'],
-                    'video_duration' =>  $request->duration
+                    'video_url' => $m3u8FileUrl,
+                    'video_duration' => $request->duration
                 ]);
 
                 return response()->json(
                     [
                         'success' => true,
                         'message' => 'Video updated successfully',
-                        'chapter' => new LessonResource($lesson),
+                        'lesson' => new LessonResource($lesson),
                     ],
                     200
                 );
