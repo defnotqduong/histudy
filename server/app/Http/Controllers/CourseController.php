@@ -9,6 +9,7 @@ use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\UserResource;
+use App\Models\CertificateTemplate;
 use App\Models\Course;
 use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -38,6 +39,7 @@ class CourseController extends Controller
                 'getCourse',
                 'updateCourse',
                 'updateCourseThumbnail',
+                'uploadCertificateTemplate',
                 'publishCourse',
                 'unpublishCourse',
                 'deleteCourse'
@@ -324,6 +326,58 @@ class CourseController extends Controller
             'message' => 'No file uploaded.',
         ], 400);
     }
+
+    public function uploadCertificateTemplate(Request $request, $slug)
+    {
+        $request->validate([
+            'file' => 'required|mimes:pdf|max:5120',
+        ]);
+
+        $userId = Auth::id();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['success' => false, 'message' => 'Course not found or access denied'], 404);
+        }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            $uploadResult = $this->uploadService->multipartUploaderToS3('certificate-templates', $file);
+
+            if ($uploadResult['status']) {
+
+                if ($course->certificateTemplate) {
+                    $this->uploadService->deleteObjectS3($course->certificateTemplate->template_url);
+                }
+
+                $certificateTemplate = CertificateTemplate::updateOrCreate(
+                    ['course_id' => $course->id],
+                    ['template_url' => $uploadResult['filePath']]
+                );
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Certificate template uploaded successfully',
+                    'template' => $certificateTemplate,
+                ], 200);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload the certificate template.',
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
+    }
+
 
     public function publishCourse(Request $request, $slug)
     {

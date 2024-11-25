@@ -209,6 +209,10 @@ export default {
     method: 'post',
     url: '/instructor/course/thumbnail'
   },
+  UPDATE_CERT_TEMPLATE_API: {
+    method: 'post',
+    url: '/instructor/course/cert'
+  },
   PUBLISH_COURSE_API: {
     method: 'patch',
     url: '/instructor/course/publish'

@@ -59,6 +59,20 @@ export const updateCourseThumbnail = (slug, dataPost, uploadProgress) => {
   return connectServer[api.UPDATE_THUMB_COURSE_API.method](url, dataPost, config)
 }
 
+export const uploadCertificateTemplate = (slug, dataPost, uploadProgress) => {
+  const url = `/instructor/course/${slug}/cert`
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    onUploadProgress: progressEvent => {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      uploadProgress(progress)
+    }
+  }
+  return connectServer[api.UPDATE_CERT_TEMPLATE_API.method](url, dataPost, config)
+}
+
 export const publishCourse = (slug, dataPost) => {
   const url = `/instructor/course/${slug}/publish`
   return connectServer[api.PUBLISH_COURSE_API.method](url, dataPost)

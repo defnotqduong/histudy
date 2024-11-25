@@ -163,6 +163,9 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
 
         // Thumbnail
         Route::post('/{slug}/thumbnail', [CourseController::class, 'updateCourseThumbnail']);
+
+        // Cert Template
+        Route::post('/{slug}/cert', [CourseController::class, 'uploadCertificateTemplate']);
     });
 
     // Chapter Routes
