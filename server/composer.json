@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.29",
+        "pbmedia/laravel-ffmpeg": "^8.6",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-sluggable": "^3.6",
         "tymon/jwt-auth": "^2.1",

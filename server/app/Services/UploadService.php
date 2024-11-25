@@ -8,7 +8,9 @@ use Aws\S3\MultipartUploader;
 use Aws\Exception\MultipartUploadException;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
-
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use FFMpeg\Format\Video\X264;
+use FFMpeg\Format\Audio\AAC;
 
 class UploadService
 {
@@ -91,44 +93,24 @@ class UploadService
 
     public function uploadVideoToS3(string $folder, UploadedFile $file): array
     {
-        $temporaryFolder = storage_path('app/hls_temp/' . uniqid());
-
-        if (!mkdir($temporaryFolder, 0777, true) && !is_dir($temporaryFolder)) {
-            return [
-                'status' => false,
-                'message' => 'Unable to create temporary folder.'
-            ];
-        }
-
         try {
 
-            $tempMp4File = $temporaryFolder . '/' . $this->getFileName($file);
-            $file->move($temporaryFolder, basename($tempMp4File));
+            $fileContents = file_get_contents($file->getRealPath());
 
-            if (!$this->convertMp4ToHls($tempMp4File, $temporaryFolder)) {
-                return [
-                    'status' => false,
-                    'message' => 'Failed to convert MP4 to HLS.'
-                ];
-            }
 
+            $tempStream = fopen('php://memory', 'r+');
+            fwrite($tempStream, $fileContents);
+            rewind($tempStream);
+
+            $convertedHLSFiles = $this->convertMp4ToHlsFromStream($tempStream, $folder);
 
             $uploadedFiles = [];
-            foreach (glob("$temporaryFolder/*") as $filePath) {
-                $uploadedFile = new UploadedFile(
-                    $filePath,
-                    basename($filePath),
-                    mime_content_type($filePath),
-                    null,
-                    true
-                );
-
-                $uploadResult = $this->upLoadObjectToS3($folder, $uploadedFile);
+            foreach ($convertedHLSFiles as $convertedFile) {
+                $uploadResult = $this->upLoadObjectToS3($folder, $convertedFile);
                 if ($uploadResult['status']) {
                     $uploadedFiles[] = $uploadResult['filePath'];
                 }
             }
-
 
             if (empty($uploadedFiles)) {
                 return [
@@ -146,14 +128,8 @@ class UploadService
                 'status' => false,
                 'message' => 'Error: ' . $e->getMessage()
             ];
-        } finally {
-
-            array_map('unlink', glob("$temporaryFolder/*"));
-            rmdir($temporaryFolder);
         }
     }
-
-
 
 
     public function getObjectUrlFromS3(string|array $pathFile): string|array
@@ -227,17 +203,44 @@ class UploadService
         return $fileName;
     }
 
-    private function convertMp4ToHls(string $inputFile, string $outputFolder): bool
+    private function convertMp4ToHlsFromStream($inputStream, string $outputFolder): array
     {
-        $hlsPlaylist = $outputFolder . '/output.m3u8';
-        $command = sprintf(
-            'ffmpeg -i %s -codec: copy -start_number 0 -hls_time 10 -hls_list_size 0 -f hls %s',
-            escapeshellarg($inputFile),
-            escapeshellarg($hlsPlaylist)
-        );
+        try {
+            $outputHLSFiles = [];
 
-        exec($command, $output, $returnVar);
+            $outputStream = fopen('php://temp', 'r+');
 
-        return $returnVar === 0;
+            FFMpeg::fromStream($inputStream)
+                ->exportForHLS()
+                ->setSegmentLength(10)
+                ->setPlaylistLength(0)
+                ->setAudioCodec('aac')
+                ->setVideoCodec('libx264')
+                ->setResolution('1280x720')
+                ->setBitrate(1000)
+                ->saveToStream($outputStream);
+
+            rewind($outputStream);
+
+            $filePaths = [];
+            while ($line = fgets($outputStream)) {
+                $filePaths[] = $line;
+            }
+
+
+            foreach ($filePaths as $filePath) {
+
+                $convertedFile = new UploadedFile($filePath, basename($filePath), mime_content_type($filePath), null, true);
+                $uploadResult = $this->multipartUploaderToS3($outputFolder, $convertedFile);
+
+                if ($uploadResult['status']) {
+                    $outputHLSFiles[] = $uploadResult['filePath'];
+                }
+            }
+
+            return $outputHLSFiles;
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to convert MP4 to HLS: ' . $e->getMessage());
+        }
     }
 }
