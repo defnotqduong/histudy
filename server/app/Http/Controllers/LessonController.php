@@ -254,35 +254,45 @@ class LessonController extends Controller
         // if ($request->hasFile('video')) {
         //     $file = $request->file('video');
 
-        //     $uploadResult = $this->uploadService->uploadVideoToS3('videos', $file);
+
+        //     $uploadResult = $this->uploadService->multipartUploaderToS3('videos', $file);
 
         //     if ($uploadResult['status']) {
-        //         $m3u8FileUrl = collect($uploadResult['uploadedFiles'])
-        //             ->first(fn($filePath) => str_ends_with($filePath, '.m3u8'));
+        //         $fileKey = 'videos/' . $uploadResult['fileName'];
 
-        //         if (!$m3u8FileUrl) {
-        //             return response()->json(['success' => false, 'message' => 'M3U8 file not found.'], 500);
-        //         }
+        //         $hlsUploadResult = $this->uploadService->convertMp4ToHlsAndUpload($fileKey);
 
-        //         if ($lesson->video_url) {
-        //             $this->uploadService->deleteObjectS3($lesson->video_url);
-        //         }
+        //         if ($hlsUploadResult['status']) {
+        //             $m3u8FileUrl = collect($hlsUploadResult['uploadedFiles'])
+        //                 ->first(fn($filePath) => str_ends_with($filePath, '.m3u8'));
 
-        //         $lesson->updateLesson([
-        //             'video_url' => $m3u8FileUrl,
-        //             'video_duration' => $request->duration
-        //         ]);
+        //             if (!$m3u8FileUrl) {
+        //                 return response()->json(['success' => false, 'message' => 'M3U8 file not found.'], 500);
+        //             }
 
-        //         return response()->json(
-        //             [
-        //                 'success' => true,
-        //                 'message' => 'Video updated successfully',
+        //             if ($lesson->video_key) {
+        //                 $this->uploadService->deleteObjectS3($lesson->video_key);
+        //             }
+
+        //             $lesson->updateLesson([
+        //                 'video_key' => $fileKey,
         //                 'video_url' => $m3u8FileUrl,
-        //                 'lesson' => new LessonResource($lesson),
-        //             ],
-        //             200
-        //         );
+        //                 'video_duration' => $request->duration,
+        //             ]);
+
+        //             return response()->json(
+        //                 [
+        //                     'success' => true,
+        //                     'message' => 'Video updated successfully',
+        //                     'video_url' => $m3u8FileUrl,
+        //                     'lesson' => new LessonResource($lesson),
+        //                 ],
+        //                 200
+        //             );
+        //         }
         //     }
+
+        //     return response()->json(['success' => false, 'message' => 'Failed to upload video.'], 500);
         // }
     }
 
