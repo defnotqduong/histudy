@@ -169,7 +169,7 @@ class CourseController extends Controller
             'message' => 'Course found',
             'course' => new CourseResource($course),
             'chapters' => new ChapterResourceCollection($course->chapters),
-            'certificate' => new CertificateTemplateResource($course->certificateTemplate)
+            'certificate' => $course->certificateTemplate ? new CertificateTemplateResource($course->certificateTemplate) : null
         ], 200);
     }
 
