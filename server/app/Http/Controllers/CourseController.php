@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\ImageRequest;
+use App\Http\Resources\CertificateTemplateResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
@@ -167,7 +168,8 @@ class CourseController extends Controller
             'success' => true,
             'message' => 'Course found',
             'course' => new CourseResource($course),
-            'chapters' => new ChapterResourceCollection($course->chapters)
+            'chapters' => new ChapterResourceCollection($course->chapters),
+            'certificate' => new CertificateTemplateResource($course->certificateTemplate)
         ], 200);
     }
 
