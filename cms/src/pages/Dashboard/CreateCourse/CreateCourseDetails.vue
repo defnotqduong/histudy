@@ -110,7 +110,7 @@
             </div>
             <h3 class="text-xl font-bold text-headingColor">Certificate template</h3>
           </div>
-          <CertForm :course="course" :slug="slug" :fetchData="fetchData" />
+          <CertForm :course="course" :slug="slug" :cert="cert" :fetchData="fetchData" />
         </div>
       </div>
     </div>
@@ -160,6 +160,7 @@ export default defineComponent({
     const course = ref(null)
     const categories = ref([])
     const chapters = ref([])
+    const cert = ref(null)
     const loading = ref(false)
 
     const fetchData = async slug => {
@@ -175,6 +176,7 @@ export default defineComponent({
 
       course.value = res.course
       chapters.value = res.chapters
+      cert.value = res.cert
       loading.value = false
     }
 
@@ -225,12 +227,13 @@ export default defineComponent({
       course,
       categories,
       chapters,
+      cert,
       loading,
-      fetchData,
       requiredFields,
       totalFields,
       completedFields,
-      isComplete
+      isComplete,
+      fetchData
     }
   },
   methods: {

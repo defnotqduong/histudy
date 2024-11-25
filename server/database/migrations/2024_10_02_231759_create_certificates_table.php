@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('template_id');
             $table->foreign('template_id')->references('id')->on('certificate_templates')->onDelete('cascade');
 
-            $table->string('cert_url');
+            $table->longText('cert_url');
 
             $table->timestamps();
         });
