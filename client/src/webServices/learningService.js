@@ -18,18 +18,18 @@ export const updateCompletedLesson = dataPost => {
 }
 
 export const checkCourseCompleted = slug => {
-  const url = '/learning/course' + slug + '/check-completed'
+  const url = '/learning/course/' + slug + '/check-completed'
 
   return connectServer[api.CHECK_COURSE_COMPLETED_API.method](url)
 }
 
 export const createDiscussion = (lessonId, dataPost) => {
-  const url = `/learning/lesson` + '/' + lessonId + '/discussion'
+  const url = '/learning/lesson/' + lessonId + '/discussion'
   return connectServer[api.CREATE_DISCUSSION_API.method](url, dataPost)
 }
 
 export const createNoteLesson = (lessonId, dataPost) => {
-  const url = `/learning/lesson` + '/' + lessonId + '/note'
+  const url = '/learning/lesson/' + lessonId + '/note'
   return connectServer[api.CREATE_NOTE_API.method](url, dataPost)
 }
 

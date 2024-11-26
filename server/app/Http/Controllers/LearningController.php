@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AttachmentResource;
+use App\Http\Resources\CertificateTemplateResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\LessonDiscussionResource;
@@ -258,8 +259,67 @@ class LearningController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Some lessons are not completed yet'
-            ], 400);
+            ], 403);
         }
+    }
+
+    public function getCertificateTemplate($slug)
+    {
+        $user = Auth::user();
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+            return $chapter->lessons->where('is_published', true);
+        });
+
+        if ($lessons->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lessons found in this course'
+            ], 404);
+        }
+
+        $userId = $user->id;
+        $allLessonsCompleted = true;
+
+        foreach ($lessons as $lesson) {
+            $progress = $lesson->progress()->where('user_id', $userId)->first();
+
+            if (!$progress || !$progress->is_completed) {
+                $allLessonsCompleted = false;
+                break;
+            }
+        }
+
+        if (!$allLessonsCompleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Some lessons are not completed yet'
+            ], 403);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Certificate template Successfully!',
+            'cert' => new CertificateTemplateResource($course->certificateTemplate)
+        ], 200);
     }
 
 
