@@ -35,7 +35,7 @@
     <template v-if="!isEditting">
       <p v-if="!cert" class="mt-2 italic text-bodyColor">No certificate yet</p>
       <div v-else class="mt-6">
-        <VuePdfEmbed :source="cert?.template_url" class="h-[320px]" />
+        <VuePdfEmbed :source="cert?.template_url" />
       </div>
     </template>
 

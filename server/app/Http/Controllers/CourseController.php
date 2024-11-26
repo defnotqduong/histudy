@@ -235,7 +235,8 @@ class CourseController extends Controller
             'chapters' => new ChapterResourceCollection($course->publishedChapters, false),
             'reviews' => ReviewResource::collection($course->reviews),
             'instructorCourses' => new CourseResourceCollection($instructorCourses, false),
-            'relatedCourses' => new CourseResourceCollection($relatedCourses, false)
+            'relatedCourses' => new CourseResourceCollection($relatedCourses, false),
+            'cert' => $course->certificateTemplate ?  new CertificateTemplateResource($course->certificateTemplate) : null
         ], 200);
     }
 
