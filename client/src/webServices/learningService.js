@@ -23,9 +23,9 @@ export const checkCourseCompleted = slug => {
   return connectServer[api.CHECK_COURSE_COMPLETED_API.method](url)
 }
 
-export const getCertificate = slug => {
+export const createCertificate = slug => {
   const url = '/learning/course/' + slug + '/cert-template'
-  return connectServer[api.GET_CERT_API.method](url)
+  return connectServer[api.CREATE_CERT_API.method](url)
 }
 
 export const createDiscussion = (lessonId, dataPost) => {

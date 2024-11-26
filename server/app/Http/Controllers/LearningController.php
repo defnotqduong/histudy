@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AttachmentResource;
+use App\Http\Resources\CertificateResource;
 use App\Http\Resources\CertificateTemplateResource;
 use App\Http\Resources\ChapterResourceCollection;
 use App\Http\Resources\CourseResource;
@@ -13,6 +14,7 @@ use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ReviewResource;
 use App\Jobs\SendRabbitMQNotification;
 use App\Models\Attachment;
+use App\Models\Certificate;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -263,7 +265,7 @@ class LearningController extends Controller
         }
     }
 
-    public function getCertificate($slug)
+    public function createCertificate($slug)
     {
         $user = Auth::user();
 
@@ -315,11 +317,30 @@ class LearningController extends Controller
             ], 403);
         }
 
+        $existingCertificate = Certificate::where('user_id', $userId)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if ($existingCertificate) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Certificate already exists',
+                'certificate' => new CertificateResource($existingCertificate)
+            ], 200);
+        }
+
+        $certificate = Certificate::create([
+            'user_id' => $userId,
+            'course_id' => $course->id,
+            'cert_url' => $this->generateCertificateUrl($user, $course),
+            'issued_at' => now()
+        ]);
+
         return response()->json([
             'success' => true,
-            'message' => 'Get Certificate template Successfully!',
-            'cert' => new CertificateTemplateResource($course->certificateTemplate)
-        ], 200);
+            'message' => 'Certificate created successfully!',
+            'certificate' => new CertificateResource($certificate)
+        ], 201);
     }
 
 

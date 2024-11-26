@@ -176,8 +176,8 @@ export default {
     method: 'get',
     url: '/learning/course/check-completed'
   },
-  GET_CERT_API: {
-    method: 'get',
+  CREATE_CERT_API: {
+    method: 'post',
     url: '/learning/course/cert'
   },
   CREATE_DISCUSSION_API: {

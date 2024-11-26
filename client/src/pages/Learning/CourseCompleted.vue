@@ -21,7 +21,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getCertificate } from '@/webServices/learningService'
+import { createCertificate } from '@/webServices/learningService'
 
 import CourseCompleted from '@/components/Learning/CourseCompleted.vue'
 export default defineComponent({
@@ -37,8 +37,10 @@ export default defineComponent({
       router.back()
     }
 
-    const fetchData = async () => {
-      const res = await getCertificate(slug.value)
+    const create = async () => {
+      const res = await createCertificate(slug.value)
+
+      if (!res.success) router.push({ name: 'home' })
 
       if (res.success) {
         cert.value = res.cert
@@ -46,7 +48,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      await fetchData()
+      await create()
     })
 
     return {

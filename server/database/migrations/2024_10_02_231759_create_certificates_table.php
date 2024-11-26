@@ -19,10 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
-            $table->unsignedBigInteger('template_id');
-            $table->foreign('template_id')->references('id')->on('certificate_templates')->onDelete('cascade');
-
             $table->longText('cert_url');
+            $table->timestamp('issued_at');
 
             $table->timestamps();
         });
