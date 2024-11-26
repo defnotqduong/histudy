@@ -263,7 +263,7 @@ class LearningController extends Controller
         }
     }
 
-    public function getCertificateTemplate($slug)
+    public function getCertificate($slug)
     {
         $user = Auth::user();
 

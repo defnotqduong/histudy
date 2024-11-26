@@ -176,6 +176,10 @@ export default {
     method: 'get',
     url: '/learning/course/check-completed'
   },
+  GET_CERT_API: {
+    method: 'get',
+    url: '/learning/course/cert'
+  },
   CREATE_DISCUSSION_API: {
     method: 'post',
     url: '/learning/lesson/discussion'
