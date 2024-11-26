@@ -35,7 +35,7 @@
     <template v-if="!isEditting">
       <p v-if="!cert" class="mt-2 italic text-bodyColor">No certificate yet</p>
       <div v-else class="mt-6">
-        <div>Hiển thị chứng chỉ</div>
+        <VuePdfEmbed :source="cert?.template_url" class="h-[320px]" />
       </div>
     </template>
 
@@ -76,23 +76,29 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useHomeStore } from '@/stores'
 import { uploadCertificateTemplate } from '@/webServices/courseService'
 
+import VuePdfEmbed from 'vue-pdf-embed'
+
+import 'vue-pdf-embed/dist/styles/annotationLayer.css'
+import 'vue-pdf-embed/dist/styles/textLayer.css'
+
 export default defineComponent({
+  components: { VuePdfEmbed },
   props: {
     course: Object,
     slug: String,
     cert: Object,
     fetchData: Function
   },
-
   setup(props) {
     const homeStore = useHomeStore()
 
-    const file = ref(null)
+    const pdfContainer = ref(null)
 
+    const file = ref(null)
     const uploadProgress = ref(0)
     const isEditting = ref(false)
     const isSubmitting = ref(false)
@@ -144,6 +150,7 @@ export default defineComponent({
     }
 
     return {
+      pdfContainer,
       isEditting,
       isSubmitting,
       errors,
