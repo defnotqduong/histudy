@@ -84,7 +84,7 @@
               </svg>
               <span>English</span>
             </li>
-            <li class="flex items-center justify-center gap-1">
+            <li v-if="cert" class="flex items-center justify-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="14"
@@ -120,7 +120,8 @@ export default defineComponent({
   props: {
     course: Object,
     category: Object,
-    instructor: Object
+    instructor: Object,
+    cert: Object
   },
   setup(props) {
     const avgStar = ref(props.course?.average_star || 5)

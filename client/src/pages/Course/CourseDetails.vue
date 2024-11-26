@@ -4,7 +4,7 @@
       <LoadingV1 />
     </div>
     <template v-if="!loading">
-      <CourseOverview :course="course" :instructor="instructor" :category="category" />
+      <CourseOverview :course="course" :instructor="instructor" :category="category" :cert="cert" />
       <div class="pt-16 pb-8 lg:pb-16">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-12 gap-4">
@@ -88,6 +88,7 @@ export default defineComponent({
     const relatedCourses = ref([])
     const instructor = ref(null)
     const category = ref(null)
+    const cert = ref(null)
     const isShowOverview = ref(false)
     const isShowReview = ref(false)
     const loading = ref(false)
@@ -108,6 +109,7 @@ export default defineComponent({
       relatedCourses.value = res.relatedCourses.courses
       instructor.value = res.instructor
       category.value = res.course.category
+      cert.value = res.cert
       loading.value = false
     }
 
@@ -128,7 +130,7 @@ export default defineComponent({
       await Promise.all([fetchData(slug.value)])
     })
 
-    return { slug, course, chapters, reviews, instructorCourses, relatedCourses, instructor, category, loading, isShowOverview, isShowReview }
+    return { slug, course, chapters, reviews, cert, instructorCourses, relatedCourses, instructor, category, loading, isShowOverview, isShowReview }
   },
   methods: {
     scrollToTop() {

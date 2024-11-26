@@ -172,6 +172,10 @@ export default {
     method: 'post',
     url: '/learning/lesson/update-completed'
   },
+  CHECK_COURSE_COMPLETED_API: {
+    method: 'get',
+    url: '/learning/course/check-completed'
+  },
   CREATE_DISCUSSION_API: {
     method: 'post',
     url: '/learning/lesson/discussion'

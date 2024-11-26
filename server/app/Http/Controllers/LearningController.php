@@ -215,6 +215,54 @@ class LearningController extends Controller
         ]);
     }
 
+    public function checkCourseCompleted($slug)
+    {
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+            return $chapter->lessons->where('is_published', true);
+        });
+
+        if ($lessons->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lessons found in this course'
+            ], 404);
+        }
+
+        $userId = Auth::id();
+        $allLessonsCompleted = true;
+
+        foreach ($lessons as $lesson) {
+            $progress = $lesson->progress()->where('user_id', $userId)->first();
+
+            if (!$progress || !$progress->is_completed) {
+                $allLessonsCompleted = false;
+                break;
+            }
+        }
+
+        if ($allLessonsCompleted) {
+            return response()->json([
+                'success' => true,
+                'message' => 'All lessons in this course are completed'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Some lessons are not completed yet'
+            ], 400);
+        }
+    }
+
+
     public function createDiscussion(Request $request, $lessonId)
     {
         $request->validate([

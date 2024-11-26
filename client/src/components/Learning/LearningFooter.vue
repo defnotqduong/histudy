@@ -15,19 +15,25 @@
     </button>
     <div class="flex items-center justify-center gap-4">
       <PrevButton :content="'Previous'" :func="prev" class="h-10" :class="!prevLessonId ? 'cursor-not-allowed' : ''" />
-      <NextButton :content="'Next'" :func="next" class="h-10" :class="!nextLessonId ? 'cursor-not-allowed' : ''" />
+      <NextButton :content="nextLessonId ? 'Next' : 'Completed'" :func="nextLessonId ? next : completed" class="h-10" />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore, useHomeStore } from '@/stores'
+
+import { checkCourseCompleted } from '@/webServices/learningService'
+
 import NextButton from '@/components/Button/NextButton.vue'
 import PrevButton from '@/components/Button/PrevButton.vue'
 
 export default defineComponent({
   components: { NextButton, PrevButton },
   props: {
+    slug: String,
     currentLesson: Object,
     prevLessonId: Number,
     nextLessonId: Number,
@@ -36,6 +42,11 @@ export default defineComponent({
     toggleSideBar: Function
   },
   setup(props) {
+    const router = useRouter()
+
+    const userStore = useUserStore()
+    const homeStore = useHomeStore()
+
     const toggle = () => {
       props.toggleSideBar()
     }
@@ -48,10 +59,22 @@ export default defineComponent({
       await props.getCurrentLesson(props.prevLessonId)
     }
 
+    const completed = async () => {
+      const res = await checkCourseCompleted(props.slug)
+
+      if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
+        return
+      }
+
+      router.push({ name: 'course-completed', params: { slug: props.slug } })
+    }
+
     return {
       toggle,
       next,
-      prev
+      prev,
+      completed
     }
   }
 })

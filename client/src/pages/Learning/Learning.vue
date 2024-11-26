@@ -57,6 +57,7 @@
       </div>
       <div class="fixed bottom-0 left-0 right-0 z-20">
         <LearningFooter
+          :slug="slug"
           :currentLesson="currentLesson?.info"
           :prevLessonId="prevLessonId"
           :nextLessonId="nextLessonId"

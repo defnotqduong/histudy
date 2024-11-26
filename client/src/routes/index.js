@@ -153,6 +153,14 @@ const routes = [
             }
           }
         ]
+      },
+      {
+        path: '/:slug/completed',
+        name: 'course-completed',
+        component: () => import('@/pages/Learning/CourseCompleted.vue'),
+        meta: {
+          title: 'Complete the course - Online Courses & Education'
+        }
       }
     ]
   },
