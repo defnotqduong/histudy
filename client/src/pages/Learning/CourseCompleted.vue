@@ -13,7 +13,7 @@
           Back to learning page
         </div>
       </button>
-      <CourseCompleted :cert="cert" />
+      <!-- <CourseCompleted :cert="cert" /> -->
     </div>
   </div>
 </template>
@@ -40,7 +40,9 @@ export default defineComponent({
     const create = async () => {
       const res = await createCertificate(slug.value)
 
-      if (!res.success) router.push({ name: 'home' })
+      console.log(res)
+
+      // if (!res.success) router.push({ name: 'home' })
 
       if (res.success) {
         cert.value = res.cert

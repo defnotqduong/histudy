@@ -325,21 +325,21 @@ class LearningController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Certificate already exists',
-                'certificate' => new CertificateResource($existingCertificate)
+                'cert' => new CertificateResource($existingCertificate)
             ], 200);
         }
 
         $certificate = Certificate::create([
             'user_id' => $userId,
             'course_id' => $course->id,
-            'cert_url' => $this->generateCertificateUrl($user, $course),
+            'cert_url' => '111111122',
             'issued_at' => now()
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Certificate created successfully!',
-            'certificate' => new CertificateResource($certificate)
+            'cert' => new CertificateResource($certificate)
         ], 201);
     }
 
