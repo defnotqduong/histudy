@@ -12,6 +12,7 @@ class Certificate extends Model
         'user_id',
         'course_id',
         'cert_url',
+        'issued_at'
     ];
 
     public function user()

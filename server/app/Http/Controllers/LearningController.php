@@ -23,15 +23,21 @@ use App\Models\LessonNote;
 use App\Models\Notification;
 use App\Models\Review;
 use App\Models\UserProgress;
+use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
 {
-    public function __construct()
+
+    protected $uploadService;
+
+    public function __construct(UploadService $uploadService)
     {
         $this->middleware('auth:api', ['except' => ['getFreeLessonVideoUrl']]);
+
+        $this->uploadService = $uploadService;
     }
 
     public function getLearningInfo(Request $request, $slug)
@@ -342,6 +348,106 @@ class LearningController extends Controller
             'cert' => new CertificateResource($certificate)
         ], 201);
     }
+
+
+    // public function createCertificate($slug)
+    // {
+    //     $user = Auth::user();
+    //     $course = Course::findBySlug($slug);
+
+    //     if (!$course) {
+    //         return response()->json(['success' => false, 'message' => 'Course not found'], 404);
+    //     }
+
+    //     if (!$user->purchasedCourses->contains($course->id)) {
+    //         return response()->json(['success' => false, 'message' => 'You have not enrolled in this course'], 403);
+    //     }
+
+    //     $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+    //         return $chapter->lessons->where('is_published', true);
+    //     });
+
+    //     if ($lessons->isEmpty()) {
+    //         return response()->json(['success' => false, 'message' => 'No lessons found in this course'], 404);
+    //     }
+
+    //     $allLessonsCompleted = $lessons->every(function ($lesson) use ($user) {
+    //         $progress = $lesson->progress()->where('user_id', $user->id)->first();
+    //         return $progress && $progress->is_completed;
+    //     });
+
+    //     if (!$allLessonsCompleted) {
+    //         return response()->json(['success' => false, 'message' => 'Some lessons are not completed yet'], 403);
+    //     }
+
+    //     $existingCertificate = Certificate::where('user_id', $user->id)
+    //         ->where('course_id', $course->id)
+    //         ->first();
+
+    //     if ($existingCertificate) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Certificate already exists',
+    //             'cert' => new CertificateResource($existingCertificate)
+    //         ], 200);
+    //     }
+
+    //     $templateStream = $this->uploadService->getObjectUrlFromS3($course->certificateTemplate->template_url);
+
+    //     $parser = new Parser();
+    //     $pdf = $parser->parseContent($templateStream);
+    //     $pages = $pdf->getPages();
+
+    //     $keyword = '{{NAME}}';
+    //     $position = null;
+
+    //     foreach ($pages as $pageNumber => $page) {
+    //         $text = $page->getText();
+    //         $pos = strpos($text, $keyword);
+    //         if ($pos !== false) {
+    //             $position = [
+    //                 'page' => $pageNumber + 1,
+    //                 'x' => 50,
+    //                 'y' => 100,
+    //             ];
+    //             break;
+    //         }
+    //     }
+
+    //     if (!$position) {
+    //         return response()->json(['success' => false, 'message' => 'Keyword not found in template'], 500);
+    //     }
+
+    //     $fpdi = new Fpdi();
+    //     $fpdi->setSourceFile($templateStream);
+    //     $templateId = $fpdi->importPage($position['page']);
+    //     $fpdi->AddPage();
+    //     $fpdi->useTemplate($templateId);
+
+    //     $fpdi->SetFont('Helvetica', '', 12);
+    //     $fpdi->SetXY($position['x'], $position['y']);
+    //     $fpdi->Write(0, $user->name);
+
+    //     $pdfContent = $fpdi->Output('S');
+
+    //     $result = $this->uploadService->multipartUploaderToS3('certificate', $pdfContent);
+
+    //     $fileUrl = $result['filePath'];
+
+    //     $certificate = Certificate::create([
+    //         'user_id' => $user->id,
+    //         'course_id' => $course->id,
+    //         'cert_url' => $fileUrl,
+    //         'issued_at' => now(),
+    //     ]);
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Certificate created successfully!',
+    //         'cert' => new CertificateResource($certificate)
+    //     ], 201);
+    // }
+
 
 
     public function createDiscussion(Request $request, $lessonId)
