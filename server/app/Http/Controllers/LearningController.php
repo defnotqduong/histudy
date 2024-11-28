@@ -274,9 +274,11 @@ class LearningController extends Controller
         }
     }
 
-    public function createCertificate($slug)
+    public function getCertificate($slug)
     {
         $user = Auth::user();
+
+        $userId = $user->id;
 
         $course = Course::findBySlug($slug);
 
@@ -285,6 +287,18 @@ class LearningController extends Controller
                 'success' => false,
                 'message' => 'Course not found'
             ], 404);
+        }
+
+        $existingCertificate = Certificate::where('user_id', $userId)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if ($existingCertificate) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Certificate already exists',
+                'cert' => new CertificateResource($existingCertificate)
+            ], 200);
         }
 
         $isEnrolled = $user->purchasedCourses->contains($course->id);
@@ -307,7 +321,6 @@ class LearningController extends Controller
             ], 404);
         }
 
-        $userId = $user->id;
         $allLessonsCompleted = true;
 
         foreach ($lessons as $lesson) {
@@ -326,34 +339,19 @@ class LearningController extends Controller
             ], 403);
         }
 
-        $existingCertificate = Certificate::where('user_id', $userId)
-            ->where('course_id', $course->id)
-            ->first();
-
-        if ($existingCertificate) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Certificate already exists',
-                'cert' => new CertificateResource($existingCertificate)
-            ], 200);
-        }
-
-        $certificate = Certificate::create([
-            'user_id' => $userId,
-            'course_id' => $course->id,
-            'cert_url' => '111111122',
-            'issued_at' => now()
-        ]);
+        // $certificate = Certificate::create([
+        //     'user_id' => $userId,
+        //     'course_id' => $course->id,
+        //     'cert_url' => '111111122',
+        //     'issued_at' => now()
+        // ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Certificate created successfully!',
-            'cert' => new CertificateResource($certificate)
+            'message' => 'Certificate not created',
+            'cert' => new CertificateTemplateResource($course->certificateTemplate)
         ], 201);
     }
-
-
-
 
 
     public function createDiscussion(Request $request, $lessonId)

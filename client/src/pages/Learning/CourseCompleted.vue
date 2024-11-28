@@ -21,7 +21,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { createCertificate } from '@/webServices/learningService'
+import { getCertificate } from '@/webServices/learningService'
 
 import CourseCompleted from '@/components/Learning/CourseCompleted.vue'
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
     }
 
     const create = async () => {
-      const res = await createCertificate(slug.value)
+      const res = await getCertificate(slug.value)
 
       console.log(res)
 
