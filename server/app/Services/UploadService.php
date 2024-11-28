@@ -92,8 +92,6 @@ class UploadService
     }
 
 
-
-
     public function getObjectUrlFromS3(string|array $pathFile): string|array
     {
         $initial = [
@@ -122,6 +120,20 @@ class UploadService
             return $initial['filePath'];
         }
     }
+
+    public function getFileFromS3(string $url): string|false
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+
+        $pathFile = ltrim($path, '/');
+
+        if (DiskHelper::getS3Disk()->exists($pathFile)) {
+            return DiskHelper::getS3Disk()->get($pathFile);
+        }
+
+        return false;
+    }
+
 
     public function deleteObjectS3(string|array $pathFile): array
     {

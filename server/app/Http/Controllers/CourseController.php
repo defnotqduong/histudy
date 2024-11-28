@@ -333,7 +333,7 @@ class CourseController extends Controller
     public function uploadCertificateTemplate(Request $request, $slug)
     {
         $request->validate([
-            'file' => 'required|mimes:pdf|max:5120',
+            'image' => 'required|image|max:4096',
         ]);
 
         $userId = Auth::id();
