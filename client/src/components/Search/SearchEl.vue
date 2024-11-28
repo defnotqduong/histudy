@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="max-w-[900px] my-4 mx-auto px-4">
+    <div class="max-w-[1020px] my-4 mx-auto px-4">
       <form class="mt-7 flex items-center justify-center">
         <input
           type="text"

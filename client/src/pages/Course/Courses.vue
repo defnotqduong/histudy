@@ -4,7 +4,7 @@
 
     <template v-if="!loading">
       <div v-if="courses.length === 0">No courses yet</div>
-      <div v-else class="relative mt-[-160px]">
+      <div v-else class="relative mt-[-120px]">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 sm:col-span-6 lg:col-span-4" v-for="course in courses" :key="course.id">

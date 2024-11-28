@@ -109,6 +109,12 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'GreatVibes';
+  src: url('./assets/fonts/GreatVibes-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -173,4 +179,39 @@ html:hover::-webkit-scrollbar-thumb {
 
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
 }

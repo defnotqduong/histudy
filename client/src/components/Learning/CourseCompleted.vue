@@ -1,11 +1,14 @@
 <template>
-  <div class="mt-4">
-    <VuePdfEmbed :source="cert?.template_url" class="w-[500px] h-[500px]" />
+  <div class="mt-4 relative max-w-[860px]">
+    <label for="name" class="absolute top-1/2 left-0 -translate-y-1/2 w-full h-10 mt-2">
+      <div class="text-center text-4xl text-thirtyColor" style="font-family: 'GreatVibes', cursive">Phan Quang Duong</div>
+    </label>
+    <img :src="cert?.template_url" class="w-full object-contain object-center" alt="Certificate" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import VuePdfEmbed from 'vue-pdf-embed'
 

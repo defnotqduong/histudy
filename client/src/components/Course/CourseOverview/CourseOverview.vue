@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-[500px] pt-[60px] pb-[80px] bg-cover bg-center" :style="{ backgroundImage: `url(${bgImage10})` }">
+  <div class="relative min-h-[420px] pt-12 pb-16 bg-cover bg-center" :style="{ backgroundImage: `url(${bgImage10})` }">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-12">
         <div class="col-span-12 lg:col-span-8 lg:pr-[16%]">

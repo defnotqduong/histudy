@@ -13,7 +13,7 @@
           Back to learning page
         </div>
       </button>
-      <!-- <CourseCompleted :cert="cert" /> -->
+      <CourseCompleted :cert="cert" />
     </div>
   </div>
 </template>

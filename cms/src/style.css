@@ -182,3 +182,38 @@ html:hover::-webkit-scrollbar-thumb {
 .custom-scrollbar.scrollbar-white:hover::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 1);
 }
+
+.container {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+}
