@@ -5,7 +5,7 @@
         <span class="loading loading-spinner loading-md"></span>
       </div>
       <div v-else class="max-w-[860px] mx-auto">
-        <div class="mb-4">
+        <div class="mb-6">
           <button @click="goBack">
             <div
               class="inline-flex items-center gap-2 text-bodyColor relative transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[1.5px] after:bg-primaryColor hover:after:left-0 hover:after:right-auto hover:after:w-full after:transition-all after:duration-300"
@@ -18,6 +18,12 @@
               Back to learning page
             </div>
           </button>
+        </div>
+        <div class="mb-6">
+          <p>
+            Congratulations on completing the <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
+            >! Below is your certificate after completing the course.
+          </p>
         </div>
         <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :fetchData="fetchData" />
         <CertEl v-if="cert" :cert="cert" />
@@ -41,27 +47,31 @@ export default defineComponent({
 
     const slug = ref(route.params.slug)
     const loading = ref(false)
+    const course = ref(null)
     const cert = ref(null)
     const certTemplate = ref(null)
 
     const goBack = () => {
-      router.back()
+      router.push({ name: 'learning', params: { slug: slug.value } })
     }
 
     const fetchData = async () => {
       loading.value = true
-      const res = await getCertificate(slug.value)
+      cert.value = null
+      certTemplate.value = null
 
-      console.log(res)
+      const res = await getCertificate(slug.value)
 
       if (!res.success) router.push({ name: 'home' })
 
-      if (res.success && !res.is_exists) {
-        certTemplate.value = res.cert
-      }
+      if (res.success) {
+        if (!res.is_exists) {
+          certTemplate.value = res.cert
+        } else {
+          cert.value = res.cert
+        }
 
-      if (res.success && res.is_exists) {
-        cert.value = res.cert
+        course.value = res.course
       }
 
       loading.value = false
@@ -72,6 +82,7 @@ export default defineComponent({
     })
 
     return {
+      course,
       cert,
       certTemplate,
       slug,

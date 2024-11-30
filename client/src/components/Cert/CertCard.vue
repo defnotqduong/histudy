@@ -19,8 +19,6 @@ export default defineComponent({
   setup(props) {
     const router = useRouter()
 
-    console.log(props.cert)
-
     const redirect = () => {
       router.push({ name: 'course-completed', params: { slug: props.cert.course_slug } })
     }

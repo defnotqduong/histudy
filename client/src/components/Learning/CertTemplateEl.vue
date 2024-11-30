@@ -64,6 +64,15 @@ export default defineComponent({
     const isFocused = ref(false)
 
     const save = async () => {
+      if (!name.value || name.value.trim() === '') {
+        homeStore.onChangeToast({
+          show: true,
+          type: 'error',
+          message: 'Please enter your name'
+        })
+        return
+      }
+
       const certEl = certContentImage.value
       if (certEl) {
         html2canvas(certEl, { proxy: props.cert.template_url }).then(async canvas => {

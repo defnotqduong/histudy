@@ -340,17 +340,13 @@ class LearningController extends Controller
             ], 403);
         }
 
-        // $certificate = Certificate::create([
-        //     'user_id' => $userId,
-        //     'course_id' => $course->id,
-        //     'cert_url' => '111111122',
-        //     'issued_at' => now()
-        // ]);
-
         return response()->json([
             'success' => true,
             'is_exists' => false,
             'message' => 'Certificate not created',
+            'course' => [
+                'title' => $course->title,
+            ],
             'cert' => new CertificateTemplateResource($course->certificateTemplate)
         ], 201);
     }

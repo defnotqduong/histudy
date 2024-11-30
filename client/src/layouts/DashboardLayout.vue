@@ -20,11 +20,37 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
+import { useUserStore } from '@/stores'
+import { getAllCert } from '@/webServices/certService'
+import { getPurchasedCourses } from '@/webServices/courseService'
+import { getAllOrder } from '@/webServices/orderService'
+
 import SideBar from '@/components/Dashboard/SideBar.vue'
 import ProfileOverview from '@/components/Dashboard/ProfileOverview.vue'
 export default defineComponent({
-  components: { SideBar, ProfileOverview }
+  components: { SideBar, ProfileOverview },
+  setup() {
+    const userStore = useUserStore()
+    const loading = ref(false)
+
+    const fetchData = async () => {
+      loading.value = true
+
+      const [certData, courseData, orderData] = await Promise.all([getAllCert(), getPurchasedCourses(), getAllOrder()])
+      console.log(courseData)
+
+      userStore.setCerts(certData.certs)
+      userStore.setEnrolledCourses(courseData.courses.courses)
+      userStore.setOrders(orderData.orders)
+
+      loading.value = false
+    }
+
+    onMounted(async () => {
+      await fetchData()
+    })
+  }
 })
 </script>
 

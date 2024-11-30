@@ -16,8 +16,6 @@ import { getPopularCourses, getPurchasedCourses } from '@/webServices/courseServ
 import { getAllCategories, getPopularCategories } from '@/webServices/categoryService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
-import { getAllCert } from '@/webServices/certService'
-import { getAllOrder } from '@/webServices/orderService'
 import { getListNotiByUser } from '@/webServices/notificationService'
 
 import { connectSocket } from '@/configs/socketConfig.js'
@@ -45,15 +43,13 @@ export default defineComponent({
       const accToken = gtka()
 
       const userPromise = accToken
-        ? Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getAllCert(), getAllOrder(), getListNotiByUser()]).then(
-            ([profile, purchasedCourses, cart, wishlist, certs, orders, notis]) => ({
+        ? Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getListNotiByUser()]).then(
+            ([profile, purchasedCourses, cart, wishlist, notis]) => ({
               success: true,
               user: profile.user,
-              purchased_courses: purchasedCourses.courses,
+              purchasedCourses: purchasedCourses.courses,
               cart: cart.cart,
               wishlist: wishlist.wishlist,
-              certs: certs.certs,
-              orders: orders.orders,
               notifications: notis.notifications
             })
           )
@@ -68,11 +64,9 @@ export default defineComponent({
 
       if (userData?.success) {
         this.userStore.setUser(userData?.user)
-        this.userStore.setEnrolledCourses(userData?.purchased_courses?.courses)
+        this.userStore.setEnrolledCourses(userData.purchasedCourses.courses)
         this.userStore.setCart(userData?.cart?.courses)
         this.userStore.setWishlist(userData?.wishlist?.courses)
-        this.userStore.setCerts(userData?.certs)
-        this.userStore.setOrders(userData?.orders)
         this.userStore.setNotification(userData?.notifications)
 
         const socket = connectSocket(userData.user.id)

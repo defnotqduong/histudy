@@ -116,8 +116,6 @@ import { loginUser, loginWithGoogle, getUserProfile } from '@/webServices/author
 import { getPurchasedCourses } from '@/webServices/courseService'
 import { getCart } from '@/webServices/cartService'
 import { getWishlist } from '@/webServices/wishlistService'
-import { getAllCert } from '@/webServices/certService'
-import { getAllOrder } from '@/webServices/orderService'
 import { getListNotiByUser } from '@/webServices/notificationService'
 
 import { connectSocket } from '@/configs/socketConfig.js'
@@ -181,34 +179,24 @@ export default defineComponent({
       if (res.success) {
         userStore.login(res.data.access_token, res.data.refresh_token)
 
-        const userPromise = Promise.all([
-          getUserProfile(),
-          getPurchasedCourses(),
-          getCart(),
-          getWishlist(),
-          getAllCert(),
-          getAllOrder(),
-          getListNotiByUser()
-        ]).then(([profile, purchasedCourses, cart, wishlist, certs, orders, notis]) => ({
-          success: true,
-          user: profile.user,
-          purchased_courses: purchasedCourses.courses,
-          cart: cart.cart,
-          wishlist: wishlist.wishlist,
-          certs: certs.certs,
-          orders: orders.orders,
-          notifications: notis.notifications
-        }))
+        const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getListNotiByUser()]).then(
+          ([profile, purchasedCourses, cart, wishlist, notis]) => ({
+            success: true,
+            user: profile.user,
+            purchasedCourses: purchasedCourses.courses,
+            cart: cart.cart,
+            wishlist: wishlist.wishlist,
+            notifications: notis.notifications
+          })
+        )
 
         const [userData] = await Promise.all([userPromise])
 
         if (userData?.success) {
           userStore.setUser(userData.user)
-          userStore.setEnrolledCourses(userData.purchased_courses.courses)
+          userStore.setEnrolledCourses(userData.purchasedCourses.courses)
           userStore.setCart(userData.cart.courses)
           userStore.setWishlist(userData.wishlist.courses)
-          userStore.setCerts(userData?.certs)
-          userStore.setOrders(userData?.orders)
           userStore.setNotification(userData?.notifications)
 
           const socket = connectSocket(userData.user.id)
@@ -240,34 +228,24 @@ export default defineComponent({
           if (res.success) {
             userStore.login(res.data.access_token, res.data.refresh_token)
 
-            const userPromise = Promise.all([
-              getUserProfile(),
-              getPurchasedCourses(),
-              getCart(),
-              getWishlist(),
-              getAllCert(),
-              getAllOrder(),
-              getListNotiByUser()
-            ]).then(([profile, purchasedCourses, cart, wishlist, certs, orders, notis]) => ({
-              success: true,
-              user: profile.user,
-              purchased_courses: purchasedCourses.courses,
-              cart: cart.cart,
-              wishlist: wishlist.wishlist,
-              certs: certs.certs,
-              orders: orders.orders,
-              notifications: notis.notifications
-            }))
+            const userPromise = Promise.all([getUserProfile(), getPurchasedCourses(), getCart(), getWishlist(), getListNotiByUser()]).then(
+              ([profile, purchasedCourses, cart, wishlist, notis]) => ({
+                success: true,
+                user: profile.user,
+                purchasedCourses: purchasedCourses.courses,
+                cart: cart.cart,
+                wishlist: wishlist.wishlist,
+                notifications: notis.notifications
+              })
+            )
 
             const [userData] = await Promise.all([userPromise])
 
             if (userData?.success) {
               userStore.setUser(userData.user)
-              userStore.setEnrolledCourses(userData.purchased_courses.courses)
+              userStore.setEnrolledCourses(userData.purchasedCourses.courses)
               userStore.setCart(userData.cart.courses)
               userStore.setWishlist(userData.wishlist.courses)
-              userStore.setCerts(userData?.certs)
-              userStore.setOrders(userData?.orders)
               userStore.setNotification(userData?.notifications)
 
               const socket = connectSocket(userData.user.id)
