@@ -20,7 +20,8 @@ import jsPDF from 'jspdf'
 
 export default defineComponent({
   props: {
-    cert: Object
+    cert: Object,
+    course: Object
   },
   setup(props) {
     const certImage = ref(null)
@@ -41,9 +42,9 @@ export default defineComponent({
           format: [mmWidth, mmHeight]
         })
 
-        pdf.addImage(img.src, 'JPEG', 0, 0, mmWidth, mmHeight)
+        pdf.addImage(img.src, 'png', 0, 0, mmWidth, mmHeight)
 
-        pdf.save('certificate.pdf')
+        pdf.save(`${props.course.title} Certificate.pdf`)
       }
     }
 

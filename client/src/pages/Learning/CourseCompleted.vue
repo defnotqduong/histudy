@@ -32,8 +32,8 @@
             >! However, this course currently does not offer a certificate.
           </p>
         </div>
-        <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :fetchData="fetchData" />
-        <CertEl v-if="cert" :cert="cert" />
+        <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :course="course" :fetchData="fetchData" />
+        <CertEl v-if="cert" :cert="cert" :course="course" />
       </div>
     </div>
   </div>
@@ -68,8 +68,6 @@ export default defineComponent({
       certTemplate.value = null
 
       const res = await getCertificate(slug.value)
-
-      console.log(res)
 
       if (!res.success) router.push({ name: 'home' })
 

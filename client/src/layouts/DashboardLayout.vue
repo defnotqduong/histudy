@@ -38,7 +38,6 @@ export default defineComponent({
       loading.value = true
 
       const [certData, courseData, orderData] = await Promise.all([getAllCert(), getPurchasedCourses(), getAllOrder()])
-      console.log(courseData)
 
       userStore.setCerts(certData.certs)
       userStore.setEnrolledCourses(courseData.courses.courses)

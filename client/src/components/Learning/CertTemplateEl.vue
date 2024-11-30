@@ -52,6 +52,7 @@ export default defineComponent({
   props: {
     cert: Object,
     slug: String,
+    course: Object,
     fetchData: Function
   },
   setup(props) {
