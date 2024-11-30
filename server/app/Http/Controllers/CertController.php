@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CertificateResource;
-use App\Http\Resources\CertResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
