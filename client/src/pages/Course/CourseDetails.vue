@@ -5,13 +5,13 @@
     </div>
     <template v-if="!loading">
       <CourseOverview :course="course" :instructor="instructor" :category="category" :cert="cert" />
-      <div class="pt-16 pb-8 lg:pb-16">
+      <div class="pt-10 pb-8 lg:pb-16">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-12 gap-4">
             <div class="col-span-12 lg:col-span-8">
               <CourseThumbnail :thumbnail_url="course?.thumbnail_url" />
-              <CourseChapters :chapters="chapters" />
               <CourseDescription :description="course?.description" />
+              <CourseChapters :chapters="chapters" />
               <CourseInstructor :instructor="instructor" />
               <CourseReviews :average_star="course?.average_star" :review_count="course?.review_count" :reviews="reviews" />
               <InstructorRecommendedCourses :instructor="course?.instructor" :instructorCourses="instructorCourses" />
