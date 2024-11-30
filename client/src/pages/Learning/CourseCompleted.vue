@@ -20,10 +20,16 @@
           </button>
         </div>
         <div class="mb-12">
-          <p class="text-headingColor">
-            Congratulations on successfully completing the <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
+          <p class="text-headingColor" v-if="certTemplate || cert">
+            Congratulations on successfully completing the
+            <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
             >! We are thrilled to present your certificate, a testament to your hard work and dedication throughout the course. Below is your well-deserved
             certificate after completing this milestone.
+          </p>
+          <p class="text-headingColor" v-else>
+            Congratulations on successfully completing the
+            <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
+            >! However, this course currently does not offer a certificate.
           </p>
         </div>
         <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :fetchData="fetchData" />

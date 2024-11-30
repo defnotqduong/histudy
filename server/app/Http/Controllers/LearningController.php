@@ -350,7 +350,7 @@ class LearningController extends Controller
             'course' => [
                 'title' => $course->title,
             ],
-            'cert' => new CertificateTemplateResource($course->certificateTemplate)
+            'cert' => $course->certificateTemplate ?  new CertificateTemplateResource($course->certificateTemplate) : null
         ], 201);
     }
 

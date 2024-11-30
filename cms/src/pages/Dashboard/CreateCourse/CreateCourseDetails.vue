@@ -167,8 +167,6 @@ export default defineComponent({
       loading.value = true
       const res = await getCourse(slug)
 
-      console.log(res)
-
       if (!res.success) {
         router.push({ name: 'home' })
         return
