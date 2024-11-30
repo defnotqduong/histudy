@@ -28,6 +28,16 @@ export const getCertificate = slug => {
   return connectServer[api.GET_CERT_API.method](url)
 }
 
+export const createCertificate = (slug, dataPost) => {
+  const url = '/learning/course/' + slug + '/cert'
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  return connectServer[api.CREATE_CERT_API.method](url, dataPost, config)
+}
+
 export const createDiscussion = (lessonId, dataPost) => {
   const url = '/learning/lesson/' + lessonId + '/discussion'
   return connectServer[api.CREATE_DISCUSSION_API.method](url, dataPost)

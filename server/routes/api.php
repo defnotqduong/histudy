@@ -204,6 +204,7 @@ Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     Route::post('/course/review/{courseId}', [LearningController::class, 'reviewCourse']);
     Route::get('/course/{slug}/check-completed', [LearningController::class, 'checkCourseCompleted']);
     Route::get('/course/{slug}/cert', [LearningController::class, 'getCertificate']);
+    Route::post('/course/{slug}/cert', [LearningController::class, 'createCertificate']);
     Route::get('/learning-info/{slug}', [LearningController::class, 'getLearningInfo']);
     Route::get('/lesson-info/{lessonId}', [LearningController::class, 'getLessonInfo']);
     Route::post('/lesson/update-completed', [LearningController::class, 'updateCompletedLesson']);

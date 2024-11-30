@@ -365,7 +365,7 @@ class CourseController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Certificate template uploaded successfully',
-                    'template' => $certificateTemplate,
+                    'template' => new CertificateTemplateResource($certificateTemplate),
                 ], 200);
             }
 

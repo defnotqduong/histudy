@@ -296,6 +296,7 @@ class LearningController extends Controller
         if ($existingCertificate) {
             return response()->json([
                 'success' => true,
+                'is_exists' => true,
                 'message' => 'Certificate already exists',
                 'cert' => new CertificateResource($existingCertificate)
             ], 200);
@@ -348,9 +349,113 @@ class LearningController extends Controller
 
         return response()->json([
             'success' => true,
+            'is_exists' => false,
             'message' => 'Certificate not created',
             'cert' => new CertificateTemplateResource($course->certificateTemplate)
         ], 201);
+    }
+
+    public function createCertificate(Request $request, $slug)
+    {
+        $request->validate([
+            'file' => 'required|image|max:4096',
+        ]);
+
+        $user = Auth::user();
+
+        $userId = $user->id;
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $existingCertificate = Certificate::where('user_id', $userId)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if ($existingCertificate) {
+            return response()->json([
+                'success' => true,
+                'is_exists' => true,
+                'message' => 'Certificate already exists',
+                'cert' => new CertificateResource($existingCertificate)
+            ], 200);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+            return $chapter->lessons->where('is_published', true);
+        });
+
+        if ($lessons->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lessons found in this course'
+            ], 404);
+        }
+
+        $allLessonsCompleted = true;
+
+        foreach ($lessons as $lesson) {
+            $progress = $lesson->progress()->where('user_id', $userId)->first();
+
+            if (!$progress || !$progress->is_completed) {
+                $allLessonsCompleted = false;
+                break;
+            }
+        }
+
+        if (!$allLessonsCompleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Some lessons are not completed yet'
+            ], 403);
+        }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            $uploadResult = $this->uploadService->multipartUploaderToS3('certificates', $file);
+
+            if ($uploadResult['status']) {
+
+                $certificate = Certificate::create([
+                    'user_id' => $userId,
+                    'course_id' => $course->id,
+                    'cert_url' => $uploadResult['filePath'],
+                    'issued_at' => now()
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Certificate created successfully',
+                    'cert' => new CertificateResource($certificate),
+                ], 200);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create the certificate.',
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No file uploaded.',
+        ], 400);
     }
 
 

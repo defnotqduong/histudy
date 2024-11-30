@@ -1,7 +1,10 @@
 <template>
   <div class="py-16">
     <div class="container mx-auto px-4">
-      <div class="max-w-[860px] mx-auto">
+      <div v-if="loading" class="min-h-[60vh] flex items-center justify-center text-primaryColor">
+        <span class="loading loading-spinner loading-md"></span>
+      </div>
+      <div v-else class="max-w-[860px] mx-auto">
         <div class="mb-4">
           <button @click="goBack">
             <div
@@ -16,7 +19,8 @@
             </div>
           </button>
         </div>
-        <CertEl :cert="cert" />
+        <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" />
+        <CertEl v-if="cert" :cert="cert" />
       </div>
     </div>
   </div>
@@ -27,30 +31,36 @@ import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getCertificate } from '@/webServices/learningService'
 
+import CertTemplateEl from '@/components/Learning/CertTemplateEl.vue'
 import CertEl from '@/components/Learning/CertEl.vue'
 export default defineComponent({
-  components: { CertEl },
+  components: { CertTemplateEl, CertEl },
   setup() {
     const router = useRouter()
     const route = useRoute()
 
     const slug = ref(route.params.slug)
+    const loading = ref(false)
     const cert = ref(null)
+    const certTemplate = ref(null)
 
     const goBack = () => {
       router.back()
     }
 
     const create = async () => {
+      loading.value = true
       const res = await getCertificate(slug.value)
 
       console.log(res)
 
-      // if (!res.success) router.push({ name: 'home' })
+      if (!res.success) router.push({ name: 'home' })
 
-      if (res.success) {
-        cert.value = res.cert
+      if (res.success && !res.is_exists) {
+        certTemplate.value = res.cert
       }
+
+      loading.value = false
     }
 
     onMounted(async () => {
@@ -59,6 +69,9 @@ export default defineComponent({
 
     return {
       cert,
+      certTemplate,
+      slug,
+      loading,
       goBack
     }
   }
