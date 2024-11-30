@@ -35,11 +35,6 @@
       >
         Save
       </button>
-      <button
-        class="px-6 h-10 bg-whiteColor text-primaryColor font-bold border-[2px] border-primaryColor rounded-full transition-all duration-300 hover:text-whiteColor hover:bg-primaryColor hover:translate-y-[-2px]"
-      >
-        Download
-      </button>
     </div>
   </div>
 </template>
@@ -56,7 +51,8 @@ export default defineComponent({
   components: {},
   props: {
     cert: Object,
-    slug: String
+    slug: String,
+    fetchData: Function
   },
   setup(props) {
     const router = useRouter()
@@ -80,7 +76,7 @@ export default defineComponent({
 
           const res = await createCertificate(props.slug, formData)
 
-          console.log(res)
+          if (res.success) props.fetchData()
         })
       }
     }

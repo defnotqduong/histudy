@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CertificateResource;
 use App\Http\Resources\CertResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class CertController extends Controller
         return response()->json(
             [
                 'success' => true,
-                'certs' => CertResource::collection($user->certificates),
+                'certs' => CertificateResource::collection($user->certificates),
             ],
             200
         );

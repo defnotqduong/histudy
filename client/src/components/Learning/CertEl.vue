@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="relative">
-      <img :src="cert.cert_url" alt="certificate" />
+      <img :src="cert.cert_url" alt="certificate" ref="certImage" />
     </div>
     <div class="mt-6 flex items-center justify-center gap-4">
       <button
+        @click="downloadPDF"
         class="px-6 h-10 bg-whiteColor text-primaryColor font-bold border-[2px] border-primaryColor rounded-full transition-all duration-300 hover:text-whiteColor hover:bg-primaryColor hover:translate-y-[-2px]"
       >
         Download
@@ -15,41 +16,40 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useHomeStore, useUserStore } from '@/stores'
+import jsPDF from 'jspdf'
 
 export default defineComponent({
-  components: {},
   props: {
     cert: Object
   },
   setup(props) {
-    const router = useRouter()
-    const homeStore = useHomeStore()
+    const certImage = ref(null)
 
-    return {}
+    const downloadPDF = () => {
+      const img = certImage.value
+
+      if (img) {
+        const imgWidth = img.naturalWidth
+        const imgHeight = img.naturalHeight
+
+        const mmWidth = imgWidth * 0.264583
+        const mmHeight = imgHeight * 0.264583
+
+        const pdf = new jsPDF({
+          orientation: mmWidth > mmHeight ? 'landscape' : 'portrait',
+          unit: 'mm',
+          format: [mmWidth, mmHeight]
+        })
+
+        pdf.addImage(img.src, 'JPEG', 0, 0, mmWidth, mmHeight)
+
+        pdf.save('certificate.pdf')
+      }
+    }
+
+    return { certImage, downloadPDF }
   }
 })
 </script>
 
-<style scoped>
-.caret {
-  opacity: 1;
-  transform: rotate(-8deg);
-  transition: opacity 0.3s ease;
-}
-
-.custom-blink {
-  animation: flash 0.6s infinite;
-}
-
-@keyframes flash {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-</style>
+<style></style>

@@ -19,7 +19,7 @@
             </div>
           </button>
         </div>
-        <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" />
+        <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :fetchData="fetchData" />
         <CertEl v-if="cert" :cert="cert" />
       </div>
     </div>
@@ -48,7 +48,7 @@ export default defineComponent({
       router.back()
     }
 
-    const create = async () => {
+    const fetchData = async () => {
       loading.value = true
       const res = await getCertificate(slug.value)
 
@@ -60,11 +60,15 @@ export default defineComponent({
         certTemplate.value = res.cert
       }
 
+      if (res.success && res.is_exists) {
+        cert.value = res.cert
+      }
+
       loading.value = false
     }
 
     onMounted(async () => {
-      await create()
+      await fetchData()
     })
 
     return {
@@ -72,7 +76,8 @@ export default defineComponent({
       certTemplate,
       slug,
       loading,
-      goBack
+      goBack,
+      fetchData
     }
   }
 })

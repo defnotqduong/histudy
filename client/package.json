@@ -23,6 +23,7 @@
     "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "js-file-downloader": "^1.1.25",
+    "jspdf": "^2.5.2",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
