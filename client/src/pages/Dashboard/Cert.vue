@@ -5,7 +5,9 @@
     </div>
     <div v-if="userStore.certs.length === 0" class="mt-4 ml-6 italic">No Certificates yet</div>
     <div v-else class="grid grid-cols-12 gap-2 sm:gap-4">
-      <div v-for="cert in userStore.certs" :key="cert.id" class="col-span-12 sm:col-span-6 lg:col-span-4">{{ cert?.name }}</div>
+      <div v-for="cert in userStore.certs" :key="cert.id" class="col-span-12 sm:col-span-6 lg:col-span-4">
+        <CertCard :cert="cert" />
+      </div>
     </div>
   </div>
 </template>
@@ -14,8 +16,10 @@
 import { defineComponent } from 'vue'
 import { useUserStore } from '@/stores'
 
+import CertCard from '@/components/Cert/CertCard.vue'
+
 export default defineComponent({
-  components: {},
+  components: { CertCard },
   setup() {
     const userStore = useUserStore()
 
