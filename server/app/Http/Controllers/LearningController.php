@@ -298,6 +298,9 @@ class LearningController extends Controller
                 'success' => true,
                 'is_exists' => true,
                 'message' => 'Certificate already exists',
+                'course' => [
+                    'title' => $course->title,
+                ],
                 'cert' => new CertificateResource($existingCertificate)
             ], 200);
         }

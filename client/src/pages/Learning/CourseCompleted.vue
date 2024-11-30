@@ -5,7 +5,7 @@
         <span class="loading loading-spinner loading-md"></span>
       </div>
       <div v-else class="max-w-[860px] mx-auto">
-        <div class="mb-6">
+        <div class="mb-4">
           <button @click="goBack">
             <div
               class="inline-flex items-center gap-2 text-bodyColor relative transition-all duration-300 hover:text-primaryColor after:absolute after:content after:bottom-0 after:left-auto after:right-0 after:w-0 after:h-[1.5px] after:bg-primaryColor hover:after:left-0 hover:after:right-auto hover:after:w-full after:transition-all after:duration-300"
@@ -19,10 +19,11 @@
             </div>
           </button>
         </div>
-        <div class="mb-6">
-          <p>
-            Congratulations on completing the <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
-            >! Below is your certificate after completing the course.
+        <div class="mb-12">
+          <p class="text-headingColor">
+            Congratulations on successfully completing the <strong class="text-lg text-primaryColor font-bold">{{ course?.title }}</strong
+            >! We are thrilled to present your certificate, a testament to your hard work and dedication throughout the course. Below is your well-deserved
+            certificate after completing this milestone.
           </p>
         </div>
         <CertTemplateEl v-if="certTemplate" :cert="certTemplate" :slug="slug" :fetchData="fetchData" />
@@ -61,6 +62,8 @@ export default defineComponent({
       certTemplate.value = null
 
       const res = await getCertificate(slug.value)
+
+      console.log(res)
 
       if (!res.success) router.push({ name: 'home' })
 
