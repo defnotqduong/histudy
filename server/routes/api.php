@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
 use App\Http\Controllers\Permission\UserController;
 use App\Http\Controllers\WishlistController;
+use App\Models\Assessment;
+use App\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,7 +135,6 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
 // Instructor Routes
 Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function () {
 
-
     // Category Routes
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [CategoryController::class, 'getAllCategoryForInstructor']);
@@ -195,6 +197,21 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
                 Route::delete('/{id}', [AttachmentController::class, 'deleteLessonAttachment']);
             });
         });
+    });
+
+    // Assessment Routes
+    Route::group(['prefix' => 'assessments'], function () {
+        Route::get('/', [AssessmentController::class, 'getInstructorAssessments']);
+    });
+
+    Route::group(['prefix' => 'course/{slug}/assessment'], function () {
+        Route::post('/', [AssessmentController::class, 'createAssessment']);
+        Route::get('/{id}', [AssessmentController::class, 'getAssessment']);
+        Route::post('/{id}/question', [AssessmentController::class, 'addQuestion']);
+        Route::put('/{id}/question/reorder', [AssessmentController::class, 'reorderQuestion']);
+        Route::get('/{id}/question/{questionId}', [AssessmentController::class, 'getQuestion']);
+        Route::patch('/{id}/question/{questionId}', [AssessmentController::class, 'editQuestion']);
+        Route::delete('/{id}/question/{questionId}', [AssessmentController::class, 'deleteQuestion']);
     });
 });
 
