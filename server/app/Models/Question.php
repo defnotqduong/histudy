@@ -10,19 +10,20 @@ class Question extends Model
     use HasFactory;
 
     protected $fillable = [
-        'course_id',
+        'assessment_id',
         'content',
-        'position'
+        'position',
     ];
+
 
     public function answers()
     {
         return $this->hasMany(Answer::class);
     }
 
-    public function course()
+    public function assessment()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Assessment::class);
     }
 
     public function userAnswers()
