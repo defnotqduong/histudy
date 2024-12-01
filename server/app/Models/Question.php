@@ -12,6 +12,7 @@ class Question extends Model
     protected $fillable = [
         'course_id',
         'content',
+        'position'
     ];
 
     public function answers()
