@@ -1,5 +1,6 @@
 <template>
   <div class="flex items-center gap-3">
+    <button @click.prevent="redirect" class="px-4 h-10 min-h-10 text-sm text-whiteColor bg-blackColor rounded-md">Create Quiz</button>
     <button
       :disabled="!isComplete || isSubmitting"
       @click.prevent="onChangeCourse()"
@@ -70,6 +71,10 @@ export default defineComponent({
     const homeStore = useHomeStore()
     const isSubmitting = ref(false)
 
+    const redirect = () => {
+      router.push({ name: 'create-course-quiz', params: { slug: props.slugs } })
+    }
+
     const onChangeCourse = async () => {
       isSubmitting.value = true
 
@@ -118,7 +123,7 @@ export default defineComponent({
       router.push({ name: 'courses' })
     }
 
-    return { isSubmitting, onChangeCourse, onDeleteCourse }
+    return { isSubmitting, redirect, onChangeCourse, onDeleteCourse }
   }
 })
 </script>

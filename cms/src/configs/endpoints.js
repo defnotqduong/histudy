@@ -304,8 +304,12 @@ export default {
     url: '/instructor/course/chapter/lesson/attachment'
   },
   // Assessment
-  GET_INSTRUCTOR_ASSESSMENTS: {
+  GET_INSTRUCTOR_ASSESSMENTS_API: {
     method: 'post',
     url: '/instructor/assessments'
+  },
+  CREATE_ASSESSMENT_API: {
+    method: 'post',
+    url: '/instructor/course/assessments'
   }
 }

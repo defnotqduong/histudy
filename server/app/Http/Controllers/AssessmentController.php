@@ -81,7 +81,7 @@ class AssessmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'assessments' => new AssessmentResource($assessment),
+            'assessment' => new AssessmentResource($assessment),
             'message' => 'Assessment created successfully.',
         ]);
     }
