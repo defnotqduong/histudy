@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AssessmentResource;
 use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\CertificateResource;
 use App\Http\Resources\CertificateTemplateResource;
@@ -11,8 +12,11 @@ use App\Http\Resources\LessonDiscussionResource;
 use App\Http\Resources\LessonNoteResource;
 use App\Http\Resources\LessonResource;
 use App\Http\Resources\NotificationResource;
+use App\Http\Resources\QuestionResource;
 use App\Http\Resources\ReviewResource;
 use App\Jobs\SendRabbitMQNotification;
+use App\Models\Answer;
+use App\Models\Assessment;
 use App\Models\Attachment;
 use App\Models\Certificate;
 use App\Models\Chapter;
@@ -21,7 +25,9 @@ use App\Models\Lesson;
 use App\Models\LessonDiscussion;
 use App\Models\LessonNote;
 use App\Models\Notification;
+use App\Models\Question;
 use App\Models\Review;
+use App\Models\UserAnswer;
 use App\Models\UserProgress;
 use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -30,6 +36,7 @@ use Illuminate\Support\Facades\Auth;
 use setasign\Fpdi\Fpdi;
 use Smalot\PdfParser\Parser;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 
 class LearningController extends Controller
 {
@@ -695,5 +702,219 @@ class LearningController extends Controller
             'message' => 'Review created successfully!',
             'review' => new ReviewResource($review)
         ], 201);
+    }
+
+    public function getListAssessmentForUser($slug)
+    {
+        $user = Auth::user();
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        return response()->json([
+            'success' => true,
+            'assessments' => AssessmentResource::collection($course->assessments)
+        ], 200);
+    }
+
+    public function getAssessmentForUser($slug, $id)
+    {
+        $user = Auth::user();
+
+        $userId = $user->id;
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+            return $chapter->lessons->where('is_published', true);
+        });
+
+        if ($lessons->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lessons found in this course'
+            ], 404);
+        }
+
+        $allLessonsCompleted = true;
+
+        foreach ($lessons as $lesson) {
+            $progress = $lesson->progress()->where('user_id', $userId)->first();
+
+            if (!$progress || !$progress->is_completed) {
+                $allLessonsCompleted = false;
+                break;
+            }
+        }
+
+        if (!$allLessonsCompleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Some lessons are not completed yet'
+            ], 403);
+        }
+
+        $assessment = Assessment::where('course_id', $course->id)->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json(['message' => 'Assessment not found.'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'assessment' => new AssessmentResource($assessment),
+            'questions' => QuestionResource::collection($assessment->questions, false)
+        ], 200);
+    }
+
+    public function submitAssessment(Request $request, $slug, $id)
+    {
+        $user = Auth::user();
+
+        $userId = $user->id;
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $lessons = $course->chapters()->with('lessons')->get()->flatMap(function ($chapter) {
+            return $chapter->lessons->where('is_published', true);
+        });
+
+        if ($lessons->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lessons found in this course'
+            ], 404);
+        }
+
+        $allLessonsCompleted = true;
+
+        foreach ($lessons as $lesson) {
+            $progress = $lesson->progress()->where('user_id', $userId)->first();
+
+            if (!$progress || !$progress->is_completed) {
+                $allLessonsCompleted = false;
+                break;
+            }
+        }
+
+        if (!$allLessonsCompleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Some lessons are not completed yet'
+            ], 403);
+        }
+
+        $assessment = Assessment::where('course_id', $course->id)->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json(['message' => 'Assessment not found.'], 404);
+        }
+
+        $request->validate([
+            'answers' => 'required|array',
+            'answers.*.question_id' => 'required|exists:questions,id',
+            'answers.*.answer_id' => 'nullable|exists:answers,id',
+        ]);
+
+        $submittedAnswers = $request->answers;
+
+        $results = [];
+        $correctCount = 0;
+        $totalQuestions = $assessment->questions->count();
+
+        DB::transaction(function () use ($submittedAnswers, $user, &$results, &$correctCount) {
+            foreach ($submittedAnswers as $submittedAnswer) {
+                $questionId = $submittedAnswer['question_id'];
+                $answerId = $submittedAnswer['answer_id'] ?? null;
+
+                $question = Question::find($questionId);
+                $isCorrect = false;
+
+                if ($answerId) {
+                    $answer = Answer::where('question_id', $questionId)
+                        ->where('id', $answerId)
+                        ->first();
+
+                    if ($answer && $answer->is_correct) {
+                        $isCorrect = true;
+                        $correctCount++;
+                    }
+                }
+
+                UserAnswer::updateOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'question_id' => $questionId,
+                    ],
+                    [
+                        'answer_id' => $answerId,
+                        'is_correct' => $isCorrect,
+                    ]
+                );
+
+                $results[] = [
+                    'question_id' => $questionId,
+                    'is_correct' => $isCorrect,
+                ];
+            }
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Assessment submitted successfully.',
+            'results' => $results,
+            'score' => [
+                'correct' => $correctCount,
+                'total' => $totalQuestions,
+                'percentage' => round(($correctCount / $totalQuestions) * 100, 2),
+            ],
+        ], 200);
     }
 }

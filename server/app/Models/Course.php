@@ -68,6 +68,11 @@ class Course extends Model
         return $this->hasOne(CertificateTemplate::class);
     }
 
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
+    }
+
     public function averageStar()
     {
         $average = $this->reviews()->avg('rating');

@@ -228,6 +228,11 @@ Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     Route::post('/lesson/{lessonId}/discussion', [LearningController::class, 'createDiscussion']);
     Route::post('/lesson/{lessonId}/note', [LearningController::class, 'createNoteLesson']);
     Route::delete('/lesson/{lessonId}/note/{noteId}', [LearningController::class, 'deleteNoteLesson']);
+
+    // Assessment Routes
+    Route::get('/course/{slug}/assessments', [LearningController::class, 'getListAssessmentForUser']);
+    Route::get('/course/{slug}/assessment/{id}', [LearningController::class, 'getAssessmentForUser']);
+    Route::post('/course/{slug}/assessment/{id}/submit', [LearningController::class, 'submitAssessment']);
 });
 
 Route::get('/learning/free/lesson-video/{lessonId}', [LearningController::class, 'getFreeLessonVideoUrl']);

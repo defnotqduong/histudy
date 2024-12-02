@@ -5,18 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestionResource extends JsonResource
+class HiddenAnswerResource extends JsonResource
 {
-
-    private $isInstructor;
-
-    public function __construct($resource, $isInstructor = true)
-    {
-        parent::__construct($resource);
-
-        $this->isInstructor = $isInstructor;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -26,12 +16,8 @@ class QuestionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'assessment_id' => $this->assessment_id,
+            'question_id' => $this->question_id,
             'content' => $this->content,
-            'position' => $this->position,
-            'answers' => $this->isInstructor
-                ? AnswerResource::collection($this->answers)
-                : HiddenAnswerResource::collection($this->answers),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
