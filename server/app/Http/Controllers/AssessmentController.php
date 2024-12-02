@@ -140,6 +140,38 @@ class AssessmentController extends Controller
         ], 200);
     }
 
+    public function deleteAssessment($slug, $id)
+    {
+        $user = Auth::user();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $user->id)
+            ->first();
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found.',
+            ], 404);
+        }
+
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
+            ], 404);
+        }
+
+        $assessment->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Assessment deleted successfully.',
+        ], 200);
+    }
+
     public function addQuestion(Request $request, $slug, $id)
     {
         $user = Auth::user();

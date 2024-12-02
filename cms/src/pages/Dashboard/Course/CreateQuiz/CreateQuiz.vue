@@ -54,7 +54,7 @@ export default defineComponent({
     })
 
     const cancel = () => {
-      router.push({ name: 'create-course-details', params: { slug: slug.value } })
+      router.push({ name: 'course-quiz', params: { slug: slug.value } })
     }
 
     const create = async () => {

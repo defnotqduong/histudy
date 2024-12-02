@@ -312,8 +312,16 @@ export default {
     method: 'post',
     url: '/instructor/course/assessments'
   },
+  GET_ASSESSMENTS_FOR_COURSE_API: {
+    method: 'get',
+    url: '/instructor/course/assessment'
+  },
   GET_ASSESSMENT_API: {
     method: 'get',
-    url: '/instructor/course/assessments'
+    url: '/instructor/course/assessment'
+  },
+  DELETE_ASSESSMENT_API: {
+    method: 'deleted',
+    url: '/instructor/course/assessment'
   }
 }

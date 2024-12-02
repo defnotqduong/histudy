@@ -65,19 +65,19 @@ const routes = [
         component: () => import('@/pages/Dashboard/Course/CreateCourse/CreateCourseDetails.vue')
       },
       {
-        path: 'instructor/course/:slug/create-quiz',
-        name: 'create-course-quiz',
-        component: () => import('@/pages/Dashboard/CreateQuiz/CreateQuiz.vue')
-      },
-      {
         path: 'instructor/course/:slug/quiz',
         name: 'course-quiz',
         component: () => import('@/pages/Dashboard/Course/QuizList.vue')
       },
       {
+        path: 'instructor/course/:slug/create-quiz',
+        name: 'create-course-quiz',
+        component: () => import('@/pages/Dashboard/Course/CreateQuiz/CreateQuiz.vue')
+      },
+      {
         path: 'instructor/course/:slug/quiz/:id',
         name: 'create-quiz-details',
-        component: () => import('@/pages/Dashboard/CreateQuiz/CreateQuizDetails.vue')
+        component: () => import('@/pages/Dashboard/Course/CreateQuiz/CreateQuizDetails.vue')
       },
       {
         path: 'instructor/course/:slug/chapter/:chapterId',

@@ -208,6 +208,7 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
         Route::get('/', [AssessmentController::class, 'getAssessmentsForCourse']);
         Route::post('/', [AssessmentController::class, 'createAssessment']);
         Route::get('/{id}', [AssessmentController::class, 'getAssessment']);
+        Route::delete('/{id}', [AssessmentController::class, 'deleteAssessment']);
         Route::post('/{id}/question', [AssessmentController::class, 'addQuestion']);
         Route::put('/{id}/question/reorder', [AssessmentController::class, 'reorderQuestion']);
         Route::get('/{id}/question/{questionId}', [AssessmentController::class, 'getQuestion']);
