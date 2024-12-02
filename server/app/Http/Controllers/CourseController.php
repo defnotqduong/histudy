@@ -37,6 +37,7 @@ class CourseController extends Controller
         $this->middleware(['role:instructor'], [
             'only' => [
                 'createCourse',
+                'getAuthoredCourses',
                 'getCourse',
                 'updateCourse',
                 'updateCourseThumbnail',

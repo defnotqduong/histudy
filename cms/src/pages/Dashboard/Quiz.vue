@@ -7,6 +7,7 @@ import { defineComponent, ref, onMounted } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
 import { useRouter } from 'vue-router'
 
+import { getAuthoredCourses } from '@/webServices/courseService'
 import { getInstructorAssessments } from '@/webServices/assessmentService'
 
 export default defineComponent({
@@ -15,7 +16,9 @@ export default defineComponent({
     const userStore = useUserStore()
     const router = useRouter()
 
-    const courseId = ref(2)
+    const courses = ref([])
+    const assessments = ref([])
+    const courseId = ref(null)
 
     const checkUserRole = async () => {
       if (!userStore.user?.roles.includes('instructor')) {
@@ -25,10 +28,18 @@ export default defineComponent({
       return true
     }
 
-    const fetchData = async () => {
-      const res = await getInstructorAssessments({ course_id: courseId.value })
+    const getCourses = async () => {
+      const res = await getAuthoredCourses()
 
-      console.log(res)
+      if (res?.success) courses.value = res.courses.courses
+    }
+
+    const getAssessments = async () => {
+      const res = await getInstructorAssessments({ course_id: courseId.value })
+    }
+
+    const fetchData = async () => {
+      await Promise.all([getCourses(), getAssessments()])
     }
 
     onMounted(async () => {

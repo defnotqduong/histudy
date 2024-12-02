@@ -46,7 +46,7 @@ class AssessmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => AssessmentResource::collection($assessments)
+            'assessments' => AssessmentResource::collection($assessments)
         ]);
     }
 
@@ -81,7 +81,7 @@ class AssessmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $assessment,
+            'assessments' => new AssessmentResource($assessment),
             'message' => 'Assessment created successfully.',
         ]);
     }
