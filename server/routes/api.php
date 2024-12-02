@@ -201,7 +201,7 @@ Route::group(['prefix' => 'instructor', 'middleware' => 'auth:api'], function ()
 
     // Assessment Routes
     Route::group(['prefix' => 'assessments'], function () {
-        Route::get('/', [AssessmentController::class, 'getInstructorAssessments']);
+        Route::post('/', [AssessmentController::class, 'getInstructorAssessments']);
     });
 
     Route::group(['prefix' => 'course/{slug}/assessment'], function () {

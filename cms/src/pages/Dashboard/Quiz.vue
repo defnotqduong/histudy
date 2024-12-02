@@ -3,15 +3,19 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useUserStore, useHomeStore } from '@/stores'
 import { useRouter } from 'vue-router'
+
+import { getInstructorAssessments } from '@/webServices/assessmentService'
 
 export default defineComponent({
   setup() {
     const homeStore = useHomeStore()
     const userStore = useUserStore()
     const router = useRouter()
+
+    const courseId = ref(2)
 
     const checkUserRole = async () => {
       if (!userStore.user?.roles.includes('instructor')) {
@@ -21,8 +25,16 @@ export default defineComponent({
       return true
     }
 
+    const fetchData = async () => {
+      const res = await getInstructorAssessments({ course_id: courseId.value })
+
+      console.log(res)
+    }
+
     onMounted(async () => {
       const hasRole = await checkUserRole()
+
+      await fetchData()
     })
 
     return {

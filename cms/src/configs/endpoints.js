@@ -302,5 +302,10 @@ export default {
   DELETE_ATTACHMENT_API: {
     method: 'deleted',
     url: '/instructor/course/chapter/lesson/attachment'
+  },
+  // Assessment
+  GET_INSTRUCTOR_ASSESSMENTS: {
+    method: 'post',
+    url: '/instructor/assessments'
   }
 }
