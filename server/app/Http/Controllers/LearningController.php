@@ -28,6 +28,7 @@ use App\Models\Notification;
 use App\Models\Question;
 use App\Models\Review;
 use App\Models\UserAnswer;
+use App\Models\UserAssessment;
 use App\Models\UserProgress;
 use App\Services\UploadService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -350,6 +351,31 @@ class LearningController extends Controller
             ], 403);
         }
 
+        $assessments = $course->assessments;
+
+        if (!$assessments->isEmpty()) {
+
+            $allAssessmentsPassed = true;
+
+            foreach ($assessments as $assessment) {
+                $userAssessment = $assessment->userAssessments()
+                    ->where('user_id', $userId)
+                    ->first();
+
+                if (!$userAssessment || $userAssessment->score < 60) {
+                    $allAssessmentsPassed = false;
+                    break;
+                }
+            }
+
+            if (!$allAssessmentsPassed) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Not all assessments are completed or some scores are less than 60',
+                ], 403);
+            }
+        }
+
         return response()->json([
             'success' => true,
             'is_exists' => false,
@@ -429,6 +455,31 @@ class LearningController extends Controller
                 'success' => false,
                 'message' => 'Some lessons are not completed yet'
             ], 403);
+        }
+
+        $assessments = $course->assessments;
+
+        if (!$assessments->isEmpty()) {
+
+            $allAssessmentsPassed = true;
+
+            foreach ($assessments as $assessment) {
+                $userAssessment = $assessment->userAssessments()
+                    ->where('user_id', $userId)
+                    ->first();
+
+                if (!$userAssessment || $userAssessment->score < 60) {
+                    $allAssessmentsPassed = false;
+                    break;
+                }
+            }
+
+            if (!$allAssessmentsPassed) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Not all assessments are completed or some scores are less than 60',
+                ], 403);
+            }
         }
 
         if ($request->hasFile('file')) {
@@ -906,6 +957,20 @@ class LearningController extends Controller
             }
         });
 
+        $scorePercentage = round(($correctCount / $totalQuestions) * 100, 2);
+
+        UserAssessment::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'assessment_id' => $assessment->id,
+            ],
+            [
+                'score' => $scorePercentage,
+                'completed_at' => now(),
+            ]
+        );
+
+
         return response()->json([
             'success' => true,
             'message' => 'Assessment submitted successfully.',
@@ -913,7 +978,7 @@ class LearningController extends Controller
             'score' => [
                 'correct' => $correctCount,
                 'total' => $totalQuestions,
-                'percentage' => round(($correctCount / $totalQuestions) * 100, 2),
+                'percentage' => $scorePercentage,
             ],
         ], 200);
     }
