@@ -82,19 +82,23 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+
+import { deleteAssessment } from '@/webServices/assessmentService'
 export default defineComponent({
   props: {
     assessment: Object,
     slug: String,
     fetchData: Function
   },
-  setup() {
+  setup(props) {
     const isSubmitting = ref(false)
 
     const onDeleteAssessment = async id => {
       isSubmitting.value = true
 
-      const res = await deleteAssessment(id)
+      const res = await deleteAssessment(props.slug, id)
+
+      if (res.success) props.fetchData()
 
       isSubmitting.value = false
     }
