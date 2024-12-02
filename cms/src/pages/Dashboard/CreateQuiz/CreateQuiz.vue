@@ -68,7 +68,7 @@ export default defineComponent({
         loading.value = false
         errors.value.title.push('Please enter a assessment title')
       } else {
-        const res = await createAssessment({
+        const res = await createAssessment(slug.value, {
           title: assessment.title
         })
 
@@ -80,7 +80,7 @@ export default defineComponent({
 
         loading.value = false
         homeStore.onChangeToast({ show: true, type: 'success', message: 'Assessment created Successfully !' })
-        router.push({ name: 'create-quiz-details', params: { slug: res.course.slug } })
+        router.push({ name: 'create-quiz-details', params: { slug: slug.value, id: res.assessment.id } })
       }
     }
 

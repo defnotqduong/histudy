@@ -50,6 +50,29 @@ class AssessmentController extends Controller
         ]);
     }
 
+    public function getAssessmentsForCourse($slug)
+    {
+        $user = Auth::user();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $user->id)
+            ->first();
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found.',
+            ], 404);
+        }
+
+        $assessments = $course->assessments;
+
+        return response()->json([
+            'success' => true,
+            'assessments' => AssessmentResource::collection($assessments)
+        ]);
+    }
+
     public function createAssessment(Request $request, $slug)
     {
 
@@ -101,7 +124,7 @@ class AssessmentController extends Controller
             ], 404);
         }
 
-        $assessment = Assessment::find($id);
+        $assessment = $course->assessments()->where('id', $id)->first();
 
         if (!$assessment) {
             return response()->json([
@@ -132,7 +155,7 @@ class AssessmentController extends Controller
             ], 404);
         }
 
-        $assessment = Assessment::find($id);
+        $assessment = $course->assessments()->where('id', $id)->first();
 
         if (!$assessment) {
             return response()->json([
@@ -188,6 +211,15 @@ class AssessmentController extends Controller
             ], 404);
         }
 
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
+            ], 404);
+        }
+
         $question = Question::where('assessment_id', $id)
             ->where('id', $questionId)->first();
 
@@ -216,6 +248,15 @@ class AssessmentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Course not found or unauthorized access.',
+            ], 404);
+        }
+
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
             ], 404);
         }
 
@@ -306,7 +347,7 @@ class AssessmentController extends Controller
             ], 404);
         }
 
-        $assessment = Assessment::find($id);
+        $assessment = $course->assessments()->where('id', $id)->first();
 
         if (!$assessment) {
             return response()->json([
@@ -347,6 +388,15 @@ class AssessmentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Course not found or unauthorized access.',
+            ], 404);
+        }
+
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
             ], 404);
         }
 

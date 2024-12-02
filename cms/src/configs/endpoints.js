@@ -311,5 +311,9 @@ export default {
   CREATE_ASSESSMENT_API: {
     method: 'post',
     url: '/instructor/course/assessments'
+  },
+  GET_ASSESSMENT_API: {
+    method: 'get',
+    url: '/instructor/course/assessments'
   }
 }
