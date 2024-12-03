@@ -199,5 +199,9 @@ export default {
   REVIEW_COURSE_API: {
     method: 'post',
     url: '/learning/course/review'
+  },
+  GET_ASSESSMENT_API: {
+    method: 'get',
+    url: '/learning/course/assessment'
   }
 }

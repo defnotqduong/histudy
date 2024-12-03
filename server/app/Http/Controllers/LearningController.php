@@ -259,6 +259,7 @@ class LearningController extends Controller
         }
 
         $userId = Auth::id();
+
         $allLessonsCompleted = true;
 
         foreach ($lessons as $lesson) {
@@ -270,17 +271,42 @@ class LearningController extends Controller
             }
         }
 
-        if ($allLessonsCompleted) {
-            return response()->json([
-                'success' => true,
-                'message' => 'All lessons in this course are completed'
-            ], 200);
-        } else {
+        if (!$allLessonsCompleted) {
             return response()->json([
                 'success' => false,
                 'message' => 'Some lessons are not completed yet'
             ], 403);
         }
+
+        $assessments = $course->assessments;
+
+        if (!$assessments->isEmpty()) {
+
+            $allAssessmentsPassed = true;
+
+            foreach ($assessments as $assessment) {
+                $userAssessment = $assessment->userAssessments()
+                    ->where('user_id', $userId)
+                    ->first();
+
+                if (!$userAssessment) {
+                    $allAssessmentsPassed = false;
+                    break;
+                }
+            }
+
+            if (!$allAssessmentsPassed) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Not all assessments are completed',
+                ], 403);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'All lessons in this course are completed'
+        ], 200);
     }
 
     public function getCertificate($slug)

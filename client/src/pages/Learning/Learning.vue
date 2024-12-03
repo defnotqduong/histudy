@@ -17,6 +17,8 @@
             :nextLessonId="nextLessonId"
             :getCurrentLesson="getCurrentLesson"
             :isShowSideBar="isShowSideBar"
+            :assessments="assessments"
+            :getAssessmentCurrent="getAssessmentCurrent"
           />
           <div class="h-full flex-1 relative">
             <LearningContent :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
@@ -74,7 +76,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
-import { getLearningInfo, getLessonInfo } from '@/webServices/learningService'
+import { getLearningInfo, getLessonInfo, getAssessment } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
@@ -175,6 +177,12 @@ export default defineComponent({
       notes.value = lessonInfoRes.lesson.notes
     }
 
+    const getAssessmentCurrent = async id => {
+      const res = await getAssessment(slug.value, id)
+
+      console.log(res)
+    }
+
     const fetchData = async () => {
       loading.value = true
 
@@ -188,6 +196,7 @@ export default defineComponent({
       course.value = res.course
       review.value = res.review
       chapters.value = res.chapters
+      assessments.value = res.assessments
 
       let foundLesson = null
 
@@ -241,7 +250,8 @@ export default defineComponent({
       updateStatusLesson,
       updateDiscussions,
       updateNotes,
-      updateReview
+      updateReview,
+      getAssessmentCurrent
     }
   }
 })

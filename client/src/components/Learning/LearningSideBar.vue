@@ -71,6 +71,29 @@
           </div>
         </div>
       </div>
+      <div class="collapse collapse-arrow">
+        <input type="checkbox" class="peer" />
+        <div class="collapse-title text-base font-bold text-headingColor bg-whiteColor transition-all duration-150 ease-in-out">Assessment</div>
+        <div class="collapse-content peer-checked:bg-whiteColor">
+          <ul>
+            <li
+              v-for="(assessment, index) in assessments"
+              :key="index"
+              class="mb-2 p-2 rounded-md"
+              :class="false ? 'bg-primaryOpacityColor text-primaryColor' : 'text-headingColor'"
+            >
+              <button @click="getAssessment(assessment.id)" class="w-full flex items-center justify-between text-base transition-all duration-300">
+                <div class="flex items-center justify-center gap-2">
+                  <span
+                    ><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 1920 1920">
+                      <path d="M1751 0v1920H169V0h1582Zm-115 112H290v9h-1v1678h1v20h1346V112Zm-234 235v321H514V347h888Z" fill-rule="evenodd" /></svg></span
+                  ><span>{{ assessment?.title }}</span>
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -84,11 +107,13 @@ export default defineComponent({
   props: {
     course: Object,
     chapters: Array,
+    assessments: Array,
     currentLesson: Object,
     prevLessonId: Number,
     nextLessonId: Number,
     getCurrentLesson: Function,
-    isShowSideBar: Boolean
+    isShowSideBar: Boolean,
+    getAssessmentCurrent: Function
   },
   setup(props) {
     const chapterWithCurrentLesson = computed(() => {
@@ -115,7 +140,11 @@ export default defineComponent({
       await props.getCurrentLesson(id)
     }
 
-    return { chapterWithCurrentLesson, getChapterDuration, getLessonDuration, getCompletedLessonCount, getLesson }
+    const getAssessment = async id => {
+      await props.getAssessmentCurrent(id)
+    }
+
+    return { chapterWithCurrentLesson, getChapterDuration, getLessonDuration, getCompletedLessonCount, getLesson, getAssessment }
   }
 })
 </script>

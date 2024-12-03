@@ -105,7 +105,6 @@ export default defineComponent({
     const fetchData = async () => {
       loading.value = true
       const res = await getAssessment(slug.value, id.value)
-      console.log(res)
 
       if (!res.success) router.push({ name: 'course-quiz', params: { slug: slug.value } })
 
