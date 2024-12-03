@@ -20,6 +20,11 @@ export const getAssessment = (slug, id) => {
   return connectServer[api.GET_ASSESSMENT_API.method](url)
 }
 
+export const editAssessment = (slug, id, dataPost) => {
+  const url = `/instructor/course/${slug}/assessment/${id}`
+  return connectServer[api.EDIT_ASSESSMENT_API.method](url, dataPost)
+}
+
 export const deleteAssessment = (slug, id) => {
   const url = `/instructor/course/${slug}/assessment/${id}`
   return connectServer[api.DELETE_ASSESSMENT_API.method](url)

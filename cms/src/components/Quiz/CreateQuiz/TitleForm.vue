@@ -42,19 +42,21 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores'
-import { updateCourse } from '@/webServices/courseService'
+import { editAssessment } from '@/webServices/assessmentService'
 
 export default defineComponent({
   props: {
-    course: Object,
-    slug: String
+    slug: String,
+    id: String,
+    assessment: Object,
+    updateAssessment: Function
   },
   setup(props) {
     const router = useRouter()
     const homeStore = useHomeStore()
 
-    const title = ref(props.course?.title)
-    const originalTitle = ref(props.course?.title)
+    const title = ref(props.assessment?.title)
+    const originalTitle = ref(props.assessment?.title)
     const isEditting = ref(false)
     const isSubmitting = ref(false)
 
@@ -71,12 +73,12 @@ export default defineComponent({
       isSubmitting.value = true
       if (!title.value.trim()) {
         errors.value.title = errors.value.title || []
-        errors.value.title.push('Please enter a course title')
+        errors.value.title.push('Please enter a quiz title')
         isSubmitting.value = false
         return
       }
 
-      const res = await updateCourse(props.slug, { title: title.value })
+      const res = await editAssessment(props.slug, props.id, { title: title.value })
 
       if (!res.success) {
         homeStore.onChangeToast({ show: true, type: 'error', message: 'Something went error' })
@@ -86,8 +88,8 @@ export default defineComponent({
       }
 
       isSubmitting.value = false
-      homeStore.onChangeToast({ show: true, type: 'success', message: 'Course updated Successfully !' })
-      router.replace({ name: 'create-course-details', params: { slug: res.course.slug } })
+      homeStore.onChangeToast({ show: true, type: 'success', message: 'Quiz updated Successfully !' })
+      props.updateAssessment(res.assessment)
       toggleEdit()
     }
 

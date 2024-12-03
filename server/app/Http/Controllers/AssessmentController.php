@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssessmentRequest;
 use App\Http\Resources\AssessmentResource;
 use App\Http\Resources\QuestionResource;
 use App\Models\Answer;
@@ -21,7 +22,15 @@ class AssessmentController extends Controller
         $this->middleware('auth:api', ['except' => ['']]);
 
         $this->middleware(['role:instructor'], [
-            'only' => ['getInstructorAssessments', 'getAssessment', 'createAssessment', 'addQuestion', 'getQuestion']
+            'only' => [
+                'getInstructorAssessments',
+                'getAssessment',
+                'createAssessment',
+                'editAssessment',
+                'deleteAssessment',
+                'addQuestion',
+                'getQuestion'
+            ]
         ]);
 
         $this->uploadService = $uploadService;
@@ -73,16 +82,10 @@ class AssessmentController extends Controller
         ]);
     }
 
-    public function createAssessment(Request $request, $slug)
+    public function createAssessment(AssessmentRequest $request, $slug)
     {
 
         $user = Auth::user();
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
 
         $course = Course::where('slug', $slug)
             ->where('instructor_id', $user->id)
@@ -138,6 +141,35 @@ class AssessmentController extends Controller
             'assessment' => new AssessmentResource($assessment),
             'questions' => QuestionResource::collection($assessment->questions)
         ], 200);
+    }
+
+    public function editAssessment(AssessmentRequest $request, $slug, $id)
+    {
+        $user = Auth::user();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $user->id)
+            ->first();
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found.',
+            ], 404);
+        }
+
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
+            ], 404);
+        }
+
+        $assessment->update($request->all());
+
+        return response()->json(['success' => true, 'message' => 'Course updated successfully', 'assessment' => new AssessmentResource($assessment)], 200);
     }
 
     public function deleteAssessment($slug, $id)

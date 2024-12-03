@@ -320,6 +320,10 @@ export default {
     method: 'get',
     url: '/instructor/course/assessment'
   },
+  EDIT_ASSESSMENT_API: {
+    method: 'patch',
+    url: '/instructor/course/assessment'
+  },
   DELETE_ASSESSMENT_API: {
     method: 'deleted',
     url: '/instructor/course/assessment'

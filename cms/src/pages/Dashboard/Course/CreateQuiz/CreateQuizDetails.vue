@@ -24,6 +24,33 @@
         </div>
         <QuizAction :slug="slug" :id="id" />
       </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        <div>
+          <div class="flex items-center justify-start">
+            <div class="p-2 text-primaryColor bg-primaryOpacityColor rounded-full mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="7" height="9" />
+                <rect x="14" y="3" width="7" height="5" />
+                <rect x="14" y="12" width="7" height="9" />
+                <rect x="3" y="16" width="7" height="5" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-headingColor">Customize quiz</h3>
+            <TitleForm :slug="slug" :id="id" :assessment="assessment" :updateAssessment="updateAssessment" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,8 +62,9 @@ import { getAssessment } from '@/webServices/assessmentService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import QuizAction from '@/components/Quiz/CreateQuiz/QuizAction.vue'
+import TitleForm from '/components/Quiz/CreateQuiz/TitleForm.vue'
 export default defineComponent({
-  components: { LoadingV1, QuizAction },
+  components: { LoadingV1, QuizAction, TitleForm },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -46,6 +74,10 @@ export default defineComponent({
     const loading = ref(false)
     const assessment = ref(null)
     const questions = ref([])
+
+    const updateAssessment = data => {
+      assessment.value = data
+    }
 
     const fetchData = async () => {
       loading.value = true
@@ -71,7 +103,9 @@ export default defineComponent({
       id,
       loading,
       assessment,
-      questions
+      questions,
+      fetchData,
+      updateAssessment
     }
   }
 })
