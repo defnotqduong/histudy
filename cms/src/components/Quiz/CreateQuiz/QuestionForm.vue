@@ -17,7 +17,7 @@
         </svg>
         Add a question
       </label>
-      <input type="checkbox" id="my_modal_add_question" class="modal-toggle" />
+      <input type="checkbox" id="my_modal_add_question" class="modal-toggle" ref="modalCreate" />
       <div class="modal" role="dialog">
         <div class="modal-box bg-white p-8 flex flex-col gap-8">
           <div class="input-group">
@@ -124,6 +124,8 @@ export default defineComponent({
     const router = useRouter()
     const homeStore = useHomeStore()
 
+    const modalCreate = ref(null)
+
     const question = reactive({
       content: '',
       answers: []
@@ -151,10 +153,18 @@ export default defineComponent({
 
     const onCreateQuestion = async () => {
       isSubmitting.value = true
+      errors.value = {}
 
       const res = await createQuestion(props.slug, props.id, question)
 
-      if (res.success) props.getQuestions(props.slug, props.id)
+      if (res.success) {
+        props.getQuestions(props.slug, props.id)
+        if (modalCreate.value) {
+          modalCreate.value.checked = false
+        }
+      }
+
+      if (!res.success) errors.value = res.data.errors
 
       isSubmitting.value = false
     }
@@ -164,6 +174,7 @@ export default defineComponent({
     })
 
     return {
+      modalCreate,
       ...toRefs(question),
       errors,
       isSubmitting,

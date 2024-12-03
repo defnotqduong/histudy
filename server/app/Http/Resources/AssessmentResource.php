@@ -17,6 +17,7 @@ class AssessmentResource extends JsonResource
         return [
             'id' => $this->id,
             'course_id' => $this->course_id,
+            'course_slug' => $this->course->slug,
             'title' => $this->title,
             'description' => $this->description,
             'created_at' => $this->created_at->toDateTimeString(),

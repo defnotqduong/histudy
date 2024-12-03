@@ -30,11 +30,13 @@ import { getInstructorAssessments } from '@/webServices/assessmentService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import ButtonV7 from '@/components/Button/ButtonV7.vue'
+import QuizCard from '@/components/Quiz/QuizCard/QuizCard.vue'
 
 export default defineComponent({
   components: {
     LoadingV1,
-    ButtonV7
+    ButtonV7,
+    QuizCard
   },
   setup() {
     const homeStore = useHomeStore()

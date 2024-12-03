@@ -35,7 +35,22 @@ export const getQuestionsForAssessment = (slug, id) => {
   return connectServer[api.GET_QUESTIONS_FOR_ASSESSMENT.method](url)
 }
 
+export const getQuestion = (slug, id, questionId) => {
+  const url = `/instructor/course/${slug}/assessment/${id}/question/${questionId}`
+  return connectServer[api.GET_QUESTION_API.method](url)
+}
+
 export const createQuestion = (slug, id, dataPost) => {
   const url = `/instructor/course/${slug}/assessment/${id}/question`
   return connectServer[api.CREATE_QUESTION_API.method](url, dataPost)
+}
+
+export const editQuestion = (slug, id, questionId, dataPost) => {
+  const url = `/instructor/course/${slug}/assessment/${id}/question/${questionId}`
+  return connectServer[api.EDIT_QUESTION_API.method](url, dataPost)
+}
+
+export const deleteQuestion = (slug, id, questionId) => {
+  const url = `/instructor/course/${slug}/assessment/${id}/question/${questionId}`
+  return connectServer[api.DELETE_QUESTION_API.method](url)
 }

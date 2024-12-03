@@ -335,5 +335,17 @@ export default {
   CREATE_QUESTION_API: {
     method: 'post',
     url: '/instructor/course/assessment/question'
+  },
+  GET_QUESTION_API: {
+    method: 'get',
+    url: '/instructor/course/assessment/question'
+  },
+  EDIT_QUESTION_API: {
+    method: 'patch',
+    url: '/instructor/course/assessment/question'
+  },
+  DELETE_QUESTION_API: {
+    method: 'deleted',
+    url: '/instructor/course/assessment/question'
   }
 }
