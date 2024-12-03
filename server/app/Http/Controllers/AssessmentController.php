@@ -29,8 +29,12 @@ class AssessmentController extends Controller
                 'createAssessment',
                 'editAssessment',
                 'deleteAssessment',
+                'getQuestionsForAssessment',
                 'addQuestion',
-                'getQuestion'
+                'getQuestion',
+                'editQuestion',
+                'reorderQuestion',
+                'deleteQuestion'
             ]
         ]);
 
@@ -202,6 +206,36 @@ class AssessmentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Assessment deleted successfully.',
+        ], 200);
+    }
+
+    public function getQuestionsForAssessment($slug, $id)
+    {
+        $user = Auth::user();
+
+        $course = Course::where('slug', $slug)
+            ->where('instructor_id', $user->id)
+            ->first();
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found.',
+            ], 404);
+        }
+
+        $assessment = $course->assessments()->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'questions' => new QuestionResourceCollection($assessment->questions, true),
         ], 200);
     }
 

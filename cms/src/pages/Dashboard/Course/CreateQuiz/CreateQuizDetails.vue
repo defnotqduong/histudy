@@ -72,7 +72,7 @@
             </div>
             <h3 class="text-xl font-bold text-headingColor">Questions</h3>
           </div>
-          <QuestionForm :slug="slug" :id="id" :questions="questions" :fetchData="fetchData" />
+          <QuestionForm :slug="slug" :id="id" :questions="questions" :fetchData="fetchData" :getQuestions="getQuestions" />
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getAssessment } from '@/webServices/assessmentService'
+import { getAssessment, getQuestionsForAssessment } from '@/webServices/assessmentService'
 
 import LoadingV1 from '@/components/Loading/LoadingV1.vue'
 import QuizAction from '@/components/Quiz/CreateQuiz/QuizAction.vue'
@@ -117,6 +117,12 @@ export default defineComponent({
       loading.value = false
     }
 
+    const getQuestions = async () => {
+      const res = await getQuestionsForAssessment(slug.value, id.value)
+
+      if (res.success) questions.value = res.questions
+    }
+
     onMounted(async () => {
       await fetchData()
     })
@@ -127,7 +133,8 @@ export default defineComponent({
       loading,
       assessment,
       questions,
-      fetchData
+      fetchData,
+      getQuestions
     }
   }
 })

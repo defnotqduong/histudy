@@ -327,5 +327,13 @@ export default {
   DELETE_ASSESSMENT_API: {
     method: 'deleted',
     url: '/instructor/course/assessment'
+  },
+  GET_QUESTIONS_FOR_ASSESSMENT: {
+    method: 'get',
+    url: '/instructor/course/assessment/questions'
+  },
+  CREATE_QUESTION_API: {
+    method: 'post',
+    url: '/instructor/course/assessment/question'
   }
 }

@@ -29,3 +29,13 @@ export const deleteAssessment = (slug, id) => {
   const url = `/instructor/course/${slug}/assessment/${id}`
   return connectServer[api.DELETE_ASSESSMENT_API.method](url)
 }
+
+export const getQuestionsForAssessment = (slug, id) => {
+  const url = `/instructor/course/${slug}/assessment/${id}/questions`
+  return connectServer[api.GET_QUESTIONS_FOR_ASSESSMENT.method](url)
+}
+
+export const createQuestion = (slug, id, dataPost) => {
+  const url = `/instructor/course/${slug}/assessment/${id}/question`
+  return connectServer[api.CREATE_QUESTION_API.method](url, dataPost)
+}
