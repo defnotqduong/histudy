@@ -24,4 +24,9 @@ class Assessment extends Model
     {
         return $this->hasMany(Question::class)->orderBy('position', 'asc');
     }
+
+    public function userAssessments()
+    {
+        return $this->hasMany(UserAssessment::class);
+    }
 }
