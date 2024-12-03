@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssessmentRequest;
 use App\Http\Resources\AssessmentResource;
 use App\Http\Resources\QuestionResource;
+use App\Http\Resources\QuestionResourceCollection;
 use App\Models\Answer;
 use App\Models\Assessment;
 use App\Models\Course;
@@ -139,7 +140,7 @@ class AssessmentController extends Controller
         return response()->json([
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
-            'questions' => QuestionResource::collection($assessment->questions, true)
+            'questions' => new QuestionResourceCollection($assessment->questions, true),
         ], 200);
     }
 
