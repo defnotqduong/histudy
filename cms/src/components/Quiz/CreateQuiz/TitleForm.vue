@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 py-4 px-6 bg-lighterColor rounded-md">
     <div class="font-bold text-headingColor flex items-start justify-between">
-      Course title
+      Quiz title
       <button @click.prevent="toggleEdit" class="flex items-center gap-2">
         <template v-if="isEditting"> Cancel </template>
 
@@ -49,7 +49,7 @@ export default defineComponent({
     slug: String,
     id: String,
     assessment: Object,
-    updateAssessment: Function
+    fetchData: Function
   },
   setup(props) {
     const router = useRouter()
@@ -89,7 +89,7 @@ export default defineComponent({
 
       isSubmitting.value = false
       homeStore.onChangeToast({ show: true, type: 'success', message: 'Quiz updated Successfully !' })
-      props.updateAssessment(res.assessment)
+      props.fetchData()
       toggleEdit()
     }
 

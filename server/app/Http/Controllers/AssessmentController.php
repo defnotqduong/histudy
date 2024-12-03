@@ -139,7 +139,7 @@ class AssessmentController extends Controller
         return response()->json([
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
-            'questions' => QuestionResource::collection($assessment->questions)
+            'questions' => QuestionResource::collection($assessment->questions, true)
         ], 200);
     }
 
