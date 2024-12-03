@@ -97,6 +97,7 @@ export default defineComponent({
     const course = ref(null)
     const review = ref(null)
     const chapters = ref([])
+    const assessments = ref([])
     const currentLesson = ref(null)
     const prevLessonId = ref(null)
     const nextLessonId = ref(null)
@@ -221,6 +222,7 @@ export default defineComponent({
       slug,
       review,
       chapters,
+      assessments,
       currentLesson,
       prevLessonId,
       nextLessonId,

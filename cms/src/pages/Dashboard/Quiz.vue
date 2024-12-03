@@ -16,6 +16,13 @@
         </select>
       </div>
       <div v-if="assessments.length === 0" class="mt-4 ml-6 italic">No quizes yet</div>
+      <div v-else class="mt-6">
+        <div class="grid grid-cols-12 gap-6">
+          <div v-for="assessment in assessments" :key="assessment.id" :assessment="assessment" class="col-span-6">
+            <QuizCard :slug="assessment.course_slug" :assessment="assessment" :fetchData="getAssessments" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,7 +100,9 @@ export default defineComponent({
       assessments,
       courseId,
       loading,
-      changeCourseId
+      changeCourseId,
+      getCourses,
+      getAssessments
     }
   },
   methods: {

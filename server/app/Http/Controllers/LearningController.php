@@ -80,6 +80,7 @@ class LearningController extends Controller
             'message' => 'Course found',
             'course' => new CourseResource($course, false),
             'chapters' => new ChapterResourceCollection($course->publishedChapters, false),
+            'assessments' => AssessmentResource::collection($course->assessments),
             'review' => $userReview ? new ReviewResource($userReview) : null,
         ], 200);
     }
@@ -362,7 +363,7 @@ class LearningController extends Controller
                     ->where('user_id', $userId)
                     ->first();
 
-                if (!$userAssessment || $userAssessment->score < 60) {
+                if (!$userAssessment) {
                     $allAssessmentsPassed = false;
                     break;
                 }
@@ -371,7 +372,7 @@ class LearningController extends Controller
             if (!$allAssessmentsPassed) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Not all assessments are completed or some scores are less than 60',
+                    'message' => 'Not all assessments are completed',
                 ], 403);
             }
         }
@@ -468,7 +469,7 @@ class LearningController extends Controller
                     ->where('user_id', $userId)
                     ->first();
 
-                if (!$userAssessment || $userAssessment->score < 60) {
+                if (!$userAssessment) {
                     $allAssessmentsPassed = false;
                     break;
                 }
@@ -477,7 +478,7 @@ class LearningController extends Controller
             if (!$allAssessmentsPassed) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Not all assessments are completed or some scores are less than 60',
+                    'message' => 'Not all assessments are completed ',
                 ], 403);
             }
         }
