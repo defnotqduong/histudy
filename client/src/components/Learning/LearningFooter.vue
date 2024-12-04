@@ -17,6 +17,14 @@
       <PrevButton :content="'Previous'" :func="prev" class="h-10" :class="!prevLessonId ? 'cursor-not-allowed' : ''" />
       <NextButton :content="'Next'" :func="nextLessonId ? next : getAssList" class="h-10" :class="!currentLesson ? 'cursor-not-allowed' : ''" />
     </div>
+    <button v-if="!nextLessonId" @click.prevent="completed" class="absolute top-1/2 -translate-y-1/2 right-8">
+      <span class="flex items-center justify-center gap-2 text-headingColor font-bold transition-all duration-300 hover:text-primaryColor">
+        Completed
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 24 24">
+          <path d="M16.707,18.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L15.293,6.707a1,1,0,0,1,1.414-1.414l6,6a1,1,0,0,1,0,1.414Z" />
+        </svg>
+      </span>
+    </button>
   </div>
 </template>
 
@@ -60,16 +68,16 @@ export default defineComponent({
       await props.getCurrentLesson(props.prevLessonId)
     }
 
-    // const completed = async () => {
-    //   const res = await checkCourseCompleted(props.slug)
+    const completed = async () => {
+      const res = await checkCourseCompleted(props.slug)
 
-    //   if (!res.success) {
-    //     homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
-    //     return
-    //   }
+      if (!res.success) {
+        homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
+        return
+      }
 
-    //   router.push({ name: 'course-completed', params: { slug: props.slug } })
-    // }
+      router.push({ name: 'course-completed', params: { slug: props.slug } })
+    }
 
     const getAssList = async () => {
       await props.getAssessmentList()
@@ -79,7 +87,8 @@ export default defineComponent({
       toggle,
       next,
       prev,
-      getAssList
+      getAssList,
+      completed
     }
   }
 })

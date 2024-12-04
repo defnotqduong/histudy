@@ -100,7 +100,6 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
 });
 
 // Notification Routes
-
 Route::group(['prefix' => 'notifications', 'middleware' => 'auth:api'], function () {
     Route::get('/', [NotificationController::class, 'getListNotiByUser']);
 });
@@ -236,6 +235,7 @@ Route::group(['prefix' => 'learning', 'middleware' => 'auth:api'], function () {
     // Assessment Routes
     Route::get('/course/{slug}/assessments', [LearningController::class, 'getListAssessmentForUser']);
     Route::get('/course/{slug}/assessment/{id}', [LearningController::class, 'getAssessmentForUser']);
+    Route::get('/course/{slug}/assessment/{id}/completed', [LearningController::class, 'getCompletedAssessmentForUser']);
     Route::post('/course/{slug}/assessment/{id}/submit', [LearningController::class, 'submitAssessment']);
 });
 

@@ -14,6 +14,7 @@ use App\Http\Resources\LessonResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\QuestionResource;
 use App\Http\Resources\ReviewResource;
+use App\Http\Resources\UserAssessmentResource;
 use App\Jobs\SendRabbitMQNotification;
 use App\Models\Answer;
 use App\Models\Assessment;
@@ -875,6 +876,48 @@ class LearningController extends Controller
             'questions' => QuestionResource::collection($assessment->questions, false)
         ], 200);
     }
+
+    public function getCompletedAssessmentForUser($slug, $id)
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $course = Course::findBySlug($slug);
+
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        $isEnrolled = $user->purchasedCourses->contains($course->id);
+
+        if (!$isEnrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have not enrolled in this course'
+            ], 403);
+        }
+
+        $assessment = Assessment::where('course_id', $course->id)->where('id', $id)->first();
+
+        if (!$assessment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Assessment not found.'
+            ], 404);
+        }
+
+        $userAssessment = $assessment->userAssessments()->where('user_id', $userId)->first();
+
+        return response()->json([
+            'success' => true,
+            'assessment' => new AssessmentResource($assessment),
+            'userAssessment' => $userAssessment ? new UserAssessmentResource($userAssessment) : null,
+        ], 200);
+    }
+
 
     public function submitAssessment(Request $request, $slug, $id)
     {

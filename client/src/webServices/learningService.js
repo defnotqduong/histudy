@@ -67,6 +67,11 @@ export const getAssessment = (slug, id) => {
   return connectServer[api.GET_ASSESSMENT_API.method](url)
 }
 
+export const getCompletedAssessment = (slug, id) => {
+  const url = `/learning/course/${slug}/assessment/${id}/completed`
+  return connectServer[api.GET_COMPLETED_ASSESSMENT_API.method](url)
+}
+
 export const submitAssessment = (slug, id, dataPost) => {
   const url = `/learning/course/${slug}/assessment/${id}/submit`
   return connectServer[api.SUBMIT_ASSESSMENT_API.method](url, dataPost)

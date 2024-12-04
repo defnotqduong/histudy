@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-20">
+  <div class="mt-10">
     <div v-for="(question, index) in currentAssessment.questions" :key="index" class="mb-4">
       <p class="text-headingColor font-bold">{{ index + 1 + '. ' + question.content }}</p>
       <ul class="mt-2">
@@ -17,7 +17,12 @@
       </ul>
     </div>
     <div class="mt-6">
-      <button @click.prevent="submit" class="ml-auto px-4 py-2 text-whiteColor bg-primaryColor rounded-lg transition-all duration-300 hover:bg-thirtyColor">
+      <button
+        @click.prevent="submit"
+        :disabled="isSubmitting"
+        class="ml-auto px-4 py-2 text-whiteColor bg-primaryColor rounded-lg transition-all duration-300 hover:bg-thirtyColor"
+        :class="isSubmitting && 'cursor-no-drop'"
+      >
         Submit
       </button>
     </div>
@@ -30,6 +35,7 @@ export default defineComponent({
   props: { currentAssessment: Object, submitAss: Function },
   setup(props) {
     const userAnswers = ref([])
+    const isSubmitting = ref(false)
 
     const selectAnswer = (questionId, answerId) => {
       const existingAnswer = userAnswers.value.find(ans => ans.question_id === questionId)
@@ -46,10 +52,12 @@ export default defineComponent({
     }
 
     const submit = async () => {
+      isSubmitting.value = true
       await props.submitAss({ answers: userAnswers.value })
+      isSubmitting.value = false
     }
 
-    return { userAnswers, selectAnswer, isSelected, submit }
+    return { userAnswers, isSubmitting, selectAnswer, isSelected, submit }
   }
 })
 </script>

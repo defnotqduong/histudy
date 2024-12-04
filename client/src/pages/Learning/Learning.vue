@@ -23,9 +23,11 @@
             <LearningContent v-if="currentLesson" :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
             <LearningAssessment
               v-else
+              :slug="slug"
               :assessments="assessments"
               :currentAssessment="currentAssessment"
               :getAssessmentCurrent="getAssessmentCurrent"
+              :getAssessmentCompleted="getAssessmentCompleted"
               :submitAss="submitAss"
             />
           </div>
@@ -83,7 +85,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
-import { getLearningInfo, getLessonInfo, getAssessments, getAssessment, submitAssessment } from '@/webServices/learningService'
+import { getLearningInfo, getLessonInfo, getAssessments, getAssessment, getCompletedAssessment, submitAssessment } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
@@ -190,13 +192,20 @@ export default defineComponent({
 
     const getAssessmentCurrent = async id => {
       const res = await getAssessment(slug.value, id)
-      console.log(res)
       if (res.success) currentAssessment.value = { ...res.assessment, questions: res.questions }
+    }
+
+    const getAssessmentCompleted = async id => {
+      const res = await getCompletedAssessment(slug.value, id)
+      console.log(res)
     }
 
     const submitAss = async data => {
       const res = await submitAssessment(slug.value, currentAssessment.value.id, data)
-      console.log(res)
+      if (res.success) {
+        await getAssessmentList()
+        currentAssessment.value = null
+      }
     }
 
     const getCurrentLesson = async id => {
@@ -287,6 +296,7 @@ export default defineComponent({
       updateReview,
       getAssessmentList,
       getAssessmentCurrent,
+      getAssessmentCompleted,
       submitAss
     }
   }
