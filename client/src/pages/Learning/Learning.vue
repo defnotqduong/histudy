@@ -17,11 +17,10 @@
             :nextLessonId="nextLessonId"
             :getCurrentLesson="getCurrentLesson"
             :isShowSideBar="isShowSideBar"
-            :assessments="assessments"
-            :getAssessmentCurrent="getAssessmentCurrent"
           />
           <div class="h-full flex-1 relative">
-            <LearningContent :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
+            <LearningContent v-if="currentLesson" :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
+            <LearningAssessment v-else :assessments="assessments" />
           </div>
           <LessonDiscussionModal
             v-if="isShowLessonDiscussionModal"
@@ -66,6 +65,7 @@
           :getCurrentLesson="getCurrentLesson"
           :isShowSideBar="isShowSideBar"
           :toggleSideBar="toggleSideBar"
+          :getAssessmentList="getAssessmentList"
         />
       </div>
     </template>
@@ -76,7 +76,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
-import { getLearningInfo, getLessonInfo, getAssessment } from '@/webServices/learningService'
+import { getLearningInfo, getLessonInfo, getAssessments, getAssessment } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
@@ -86,9 +86,20 @@ import LearningFooter from '@/components/Learning/LearningFooter.vue'
 import LessonNoteModal from '@/components/Learning/LessonNoteModal.vue'
 import LessonDiscussionModal from '@/components/Learning/LessonDiscussionModal.vue'
 import CourseReviewModal from '@/components/Learning/CourseReviewModal.vue'
+import LearningAssessment from '@/components/Learning/LearningAssessment.vue'
 
 export default defineComponent({
-  components: { LearningHeader, LearningSideBar, LearningContent, ActionPanel, LearningFooter, LessonNoteModal, LessonDiscussionModal, CourseReviewModal },
+  components: {
+    LearningHeader,
+    LearningSideBar,
+    LearningContent,
+    ActionPanel,
+    LearningFooter,
+    LessonNoteModal,
+    LessonDiscussionModal,
+    CourseReviewModal,
+    LearningAssessment
+  },
   setup() {
     const userStore = useUserStore()
     const homeStore = useHomeStore()
@@ -100,6 +111,7 @@ export default defineComponent({
     const review = ref(null)
     const chapters = ref([])
     const assessments = ref([])
+    const currentAssessment = ref(null)
     const currentLesson = ref(null)
     const prevLessonId = ref(null)
     const nextLessonId = ref(null)
@@ -160,6 +172,21 @@ export default defineComponent({
       review.value = rv
     }
 
+    const getAssessmentList = async () => {
+      const res = await getAssessments(slug.value)
+      console.log(res)
+      if (res.success) {
+        assessments.value = res.assessments
+        currentLesson.value = null
+        prevLessonId.value = prevLessonId.value + 1
+      }
+    }
+
+    const getAssessmentCurrent = async id => {
+      const res = await getAssessment(slug.value, id)
+      if (res.success) currentAssessment.value = res.assessment
+    }
+
     const getCurrentLesson = async id => {
       if (!id) return
 
@@ -177,12 +204,6 @@ export default defineComponent({
       notes.value = lessonInfoRes.lesson.notes
     }
 
-    const getAssessmentCurrent = async id => {
-      const res = await getAssessment(slug.value, id)
-
-      console.log(res)
-    }
-
     const fetchData = async () => {
       loading.value = true
 
@@ -196,8 +217,6 @@ export default defineComponent({
       course.value = res.course
       review.value = res.review
       chapters.value = res.chapters
-      assessments.value = res.assessments
-
       let foundLesson = null
 
       for (const chapter of chapters.value) {
@@ -231,8 +250,9 @@ export default defineComponent({
       slug,
       review,
       chapters,
-      assessments,
       currentLesson,
+      assessments,
+      currentAssessment,
       prevLessonId,
       nextLessonId,
       discussions,
@@ -251,6 +271,7 @@ export default defineComponent({
       updateDiscussions,
       updateNotes,
       updateReview,
+      getAssessmentList,
       getAssessmentCurrent
     }
   }

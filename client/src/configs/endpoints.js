@@ -200,6 +200,10 @@ export default {
     method: 'post',
     url: '/learning/course/review'
   },
+  GET_ASSESSMENTS_API: {
+    method: 'get',
+    url: '/learning/course/assessments'
+  },
   GET_ASSESSMENT_API: {
     method: 'get',
     url: '/learning/course/assessment'

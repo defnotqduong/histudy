@@ -15,7 +15,7 @@
     </button>
     <div class="flex items-center justify-center gap-4">
       <PrevButton :content="'Previous'" :func="prev" class="h-10" :class="!prevLessonId ? 'cursor-not-allowed' : ''" />
-      <NextButton :content="nextLessonId ? 'Next' : 'Completed'" :func="nextLessonId ? next : completed" class="h-10" />
+      <NextButton :content="nextLessonId ? 'Next' : 'Assessment'" :func="nextLessonId ? next : completed" class="h-10" />
     </div>
   </div>
 </template>
@@ -39,7 +39,8 @@ export default defineComponent({
     nextLessonId: Number,
     getCurrentLesson: Function,
     isShowSideBar: Boolean,
-    toggleSideBar: Function
+    toggleSideBar: Function,
+    getAssessmentList: Function
   },
   setup(props) {
     const router = useRouter()
@@ -59,15 +60,19 @@ export default defineComponent({
       await props.getCurrentLesson(props.prevLessonId)
     }
 
+    // const completed = async () => {
+    //   const res = await checkCourseCompleted(props.slug)
+
+    //   if (!res.success) {
+    //     homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
+    //     return
+    //   }
+
+    //   router.push({ name: 'course-completed', params: { slug: props.slug } })
+    // }
+
     const completed = async () => {
-      const res = await checkCourseCompleted(props.slug)
-
-      if (!res.success) {
-        homeStore.onChangeToast({ show: true, type: 'error', message: res.data.message })
-        return
-      }
-
-      router.push({ name: 'course-completed', params: { slug: props.slug } })
+      await props.getAssessmentList()
     }
 
     return {

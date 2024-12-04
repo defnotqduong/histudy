@@ -20,6 +20,7 @@ class AssessmentResource extends JsonResource
             'course_slug' => $this->course->slug,
             'title' => $this->title,
             'description' => $this->description,
+            'question_count' => $this->questions()->count(),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

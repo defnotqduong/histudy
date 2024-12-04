@@ -57,6 +57,11 @@ export const reviewCourse = (courseId, dataPost) => {
   return connectServer[api.REVIEW_COURSE_API.method](api.REVIEW_COURSE_API.url + '/' + courseId, dataPost)
 }
 
+export const getAssessments = slug => {
+  const url = `/learning/course/${slug}/assessments`
+  return connectServer[api.GET_ASSESSMENTS_API.method](url)
+}
+
 export const getAssessment = (slug, id) => {
   const url = `/learning/course/${slug}/assessment/${id}`
   return connectServer[api.GET_ASSESSMENT_API.method](url)
