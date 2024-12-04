@@ -17,10 +17,17 @@
             :nextLessonId="nextLessonId"
             :getCurrentLesson="getCurrentLesson"
             :isShowSideBar="isShowSideBar"
+            :getAssessmentList="getAssessmentList"
           />
           <div class="h-full flex-1 relative">
             <LearningContent v-if="currentLesson" :lesson="currentLesson" :updateStatusLesson="updateStatusLesson" />
-            <LearningAssessment v-else :assessments="assessments" />
+            <LearningAssessment
+              v-else
+              :assessments="assessments"
+              :currentAssessment="currentAssessment"
+              :getAssessmentCurrent="getAssessmentCurrent"
+              :submitAss="submitAss"
+            />
           </div>
           <LessonDiscussionModal
             v-if="isShowLessonDiscussionModal"
@@ -76,7 +83,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
-import { getLearningInfo, getLessonInfo, getAssessments, getAssessment } from '@/webServices/learningService'
+import { getLearningInfo, getLessonInfo, getAssessments, getAssessment, submitAssessment } from '@/webServices/learningService'
 
 import LearningHeader from '@/components/Learning/LearningHeader.vue'
 import LearningContent from '@/components/Learning/LearningContent.vue'
@@ -174,7 +181,6 @@ export default defineComponent({
 
     const getAssessmentList = async () => {
       const res = await getAssessments(slug.value)
-      console.log(res)
       if (res.success) {
         assessments.value = res.assessments
         currentLesson.value = null
@@ -184,7 +190,13 @@ export default defineComponent({
 
     const getAssessmentCurrent = async id => {
       const res = await getAssessment(slug.value, id)
-      if (res.success) currentAssessment.value = res.assessment
+      console.log(res)
+      if (res.success) currentAssessment.value = { ...res.assessment, questions: res.questions }
+    }
+
+    const submitAss = async data => {
+      const res = await submitAssessment(slug.value, currentAssessment.value.id, data)
+      console.log(res)
     }
 
     const getCurrentLesson = async id => {
@@ -202,6 +214,8 @@ export default defineComponent({
       nextLessonId.value = lessonInfoRes.next_lesson_id
       discussions.value = lessonInfoRes.lesson.discussions
       notes.value = lessonInfoRes.lesson.notes
+
+      if (currentAssessment) currentAssessment.value = null
     }
 
     const fetchData = async () => {
@@ -272,7 +286,8 @@ export default defineComponent({
       updateNotes,
       updateReview,
       getAssessmentList,
-      getAssessmentCurrent
+      getAssessmentCurrent,
+      submitAss
     }
   }
 })

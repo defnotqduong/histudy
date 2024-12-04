@@ -15,7 +15,7 @@
     </button>
     <div class="flex items-center justify-center gap-4">
       <PrevButton :content="'Previous'" :func="prev" class="h-10" :class="!prevLessonId ? 'cursor-not-allowed' : ''" />
-      <NextButton :content="nextLessonId ? 'Next' : 'Assessment'" :func="nextLessonId ? next : completed" class="h-10" />
+      <NextButton :content="'Next'" :func="nextLessonId ? next : getAssList" class="h-10" :class="!currentLesson ? 'cursor-not-allowed' : ''" />
     </div>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default defineComponent({
     //   router.push({ name: 'course-completed', params: { slug: props.slug } })
     // }
 
-    const completed = async () => {
+    const getAssList = async () => {
       await props.getAssessmentList()
     }
 
@@ -79,7 +79,7 @@ export default defineComponent({
       toggle,
       next,
       prev,
-      completed
+      getAssList
     }
   }
 })

@@ -207,5 +207,9 @@ export default {
   GET_ASSESSMENT_API: {
     method: 'get',
     url: '/learning/course/assessment'
+  },
+  SUBMIT_ASSESSMENT_API: {
+    method: 'post',
+    url: '/learning/course/assessment/submit'
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full pb-40 px-4 pt-4 relative overflow-auto custom-scrollbar">
-    <div class="mt-20">
-      <div v-for="ass in assessments" :key="ass.id" class="w-3/4 mb-10 mx-auto flex items-center justify-start px-6 py-4 border border-borderColor rounded-lg">
+    <div v-if="!currentAssessment" class="mt-20">
+      <div v-for="ass in assessments" :key="ass.id" class="w-4/5 mb-10 mx-auto flex items-center justify-start px-6 py-4 border border-borderColor rounded-lg">
         <span class="p-2 rounded-lg bg-primaryOpacityColor text-primaryColor">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" height="64" width="64" viewBox="0 0 511 511">
             <g>
@@ -26,18 +26,50 @@
             </g>
           </svg>
         </span>
-        <span class="ml-6 text-headingColor text-lg font-bold"> {{ ass.title }}</span>
-        <button class="ml-auto px-4 py-2 text-whiteColor bg-primaryColor rounded-lg transition-all duration-300 hover:bg-thirtyColor">Start</button>
+        <div class="ml-6 flex flex-col gap-1">
+          <strong class="text-headingColor text-lg font-bold"> {{ ass.title }}</strong>
+          <div class="flex items-center gap-1 text-bodyColor font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24">
+              <path
+                d="M12,22A10,10,0,1,0,2,12,10,10,0,0,0,12,22Zm0-2a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,12,20ZM8,8.994a3.907,3.907,0,0,1,2.319-3.645,4.061,4.061,0,0,1,3.889.316,4,4,0,0,1,.294,6.456,3.972,3.972,0,0,0-1.411,2.114,1,1,0,0,1-1.944-.47,5.908,5.908,0,0,1,2.1-3.2,2,2,0,0,0-.146-3.23,2.06,2.06,0,0,0-2.006-.14,1.937,1.937,0,0,0-1.1,1.8A1,1,0,0,1,8,9Z"
+              />
+            </svg>
+            {{ ass.question_count > 1 ? ass.question_count + ' questions' : ass.question_count + ' question' }}
+          </div>
+        </div>
+        <button @click="getAss(ass.id)" class="ml-auto px-4 py-2 text-whiteColor bg-primaryColor rounded-lg transition-all duration-300 hover:bg-thirtyColor">
+          Start
+        </button>
       </div>
     </div>
+    <template v-else>
+      <AssessmentQuestions :currentAssessment="currentAssessment" :submitAss="submitAss" />
+    </template>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
+import AssessmentQuestions from '@/components/Learning/AssessmentQuestions.vue'
 export default defineComponent({
+  components: { AssessmentQuestions },
   props: {
-    assessments: Array
+    assessments: Array,
+    currentAssessment: Object,
+    getAssessmentCurrent: Function,
+    submitAss: Function
+  },
+  setup(props) {
+    const getAss = async id => {
+      await props.getAssessmentCurrent(id)
+    }
+
+    const submitAss = async data => {
+      await props.submitAss(data)
+    }
+
+    return { getAss, submitAss }
   }
 })
 </script>
