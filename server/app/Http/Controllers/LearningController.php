@@ -911,10 +911,24 @@ class LearningController extends Controller
 
         $userAssessment = $assessment->userAssessments()->where('user_id', $userId)->first();
 
+        $userAnswers = UserAnswer::where('user_id', $userId)
+            ->whereHas('question', function ($query) use ($assessment) {
+                $query->where('assessment_id', $assessment->id);
+            })
+            ->with(['question', 'answer'])
+            ->get();
+
         return response()->json([
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
             'userAssessment' => $userAssessment ? new UserAssessmentResource($userAssessment) : null,
+            'questions' => $userAnswers->map(function ($userAnswer) {
+                return [
+                    'question' => $userAnswer->question->only(['id', 'content']),
+                    'selectedAnswer' => $userAnswer->answer->only(['id', 'content', 'is_correct']),
+                    'isCorrect' => $userAnswer->is_correct,
+                ];
+            }),
         ], 200);
     }
 

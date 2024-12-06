@@ -18,7 +18,15 @@ class UserAnswerResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'question_id' => $this->question_id,
+            'question' => [
+                'id' => $this->question->id,
+                'content' => $this->question->content,
+            ],
             'answer_id' => $this->answer_id,
+            'answer' => [
+                'id' => $this->answer->id,
+                'content' => $this->answer->content,
+            ],
             'is_correct' => $this->is_correct,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),

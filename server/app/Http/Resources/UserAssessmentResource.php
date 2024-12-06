@@ -19,7 +19,7 @@ class UserAssessmentResource extends JsonResource
             'user_id' => $this->user_id,
             'assessment_id' => $this->assessment_id,
             'score' => $this->score,
-            'completed_at' => $this->completed_at->toDateTimeString(),
+            'completed_at' => $this->completed_at ? $this->completed_at->toDateTimeString() : null,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
