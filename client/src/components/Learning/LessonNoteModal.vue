@@ -96,6 +96,11 @@ export default defineComponent({
       submit.value = true
       errors.value = {}
 
+      if (!props.currentLesson) {
+        submit.value = false
+        return
+      }
+
       const res = await createNoteLesson(props.currentLesson?.id, {
         content: content.value
       })

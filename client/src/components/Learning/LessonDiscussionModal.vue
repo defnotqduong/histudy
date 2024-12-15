@@ -159,6 +159,11 @@ export default defineComponent({
       errors.value = {}
       submit.value = true
 
+      if (!props.currentLesson) {
+        submit.value = false
+        return
+      }
+
       const res = await createDiscussion(props.currentLesson?.id, {
         content: content.value
       })

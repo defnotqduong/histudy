@@ -188,6 +188,8 @@ export default defineComponent({
       if (res.success) {
         assessments.value = res.assessments
         currentLesson.value = null
+        discussions.value = []
+        notes.value = []
         prevLessonId.value = prevLessonId.value + 1
         currentAssessment.value = null
         currentCompletedAssessment.value = null
