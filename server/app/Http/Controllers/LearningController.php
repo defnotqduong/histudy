@@ -13,6 +13,7 @@ use App\Http\Resources\LessonNoteResource;
 use App\Http\Resources\LessonResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\QuestionResource;
+use App\Http\Resources\QuestionResourceCollection;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\UserAssessmentResource;
 use App\Jobs\SendRabbitMQNotification;
@@ -923,7 +924,7 @@ class LearningController extends Controller
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
             'userAssessment' => $userAssessment ? new UserAssessmentResource($userAssessment) : null,
-            'questions' => QuestionResource::collection($assessment->questions, true),
+            'questions' => new QuestionResourceCollection($assessment->questions, true),
             'userAnswers' => $userAnswers->map(function ($userAnswer) {
                 return [
                     'question' => $userAnswer->question->only(['id', 'content']),
