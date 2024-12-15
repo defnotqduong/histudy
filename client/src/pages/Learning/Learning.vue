@@ -26,6 +26,7 @@
               :slug="slug"
               :assessments="assessments"
               :currentAssessment="currentAssessment"
+              :currentCompletedAssessment="currentCompletedAssessment"
               :getAssessmentCurrent="getAssessmentCurrent"
               :getAssessmentCompleted="getAssessmentCompleted"
               :submitAss="submitAss"
@@ -121,6 +122,7 @@ export default defineComponent({
     const chapters = ref([])
     const assessments = ref([])
     const currentAssessment = ref(null)
+    const currentCompletedAssessment = ref(null)
     const currentLesson = ref(null)
     const prevLessonId = ref(null)
     const nextLessonId = ref(null)
@@ -187,17 +189,28 @@ export default defineComponent({
         assessments.value = res.assessments
         currentLesson.value = null
         prevLessonId.value = prevLessonId.value + 1
+        currentAssessment.value = null
+        currentCompletedAssessment.value = null
       }
     }
 
     const getAssessmentCurrent = async id => {
       const res = await getAssessment(slug.value, id)
       if (res.success) currentAssessment.value = { ...res.assessment, questions: res.questions }
+
+      console.log(currentAssessment.value)
     }
 
     const getAssessmentCompleted = async id => {
       const res = await getCompletedAssessment(slug.value, id)
       console.log(res)
+      if (res.success)
+        currentCompletedAssessment.value = {
+          assessment: res.assessment,
+          questions: res.questions,
+          userAnswers: res.userAnswers,
+          userAssessment: res.userAssessment
+        }
     }
 
     const submitAss = async data => {
@@ -224,7 +237,8 @@ export default defineComponent({
       discussions.value = lessonInfoRes.lesson.discussions
       notes.value = lessonInfoRes.lesson.notes
 
-      if (currentAssessment) currentAssessment.value = null
+      currentAssessment.value = null
+      currentCompletedAssessment.value = null
     }
 
     const fetchData = async () => {
@@ -276,6 +290,7 @@ export default defineComponent({
       currentLesson,
       assessments,
       currentAssessment,
+      currentCompletedAssessment,
       prevLessonId,
       nextLessonId,
       discussions,

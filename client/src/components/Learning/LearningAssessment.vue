@@ -1,6 +1,6 @@
 <template>
   <div class="h-full w-full pb-40 px-4 pt-4 relative overflow-auto custom-scrollbar">
-    <div v-if="!currentAssessment" class="mt-10">
+    <div v-if="!currentAssessment && !currentCompletedAssessment" class="mt-10">
       <template v-if="pendingAssessments.length > 0">
         <div class="mb-4 flex items-center justify-center">
           <span class="px-4 py-1 bg-primaryOpacityColor text-primaryColor rounded-full">Unattempted Assessments List</span>
@@ -104,8 +104,11 @@
         </div>
       </template>
     </div>
-    <template v-else>
+    <template v-else-if="currentAssessment">
       <AssessmentQuestions :currentAssessment="currentAssessment" :submitAss="submitAss" />
+    </template>
+    <template v-else-if="currentCompletedAssessment">
+      <ReviewAssessment :currentCompletedAssessment="currentCompletedAssessment" />
     </template>
   </div>
 </template>
@@ -116,12 +119,14 @@ import { useRouter } from 'vue-router'
 import { useUserStore, useHomeStore } from '@/stores'
 
 import AssessmentQuestions from '@/components/Learning/AssessmentQuestions.vue'
+import ReviewAssessment from '@/components/Learning/ReviewAssessment.vue'
 export default defineComponent({
-  components: { AssessmentQuestions },
+  components: { AssessmentQuestions, ReviewAssessment },
   props: {
     slug: String,
     assessments: Array,
     currentAssessment: Object,
+    currentCompletedAssessment: Object,
     getAssessmentCurrent: Function,
     submitAss: Function,
     getAssessmentCompleted: Function

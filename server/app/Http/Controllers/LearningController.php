@@ -923,7 +923,7 @@ class LearningController extends Controller
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
             'userAssessment' => $userAssessment ? new UserAssessmentResource($userAssessment) : null,
-            'questions' => QuestionResource::collection($assessment->questions, false),
+            'questions' => QuestionResource::collection($assessment->questions, true),
             'userAnswers' => $userAnswers->map(function ($userAnswer) {
                 return [
                     'question' => $userAnswer->question->only(['id', 'content']),

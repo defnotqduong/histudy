@@ -1,5 +1,6 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-4">
+    <h4 class="mb-4 text-primaryColor text-lg font-bold">{{ currentAssessment.title }}</h4>
     <div v-for="(question, index) in currentAssessment.questions" :key="index" class="mb-4">
       <p class="text-headingColor font-bold">{{ index + 1 + '. ' + question.content }}</p>
       <ul class="mt-2">
