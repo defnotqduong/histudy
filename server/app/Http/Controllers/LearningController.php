@@ -918,14 +918,16 @@ class LearningController extends Controller
             ->with(['question', 'answer'])
             ->get();
 
+
         return response()->json([
             'success' => true,
             'assessment' => new AssessmentResource($assessment),
             'userAssessment' => $userAssessment ? new UserAssessmentResource($userAssessment) : null,
-            'questions' => $userAnswers->map(function ($userAnswer) {
+            'questions' => QuestionResource::collection($assessment->questions, false),
+            'userAnswers' => $userAnswers->map(function ($userAnswer) {
                 return [
                     'question' => $userAnswer->question->only(['id', 'content']),
-                    'selectedAnswer' => $userAnswer->answer->only(['id', 'content', 'is_correct']),
+                    'selectedAnswer' => $userAnswer->answer->only(['id', 'content']),
                     'isCorrect' => $userAnswer->is_correct,
                 ];
             }),
