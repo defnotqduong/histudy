@@ -199,13 +199,10 @@ export default defineComponent({
     const getAssessmentCurrent = async id => {
       const res = await getAssessment(slug.value, id)
       if (res.success) currentAssessment.value = { ...res.assessment, questions: res.questions }
-
-      console.log(currentAssessment.value)
     }
 
     const getAssessmentCompleted = async id => {
       const res = await getCompletedAssessment(slug.value, id)
-      console.log(res)
       if (res.success)
         currentCompletedAssessment.value = {
           assessment: res.assessment,
