@@ -55,7 +55,7 @@ export default defineComponent({
       })
 
       try {
-        pdf.addImage(img.src, 'PNG', 0, 0, mmWidth, mmHeight)
+        pdf.addImage(img.src, 'png', 0, 0, mmWidth, mmHeight)
         pdf.save(`${props.course.title} Certificate.pdf`)
       } catch (error) {}
     }

@@ -61,6 +61,7 @@ export const get = async (path, data = {}, config = {}) => {
     const res = await connectServer(config).get(path, data)
     return res.data
   } catch (err) {
+    console.log('catch api GET:', err)
     return err.response
   }
 }
@@ -71,6 +72,7 @@ export const post = async (path, data = {}, config = {}) => {
     const res = await connectServer(config).post(path, data)
     return res.data
   } catch (err) {
+    console.log('catch api POST:', err)
     return err.response
   }
 }
@@ -81,6 +83,7 @@ export const put = async (path, data = {}, config = {}) => {
     const res = await connectServer(config).put(path, data)
     return res.data
   } catch (err) {
+    console.log('catch api PUT:', err)
     return err.response
   }
 }
@@ -91,6 +94,7 @@ export const patch = async (path, data = {}, config = {}) => {
     const res = await connectServer(config).patch(path, data)
     return res.data
   } catch (err) {
+    console.log('catch api PATCH:', err)
     return err.response
   }
 }
@@ -101,6 +105,7 @@ export const deleted = async (path, data = {}, config = {}) => {
     const res = await connectServer(config).delete(path, data)
     return res.data
   } catch (err) {
+    console.log('catch api DELETE:', err)
     return err.response
   }
 }

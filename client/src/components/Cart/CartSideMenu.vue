@@ -18,7 +18,7 @@
           <CourseCardV5 v-for="course in userStore.cart" :key="course.id" :course="course" class="mb-5" />
         </div>
       </div>
-      <div class="absolute bottom-0 left-0 right-0">
+      <div v-if="userStore.cart.length > 0" class="absolute bottom-0 left-0 right-0">
         <div class="p-4 mx-6 bg-whiteColor">
           <GradientButtonV4 class="w-full" :content="'View Cart'" :func="redirect" />
         </div>
