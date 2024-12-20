@@ -104,9 +104,10 @@ export default defineComponent({
           minCropBoxHeight: 396,
           viewMode: 2,
           dragMode: 'move',
-          cropBoxMovable: false,
-          cropBoxResizable: false,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
           responsive: true,
+          zoomable: true,
           ready() {
             isModalOpen.value = true
           }
