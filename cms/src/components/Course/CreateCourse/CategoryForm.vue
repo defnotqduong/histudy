@@ -27,8 +27,8 @@
           {{ category.name }}
         </option>
       </select>
-      <div v-if="errors?.description && errors?.description.length > 0">
-        <p v-for="(err, index) in errors?.description" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
+      <div v-if="errors?.category && errors?.category.length > 0">
+        <p v-for="(err, index) in errors?.category" :key="index" class="mt-2 text-dangerColor">{{ err }}</p>
       </div>
 
       <div class="mt-4 flex items-center gap-x-2">

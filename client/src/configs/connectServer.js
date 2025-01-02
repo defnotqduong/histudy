@@ -31,15 +31,15 @@ const connectServer = (config = {}) => {
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true
 
-        const { access_token, refresh_token } = await refTokenUserStore()
+        const tokens = await refTokenUserStore()
 
-        if (!access_token) {
+        if (!tokens.access_token) {
           userStore.logout()
           window.location.href = '/auth/login'
         } else {
-          localEnUserStore(access_token)
-          localEnRefreshUserStore(refresh_token)
-          originalRequest.headers.Authorization = `Bearer ${access_token}`
+          localEnUserStore(tokens.access_token)
+          localEnRefreshUserStore(tokens.refresh_token)
+          originalRequest.headers.Authorization = `Bearer ${tokens.access_token}`
           return api(originalRequest)
         }
       } else {
